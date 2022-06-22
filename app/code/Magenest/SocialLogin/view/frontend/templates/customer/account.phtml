@@ -1,0 +1,105 @@
+<?php
+/**
+ * @var \Magenest\SocialLogin\Block\Customer\Account $block
+ */
+
+$socialAccount = $block->getAllAccounts();
+$socialType = $socialAccount->getColumnValues('social_login_type');
+$allSocialTypes = $block->getALlSocialTypes();
+$customer = $block->getCustomer();
+?>
+<div class="block block-social-account">
+    <div class="block-title">
+        <strong>
+            <?= isset($escaper) ? $escaper->escapeHtml(__('Social Accounts')) : $block->escapeHtml(__('Social Accounts'))?>
+        </strong>
+        <span class="request-password action">
+            <button class="action primary" id="btn-request-password">
+                <?= isset($escaper) ? $escaper->escapeHtml(__('Request Password')) : $block->escapeHtml(__('Request Password'))?>
+            </button>
+        </span>
+    </div>
+    <div class="block-content">
+        <div class="box box-information">
+            <strong class="box-title">
+                <span>
+                    <?= isset($escaper) ? $escaper->escapeHtml(__('Connected Accounts')) : $block->escapeHtml(__('Connected Accounts'))?>
+                </span>
+            </strong>
+            <div class="box-content">
+                <?php if ($socialAccount->count()): ?>
+                    <div class="block box block-content social-account-list">
+                        <?php foreach ($socialAccount as $item): ?>
+                            <?php if (in_array($item->getSocialLoginType(),$allSocialTypes)): ?>
+                                <div class="social-account-item">
+                                    <div class="item-cell social-account-wrapper">
+                                        <span class="social-account-icon social-account-<?= isset($escaper) ? $escaper->escapeHtmlAttr($item->getSocialLoginType()) : $block->escapeHtmlAttr($item->getSocialLoginType()) ?>"></span>
+                                    </div>
+                                    <div class="item-cell social-link-avatar-name">
+                                        <span class="social-link-avatar-name">
+                                            <?= isset($escaper) ? $escaper->escapeHtml($customer->getName()) : $block->escapeHtml($customer->getName()) ?>
+                                        </span>
+                                    </div>
+                                    <div class="item-cell social-account-unlink">
+                                        <button type="button" class="action primary add btnUnlink-social-login" socialType="<?= isset($escaper) ? $escaper->escapeHtmlAttr($item->getSocialLoginType()) : $block->escapeHtmlAttr($item->getSocialLoginType()) ?>" title="Unlink">
+                                            <span>
+                                                <?= isset($escaper) ? $escaper->escapeHtml(__('Unlink')) : $block->escapeHtml(__('Unlink'))?>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </div>
+                <?php else : ?>
+                    <div class="message info empty">
+                        <span>
+                            <?= isset($escaper) ? $escaper->escapeHtml(__('You have not linked any social accounts yet.')) : $block->escapeHtml(__('You have not linked any social accounts yet.'))?>
+                        </span>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+        <div class="box box-newsletter">
+            <strong class="box-title">
+                <span>
+                    <?= isset($escaper) ? $escaper->escapeHtml(__('Connect With')) : $block->escapeHtml(__('Connect With'))?>
+                </span>
+            </strong>
+            <div class="box-content">
+                <?php if ($socialAccount->count() < count($allSocialTypes)): ?>
+                <div class="block box block-content social-account-list">
+                    <?php foreach ($allSocialTypes as $type): ?>
+                        <?php if (!in_array($type,$socialType)): ?>
+                            <div class="social-account-item <?=  isset($escaper) ? $escaper->escapeHtmlAttr($type) : $block->escapeHtmlAttr($type) ?>-connect">
+                                <span class="social-account-icon social-account-<?= isset($escaper) ? $escaper->escapeHtmlAttr($type) : $block->escapeHtmlAttr($type) ?>"></span>
+                                <button class="<?= isset($escaper) ? $escaper->escapeHtmlAttr($type) : $block->escapeHtmlAttr($type)  ?>_button_connect action">
+                                    <?= isset($escaper) ? $escaper->escapeHtml(__('Connect with %1',ucfirst($type))) : $block->escapeHtml(__('Connect with %1',ucfirst($type)))?>
+                                </button>
+                                <?= $block->getChildHtml('magenest_'.$type.'_login_button', true) ?>
+                            </div>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </div>
+                <?php else : ?>
+                    <div class="message info empty">
+                        <span>
+                            <?= isset($escaper) ? $escaper->escapeHtml(__('We don\'t have any social accounts for you connect yet.')) : $block->escapeHtml(__('We don\'t have any social accounts for you connect yet.'))?>
+                        </span>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magenest_SocialLogin/js/view/social-account": {
+            }
+        }
+    }
+</script>
+
+

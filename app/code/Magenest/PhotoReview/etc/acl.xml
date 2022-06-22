@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magenest_PhotoReview::photoreview" title="Photo Review" sortOrder="100">
+                    <resource id="Magenest_PhotoReview::reviews" title="Reviews"/>
+                    <resource id="Magenest_PhotoReview::reminder" title="Reminder Email"/>
+                    <resource id="Magenest_PhotoReview::logcrons" title="Cron-job Log"/>
+                    <resource id="Magenest_PhotoReview::configuration" title="Configuration"/>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

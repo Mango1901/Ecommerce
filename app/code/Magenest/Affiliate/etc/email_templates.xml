@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="affiliate_email_account_welcome" label="Welcome Email" file="account_welcome.html" type="html" module="Magenest_Affiliate" area="frontend"/>
+    <template id="affiliate_refer_account_sharing" label="Affiliate Sharing Email" file="account_sharing.html" type="html" module="Magenest_Affiliate" area="frontend"/>
+    <template id="affiliate_email_account_approve" label="Welcome Email After Account Approved" file="account_approve.html" type="html" module="Magenest_Affiliate" area="frontend"/>
+    <template id="affiliate_email_transaction_update_balance" label="Update Balance Email" file="transaction_update_balance.html" type="html" module="Magenest_Affiliate" area="frontend"/>
+    <template id="affiliate_email_withdraw_complete" label="Withdraw Complete Email" file="withdraw_complete.html" type="html" module="Magenest_Affiliate" area="frontend"/>
+    <template id="affiliate_email_account_rejection_template" label="Account Rejection Template" file="account_rejection.html" type="html" module="Magenest_Affiliate" area="frontend"/>
+    <template id="affiliate_email_account_status_template" label="Account Change Status Template" file="account_change_status.html" type="html" module="Magenest_Affiliate" area="frontend"/>
+    <template id="affiliate_email_account_withdraw_cancel_template" label="Withdraw Cancel Template" file="withdraw_cancel.html" type="html" module="Magenest_Affiliate" area="frontend"/>
+    <template id="affiliate_email_admin_sign_up_template" label="Sign Up Template" file="admin_sign_up.html" type="html" module="Magenest_Affiliate" area="frontend"/>
+    <template id="affiliate_email_admin_withdraw_request_template" label="Withdrawal Request Template" file="admin_withdraw_request.html" type="html" module="Magenest_Affiliate" area="frontend"/>
+</config>

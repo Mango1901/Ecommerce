@@ -1,0 +1,17 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<div class="field" css="additionalClasses">
+    <div class="directory_information_wrapper" >
+        <span class="label" data-bind="i18n: 'City, District, Ward'"></span>
+        <input class="input-text" type="text" readonly data-bind="value: fullDirectoryInformation, click: clickOpenDirectory">
+    </div>
+    <div class="fieldset" data-bind="visible: isOpenDirectory">
+        <each args="data: elems, as: 'element'">
+            <render if="hasTemplate()"/>
+        </each>
+    </div>
+</div>

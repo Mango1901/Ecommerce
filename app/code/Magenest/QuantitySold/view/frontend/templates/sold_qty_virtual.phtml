@@ -1,0 +1,25 @@
+<?php
+/** @var \Magenest\QuantitySold\Block\Product\SoldQuantity $block */
+?>
+<script type="text/javascript">
+    require(['jquery'], function($) {
+        $(document).ready(function() {
+            $.ajax({
+                url: '<?= $block->getUrl('customizepdf/soldqty/get') ?>',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    productId: '<?= $block->getProduct()->getId() ?>',
+                },
+                success: function (response) {
+                    if (response.success) {
+                        $("#sold_qty").text(response.sold_qty);
+                    }
+                },
+                error: function (xhr, status, errorThrown) {
+                    console.log('Error happens. Try again.');
+                }
+            });
+        })
+    });
+</script>

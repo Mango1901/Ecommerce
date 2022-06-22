@@ -1,0 +1,51 @@
+<?php
+/** @var \Magenest\SocialLogin\Block\Adminhtml\SocialAccount\Monitor\TopSocialLogin $block */
+
+$socialLoginData = $block->getSocialLoginData();
+$totalUsers = $block->getTotalUsers();
+$rowNum = 0;
+?>
+<section class="admin__page-section other-connections">
+    <div class="admin__page-section-title">
+        <span class="title"><?= isset($escaper) ? $escaper->escapeHtml(__('Top Social Login')) : $block->escapeHtml(__('Top Social Login')) ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <div class="admin__table-wrapper">
+            <table class="data-table admin__table-secondary top-social-login-table">
+                <?php foreach ($socialLoginData as $key => $item): ?>
+                    <?php if ($rowNum++ < 3): ?>
+                        <tr class="social-login-top-<?= isset($escaper) ? $escaper->escapeHtmlAttr($key+1) : $block->escapeHtmlAttr($key+1) ?>">
+                            <th>
+                                <span class="social-login-rank">
+                                    <?= isset($escaper) ? $escaper->escapeHtml($key+1) : $block->escapeHtml($key+1) ?>
+                                </span>
+                                <span class="social-login-right">
+                                    <span class="social-login-type">
+                                        <span class="social-icon type-<?= isset($escaper) ? $escaper->escapeHtmlAttr($item['social_login_type'] ?? '') : $block->escapeHtmlAttr($item['social_login_type'] ?? '')  ?>"></span>
+                                        <?= isset($escaper) ? $escaper->escapeHtml(ucfirst($item['social_login_type']) ?? null) : $block->escapeHtml(ucfirst($item['social_login_type']) ?? null) ?>
+                                    </span>
+                                    <span class="social-login-rank">
+                                        <?= isset($escaper) ? $escaper->escapeHtml($item['users'] ? round($item['users']/$totalUsers,3)*100 : 0) : $block->escapeHtml($item['users'] ? round($item['users']/$totalUsers,3)*100 : 0) ?>%
+                                    </span>
+                                </span>
+
+                            </th>
+                            <td class="count-users">
+                                <span class="count-users-text"><?= isset($escaper) ? $escaper->escapeHtml(__('Users')) : $block->escapeHtml(__('Users')) ?>: </span>
+                                <span class="count-users-number"><?= isset($escaper) ? $escaper->escapeHtml($item['users'] ?? 0) : $block->escapeHtml($item['users'] ?? 0) ?></span>
+                            </td>
+                            <td class="purchased-items">
+                                <span class="purchased-items-text"><?= isset($escaper) ? $escaper->escapeHtml(__('Purchased Items')) : $block->escapeHtml(__('Purchased Items')) ?>: </span>
+                                <span class="purchased-items-number"><?= isset($escaper) ? $escaper->escapeHtml((int) $item['purchased_items'] ?? 0) : $block->escapeHtml((int) $item['purchased_items'] ?? 0) ?></span>
+                            </td>
+                            <td class="amount">
+                                <span class="amount-text"><?= isset($escaper) ? $escaper->escapeHtml(__('Amount')) : $block->escapeHtml(__('Amount')) ?>: </span>
+                                <span class="amount-number"><?= isset($escaper) ? $escaper->escapeHtml($block->getPriceFormat($item['amount'] ?? 0)) : $block->escapeHtml($block->getPriceFormat($item['amount'] ?? 0)) ?></span>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </table>
+        </div>
+    </div>
+</section>

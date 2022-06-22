@@ -1,0 +1,4 @@
+<div class="aw-arep-listing-cell url">
+    <a if="getRowUrl($row())" href="#" data-bind="attr: {href: getRowUrl($row())}, text: getRowLabel($row())"></a>
+    <text ifnot="getRowUrl($row())" args="getRowLabel($row())"/>
+</div>

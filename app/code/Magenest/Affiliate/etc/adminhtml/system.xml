@@ -1,0 +1,423 @@
+<?xml version="1.0"?>
+<!--
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="affiliate" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Affiliate</label>
+            <tab>magenest</tab>
+            <resource>Magenest_Affiliate::configuration</resource>
+            <group id="general" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+                <field id="enabled" translate="label comment" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="enable_banner" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Banner</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Allow banner feature for affiliate</comment>
+                </field>
+                <field id="expired_time" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Cookie Expiration</label>
+                    <comment><![CDATA[day(s). The number of days for admin to store cookies of this program. Default: 365]]></comment>
+                    <validate>validate-digits validate-zero-or-greater</validate>
+                </field>
+                <field id="overwrite_cookies" translate="label comment" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Allow overriding cookies</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Allow overriding exist affiliate cookie.</comment>
+                </field>
+                <field id="use_code_as_coupon" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Allow using Affiliate Code as Coupon</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If yes, customer(s) can use Affiliate Code as Coupon code on shopping cart page and checkout page</comment>
+                </field>
+                <field id="affiliate_group" translate="label comment" type="multiselect" sortOrder="24" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Affiliate Customer Group</label>
+                    <source_model>Magenest\AffiliateCatalogRule\Model\Config\Source\CustomerGroups</source_model>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="show_link" translate="label comment" type="multiselect" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show Affiliate link on</label>
+                    <source_model>Magenest\Affiliate\Model\Config\Source\Showlink</source_model>
+                </field>
+                <field id="custom_css" sortOrder="28" type="textarea" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Custom Css</label>
+                    <comment><![CDATA[Example: .step-title{background-color: #E65100;}]]></comment>
+                </field>
+                <group id="page" translate="label" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
+                    <label>Default page</label>
+                    <field id="welcome" translate="label comment" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Affiliate homepage content</label>
+                        <source_model>Magenest\Affiliate\Model\Config\Source\Cms\Block</source_model>
+                        <comment>Select CMS Static Block.</comment>
+                    </field>
+                    <field id="campaign_description" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Campaign Description Block</label>
+                        <source_model>Magenest\Affiliate\Model\Config\Source\Cms\Block</source_model>
+                        <comment>Select CMS Static Block.</comment>
+                    </field>
+                </group>
+                <group id="url" translate="label" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
+                    <label>Affiliate URL</label>
+                    <field id="type" translate="label comment" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>URL Style</label>
+                        <source_model>Magenest\Affiliate\Model\Config\Source\Urltype</source_model>
+                        <comment><![CDATA[E.g: <br />Parameter: http://example.com/?<strong>c=123</strong><br />Hash: http://example.com<strong>#c123</strong>]]></comment>
+                    </field>
+                    <field id="prefix" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Custom parameter</label>
+                        <comment><![CDATA[If empty. Default value is "u" will be used. This will be used in URL such as: ?<span style="font-weight:bold;color:red;">u</span>=123 <br />Or #<span style="font-weight:bold;color:red;">u</span>123]]></comment>
+                    </field>
+                    <field id="param" translate="label comment" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Parameter value</label>
+                        <source_model>Magenest\Affiliate\Model\Config\Source\Urlparam</source_model>
+                        <depends>
+                            <field id="url_type">param</field>
+                        </depends>
+                    </field>
+                    <field id="code_length" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>The length of Affiliate code</label>
+                        <validate>validate-number validate-greater-than-zero validate-range range-3-32</validate>
+                        <comment>It must be greater or equal to 3, and smaller or equal to 32. Default is 6.</comment>
+                    </field>
+                </group>
+            </group>
+            <group id="account" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Account Configuration</label>
+                <group id="sign_up" translate="label" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
+                    <label>Affiliate Sign up</label>
+                    <field id="default_group" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Default Affiliate Group</label>
+                        <source_model>Magenest\Affiliate\Model\Config\Source\Group</source_model>
+                        <validate>required-entry</validate>
+                    </field>
+                    <field id="admin_approved" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Require admin's approval</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <comment>If Yes, store owner have to approve new affiliates manually.</comment>
+                    </field>
+                    <field id="default_email_notification" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Checked "Email notification" by default</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <comment>If Yes, "Email notification" auto checked by default</comment>
+                    </field>
+                </group>
+                <group id="term_conditions" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
+                    <label>Term and condition</label>
+                    <field id="enable" translate="label comment" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Enable Terms and Conditions</label>
+                        <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+                    </field>
+                    <field id="checkbox_text" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Checkbox Text</label>
+                        <depends>
+                            <field id="enabled_terms">1</field>
+                        </depends>
+                    </field>
+                    <field id="title" translate="label comment" type="text" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Terms and Conditions Title</label>
+                        <depends>
+                            <field id="enabled_terms">1</field>
+                        </depends>
+                    </field>
+                    <field id="html" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Terms and Conditions Content</label>
+                        <source_model>Magenest\Affiliate\Model\Config\Source\Cms\Block</source_model>
+                        <comment><![CDATA[Select CMS Block.]]></comment>
+                        <depends>
+                            <field id="enabled_terms">1</field>
+                        </depends>
+                    </field>
+                    <field id="default_checkbox" translate="label" type="select" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Checkbox is checked by default</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <depends>
+                            <field id="enabled_terms">1</field>
+                        </depends>
+                    </field>
+                </group>
+                <group id="balance" translate="label" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
+                    <label>Account Balance</label>
+                    <field id="limit" translate="label comment" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Maximum of Affiliate Balance</label>
+                        <comment>The maximum balance of Affiliate. The affiliate cannot get commission if balance equal this value. Empty or Zero is no limitation.</comment>
+                        <validate>validate-number validate-greater-than-zero</validate>
+                    </field>
+                    <field id="negative" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Allow negative balance</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <comment>The balance of affiliate will be negative number if his balance is not enough to taking back commission</comment>
+                    </field>
+                </group>
+            </group>
+            <group id="commission" translate="label" type="text" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Commission Configuration</label>
+                <field id="by_tax" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Earn commission from tax</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="shipping" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Earn commission from Shipping</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <group id="process" translate="label" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
+                    <label>Commission calculation process</label>
+                    <field id="earn_commission_invoice" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Allow Affiliate receiving commission when Invoice created</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <comment>If No, Affiliate is only received commission when the order is completed.</comment>
+                    </field>
+                    <field id="fee" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Commission Fee</label>
+                        <comment>X: fixed fee amount or Y%: by percentage of transaction amount</comment>
+                    </field>
+                    <field id="holding_days" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Hold commission transactions for</label>
+                        <comment>day(s). If empty or zero, transaction is not held.</comment>
+                    </field>
+                    <field id="refund" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Deduct commission from Affiliate's balance when order is refunded/canceled</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <comment>If No, when order refunded/canceled, Affiliate still earn commission. By defeault it is selected Yes.</comment>
+                    </field>
+                </group>
+            </group>
+            <group id="withdraw" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Withdraw Configuration</label>
+                <field id="allow_request" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Allow withdraw request</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="payment_method" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Payment Methods</label>
+                    <frontend_model>Magenest\Affiliate\Block\Adminhtml\System\Config\Form\Field\ArrayField</frontend_model>
+                    <backend_model>Magenest\Affiliate\Model\Config\Backend\FeeOfWithdraw</backend_model>
+                    <comment>Payment Method Fee (X: fixed fee amount or Y%: by percentage of withdraw amount)</comment>
+                </field>
+                <field id="minimum_balance" translate="label comment" type="text" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>The minimum balance in affiliate account for requesting withdraw</label>
+                    <validate>validate-number validate-greater-than-zero</validate>
+                    <comment>The maximum balance of Affiliate. The affiliate cannot get commission if balance equal this value. Empty or Zero is no limitation.</comment>
+                </field>
+                <field id="minimum" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Minimum withdraw amount</label>
+                    <validate>required-entry validate-number validate-greater-than-zero validate-length minimum-length-5</validate>
+                    <comment>Include Fee</comment>
+                </field>
+                <field id="maximum" translate="label comment" type="text" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Maximum withdraw amount</label>
+                    <validate>required-entry validate-number validate-greater-than-zero validate-length minimum-length-5</validate>
+                    <comment>Include Fee</comment>
+                </field>
+                <field id="threshold" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Safe withdraw threshold amount</label>
+                    <validate>required-entry validate-number validate-greater-than-zero validate-length minimum-length-5</validate>
+                    <backend_model>Magenest\Affiliate\Model\Config\Backend\WithdrawThreshold</backend_model>
+                    <comment>Include Fee</comment>
+                </field>
+            </group>
+            <group id="email" translate="label" type="text" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Email Configuration</label>
+                <field id="sender" translate="label comment" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Email Sender</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                </field>
+                <group id="admin" translate="label" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
+                    <label>Admin Email</label>
+                    <field id="emails_to" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Send Emails To</label>
+                        <comment>Comma-separated.</comment>
+                        <validate>validate-emails</validate>
+                    </field>
+                    <field id="enable_sign_up" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>New Affiliate Sign Up</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="sign_up_template" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Sign Up Template</label>
+                        <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                        <depends>
+                            <field id="enable_sign_up">1</field>
+                        </depends>
+                    </field>
+                    <field id="enable_withdraw_request" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>New Withdraw Request</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="withdraw_request_template" translate="label" type="select" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Withdraw Request Template</label>
+                        <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                        <depends>
+                            <field id="enable_withdraw_request">1</field>
+                        </depends>
+                    </field>
+                </group>
+                <group id="account" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
+                    <label>Account Email</label>
+                    <field id="enable" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Send Welcome Email</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="welcome" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Welcome Email</label>
+                        <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                        <depends>
+                            <field id="enable">1</field>
+                        </depends>
+                    </field>
+                    <field id="approve" translate="label comment" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Welcome Email After Account Approved</label>
+                        <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                        <depends>
+                            <field id="enable">1</field>
+                        </depends>
+                        <comment>This email will be sent instead of welcome email, after approving account.</comment>
+                    </field>
+                    <field id="enable_rejection" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Account Rejection</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="rejection_template" translate="label" type="select" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Account Rejection Template</label>
+                        <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                        <depends>
+                            <field id="enable_rejection">1</field>
+                        </depends>
+                    </field>
+                    <field id="enable_status" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Account Change Status</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="status_template" translate="label" type="select" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Account Change Status Template</label>
+                        <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                        <depends>
+                            <field id="enable_status">1</field>
+                        </depends>
+                    </field>
+                    <field id="enable_withdraw_cancel" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Withdraw Cancel Email</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="withdraw_cancel_template" translate="label" type="select" sortOrder="45" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Withdraw Cancel Template</label>
+                        <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                        <depends>
+                            <field id="enable_withdraw_cancel">1</field>
+                        </depends>
+                    </field>
+                </group>
+                <group id="transaction" translate="label" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
+                    <label>Transaction Email</label>
+                    <field id="enable" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Send Transaction Email</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="update_balance" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Update Balance Email</label>
+                        <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                        <depends>
+                            <field id="transaction_enable">1</field>
+                        </depends>
+                    </field>
+                </group>
+                <group id="withdraw" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
+                    <label>Withdraw Email</label>
+                    <field id="enable" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Send Withdraw Email</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="complete" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Withdraw Complete Email</label>
+                        <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                        <depends>
+                            <field id="withdraw_enable">1</field>
+                        </depends>
+                    </field>
+                </group>
+            </group>
+            <group id="refer" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Refer Friends Configuration</label>
+                <field id="enable" translate="label" type="select" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Refer Friends Feature</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="account_sharing" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Refer Sharing Email</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+                <field id="default_link" translate="label" type="text" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Refer Url</label>
+                    <comment>This link will be displayed in My Account/My Affiliate/Refer tab. If empty, the default homepage url will be used.</comment>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+                <field id="addthis_pubid" translate="label" type="text" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>AddThis.com ID</label>
+                    <comment>If empty. Default Public AddThis ID "ra-56790e9f44e5c825" will be used.</comment>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+                <field id="addthis_class_name" translate="label" type="text" sortOrder="37" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>AddThis.com Classname</label>
+                    <comment>If empty. Default AddThis ID classname "addthis_sharing_toolbox" will be used.</comment>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+                <field id="cloudsponge" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Use Cloudsponge to retrieve email contacts</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Affiliate can imports email address from theirs accounts such as Gmail, Yahoo, Live, AOL, Outlook and more...  <br>Sign up account at <a href="http://www.cloudsponge.com/?utm_source=magecheckout&utm_medium=partner&utm_campaign=integrator" target="_blank">cloudsponge</a>]]></comment>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+                <field id="cloudsponge_key" translate="label" type="text" sortOrder="41" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Cloudsponge Key</label>
+                    <depends>
+                        <field id="enable">1</field>
+                        <field id="cloudsponge">1</field>
+                    </depends>
+                </field>
+                <group id="sharing_content" translate="label" sortOrder="45" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>Magento\Config\Block\System\Config\Form\Fieldset</frontend_model>
+                    <label>Sending Email Content</label>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                    <field id="subject" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Default Email Subject</label>
+                        <depends>
+                            <field id="enable">1</field>
+                        </depends>
+                    </field>
+                    <field id="email_content" translate="label" type="textarea" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Default Email Body</label>
+                        <depends>
+                            <field id="enable">1</field>
+                        </depends>
+                    </field>
+                </group>
+            </group>
+        </section>
+    </system>
+</config>

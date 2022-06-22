@@ -1,0 +1,33 @@
+<?php
+/**
+ * Copyright © 2019 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ *
+ * Magenest_SmartNet extension
+ * NOTICE OF LICENSE
+ *
+ * @category Magenest
+ * @package Magenest_SmartNet
+ */
+/**
+ * @var $block \Magenest\MegaMenu\Block\Adminhtml\Menu\Edit\SwitchPopup
+ */
+$rejectionList = $block->getMenuLogList();
+?>
+<div id="switch-version-popup-data" class="switch-version" style="display: none">
+    <form id="switch-version-form" action="javascript:void(0)" data-mage-init='{"validation":{}}'>
+	    <div class="admin__field field field-menu_alias  required _required">
+		    <label class="label admin__field-label" for="switch-version">
+			    <span><?= __("Choose Menu Version") ?></span>
+		    </label>
+		    <div class="reject-form admin__field-control control">
+			    <select name="reject_reason" id="switch-version" class="switch-version select admin__control-select">
+                    <?php foreach ($rejectionList as $key => $reason): ?>
+					    <option value="<?= $key ?>"><?= $reason ?></option>
+                    <?php endforeach; ?>
+			    </select>
+			    <label for="switch-version" generated="true" class="mage-error" id="switch-version-error" style="display: none;"><?= __("This is a required field.") ?></label>
+		    </div>
+	    </div>
+    </form>
+</div>

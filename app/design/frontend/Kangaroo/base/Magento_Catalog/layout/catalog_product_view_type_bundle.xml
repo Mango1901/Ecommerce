@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="product.info.options.wrapper" template="Magento_Catalog::product/view/options/wrapper-bundle.phtml" />
+        <referenceBlock name="product.info.form.options">
+            <container name="bundle.product.options.wrapper" htmlTag="div" htmlClass="bundle-options-wrapper">
+                <block class="Magento\Cms\Block\Block" name="block-discount-code">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">discount-code-product-detail</argument>
+                    </arguments>
+                </block>
+
+                <block class="Magento\Cms\Block\Block" name="block-shipping">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">block-shipping-product-detail</argument>
+                    </arguments>
+                </block>
+            </container>
+        </referenceBlock>
+        <move element="product.info.options.wrapper" destination="bundle.product.options.wrapper" after="-" />
+    </body>
+</page>

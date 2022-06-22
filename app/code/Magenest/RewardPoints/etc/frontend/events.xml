@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Copyright © 2016 Magenest. All rights reserved.
+*/
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="customer_register_success">
+        <observer name="magenest_rewardpoints" instance="Magenest\RewardPoints\Observer\CustomerRegistration" />
+    </event>
+    <event name="apply_referral_code">
+        <observer name="magenest_referafriend_apply_referral_code" instance="Magenest\RewardPoints\Observer\ApplyReferralCode" />
+    </event>
+    <event name="controller_action_predispatch_checkout_cart_index">
+        <observer name="magenest_rewardpoints_controller_action_predispatch_checkout_cart_index" instance="Magenest\RewardPoints\Observer\FirstPurchaseMessage" />
+    </event>
+    <event name="customer_login">
+        <observer name="magenest_rewardpoints_customer_login_notify_point" instance="Magenest\RewardPoints\Observer\CustomerLogin" />
+        <observer name="magenest_rewardpoints_earn_customer_login_daily" instance="Magenest\RewardPoints\Observer\CustomerLoginDaily" />
+    </event>
+    <event name="controller_front_send_response_before">
+        <observer name="magenest_referafriend_controller_front_send_response_before" instance="Magenest\RewardPoints\Observer\Referral" />
+    </event>
+    <event name="checkout_onepage_controller_success_action">
+        <observer name="magenest_notification_controller_front_send_response_before" instance="Magenest\RewardPoints\Observer\Notification" />
+    </event>
+</config>

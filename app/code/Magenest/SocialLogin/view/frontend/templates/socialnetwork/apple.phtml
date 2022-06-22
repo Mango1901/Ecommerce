@@ -1,0 +1,17 @@
+<?php if ($block->isAppleEnabled()) : ?>
+    <div class="modal-socialogin modal-apple apple_button_connect"></div>
+    <?php $scriptString = <<<script
+        require(['jquery','magenestSocialLogin'], function($,sociallogin){
+            $(document).ready(function () {
+                $('.apple_button_connect').bind('click',function(){
+                    var url = '{$block->getButtonUrl()}';
+                    if (url.length) {
+                        sociallogin.display(url, 'Apple', 600, 600);
+                    }
+                });
+            })
+        });
+    script;
+    ?>
+    <?= isset($secureRenderer) ? $secureRenderer->renderTag('script', [], $scriptString, false) : '<script>' . $scriptString . '</script>' ?>
+<?php endif; ?>

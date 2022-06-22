@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) Magenest, Inc. All rights reserved.
+  ~ See COPYING.txt for license details.
+  -->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="fb_support" translate="label" sortOrder="130" showInDefault="0" showInWebsite="1" showInStore="0">
+            <label>Facebook Support Live Configuration</label>
+            <tab>magenest</tab>
+            <resource>Magenest_FacebookSupportLive::fb_support</resource>
+            <group id="general_setting" translate="label" type="text" sortOrder="20" showInDefault="0" showInWebsite="1" showInStore="0">
+                <label>Facebook Support Live Settings</label>
+                <comment><![CDATA[
+                Check out how to enable your facebook page chat <a href="https://developers.facebook.com/docs/messenger-platform/discovery/facebook-chat-plugin/" target="__BLANK">here</a>.
+                ]]></comment>
+                <field id="enable_fb" translate="label" type="select" sortOrder="0" showInDefault="0" showInWebsite="1" showInStore="0">
+                    <label>Enable FacebookSupportLive</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Enable/Disable module block on frontend. Default: Yes]]></comment>
+                </field>
+                <field id="config_type" translate="label" type="select" sortOrder="10" showInDefault="0" showInWebsite="1" showInStore="0">
+                    <label>Config Type</label>
+                    <source_model>Magenest\FacebookSupportLive\Model\Config\Source\Type</source_model>
+                    <depends>
+                        <field id="enable_fb">1</field>
+                    </depends>
+                </field>
+                <field id="page_id" translate="label" type="text" sortOrder="20" showInDefault="0" showInWebsite="1" showInStore="0">
+                    <label>Page Facebook ID</label>
+                    <comment><![CDATA[Input your facebook page id. Find your facebook page id here: <a href="https://findmyfbid.com/" target="__BLANK">https://findmyfbid.com/</a>]]></comment>
+                    <depends>
+                        <field id="enable_fb">1</field>
+                        <field id="config_type">1</field>
+                    </depends>
+                </field>
+                <field id="display_timeout" translate="label" type="text" sortOrder="30" showInDefault="0" showInWebsite="1" showInStore="0">
+                    <label>Timeout</label>
+                    <comment>
+                        <![CDATA[
+                            Display chat icon after <b>X</b> second(s).<br>
+                            Not factor in script loading time. Actual display time might be longer.
+                        ]]>
+                    </comment>
+                    <validate>required-entry validate-number validate-zero-or-greater</validate>
+                    <depends>
+                        <field id="enable_fb">1</field>
+                        <field id="config_type">1</field>
+                    </depends>
+                </field>
+                <field id="code" translate="label" type="textarea" sortOrder="30" showInDefault="0" showInWebsite="1" showInStore="0">
+                    <label>Facebook Chat Code</label>
+                    <validate>required-entry</validate>
+                    <depends>
+                        <field id="enable_fb">1</field>
+                        <field id="config_type">2</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

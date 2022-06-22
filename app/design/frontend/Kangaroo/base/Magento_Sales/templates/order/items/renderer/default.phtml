@@ -1,0 +1,73 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var  $block \Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer */
+$_item = $block->getItem();
+
+$helperImage = $this->helper('\Magento\Catalog\Helper\Image');
+
+?>
+<tr id="order-item-row-<?= (int) $_item->getId() ?>">
+
+    <td class="col name" data-th="<?= $block->escapeHtml(__('Product')) ?>">
+        <div class="product-item-inner">
+            <span>
+                <span class="product-item-image">
+                    <img class="product-item-thumb" alt="<?= $block->escapeHtml($_item->getName()) ?>" src="<?= $helperImage->init($_item, 'product_base_image')
+                        ->setImageFile($_item->getProduct() ? $_item->getProduct()->getImage() : null)
+                        ->getUrl(); ?>">
+                </span>
+            </span>
+            <div class="product-item-info">
+                <strong class="product name product-item-name"><?= $block->escapeHtml($_item->getName()) ?></strong>
+                <?php if ($_options = $block->getItemOptions()): ?>
+                    <dl class="item-options">
+                        <?php foreach ($_options as $_option): ?>
+                            <span class="product-item-option">
+                                <dt class="label"><?= $block->escapeHtml($_option['label']) ?></dt>
+                                <?php if (!$block->getPrintStatus()): ?>
+                                <?php $_formatedOptionValue = $block->getFormatedOptionValue($_option) ?>
+                                <dd<?= (isset($_formatedOptionValue['full_view']) ? ' class="tooltip wrapper"' : '') ?> class="value">
+                                    <?= $block->escapeHtml($_formatedOptionValue['value'], ['a']) ?>
+                                    <?php if (isset($_formatedOptionValue['full_view'])): ?>
+                                        <div class="tooltip content">
+                                            <dl class="item options">
+                                                <dt><?= $block->escapeHtml($_option['label']) ?></dt>
+                                                <dd><?= $block->escapeHtml($_formatedOptionValue['full_view']) ?></dd>
+                                            </dl>
+                                        </div>
+                                    <?php endif; ?>
+                                </dd>
+                            <?php else: ?>
+                                <?php $optionValue = isset($_option['print_value']) ? $_option['print_value'] : $_option['value'] ?>
+                                <dd><?= $block->escapeHtml($optionValue) ?></dd>
+                            <?php endif; ?>
+                            </span>
+                        <?php endforeach; ?>
+                    </dl>
+                <?php endif; ?>
+                <?php $addtInfoBlock = $block->getProductAdditionalInformationBlock(); ?>
+                <?php if ($addtInfoBlock): ?>
+                    <?= $addtInfoBlock->setItem($_item)->toHtml() ?>
+                <?php endif; ?>
+                <?= $block->escapeHtml($_item->getDescription()) ?>
+                <span class="mobile-device"><?= $block->getItemPriceHtml() ?></span>
+            </div>
+        </div>
+    </td>
+    <td class="col sku" data-th="<?= $block->escapeHtml(__('SKU')) ?>">
+        <?= /* @noEscape */ $block->prepareSku($block->getSku()) ?>
+    </td>
+    <td class="col price" data-th="<?= $block->escapeHtml(__('Price')) ?>">
+        <?= $block->getItemPriceHtml() ?>
+    </td>
+    <td class="col qty" data-th="<?= $block->escapeHtml(__('Qty')) ?>">
+        <?= (float) $block->getItem()->getQtyOrdered() ?>
+    </td>
+    <td class="col subtotal" data-th="<?= $block->escapeHtml(__('Total price')) ?>">
+        <?= $block->getItemRowTotalHtml() ?>
+    </td>
+</tr>

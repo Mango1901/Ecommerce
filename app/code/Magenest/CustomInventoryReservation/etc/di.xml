@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\InventorySales\Model\PlaceReservationsForSalesEvent">
+        <plugin name="Magenest_CustomInventoryReservation_Plugin_Magento_InventorySales_Model_PlaceReservationsForSalesEvent" type="Magenest\CustomInventoryReservation\Plugin\Magento\InventorySales\Model\PlaceReservationsForSalesEvent" sortOrder="999" disabled="false"/>
+    </type>
+    <type name="Magento\InventoryReservations\Model\ResourceModel\SaveMultiple">
+        <plugin name="Magenest_CustomInventoryReservation_Plugin_Magento_InventoryReservations_Model_ResourceModel_SaveMultiple" type="Magenest\CustomInventoryReservation\Plugin\Magento\InventoryReservations\Model\ResourceModel\SaveMultiple" sortOrder="999" disabled="false"/>
+    </type>
+    <preference for="Magenest\CustomInventoryReservation\Api\GetReservationsQuantityInterfaceV2" type="Magenest\CustomInventoryReservation\Model\ResourceModel\GetReservationsQuantity"/>
+    <preference for="Magenest\CustomInventoryReservation\Api\GetProductSalableQtyInterfaceV2" type="Magenest\CustomInventoryReservation\Model\GetProductSalableQty"/>
+    <preference for="Magenest\CustomInventoryReservation\Api\ReservationBuilderInterfaceV2" type="Magenest\CustomInventoryReservation\Model\ReservationBuilder"/>
+    <preference for="Magenest\CustomInventoryReservation\Api\ReservationInterfaceV2" type="Magenest\CustomInventoryReservation\Model\ReservationModel"/>
+</config>

@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="email_communication" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Email Communication</label>
+            <tab>sales</tab>
+            <resource>Magenest_OrderManagement::config</resource>
+            <group id="customer_service" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Customer Service</label>
+                <field id="enabled" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="identity" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Customer Service Email Sender</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                </field>
+                <field id="confirm_paid_template" translate="label comment" type="select" sortOrder="2" showInDefault="0" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Paid Confirmation Email Template for Supplier</label>
+                    <comment>Email template chosen based on theme fallback when "Default" option is selected.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="notifier_email_template" translate="label comment" type="select" sortOrder="13" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Unprocessed Order Notification Email Template</label>
+                    <comment>Email sends to manager when order is not processed by customer service within 24 hours.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="list_email_notifier" translate="label comment" type="text" sortOrder="14" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Notifier Emails</label>
+                    <comment>List of Notifier Emails. Comma-separated</comment>
+                </field>
+                <field id="warehouse_received_goods_email_template" translate="label comment" type="select" sortOrder="16" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Warehouse Received Goods Notification Email Template</label>
+                    <comment>Email sent to customer service when warehouse received goods delivery.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="list_email_warehouse_received_goods" translate="label comment" type="text" sortOrder="17" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Notifier Emails</label>
+                    <comment>List of Notifier Emails. Comma-separated</comment>
+                </field>
+                <field id="notifier_warehouse_email_template" translate="label comment" type="select" sortOrder="18" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Unprocessed Warehouse Order Notification Email Template</label>
+                    <comment>Email sent to manager when order is not confirmed delivered goods in warehouse within 24 hours.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="list_email_notifier_warehouse" translate="label comment" type="text" sortOrder="19" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Notifier Emails</label>
+                    <comment>List of Notifier Emails. Comma-separated</comment>
+                </field>
+                <field id="supplier_reject_delivery_email_template" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Supplier Reject Delivery Goods Email Template</label>
+                    <comment>Email sent to customer service when supplier can not deliver goods.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="list_email_supplier_reject_delivery" translate="label comment" type="text" sortOrder="21" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Notifier Emails</label>
+                    <comment>List of Notifier Emails. Comma-separated</comment>
+                </field>
+            </group>
+            <group id="warehouse" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Warehouse</label>
+                <field id="enabled" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="identity" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Warehouse Email Sender</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                </field>
+                <field id="new_returned_order_email_template" translate="label comment" type="select" sortOrder="19" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>New Returned Order Email Template</label>
+                    <comment>Email sent to warehouse when new returned order is created.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="list_email_new_returned_order" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Notifier Emails</label>
+                    <comment>List of Notifier Emails. Comma-separated</comment>
+                </field>
+                <field id="need_packaging_email_template" translate="label comment" type="select" sortOrder="21" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Need Packaging Template</label>
+                    <comment>Email sent to warehouse when accountant confirm payment</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="list_email_need_packaging" translate="label comment" type="text" sortOrder="22" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Notifier Emails</label>
+                    <comment>List of Notifier Emails. Comma-separated</comment>
+                </field>
+            </group>
+            <group id="supplier" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Supplier</label>
+                <field id="enabled" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="identity" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Supplier Email Sender</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                </field>
+                <field id="warehouse_received_goods_email_template" translate="label comment" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Warehouse Received Goods Notification Email Template</label>
+                    <comment>Email sent to supplier when warehouse received goods delivery.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="list_email_warehouse_received_goods" translate="label comment" type="text" sortOrder="16" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Notifier Emails</label>
+                    <comment>List of Notifier Emails. Comma-separated</comment>
+                </field>
+            </group>
+            <group id="accountant" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Accountant</label>
+                <field id="enabled" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="identity" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Accountant Email Sender</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                </field>
+                <field id="customer_service_confirm_email_template" translate="label comment" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Customer Service Confirmed COD Email Template</label>
+                    <comment>Email sent to accountant when customer service confirm a COD order.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="list_email_customer_service_confirm" translate="label comment" type="text" sortOrder="16" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Notifier Emails</label>
+                    <comment>List of Notifier Emails. Comma-separated</comment>
+                </field>
+            </group>
+        </section>
+        <section id="sales_email">
+            <group id="order">
+                <field id="confirm_paid_customer_template" translate="label comment" type="select" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Paid Confirmation Email Template for Customer</label>
+                    <comment>Email sent to customer when order is confirm paid.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="complete_shipment_customer_template" translate="label comment" type="select" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Complete Shipment Email Template for Customer</label>
+                    <comment>Email sent to customer when order is completed shipment.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

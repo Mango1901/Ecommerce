@@ -1,0 +1,32 @@
+<?php
+// @codingStandardsIgnoreFile
+?>
+<div class="actions actions-get-auth-token">
+    <div id="auth_token_result" class="message-validation hide"></div>
+    <button class="action-validate-get-auth-token sage-button-callback <?php echo $block->getAddClass(); ?>"
+            type="button" id="<?php echo $block->getHtmlId() ?>">
+        <span id="span-for-active-button"><?php /* @escapeNotVerified */
+            echo $block->escapeHtml($block->getButtonLabel()) ?></span>
+    </button>
+</div>
+<script>
+    require(['jquery', 'Magento_Ui/js/modal/alert'], function ($, alert) {
+        $('#sync_products_button').click(function () {
+            $.get({
+                url: '<?= $block->getUrl('fasterp/sync/products'); ?>',
+                success: function (response) {
+                    alert({
+                        title: 'Result',
+                        content: response.message,
+                        actions: {
+                            always: function () {
+                            }
+                        }
+                    });
+                },
+                dataType: "json",
+                showLoader: true
+            });
+        });
+    });
+</script>

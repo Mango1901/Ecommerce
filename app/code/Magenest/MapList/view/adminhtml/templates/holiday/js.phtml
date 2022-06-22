@@ -1,0 +1,68 @@
+<?php
+// @codingStandardsIgnoreFile
+/**
+ * Created by PhpStorm.
+ * User: hiennq
+ * Date: 9/23/16
+ * Time: 14:36
+ */
+/**
+ * @var $block Magenest\MapList\Block\Adminhtml\Holiday\Edit\Js
+ */
+
+$storeIdList = $block->getSelectedStore();
+
+?>
+<script>
+    var storeSelected = [];
+    <?php foreach ($storeIdList as $id){ ?>
+    storeSelected.push("<?= $id ?>");
+    <?php } ?>
+</script>
+
+<script>
+    require([
+        'jquery'
+    ], function ($) {
+        'use strict';
+        $(document).ajaxStart(function () {
+            checkStoreCheckbox();
+        });
+        $(document).ajaxComplete(function () {
+            var i;
+            for (i = 0; i < storeSelected.length; i++) {
+                $('#maplistLocationGrid_table').find('#id_' + storeSelected[i]).prop('checked', true);
+            }
+        });
+
+        $(function () {
+            $('#edit_form').append('<input type="hidden" name="store_list" id="in_store_list"value="">');
+            $('#save-and-continue').click(function () {
+                checkStoreCheckbox();
+                $('#in_store_list').val(JSON.stringify(storeSelected));
+            });
+            $('#save').click(function () {
+                checkStoreCheckbox();
+                $('#in_store_list').val(JSON.stringify(storeSelected));
+            });
+        });
+
+        function checkStoreCheckbox() {
+            var id, status, index;
+            $('#maplistLocationGrid_table').find('tbody').find('input[type="checkbox"]').each(function () {
+                id = $(this).attr('id');
+                id = id.replace('id_', "");
+                status = $(this).is(":checked");
+                if (status) {
+                    if (storeSelected.indexOf(id) < 0) {
+                        storeSelected.push(id);
+                    }
+                } else {
+                    if ((index = storeSelected.indexOf(id)) > -1) {
+                        delete storeSelected[index];
+                    }
+                }
+            });
+        }
+    });
+</script>

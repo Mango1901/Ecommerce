@@ -1,0 +1,68 @@
+<!--
+/**
+ * Copyright © 2016 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<!-- ko if: (isCustomerLoggedIn && isRewardPointEnable) -->
+<div class="payment-option opc-payment-additional rewardpoints">
+    <!-- ko if: isRewardTiersEnable == 0 -->
+    <div class="payment-option-title field choice">
+        <span class="action action-toggle" id="block-rewardpoints-heading" role="heading" aria-level="2">
+            <!-- ko text: $t('KCoin Points')--><!-- /ko -->
+        </span>
+    </div>
+    <div class="payment-option-content">
+        <div class="payment-option-content-action">
+            <div class="current-point">
+                <span><!-- ko text: $t('Use')--><!-- /ko --></span>
+                <span data-bind="text:currentPoint"> </span>
+                <span><!-- ko text: $t('points KCoin.')--><!-- /ko --></span>
+            </div>
+            <span>[- <span data-bind="text:currencyPoint"></span><span class="currency" data-bind="text:currency"></span>]</span>
+            <!--ko ifnot:hasRewardPoint-->
+            <div class="payment-option-inner rewardpoints-inner">
+                <div class="field">
+                    <div class="control">
+                        <input class="input-text"
+                               type="text"
+                               id="rewardpoints-quantity"
+                               name="rewardpoints_quantity"
+                               data-validate="{'required-entry':true, 'validate-number':true}"
+                               data-bind="attr:{placeholder: $t('Enter point quantity')}, value:rewardPointAmount, event: { 'keypress': checkKey }"/>
+                    </div>
+                </div>
+            </div>
+            <!--/ko-->
+            <!--ko if:hasRewardPoint-->
+            <div class="reward-point">
+                <input class="input-text" type="text" disabled data-bind="value:rewardPointAmount"/>
+            </div>
+            <!--/ko-->
+            <div class="actions">
+                <div class="primary">
+                    <!--ko ifnot:hasRewardPoint-->
+                    <button class="action action-apply-all" type="button"
+                            data-bind="'value': $t('Apply All'), click: applyAll">
+                        <span><!-- ko i18n: 'Apply All'--><!-- /ko --></span>
+                    </button>
+                    <button class="action action-apply" type="button" data-bind="'value': $t('Apply'), click: apply">
+                        <span><!-- ko i18n: 'Apply'--><!-- /ko --></span>
+                    </button>
+                    <!--/ko-->
+                    <!--ko if:hasRewardPoint-->
+                    <br>
+                    <button class="action action-cancel" type="button" data-bind="'value': $t('Cancel'), click: cancel">
+                        <span><!-- ko i18n: 'Cancel'--><!-- /ko --></span>
+                    </button>
+                    <!--/ko-->
+                </div>
+            </div>
+        </div>
+        <!-- ko foreach: getRegion('messages') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!--/ko-->
+    </div>
+    <!-- /ko -->
+</div>
+<!-- /ko -->

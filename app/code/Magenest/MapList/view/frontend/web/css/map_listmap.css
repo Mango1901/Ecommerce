@@ -1,0 +1,45 @@
+.map-menu a{
+    font-size: x-large;
+    display: inline-block;
+    text-align: center;
+    width:33%;
+    height:24%;
+    min-width: 200px;
+}
+
+
+.map-menu a figure{
+    display: block;
+    margin: 25px;
+}
+
+.map-menu a figure figcaption{
+    background-color: grey;
+    color: white;
+    padding: 3px;
+    border: 1px solid grey;
+    border-radius: 7px;
+}
+.map-menu a:hover{
+    background-color: white;
+    text-decoration: none;
+}
+
+.map-menu a:hover figcaption{
+    background-color: white;
+    border: 2px solid grey;
+    color: grey;
+    text-decoration: none;
+}
+
+.page-title-wrapper{
+    text-align: center;
+    background-color: grey;
+    color: white;
+    height: 50px;
+    margin: 15px;
+}
+
+.page-title{
+    font-weight: bold;
+}

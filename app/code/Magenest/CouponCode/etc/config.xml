@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <magenest_coupon>
+            <couponlisting>
+                <enable>1</enable>
+            </couponlisting>
+            <eventmenu>
+                <enable>1</enable>
+                <event_name>Coupon</event_name>
+            </eventmenu>
+        </magenest_coupon>
+    </default>
+</config>

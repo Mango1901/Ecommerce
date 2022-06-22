@@ -1,0 +1,104 @@
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+
+    <table name="magenest_instagram_mapping_template" resource="default" engine="innodb" comment="Magenest Mapping Template">
+        <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="ID"/>
+        <column xsi:type="int" name="type" padding="10" unsigned="true" nullable="false" default="0" comment="Type"/>
+        <column xsi:type="varchar" length="254" name="name" comment="Name"/>
+        <column xsi:type="longtext" name="content_template" comment="Content Template"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP" comment="Updated At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+    </table>
+
+    <table name="magenest_instagram_mapping" resource="default" engine="innodb" comment="Magenest Instagram Mapping">
+        <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="ID"/>
+        <column xsi:type="int" name="template_id" padding="10" unsigned="true" comment="Template Id"/>
+        <column xsi:type="varchar" length="254" name="magento_attribute" comment="Product Magento Field"/>
+        <column xsi:type="varchar" length="254" name="fb_attribute" comment="Product Facebook Field"/>
+        <column xsi:type="boolean" name="status" comment="Status" nullable="false" default="1"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="MAGENEST_INSTAGRAM_MAPPING_MAGENTO_ATTRIBUTE_FB_ATTRIBUTE">
+            <column name="magento_attribute"/>
+            <column name="fb_attribute"/>
+        </constraint>
+    </table>
+
+    <table name="magenest_instagram_sync_history" resource="default" engine="innodb" comment="Magenest Instagram History">
+        <column xsi:type="int" name="history_id" padding="10" unsigned="true" nullable="false" identity="true"
+                comment="History ID"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Date of creation"/>
+        <column xsi:type="int" name="user_id" unsigned="true" nullable="false" identity="false" default="0"
+                comment="User ID"/>
+        <column xsi:type="int" name="feed_id" padding="10" nullable="true" comment="Feed Id"/>
+        <column xsi:type="smallint" name="type" nullable="false" default="1" comment="Report Type"/>
+        <column xsi:type="smallint" name="action" nullable="false" default="1" comment="Action Synchronization"/>
+        <column xsi:type="varchar" name="execution_time" nullable="true" length="255" comment="Execution time"/>
+        <column xsi:type="text" name="error_products" nullable="true" comment="Products Synchronization Error"/>
+        <column xsi:type="varchar" name="summary" nullable="true" length="255" comment="Summary"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="history_id"/>
+        </constraint>
+        <index referenceId="INDEX_REPORT_ID" indexType="btree">
+            <column name="history_id"/>
+        </index>
+        <index referenceId="INDEX_CREATED_AT" indexType="btree">
+            <column name="created_at"/>
+        </index>
+        <index referenceId="INDEX_TYPE" indexType="btree">
+            <column name="type"/>
+        </index>
+    </table>
+
+    <table name="magenest_instagram_feed" resource="default" engine="innodb" comment="Magenest Instagram Feed">
+        <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="ID"/>
+        <column xsi:type="varchar" length="254" name="name" comment="Name"/>
+        <column xsi:type="boolean" name="status" comment="Status" nullable="false" default="1"/>
+        <column xsi:type="varchar" name="store_id" comment="Store Id"/>
+        <column xsi:type="longtext" name="content_template" comment="Content Template"/>
+        <column xsi:type="longtext" name="template_id" comment="Template Id"/>
+        <column xsi:type="longtext" name="conditions_serialized" comment="Conditions Serialized"/>
+        <column xsi:type="longtext" name="mapping_category" comment="Mapping Category"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP" comment="Updated At"/>
+        <column xsi:type="boolean" name="cron_enable" comment="Cron Status" nullable="false" default="0"/>
+        <column xsi:type="longtext" name="cron_day" comment="Cron Day"/>
+        <column xsi:type="longtext" name="cron_time" comment="Cron Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+    </table>
+    <table name="magenest_instagram_feed_index" resource="default" engine="innodb" comment="Magenest Instagram Feed Index">
+        <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="ID"/>
+        <column xsi:type="int" name="feed_id" padding="10" comment="Feed Id"/>
+        <column xsi:type="int" name="template_id" padding="10" comment="Template Id"/>
+        <column xsi:type="longtext" name="product_ids" comment="Product Ids"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="INSTAGRAM_FEED_INDEXER_FEEDID_TEMPLATEID_UNIQUE">
+            <column name="feed_id"/>
+        </constraint>
+    </table>
+    <table name="magenest_instagram_feed_product" resource="default" engine="innodb" comment="Magenest Instagram Feed Product">
+        <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="ID"/>
+        <column xsi:type="int" name="feed_id" padding="10" comment="Feed Id"/>
+        <column xsi:type="varchar" length="254" name="object_id" comment="Product Id"/>
+        <column xsi:type="varchar" length="254" name="sku" comment="Sku"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="INSTAGRAM_FEED_PRODUCT_UNIQUE">
+            <column name="feed_id"/>
+            <column name="sku"/>
+        </constraint>
+    </table>
+    <table name="sales_order_grid" resource="sales" engine="innodb" comment="Sales Flat Order Grid">
+        <column xsi:type="int" name="ordered_by_shop" padding="10" default="0" identity="false"  nullable="true" comment="From Shop"/>
+    </table>
+</schema>

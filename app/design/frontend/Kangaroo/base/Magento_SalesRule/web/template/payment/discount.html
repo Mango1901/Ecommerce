@@ -1,0 +1,78 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<div class="block-discount-code">
+    <div class="discount-title">
+        <span data-bind="i18n: 'Discount code'"></span>
+    </div>
+    <button type="button" class="payment-option-title action field choice" data-trigger="trigger">
+        <span class="action action-toggle" id="block-discount-heading" role="heading" aria-level="2">
+            <!-- ko if: isApplied -->
+            <!-- ko text: couponCode --><!-- /ko -->
+            <!-- /ko -->
+            <!-- ko ifnot: isApplied -->
+            <!-- ko i18n: 'Select or enter a code' --><!-- /ko -->
+            <!-- /ko -->
+        </span>
+    </button>
+    <div id="modal" class="payment-option opc-payment-additional discount-code" data-bind="mageInit: {
+        'Magento_Ui/js/modal/modal':{
+            'type': 'popup',
+            'title': $t('Choose a voucher'),
+            'modalClass': 'discount-popup',
+            'trigger': '[data-trigger=trigger]',
+            'responsive': true,
+            'buttons': []
+        }}">
+        <div class="payment-option-content content">
+            <!-- ko foreach: getRegion('messages') -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!--/ko-->
+            <form class="form form-discount" id="discount-form">
+                <div class="payment-option-inner">
+                    <div class="field">
+                        <label class="label" for="coupon_code">
+                            <span data-bind="i18n: 'Voucher code'"></span>
+                        </label>
+                        <div class="control">
+                            <input class="input-text"
+                                   type="text"
+                                   id="coupon_code"
+                                   name="coupon_code"
+                                   data-validate="{'required-entry':true}"
+                                   data-bind="value: couponCode, attr:{disabled:isApplied() , placeholder: $t('Enter discount code')} "/>
+                        </div>
+                    </div>
+                </div>
+                <div class="actions-toolbar">
+                    <div class="primary">
+                        <!-- ko ifnot: isApplied() -->
+                        <button id="apply_coupon" class="action action-apply" type="submit"
+                                data-bind="'value': $t('Apply Discount'), click: apply">
+                            <span><!-- ko i18n: 'Apply Discount'--><!-- /ko --></span>
+                        </button>
+                        <!-- /ko -->
+                        <!-- ko if: isApplied() -->
+                        <button class="action action-cancel" type="submit"
+                                data-bind="'value': $t('Cancel'), click: cancel">
+                            <span><!-- ko i18n: 'Cancel coupon'--><!-- /ko --></span>
+                        </button>
+                        <!-- /ko -->
+                    </div>
+                </div>
+                <!-- ko foreach: getRegion('captcha') -->
+                <!-- ko template: getTemplate() --><!-- /ko -->
+                <!-- /ko -->
+            </form>
+
+            <div class="content" data-role="content" aria-labelledby="block-discount-heading">
+                <!-- ko foreach: getRegion('couponCodeListing') -->
+                <!-- ko template: getTemplate() --><!-- /ko -->
+                <!-- /ko -->
+            </div>
+        </div>
+    </div>
+</div>

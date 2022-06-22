@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Magenest_QuantitySold::sold_quantity"
+             title="Sold Quantity"
+             translate="title"
+             module="Magenest_QuantitySold"
+             sortOrder="100"
+             resource="Magenest_QuantitySold::configuration"
+             parent="Magenest_Backend::Magenest"/>
+
+        <add id="Magenest_QuantitySold::configuration"
+             title="Configuration"
+             translate="title"
+             module="Magenest_QuantitySold"
+             sortOrder="15"
+             parent="Magenest_QuantitySold::sold_quantity"
+             action="adminhtml/system_config/edit/section/sold_quantity"
+             resource="Magenest_QuantitySold::configuration"/>
+    </menu>
+</config>

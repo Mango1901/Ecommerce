@@ -1,0 +1,534 @@
+//
+//  Typography
+//  ---------------------------------------------
+
+//  Fonts
+@font-family-name__base: 'Clan Pro';
+@font-family__base: @font-family-name__base, @font-family__sans-serif;
+
+
+//
+//  Color
+//  ---------------------------------------------
+@color_font_theme: #44BA46;
+
+
+//
+//  Common
+//  _____________________________________________
+
+& when (@media-common = true) {
+    .lib-font-face(
+        @family-name: 'Clan Pro',
+        @font-path: '@{baseDir}fonts/clanpro/ClanPro-Regular',
+        @font-weight: 400,
+        @font-style: normal,
+        @font-display: swap,
+        @font-format: 'ttf',
+        @font-type: 'truetype'
+    );
+
+    .lib-font-face(
+        @family-name: 'Clan Pro',
+        @font-path: '@{baseDir}fonts/clanpro/ClanPro-Medium',
+        @font-weight: 500,
+        @font-style: normal,
+        @font-display: swap,
+        @font-format: 'ttf',
+        @font-type: 'truetype'
+    );
+
+    .lib-font-face(
+        @family-name: 'Clan Pro',
+        @font-path: '@{baseDir}fonts/clanpro/ClanPro-Bold',
+        @font-weight: 600,
+        @font-style: normal,
+        @font-display: swap,
+        @font-format: 'ttf',
+        @font-type: 'truetype'
+    );
+
+    .lib-font-face(
+        @family-name: 'Clan',
+        @font-path: '@{baseDir}fonts/clan/Clan-Bold',
+        @font-weight: 500,
+        @font-style: normal,
+        @font-display: swap,
+        @font-format: 'ttf',
+        @font-type: 'truetype'
+    );
+
+    .lib-font-face(
+        @family-name: 'Clan',
+        @font-path: '@{baseDir}fonts/clan/Clan-ExtraBold',
+        @font-weight: 600,
+        @font-style: normal,
+        @font-display: swap,
+        @font-format: 'ttf',
+        @font-type: 'truetype'
+    );
+
+    .lib-font-face(
+        @family-name: 'Clan',
+        @font-path: '@{baseDir}fonts/clan/Clan-SemiBold',
+        @font-weight: 400,
+        @font-style: normal,
+        @font-display: swap,
+        @font-format: 'ttf',
+        @font-type: 'truetype'
+    );
+
+    .lib-font-face(
+        @family-name: 'Clan',
+        @font-path: '@{baseDir}fonts/clan/Clan-Regular',
+        @font-weight: 300,
+        @font-style: normal,
+        @font-display: swap,
+        @font-format: 'ttf',
+        @font-type: 'truetype'
+    );
+
+
+    * {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+
+        &:before,
+        &:after {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+    }
+
+    a {
+        text-decoration: none;
+
+        &:hover,
+        &:focus {
+            text-decoration: none;
+        }
+    }
+
+    ._keyfocus *,
+    input:not([disabled]),
+    textarea:not([disabled]),
+    select:not([disabled]) {
+        &:focus {
+            .lib-css(box-shadow, none);
+        }
+    }
+
+    .custom-check {
+        position: relative;
+
+        &.radio {
+            &:before {
+                content: '';
+                width: 15px;
+                height: 15px;
+                border-radius: 50%;
+                border: 1px solid @primary-color;
+                position: absolute;
+                top: 1px;
+                left: 0;
+            }
+
+            &:after {
+                content: '';
+                width: 9px;
+                height: 9px;
+                border-radius: 50%;
+                background-color: @primary-color;
+                position: absolute;
+                left: 3px;
+                top: 4px;
+                display: none;
+            }
+        }
+
+        &.checkbox {
+            padding-left: 25px;
+            display: block;
+            font-size: 12px;
+            line-height: 22px;
+            color: #000;
+
+            &:before {
+                content: "";
+                border: 2px solid #8F9AA5;
+                position: absolute;
+                width: 16px;
+                height: 16px;
+                border-radius: 2px;
+                left: 0;
+                top: 2px;
+            }
+
+            &:after {
+                content: "";
+                width: 8px;
+                height: 8px;
+                background-color: @primary-color;
+                border-radius: 1px;
+                position: absolute;
+                top: 6px;
+                left: 4px;
+                display: none;
+            }
+        }
+    }
+
+    input[type="radio"], input[type="checkbox"] {
+        &:checked ~ .custom-check:after {
+            display: block;
+        }
+    }
+
+    input[type="checkbox"] {
+        &:checked ~ .custom-check {
+            &:before {
+                border-color: @primary-color;
+            }
+
+            &:after {
+                display: block;
+            }
+        }
+    }
+
+    body {
+        .action.primary,
+        .action-primary {
+            background: transparent linear-gradient(76deg, #5EB845 0%, #158C43 100%) 0% 0% no-repeat padding-box;
+            border-radius: 2px;
+            border: 1px solid @primary-color;
+
+            &:hover {
+                background: #fff;
+                color: @primary-color;
+                border: 1px solid @primary-color;
+            }
+
+            &:active, &:focus {
+                background: transparent linear-gradient(76deg, #5EB845 0%, #158C43 100%) 0% 0% no-repeat padding-box;
+                border-radius: 2px;
+                border: 1px solid @primary-color;
+            }
+        }
+
+        .modal-popup.modal-slide, .modal-popup._image-box {
+            left: 0;
+
+            .modal-inner-wrap {
+                margin: 0 !important;
+                left: 50% !important;
+                top: 50%;
+                transform: translate(-50%, -50%) !important;
+                width: 90% !important;
+                position: absolute;
+                max-height: 90%;
+                min-height: unset !important;
+                background-color: #fff !important;
+                overflow: visible;
+                height: auto;
+            }
+
+            .modal-title {
+                font-size: 16px;
+                line-height: 22px;
+                font-weight: 500;
+                border-bottom: 1px solid #E0E6EC;
+                padding-bottom: 14px;
+            }
+
+            .modal-content {
+                overflow-y: auto;
+            }
+
+            .action-close {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                border: 1px solid #E0E6EC;
+                padding: 0;
+                top: -15px;
+                background-color: #fff;
+                right: -15px;
+                z-index: 999;
+
+                &:before {
+                    font-weight: 600;
+                    color: #383E4F;
+                }
+
+                &:hover {
+                    background-color: #fff;
+                    border: 1px solid #E0E6EC;
+
+                    &:before {
+                        color: @primary-color;
+                    }
+                }
+
+                &:focus {
+                    border: 1px solid #E0E6EC;
+                    background-color: #fff;
+                }
+            }
+        }
+
+        .price {
+            font-family: 'Clan';
+        }
+
+        .show-password {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            cursor: pointer;
+            z-index: 9;
+
+            &:before {
+                font-size: 15px;
+                color: #697180;
+                font-family: 'kangaroo-icon';
+                content: "\e923";
+            }
+
+            &.show:before {
+                content: "\e922";
+                font-size: 18px;
+            }
+
+            &:hover {
+                &:before {
+                    color: @primary-color;
+                }
+            }
+        }
+
+        .password-strength-meter {
+            min-height: 24px;
+            background-color: #E0E6EC;
+            font-size: 12px;
+            line-height: 26px;
+            color: #34373D;
+            font-weight: normal;
+            height: auto;
+        }
+
+        .password-none .password-strength-meter:before {
+            background-color: #E0E6EC;
+        }
+
+        select {
+            background-image: url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='14.121' height='7.811' viewBox='0 0 14.121 7.811'%3E%3Cpath id='Path_626' data-name='Path 626' d='M1092.379,637.329l6,6,6-6' transform='translate(-1091.318 -636.268)' fill='none' stroke='%23697180' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5'/%3E%3C/svg%3E%0A");
+            background-repeat: no-repeat;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-position-x: calc(~'100% - 14px');
+            background-position-y: center;
+            background-size: 10px 5px;
+            cursor: pointer;
+
+            &::-ms-expand {
+                display: none;
+            }
+        }
+
+        .zalo-chat-widget {
+            bottom: 30px !important;
+            right: 24px !important;
+            visibility: visible;
+            opacity: 1;
+            transition: visibility 0s 0.1s, opacity 0.1s linear !important;
+        }
+
+        .zalo-chat-widget.hidden {
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s 0.2s, opacity 0.2s linear !important;
+        }
+
+        .fb_dialog_content {
+            visibility: visible;
+            opacity: 1;
+            transition: visibility 0s 0.2s, opacity 0.2s linear !important;
+
+            iframe {
+                bottom: 100px !important;
+            }
+        }
+
+        .fb_dialog_content.hidden {
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s 0.1s, opacity 0.1s linear !important;
+        }
+
+        .fb_iframe_widget iframe {
+            bottom: 105px !important;
+        }
+
+        .scroll-top {
+            width: 70px;
+            height: 70px;
+            position: fixed;
+            bottom: 165px;
+            right: 19px;
+            background: transparent;
+            z-index: 999999999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .3s;
+
+            svg {
+                transform: rotate(0deg);
+                transition: transform 0.1s linear;
+            }
+
+            &.show {
+                opacity: 1;
+                pointer-events: auto;
+            }
+        }
+
+        .daterangepicker {
+            select.monthselect, select.yearselect {
+                width: 50%;
+                cursor: pointer;
+            }
+
+            .calendar-table {
+                td, th {
+                    padding: 0;
+                    width: 35px;
+                    height: 35px;
+                    min-width: 35px;
+                }
+
+                td.active, td.active:hover {
+                    background-color: @primary-color;
+                }
+            }
+
+            .drp-buttons .btn {
+                border-radius: 2px;
+                padding: 6px 16px 4px;
+
+                &.btn-primary {
+                    background-color: @primary-color;
+                    border: 1px solid @primary-color;
+                    color: #fff;
+
+                    &:hover {
+                        background-color: #fff;
+                        color: @primary-color;
+                    }
+                }
+
+                &.btn-default {
+                    background-color: #fff;
+                    border: 1px solid #E0E6EC;
+                    color: #8F9AA5;
+
+                    &:hover {
+                        color: @primary-color;
+                        border-color: @primary-color;
+                    }
+                }
+            }
+        }
+
+        .modal-popup.confirm,
+        .modal-popup._image-box {
+            .modal-footer {
+                button {
+                    font-size: 14px;
+                    line-height: 19px;
+                    font-weight: 500;
+                    padding: 9px 20px 6px;
+                }
+
+                .action-dismiss {
+                    color: #8F9AA5;
+                    border: 1px solid #8F9AA5;
+                    background-color: #fff;
+
+                    &:hover {
+                        color: @primary-color;
+                        border-color: @primary-color;
+                    }
+                }
+
+                .action-accept {
+                    &:hover {
+                        background: #fff;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .page-wrapper {
+        overflow-x: hidden;
+    }
+
+    .desktop-device {
+        display: none !important;
+    }
+
+    body {
+        .modal-popup.modal-slide {
+            .modal-header {
+                padding: 18px 15px 17px;
+            }
+
+            .modal-content {
+                padding: 0 15px 18px;
+            }
+        }
+
+        .scroll-top {
+            display: none;
+        }
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .pagebuilder-mobile-only {
+        display: none !important;
+    }
+
+    .mobile-device {
+        display: none !important;
+    }
+
+    .custom-check {
+        cursor: pointer;
+    }
+
+    body {
+        .modal-popup.modal-slide {
+            .modal-header {
+                padding: 26px 26px 17px;
+            }
+
+            .modal-content {
+                padding: 0 26px 26px;
+            }
+        }
+    }
+}
+
+
+& when (@media-common = true) {
+
+    .slick-track {
+        margin: 0;
+    }
+}

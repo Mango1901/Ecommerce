@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+* Copyright 2016 aheadWorks. All rights reserved.
+* See LICENSE.txt for license details.
+*/
+-->
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+<update handle="advancedreports_view"/>
+<body>
+    <referenceBlock name="aw_arep.view_container">
+        <block class="Aheadworks\AdvancedReports\Block\Productperformance\Chart" name="aw_arep.view_container.chart" as="chart"/>
+        <block class="Aheadworks\AdvancedReports\Block\Productperformance\Grid" name="aw_arep.view_container.grid" as="grid"/>
+        <block class="Aheadworks\AdvancedReports\Block\Manufacturer\Productperformance\Breadcrumbs" name="aw_arep.view_container.breadcrumbs" as="breadcrumbs"/>
+    </referenceBlock>
+</body>
+</page>

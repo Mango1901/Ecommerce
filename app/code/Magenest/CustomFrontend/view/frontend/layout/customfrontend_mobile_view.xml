@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="bar_title_minicart_mobile" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <title>Account</title>
+    </head>
+    <body>
+        <referenceBlock name="page.main.title">
+            <action method="setPageTitle">
+                <argument translate="true" name="title" xsi:type="string">Account</argument>
+            </action>
+        </referenceBlock>
+        <referenceContainer name="content">
+            <block class="Magento\Customer\Block\Account\AuthorizationLink" name="account-mobile-menu" template="Magenest_CustomFrontend::menu-account.phtml"/>
+        </referenceContainer>
+
+        <referenceBlock name="more-bar-content">
+            <block class="Magento\Store\Block\Switcher" name="store_language" as="store_language" template="Magento_Store::switch/languages.phtml">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">Magento\Store\ViewModel\SwitcherUrlProvider</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

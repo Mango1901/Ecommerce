@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <listingToolbar name="listing_top">
+        <massaction name="listing_massaction">
+            <action name="magenest_add_points">
+                <settings>
+                    <confirm>
+                        <message translate="true">Are you sure you want to add points for these Customers?</message>
+                        <title translate="true">Add Reward Points</title>
+                    </confirm>
+                    <url path="rewardpoints/membership/bulkaddpoints"/>
+                    <type>magenest_add_points</type>
+                    <label translate="true">Add Reward Points</label>
+                </settings>
+            </action>
+        </massaction>
+    </listingToolbar>
+    <columns name="customer_columns" class="Magento\Customer\Ui\Component\Listing\Columns">
+        <column name="mobile_numbers">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="editor" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Mobile Number</item>
+                    <item name="sortOrder" xsi:type="number">10</item>
+                </item>
+            </argument>
+        </column>
+        <column name="customer_tier" class="Magenest\RewardPoints\Ui\Component\Listing\Customer\CustomerTier">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="editor" xsi:type="string">text</item>
+                    <item name="bodyTmpl" xsi:type="string">ui/grid/cells/html</item>
+                    <item name="label" xsi:type="string" translate="true">Tier</item>
+                    <item name="sortOrder" xsi:type="number">10</item>
+                </item>
+            </argument>
+        </column>
+    </columns>
+</listing>

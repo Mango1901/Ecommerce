@@ -1,0 +1,14 @@
+<?php /** @var \Magenest\PaymentEPay\Block\Webview\OrderEpayForm $block */ ?>
+<?php if($block->canCurrentOrderPostToEpay($block->getPayloadRequest())) : ?>
+    <?= $block->prepareFormHtml($block->getPayloadRequest()) ?>
+    <script>
+        require([
+            'jquery',
+            'Magenest_PaymentEPay/js/jquery-1.11.1.min'
+        ], function ($, jqueryJS) {
+            openPayment(1, '<?= $block->getDomain() ?>');
+        })
+    </script>
+<?php endif ?>
+</body>
+</html>

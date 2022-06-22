@@ -1,0 +1,122 @@
+<?php
+/** @var \Magenest\PhotoReview\Block\Gallery\Review $block */
+/** get view param */
+$view = $block->getViewParam();
+$reviewCollection = $block->getCollection()->getItems();
+/** @var \Magenest\PhotoReview\Helper\Review $helper */
+$helper =  $this->helper(\Magenest\PhotoReview\Helper\Review::class);
+$format = $block->getDateFormat() ?: \IntlDateFormatter::SHORT;
+?>
+<div id="magenest-photoreview-popup"></div>
+<div id="photoreview-gallery product-review-container">
+    <?php if(count($reviewCollection) == 0): ?>
+        <h2><?= __('There are no review to display yet, please comeback later.') ?></h2>
+    <?php else: ?>
+        <div id="photoreview_grid" class="widget-flex-grid" style="width: 100%; display: none">
+            <div class="widget-flex-grid-sizer"></div>
+            <?php
+                /** @var \Magento\Review\Model\Review $review */
+                foreach ($reviewCollection as $_review):
+                    $reviewId = $_review->getReviewId();
+                    $ids[] = ['id' => $reviewId, 'width' => 25];
+                    $data = $helper->getCustomReviewDetail($_review);
+            ?>
+                    <div class="photoreview-items widget-flex-grid-item widget-timeline-<?= $block->escapeHtml($reviewId); ?>" style="itemscope itemprop="review" itemtype="http://schema.org/Review">
+                        <?php
+                        $url = '';
+                        if(isset($data['photo'])&&is_array($data['photo'])):
+                            foreach($data['photo'] as $photo){
+                                if($photo->getData('path') != ''){
+                                    $photoId = $photo->getPhotoId();
+                                    $path = $photo->getData('path');
+                                    $url = $helper->getMediaUrl($path);
+                        ?>
+                            <div class="photo-item photoreview-image" data-photo-id="<?= $block->escapeHtml($photoId) ?>" data-review-id="<?= $block->escapeHtml($reviewId) ?>">
+                                <img src="<?= $block->escapeUrl($url)?>" alt="">
+                            </div>
+                        <?php
+                                    break;
+                                }
+                            }
+                        ?>
+                        <?php endif;?>
+                        <div class="photoreview-title" itemprop="name">
+                            <div class="photoreview-author">
+                                <strong><?= $block->escapeHtml($_review->getNickname()) ?>
+                                    <?php if (isset($data['is_purchased']) && $block->escapeHtml($data['is_purchased']) == '1'):
+                                        ?>
+                                        <i class="fa fa-check-circle"></i>
+                                    <?php endif; ?>
+                                </strong>
+                                <time class="photoreview-create-at" itemprop="datePublished" datetime="<?= $block->escapeHtmlAttr($block->formatDate($_review->getCreatedAt(), $format)) ?>"><?= $block->escapeHtmlAttr($block->formatDate($_review->getCreatedAt(), $format)) ?></time>
+                            </div>
+
+                            <?php if (count($_review->getRatingVotes())): ?>
+                            <div class="photoreview-ratings">
+                                <?php foreach ($_review->getRatingVotes() as $_vote): ?>
+                                    <div class="rating-summary item" itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
+                                        <span class="label rating-label"><span><?= $block->escapeHtml($_vote->getRatingCode()) ?></span></span>
+                                        <div class="rating-result" title="<?= $block->escapeHtmlAttr($_vote->getPercent()) ?>%">
+                                            <meta itemprop="worstRating" content = "1"/>
+                                            <meta itemprop="bestRating" content = "100"/>
+                                            <span style="width:<?= $block->escapeHtmlAttr($_vote->getPercent()) ?>%">
+                                                <span itemprop="ratingValue"><?= $block->escapeHtml($_vote->getPercent()) ?>%</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                            <div class="review-image-author">
+                                <span class="review-image-time">
+                                </span>
+                                <?php if (isset($data['photo_review_is_recommend']) && $block->escapeHtml($data['photo_review_is_recommend']) == '1'):
+                                    ?>
+                                    <div class="photorereview-recommend">
+                                        <i class="fa fa-thumbs-up"></i>
+                                        <?= $block->escapeHtml(__("I recommend this product")) ?>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                            <?php endif;?>
+                            <div class="photoreview-content" itemprop="description">
+                                <span><?= nl2br($block->escapeHtml($_review->getTitle())) ?></span>
+                            </div>
+                            <?php if(isset($data['display_admin_comment']) && $data['display_admin_comment']): ?>
+                                <div class="admin-comment">
+                                    <div class="admin-comment-title">
+                                        <?= $block->escapeHtml(__("Response from store")) ?>
+                                    </div>
+                                    <div class="comment-content">
+                                        <?= $block->escapeHtml($data['admin_comment']) ?>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+            <?php
+                endforeach;
+            ?>
+            <script type="text/x-magento-init">
+                {
+                    ".widget-flex-grid": {
+                            "Magenest_PhotoReview/js/mansory": {}
+                    }
+                }
+            </script>
+        </div>
+        <div style="clear: both"></div>
+        <div class="toolbar-bottom" style="display: none">
+            <div class="toolbar">
+                <?= $block->getPagerHtml(); ?>
+            </div>
+        </div>
+    <?php endif; ?>
+</div>
+<script>
+    require([
+        'jquery',
+        'Magenest_PhotoReview/js/popup'
+    ], function ($) {
+        'use strict';
+    });
+</script>

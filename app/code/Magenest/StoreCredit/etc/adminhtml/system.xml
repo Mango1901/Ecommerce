@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magenest
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magenest.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.magenest.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Magenest
+ * @package     Magenest_StoreCredit
+ * @copyright   Copyright (c) Magenest (https://www.magenest.com/)
+ * @license     https://www.magenest.com/LICENSE.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="mpstorecredit" translate="label" type="text" sortOrder="68" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Store Credit (Kcoin)</label>
+            <tab>magenest</tab>
+            <resource>Magenest_StoreCredit::configuration</resource>
+            <group id="general" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Configuration</label>
+                <field id="enabled" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Select <b>Yes</b> to enable this module.]]></comment>
+                </field>
+                <field id="customer_groups" translate="label" type="multiselect" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enable for Customer Groups</label>
+                    <source_model>Magento\Customer\Model\Config\Source\Group</source_model>
+                </field>
+                <field id="top_link" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Display Balance on Toplink</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Select <b>Yes</b> to display customer's credit balance on the toplink.]]></comment>
+                </field>
+                <field id="allow_refund_exchange" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Allow Refunding Orders to Credit Balance</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Select <b>Yes</b> to allow refunding orders expenses to store credit.]]></comment>
+                </field>
+                <field id="allow_refund_product" translate="label comment" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Allow Refunding Store Credit Products</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Select <b>Yes</b> to allow refunding store credit product.]]></comment>
+                </field>
+            </group>
+            <group id="spending" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Spending Configuration</label>
+                <field id="enabled" translate="label comment" type="multiselect" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enable Spending On</label>
+                    <source_model>Magenest\StoreCredit\Model\Config\Source\Scope</source_model>
+                </field>
+                <field id="apply_for_product" translate="label" type="multiselect" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Apply for</label>
+                    <source_model>Magenest\StoreCredit\Model\Config\Source\ProductType</source_model>
+                </field>
+
+                <field id="apply_for_tax" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Apply for Tax</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="apply_for_shipping" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Apply for Shipping Fee</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="limit_type" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Limit Spend Amount</label>
+                    <source_model>Magenest\StoreCredit\Model\Config\Source\LimitType</source_model>
+                    <comment>Select the limit type for spending amount per order.</comment>
+                </field>
+                <field id="limit_value" translate="label comment" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Limit Value</label>
+                    <comment>Leave empty for default (0).</comment>
+                    <validate>validate-number validate-zero-or-greater</validate>
+                    <depends>
+                        <field id="limit_type" negative="1">0</field>
+                    </depends>
+                </field>
+                <field id="allow_refund_spending" translate="label comment" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Allow Refunding</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[If <b>Yes</b>, the credit spent on the order can be paid back to Credit Balance.]]></comment>
+                </field>
+            </group>
+            <group id="email" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Email Configuration</label>
+                <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enable Email Notification</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="subscribe_by_default" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Subscribe Customers by Default</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[If <b>Yes</b>, customers will be subscribed to balance updates by default.]]></comment>
+                </field>
+                <field id="sender" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Sender Email</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                    <comment>Select a sender email for notification emails.</comment>
+                </field>
+                <field id="balance_template" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Update Balance Email Template</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                    <comment>Select an email template to inform customers when their credit balances are updated.</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

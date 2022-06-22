@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magenest
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magenest.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.magenest.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Magenest
+ * @package     Magenest_StoreCredit
+ * @copyright   Copyright (c) Magenest (https://www.magenest.com/)
+ * @license     https://www.magenest.com/LICENSE.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Sales:etc/pdf_file.xsd">
+    <totals>
+        <total name="mp_store_credit_spent">
+            <model>Magenest\StoreCredit\Model\Sales\Pdf\StoreCredit</model>
+            <title translate="true">Store Credit</title>
+            <source_field>mp_store_credit_spent</source_field>
+            <sort_order>600</sort_order>
+        </total>
+    </totals>
+</config>

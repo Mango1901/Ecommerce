@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magenest\Affiliate\Controller\Plugin\Account">
+        <arguments>
+            <argument name="allowedActions" xsi:type="array">
+                <item name="signup" xsi:type="string">signup</item>
+                <item name="signuppost" xsi:type="string">signuppost</item>
+                <item name="refer" xsi:type="string">refer</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magenest\Affiliate\Controller\Account">
+        <plugin name="customer_account" type="Magenest\Affiliate\Controller\Plugin\Account"/>
+    </type>
+    <type name="Magento\Checkout\Controller\Cart\Index">
+        <plugin name="mp_multishipping_disabler_shopping_cart" type="Magenest\Affiliate\Plugin\MultiShipping\ShoppingCart"/>
+    </type>
+    <type name="Magento\Checkout\Controller\Index\Index">
+        <plugin name="mp_multishipping_disabler_checkout" type="Magenest\Affiliate\Plugin\MultiShipping\Checkout"/>
+    </type>
+    <type name="Magenest\Osc\Controller\Index\Index">
+        <plugin name="mp_multishipping_disabler_osc" type="Magenest\Affiliate\Plugin\MultiShipping\Osc"/>
+    </type>
+    <type name="Magento\Customer\CustomerData\SectionPoolInterface">
+        <arguments>
+            <argument name="sectionSourceMap" xsi:type="array">
+                <item name="affiliate" xsi:type="string">Magenest\Affiliate\CustomerData\Affiliate</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

@@ -1,0 +1,108 @@
+<?php
+/**
+ * @var \Magenest\CouponCode\Block\MyCoupon $block
+ * @var Magento\Framework\Escaper $escaper
+ */
+
+$coupon = $block->getCoupon();
+/**
+ * @var \Magenest\CouponCode\ViewModel\Coupon $viewModel
+ */
+$viewModel = $block->getViewModel();
+$today = $viewModel->getToday();
+
+?>
+<div class="content" data-role="content" aria-labelledby="block-discount-heading">
+    <form id="discount-coupon-form" data-mage-init='{"validation": {}}' class="discount-coupon-form"
+          action="<?= $escaper->escapeUrl($block->getUrl('voucher/coupon/claim')) ?>" method="post">
+        <input name="form_key" type="hidden" value="<?php echo $block->getFormKey(); ?>">
+        <div class="fieldset coupon">
+            <div class="field">
+                <div class="form-group">
+                    <label for="coupon_code"
+                           class="label"><span><?= $escaper->escapeHtml(__('Input Coupon Code')) ?></span></label>
+                    <div class="control">
+                        <input type="text"
+                               class="input-text"
+                               id="coupon_code"
+                               name="coupon_code"
+                               data-validate="{required:true}"
+                               placeholder="<?= $escaper->escapeHtml(__('Enter code discount of you')) ?>"/>
+                    </div>
+                </div>
+                <div class="actions-toolbar">
+                    <div class="primary">
+                        <button id="apply_coupon" class="action apply primary" type="submit"
+                                value="<?= $escaper->escapeHtmlAttr(__('Save')) ?>">
+                            <span><?= $escaper->escapeHtml(__('Save')) ?></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<?php
+if ($coupon->getSize() != 0) {
+    $count = count($coupon); ?>
+    <?php if ($block->getPagerHtml()): ?>
+        <?= $block->getPagerHtml(); ?>
+    <?php endif ?>
+    <?php foreach ($coupon as $value) { ?>
+        <div id="coupon_magenest">
+            <div id="container_coupon">
+                <?php
+                if (!empty($value->getData('images'))) {
+                    $images = $viewModel->handleImage($value->getData('images'));
+                } else {
+                    $images = $block->getViewFileUrl('Magenest_CouponCode::image/default-coupon.png');
+                } ?>
+                <div>
+                    <img id="coupon-image" src="<?= $block->escapeHtml($images); ?>"
+                         alt="coupon"/>
+                </div>
+                <div id="information_mycoupon">
+                    <strong><?= $escaper->escapeHtml($block->getTitleHtmlOfCoupon($value), ['span']) ?></strong>
+                    <div><?php
+                        if ($today < strtotime($value->getData('to_date')) + 86400) { ?>
+                            <div id="exp-coupon">
+                                <?= $block->escapeHtml(__('Exp: ') . $block->formatDate($value->getData('to_date'))); ?>
+                            </div>
+                        <?php } elseif ($value->getData('to_date') != null) { ?>
+                            <div id="exp-coupon">
+                                <?= $block->escapeHtml(__('Exp: ')
+                                    . $block->formatDate($value->getData('to_date')) . ' -  '.  __('Out of date')) ?>
+                            </div>
+                        <?php } else { ?>
+                            <div id="exp-coupon"><?= $block->escapeHtml(__('Exp: ')) .
+                                $block->escapeHtml(__('Unlimited')); ?>
+                            </div>
+                        <?php } ?>
+                    </div>
+                </div>
+                <div class="information-condition">
+                    <a href="<?= $escaper->escapeUrl($block->getUrl("voucher/details", ['ruleId' => $value->getRuleId(), 'evcode' => $value->getCode()])) ?>" target="_blank">
+                        <?= $escaper->escapeHtml(__('Condition')) ?>
+                    </a>
+                </div>
+            </div>
+        </div>
+    <?php } ?>
+    <?php if ($count % 2 == 1) { ?>
+        <div class="coupon-magenest" id="coupon_magenest_blank"></div>
+    <?php } ?>
+<?php } ?>
+
+<script type="text/x-magento-init">
+    {
+        "#seeMore": {
+            "Magento_Ui/js/core/app": {
+                "components": {
+                    "seeMore": {
+                        "component": "Magenest_CouponCode/js/coupon/action"
+                    }
+                }
+            }
+        }
+    }
+</script>

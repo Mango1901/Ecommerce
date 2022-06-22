@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block name="membership-bulk-add-points-action" template="Magenest_RewardPoints::customer/add_points_form.phtml">
+                <arguments>
+                    <argument name="button_title" xsi:type="string">Add Points</argument>
+                    <argument name="submit_url" xsi:type="string">rewardpoints/membership/savebulkaddpoints</argument>
+                </arguments>
+
+                <block name="membership-bulk-add-points-list-customer" class="Magenest\RewardPoints\Block\Adminhtml\Membership\ListCustomerAssigned" as="list-customer" template="Magenest_RewardPoints::customer/list_customer_assigned.phtml" />
+            </block>
+        </referenceContainer>
+    </body>
+</page>

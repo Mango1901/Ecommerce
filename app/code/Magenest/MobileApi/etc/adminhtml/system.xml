@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="magenest" translate="label" sortOrder="200">
+            <label>Magenest</label>
+        </tab>
+        <section id="mobile" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="0" showInStore="0">
+            <class>separator-top</class>
+            <label>Mobile Configuration</label>
+            <tab>magenest</tab>
+            <resource>Magenest_MobileApi::mobileapi</resource>
+            <group id="static" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Static Link</label>
+                <group id="customer" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Customer</label>
+                    <field	id="preferences" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Communication Preferences</label>
+                    </field>
+                    <field	id="help" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                        <label>Help</label>
+                    </field>
+                    <field	id="term_of_use" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                        <label>Terms Of Use</label>
+                    </field>
+                    <field	id="privacy_policy" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                        <label>Privacy Policy</label>
+                    </field>
+                    <field	id="license" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                        <label>Licenses</label>
+                    </field>
+                    <field	id="reward_program" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                        <label>Reward Program</label>
+                    </field>
+                </group>
+                <group id="general" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Merchant</label>
+                    <field	id="apptoken" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Mobile App Token</label>
+                    </field>
+
+                    <field	id="preferences" translate="label" type="text" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Communication Preferences</label>
+                    </field>
+                    <field	id="help" translate="label" type="text" sortOrder="13" showInDefault="1" showInWebsite="0" showInStore="0">
+                        <label>Help</label>
+                    </field>
+                    <field	id="term_of_use" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                        <label>Terms Of Use</label>
+                    </field>
+                    <field	id="privacy_policy" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">
+                        <label>Privacy Policy</label>
+                    </field>
+                    <field	id="license" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="0" showInStore="0">
+                        <label>Licenses</label>
+                    </field>
+                </group>
+            </group>
+        </section>
+        <section id="oauth">
+            <group id="access_token_lifetime">
+                <field id="merchant" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Merchant Token Lifetime (hours)</label>
+                    <comment>We will disable this feature if the value is empty.</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

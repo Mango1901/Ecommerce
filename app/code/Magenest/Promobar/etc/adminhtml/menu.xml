@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Magenest_Promobar::promobar" title="Magenest Promo Bars" module="Magenest_Promobar" sortOrder="51" parent="Magenest_Backend::Magenest" resource="Magenest_Promobar::promobar"/>
+        <add id="Magenest_Promobar::manage_button" title="Manage Buttons" module="Magenest_Promobar" sortOrder="5" action="promobar/buttons" resource="Magenest_Promobar::manage_button" parent="Magenest_Promobar::promobar"/>
+        <add id="Magenest_Promobar::manage_promobar" title="Manage Bars" module="Magenest_Promobar" sortOrder="10" action="promobar/promobars" resource="Magenest_Promobar::manage_promobar" parent="Magenest_Promobar::promobar"/>
+    </menu>
+</config>

@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\InventorySales\Model\IsProductSalableForRequestedQtyCondition\IsSalableWithReservationsCondition">
+        <plugin name="Magenest_CustomInventoryReservation_Plugin_Magento_InventorySales_Model_IsProductSalableForRequestedQtyCondition_IsSalableWithReservationsCondition_web_api" type="Magenest\CustomInventoryReservation\Plugin\Magento\InventorySales\Model\IsProductSalableForRequestedQtyCondition\Frontend\IsSalableWithReservationsCondition" sortOrder="999" disabled="false"/>
+    </type>
+    <type name="Magento\InventorySales\Model\IsProductSalableCondition\IsSalableWithReservationsCondition">
+        <plugin name="Magenest_CustomInventoryReservation_Plugin_Magento_InventorySales_Model_IsProductSalableForRequestedQtyCondition_IsSalableWithReservationsCondition_web_api" type="Magenest\CustomInventoryReservation\Plugin\Magento\InventorySales\Model\IsProductSalableCondition\Frontend\IsSalableWithReservationsCondition" sortOrder="999" disabled="false"/>
+    </type>
+    <preference for="Magento\InventorySales\Model\GetProductSalableQty" type="Magenest\CustomInventoryReservation\Rewrite\Magento\InventorySales\Model\Frontend\GetProductSalableQty"/>
+</config>

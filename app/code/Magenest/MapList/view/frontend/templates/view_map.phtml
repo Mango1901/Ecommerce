@@ -1,0 +1,168 @@
+<?php
+// @codingStandardsIgnoreFile
+//echo $block->sayHello();
+/** @var \Magenest\MapList\Block\Map $block */
+$dataView = $block->getMap();
+$location = $dataView['location'];
+$defaultLat = -34.397;
+$defaultLng = 150.644;
+if (!!$location) {
+    $defaultLat = $location[0]['latitude'];
+    $defaultLng = $location[0]['longitude'];
+}
+$MAX_ITEM_MAP = 3;
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$city = $objectManager->get(\Magento\Directory\Helper\Data::class);
+$cityHelper = $this->helper("Magenest\Directory\Helper\Data");
+?>
+
+<div class="container">
+    <div style="display: none" id="directions_panel">
+        <button id="close_direction_panel">X</button>
+        <h5>Start: <a lat="" lng="" id="direction_from_field"></a></h5>
+        <h5>End: <a lat="" lng="" id="direction_to_field"></a></h5>
+        <div id="direction_control">
+            <div style="text-align: center" id="travel_mode">
+                <form id="map_travel_mode">
+                    <h8>Select your Travel Mode</h8>
+                    <label class="driving"><input value="DRIVING" id="1" type="radio" name="toggle">
+                        <span class="spantravel" data-mode="DRIVING">
+                        <i class="zmdi zmdi-car" aria-hidden="true"></i>
+                    </span>
+                    </label>
+                    <label class="walking"><input value="WALKING" id="2" type="radio" name="toggle">
+                        <span class="spantravel" data-mode="WALKING">
+                        <i class="zmdi zmdi-walk" aria-hidden="true"></i>
+                    </span>
+                    </label>
+                    <label class="bicycling"><input value="BICYCLING" id="3" type="radio" name="toggle">
+                        <span class="spantravel" data-mode="BICYCLING">
+                        <i class="zmdi zmdi-bike" aria-hidden="true"></i>
+                    </span>
+                    </label>
+                    <label class="transit"><input value="TRANSIT" id="4" type="radio" name="toggle">
+                        <span class="spantravel" data-mode="TRANSIT">
+                        <i class="zmdi zmdi-subway" aria-hidden="true"></i>
+                    </span>
+                    </label>
+                </form>
+            </div>
+            <button style="display: none" id="start_route">Get direction</button>
+        </div>
+    </div>
+
+    <div style="display: none"
+        <?php if (($dataView['currentMenu'] == 'map') && (!!$location)) : ?>
+            class="showDirection"
+        <?php else : ?>
+            class="detailShowDirection"
+        <?php endif; ?>
+         id="showDirection">
+        <div id="right-panel"></div>
+    </div>
+</div>
+
+
+<div class="prettyMapList above cf">
+    <div class="map-panel">
+        <div class="map-panel-head">
+            <div class="heading-title">
+                <h1 class="title uppercase margin-bottom0"><?= __('Store Locator') ?></h1>
+            </div>
+            <div id="search-area" class="box-search tabcontent">
+                <form id="store-form-search">
+                    <fieldset class="fieldset select-filter">
+                        <input type="hidden" id="country" name="country" title="Country" value="VN"/>
+                        <div class="field field-search-area">
+                            <div class="control">
+                                <label for="city" class="label"><?= __('City') ?></label>
+                                <select name="city" id="city" class="select-text">
+                                    <option value=''><?= $block->escapeHtml(__('Please select a city')) ?></option>
+                                    <?php foreach ($cityHelper->getCityOptions() as $city): ?>
+                                        <option value="<?= $city['value'] ?>">
+                                            <?= $city['label'] ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field field-search-area">
+                            <div class="control">
+                                <label id="label-district" for="district_id"
+                                       class="label"><?= __('District') ?></label>
+                                <select name="region" id="district_id" class="select-text">
+                                    <option value=''><?= $block->escapeHtml(__('Please select a district')) ?></option>
+                                </select>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+        <div class="map-panel-container">
+            <div class="listStore">
+                <div class="box-text desktop-hidden hide" style="text-align: left">
+                    <strong><span id="total-stores-found">
+                            <?= count($dataView['location']) ?>
+                        </span>
+                        <span>
+                            <?= __('stores') ?>
+                        </span>
+                        <span id="total-stores-found-location"></span></strong>
+                </div>
+                <div id="ListContainer" class="scrollbar-inner">
+                    <ul id="list_listitem" class="unstyled prettyListItems" cur-page="1">
+                        <?php $k = 0; ?>
+                        <?php if(!empty($location)): ?>
+                        <?php foreach ($location as $k => $storeData) : ?>
+                            <li class="li-location see-map-location" style=""
+                                item-id="<?= $storeData['source_code'] ?>"
+                                marker_order="<?= $k ?>">
+                                <input type="radio" name="check_localtor" id="<?= $storeData['source_code'] ?>">
+                                <label for="<?= $storeData['source_code'] ?>">
+                                    <div id="div_list_location"
+                                         class="corePrettyStyle prettylink map location div_list_location"
+                                         data-role="collapsible"
+                                         data-mage-init='{"accordion":{"collapsible": true, "active": false, "multipleCollapsible": false}}'>
+                                        <div class="viewLocationDetail clearfix" data-role="title"
+                                             style="font-size: larger">
+                                            <p class="location-name"><?= $storeData['name'] ?></p>
+                                            <p class="location-address"><?= __("Address: ") . $storeData['detail_address']  ?></p>
+                                            <p class="location-telephone"><?= __("Telephone: ") . $storeData['phone']?></p>
+                                            <?php if ($storeData['detail_address']): ?>
+                                                <a class="locationLink" rel="nofollow"
+                                                   href="https://www.google.com/maps/search/?api=1&query=<?= preg_replace('/\s+/', '+', $storeData['detail_address']) ?>"
+                                                   target="_blank"></a>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                </label>
+                            </li>
+                        <?php endforeach; ?>
+                            <p class="no-results-text" style="display: none" ><?= __("Only sell online"); ?></p>
+                        <?php else: ?>
+                            <p class="no-results-text" style="display: block" ><?= __("Only sell online"); ?></p>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+            </div>
+            <div class="box-map">
+                <div class="map" id="map"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    require([
+        'jquery',
+        'select2'
+    ], function ($) {
+        'use strict';
+        $('#location_search').select2();
+
+        window.max_item = '<?= $MAX_ITEM_MAP ?>';
+        window.js_array = <?= json_encode($location)?>;
+        window.map_id = 0;
+        window.districtData = <?= json_encode($cityHelper->getDistrictOptions()) ?>;
+    })
+</script>

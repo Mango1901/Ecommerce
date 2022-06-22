@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <virtualType name="Magento\Catalog\Pricing\Price\Pool" type="Magento\Framework\Pricing\Price\Pool">
+        <arguments>
+            <argument name="prices" xsi:type="array">
+                <item name="origin_rule_price" xsi:type="string">Magenest\AffiliateCatalogRule\Pricing\Price\OriginRulePrice</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\ConfigurableProduct\Pricing\Price\Pool" type="Magento\Framework\Pricing\Price\Pool">
+        <arguments>
+            <argument name="prices" xsi:type="array">
+                <item name="origin_rule_price" xsi:type="string">Magenest\AffiliateCatalogRule\Pricing\Price\ConfigurableOriginRulePrice</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\Bundle\Pricing\Price\Pool" type="Magento\Framework\Pricing\Price\Pool">
+        <arguments>
+            <argument name="prices" xsi:type="array">
+                <item name="origin_rule_price" xsi:type="string">Magenest\AffiliateCatalogRule\Pricing\Price\OriginRulePrice</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <preference for="Magento\CatalogRule\Model\ResourceModel\Product\CollectionProcessor"
+                type="Magenest\AffiliateCatalogRule\Model\ResourceModel\Product\CollectionProcessor"/>
+<!--    <virtualType name="Magenest\AffiliateCatalogRule\Pricing\Price\OriginRulePrice" type="Magento\CatalogRule\Pricing\Price\CatalogRulePrice">-->
+<!--        <arguments>-->
+<!--            <argument name="ruleResource" xsi:type="object">Magenest\AffiliateCatalogRule\Model\ResourceModel\AffiliateRule</argument>-->
+<!--        </arguments>-->
+<!--    </virtualType>-->
+    <type name="Magento\CatalogRule\Model\Indexer\IndexBuilder">
+        <arguments>
+            <argument name="reindexRuleProductPrice" xsi:type="object">Magenest\AffiliateCatalogRule\Model\Index\ReindexRuleProductPriceWithAffiliate</argument>
+            <argument name="reindexRuleProduct" xsi:type="object">Magenest\AffiliateCatalogRule\Model\Indexer\ReindexRuleProductWithAffiliate</argument>
+        </arguments>
+    </type>
+</config>

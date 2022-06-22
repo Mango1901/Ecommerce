@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <carriers>
+            <viettelPostCarrier>
+                <model>Magenest\ViettelPostCarrier\Model\Carrier\ViettelPost</model>
+                <password backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
+                <active>1</active>
+                <title>Viettel Post</title>
+                <name>Viettel Post</name>
+                <specificerrmsg>This shipping method is not available. To use this shipping method, please contact us.</specificerrmsg>
+                <max_package_weight>100</max_package_weight>
+                <sallowspecific>0</sallowspecific>
+            </viettelPostCarrier>
+        </carriers>
+    </default>
+</config>

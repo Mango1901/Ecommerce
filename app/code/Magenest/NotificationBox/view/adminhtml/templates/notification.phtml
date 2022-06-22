@@ -1,0 +1,55 @@
+<?php
+/** @var  $block */
+$url = $block->getUrl('notibox/report/getReport');
+?>
+<section class="admin__page-section">
+    <div class="admin__page-section-title">
+        <span class="title" data-bind="i18n: 'Subscribers'"></span>
+    </div>
+    <div class="admin__page-section-content">
+        <div class="select-date" data-role="show-report-date">
+            <div id="from-date" data-role="from-date" data-bind="scope: 'from-date'">
+                <?= __('From') ?>:
+                <!-- ko template: getTemplate() --><!-- /ko -->
+            </div>
+            <div id="to-date" data-role="to-date" data-bind="scope: 'to-date'">
+                <?= __('To') ?>:
+                <!-- ko template: getTemplate() --><!-- /ko -->
+            </div>
+            <div  id="submit">
+                <button class="action- scalable primary" data-bind="i18n: 'Submit'"></button>
+            </div>
+            <div  id="reset">
+                <a href="#" data-bind="i18n: 'Reset'"></a>
+            </div>
+        </div>
+    </div>
+    <div class="report-chart" data-bind="scope: 'report-chart'">
+        <!-- ko template: getTemplate() --><!-- /ko -->
+    </div>
+</section>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Ui/js/core/app": {
+                "components": {
+                    "from-date": {
+                        "component": "Magenest_NotificationBox/js/form/element/report-datetime"
+                    },
+                    "to-date": {
+                        "component": "Magenest_NotificationBox/js/form/element/report-datetime"
+                    },
+                    "report-chart": {
+                        "component": "Magenest_NotificationBox/js/report/report-chart",
+                        "url": "<?=$url?>",
+                        "totalSubscribers":"<?=$block->getTotalSubscribers()?>",
+                        "totalUnSubscribers":"<?=$block->getTotalUnSubscribers()?>",
+                        "from":"<?=$block->getTimeNow()?>",
+                        "to":"<?=$block->getTimeBefore7Day()?>"
+                    }
+                }
+            }
+        }
+    }
+</script>

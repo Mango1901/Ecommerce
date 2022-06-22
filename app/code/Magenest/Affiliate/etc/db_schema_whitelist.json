@@ -1,0 +1,59 @@
+{
+    "magenest_affiliate_transaction": {
+        "column": {
+            "updated_at": true,
+            "amount": true,
+            "amount_used": true,
+            "current_balance": true,
+            "total_commission": true,
+            "tax_deduction": true
+        }
+    },
+    "magenest_affiliate_account": {
+        "column": {
+            "acc_type": true,
+            "bank_no": true,
+            "acc_no": true,
+            "account_name": true,
+            "customer_id": true,
+            "balance": true,
+            "holding_balance": true,
+            "total_commission": true,
+            "total_paid": true,
+            "telephone": true,
+            "employee_id": true,
+            "id_number": true,
+            "id_front": true,
+            "id_back": true,
+            "note": true,
+            "attention": true,
+            "license_date": true,
+            "issued_by": true,
+            "city": true,
+            "district": true,
+            "ward": true,
+            "city_id": true,
+            "district_id": true,
+            "ward_id": true
+        },
+        "constraint": {
+            "MAGENEST_AFFILIATE_ACCOUNT_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID": true
+        }
+    },
+    "magenest_affiliate_withdraw": {
+        "column": {
+            "acc_type": true,
+            "bank_no": true,
+            "acc_no": true,
+            "account_name": true,
+            "amount": true,
+            "fee": true,
+            "transfer_amount": true
+        }
+    },
+    "sales_order": {
+        "column": {
+            "affiliate_commission_fee": true
+        }
+    }
+}

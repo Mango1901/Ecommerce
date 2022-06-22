@@ -1,0 +1,53 @@
+<?php
+
+// @codingStandardsIgnoreFile
+/** @var \Magenest\Affiliate\Block\Adminhtml\System\Config\Form\Field\ArrayField $block */
+
+$_htmlId   = $block->getHtmlid();
+$inputName = $block->getName();
+$value     = $block->getConfigData();
+?>
+<style type="text/css">
+    .headings > th {
+        text-align: left;
+    }
+</style>
+<div class="grid" id="<?= $_htmlId ?>">
+    <table cellpadding="0" cellspacing="0" class="border">
+        <tbody>
+        <tr class="headings" id="headings<?= $_htmlId ?>">
+            <th><?= __('Payment Method') ?></th>
+            <th><?= __('Fee') ?></th>
+            <th><?= __('Active') ?></th>
+        </tr>
+        <?php foreach ($block->getArrayRows() as $_rowId => $_row) : ?>
+            <?php if (!isset($value[$_rowId])) {
+                $value[$_rowId]['fee']    = 0;
+                $value[$_rowId]['active'] = 1;
+            } ?>
+            <tr id="<?= $_rowId ?>">
+                <td style="width: 165px">
+                    <span><?= $_row ?></span>
+                    <input type="hidden" name="<?= $inputName . '[' . $_rowId . '][label]' ?>"
+                           value="<?= $_row ?>"/>
+                </td>
+
+                <td>
+                    <input type="text" name="<?= $inputName . '[' . $_rowId . '][fee]' ?>"
+                           data-validate="{'pattern':/^(((0|[1-9]\d?)(\.\d{1,2})?|100(\.00?)?)(\%)$)|^(?:[1-9]\d*|0)?(?:\.\d+)?$/}"
+                           data-msg-pattern="<?= __('Please enter valid fee format') ?>"
+                           value="<?= $value[$_rowId]['fee'] ?? 0 ?>"
+                           style="width: 100px"/>
+                </td>
+                <td>
+                    <select name="<?= $inputName . '[' . $_rowId . '][active]' ?>" style="width: 50px">
+                        <option value="0" <?= !$value[$_rowId]['active'] ? 'selected' : '' ?>><?= __('No') ?></option>
+                        <option value="1" <?= $value[$_rowId]['active'] ? 'selected' : '' ?>><?= __('Yes') ?></option>
+                    </select>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+    <input type="hidden" name="<?= $inputName ?>[__empty]" value=""/>
+</div>

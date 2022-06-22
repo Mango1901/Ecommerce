@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <customer>
+            <address_templates>
+                <text>{{depend prefix}}{{var prefix}} {{/depend}}{{var lastname}} {{depend middlename}}{{var
+                    middlename}} {{/depend}}{{var firstname}}{{depend suffix}} {{var suffix}}{{/depend}}
+                    {{depend company}}{{var company}}{{/depend}}
+                    {{if street1}}{{var street1}}
+                    {{/if}}
+                    {{depend street2}}{{var street2}}{{/depend}}
+                    {{depend street3}}{{var street3}}{{/depend}}
+                    {{depend street4}}{{var street4}}{{/depend}}
+                    {{if ward}}{{var ward}}, {{if district}}{{var district}}, {{if city}}{{var city}}, {{/if}}{{if
+                    region}}{{var region}}, {{/if}}{{if postcode}}{{var postcode}}{{/if}}
+                    {{var country}}
+                    {{depend telephone}}T: {{var telephone}}{{/depend}}
+                    {{depend fax}}F: {{var fax}}{{/depend}}
+                    {{depend vat_id}}VAT: {{var vat_id}}{{/depend}}
+                </text>
+                <oneline>{{depend prefix}}{{var prefix}} {{/depend}}{{var lastname}} {{depend middlename}}{{var
+                    middlename}} {{/depend}}{{var firstname}}{{depend suffix}} {{var suffix}}{{/depend}}, {{var street}},
+                    {{var ward}}, {{var district}}, {{var city}}, {{var region}} {{var postcode}}, {{var country}}
+                </oneline>
+                <html><![CDATA[{{depend prefix}}{{var prefix}} {{/depend}}{{var lastname}} {{depend middlename}}{{var middlename}} {{/depend}}{{var firstname}}{{depend suffix}} {{var suffix}}{{/depend}}{{depend firstname}}<br />{{/depend}}
+{{depend company}}{{var company}}<br />{{/depend}}
+{{if street1}}{{var street1}}<br />{{/if}}
+{{depend street2}}{{var street2}}<br />{{/depend}}
+{{depend street3}}{{var street3}}<br />{{/depend}}
+{{depend street4}}{{var street4}}<br />{{/depend}}
+{{if ward}}{{var ward}},  {{/if}}{{if district}}{{var district}},  {{/if}}{{if city}}{{var city}},  {{/if}}{{if region}}{{var region}}, {{/if}}{{if postcode}}{{var postcode}}{{/if}}<br />
+{{var country}}<br />
+{{depend telephone}}T: <a href="tel:{{var telephone}}">{{var telephone}}</a>{{/depend}}
+{{depend fax}}<br />F: {{var fax}}{{/depend}}
+{{depend vat_id}}<br />VAT: {{var vat_id}}{{/depend}}]]></html>
+                <pdf><![CDATA[{{depend prefix}}{{var prefix}} {{/depend}}{{var lastname}} {{depend middlename}}{{var middlename}} {{/depend}}{{var firstname}}{{depend suffix}} {{var suffix}}{{/depend}}|
+{{depend company}}{{var company}}|{{/depend}}
+{{if street1}}{{var street1}}|{{/if}}
+{{depend street2}}{{var street2}}|{{/depend}}
+{{depend street3}}{{var street3}}|{{/depend}}
+{{depend street4}}{{var street4}}|{{/depend}}
+{{if ward}}{{var ward}}, {{if district}}{{var district}}, {{if city}}{{var city}}, {{/if}}{{if region}}{{var region}}, {{/if}}{{if postcode}}{{var postcode}}{{/if}}|
+{{var country}}|
+{{depend telephone}}T: {{var telephone}}|{{/depend}}
+{{depend fax}}F: {{var fax}}|{{/depend}}|
+{{depend vat_id}}VAT: {{var vat_id}}{{/depend}}|]]></pdf>
+            </address_templates>
+        </customer>
+        <general>
+            <country>
+                <default>VN</default>
+                <optional_zip_countries>HK,IE,MO,PA,GB,VN</optional_zip_countries>
+            </country>
+            <locale>
+                <timezone>Asia/Ho_Chi_Minh</timezone>
+                <code>vi_VN</code>
+            </locale>
+        </general>
+        <currency>
+            <options>
+                <base>VN</base>
+                <default>VN</default>
+                <allow>VN</allow>
+            </options>
+        </currency>
+        <directory>
+            <areas>
+                <enable>1</enable>
+                <area>
+                    <item1>
+                        <area_label>Miền Bắc</area_label>
+                        <area_code>mien_bac</area_code>
+                        <area_id>VU1</area_id>
+                        <area_customer_id>010105000028</area_customer_id>
+                    </item1>
+                    <item2>
+                        <area_label>Miền Trung</area_label>
+                        <area_code>mien_trung</area_code>
+                        <area_id>DAN</area_id>
+                        <area_customer_id>020105000001</area_customer_id>
+                    </item2>
+                    <item3>
+                        <area_label>Miền Nam</area_label>
+                        <area_code>mien_nam</area_code>
+                        <area_id>HCM</area_id>
+                        <area_customer_id>030105000035</area_customer_id>
+                    </item3>
+                </area>
+                <default_area>mien_bac</default_area>
+                <display_product_detail>1</display_product_detail>
+            </areas>
+        </directory>
+    </default>
+</config>

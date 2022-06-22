@@ -1,0 +1,26 @@
+<?php
+/**
+ * @var $block \Magento\Catalog\Block\Product\Image
+ * @var $_helper \Magenest\LazyLoading\Helper\Data
+ */
+$_helper = $this->helper('Magenest\LazyLoading\Helper\Data');
+$isRequestAjax = $_helper->isRequestAjax();
+$imgSrc = $_helper->getImageLoader();
+$imgDataOriginal = $block->getImageUrl();
+if ($isRequestAjax) {
+    $imgSrc = $imgDataOriginal;
+}
+?>
+
+<span class="product-image-container"
+      style="width:<?php /* @escapeNotVerified */ echo $block->getWidth()?>px;">
+    <span class="product-image-wrapper"
+          style="padding-bottom: <?php /* @escapeNotVerified */ echo ($block->getRatio() * 100); ?>%;">
+        <img lazy style="opacity: 0"
+             class="owl-lazy <?= /* @escapeNotVerified */ $block->getClass() ?>"
+             <?php /* @escapeNotVerified */ echo $block->getCustomAttributes(); ?>
+             data-src="<?php /* @escapeNotVerified */ echo $imgDataOriginal; ?>"
+             max-width="<?php /* @escapeNotVerified */ echo $block->getWidth(); ?>"
+             max-height="<?php /* @escapeNotVerified */ echo $block->getHeight(); ?>"
+             alt="<?php /* @escapeNotVerified */ echo $block->stripTags($block->getLabel(), null, true); ?>"/></span>
+</span>

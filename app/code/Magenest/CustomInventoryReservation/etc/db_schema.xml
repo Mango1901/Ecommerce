@@ -1,0 +1,5 @@
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="inventory_reservation" resource="default" engine="innodb" comment="This is master table of admin activity extension">
+        <column xsi:type="varchar" name="area_code" length="10" nullable="true" comment="Area code of inventory reservation"/>
+    </table>
+</schema>

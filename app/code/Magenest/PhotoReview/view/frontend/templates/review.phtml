@@ -1,0 +1,83 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var \Magento\Review\Block\Product\Review $block */
+$url = $block->getUrl(
+    'photoreview/product/listAjax',
+    [
+        '_secure' => $block->getRequest()->isSecure(),
+        'id' => $block->getProductId(),
+    ]
+);
+$helperData = $this->helper(\Magento\Catalog\Helper\Data::class);
+$currentProduct = $helperData->getProduct();
+
+$ratingSummary = $currentProduct ? $currentProduct->getRatingSummary() : 0;
+$ratingScore = round($ratingSummary / 20, 1);
+$reviewsCount = $currentProduct ? $currentProduct->getReviewsCount() : 0;
+
+$helperReview = $this->helper(\Magenest\PhotoReview\Helper\Review::class);
+$countFilter = $helperReview->getCountReviewFilter($currentProduct);
+?>
+
+<div class="magenest-pre-message">
+    <?= __('There is no reviews for this product') ?>
+</div>
+<div class="magenest-photoreview-filters" style="display: none">
+    <div class="mgn-review-inner">
+        <div class="mgn-review-number">
+            <span class="star-current"><?= $ratingScore ?></span>
+            <span class="desktop-device"><?= __('above') ?></span>
+            <span class="star-sum desktop-device">5</span>
+        </div>
+        <div class="rating-summary">
+            <div class="rating-result" title="80%">
+                 <span style="width:<?= $ratingSummary ?>%;">
+                     <span>
+                         <span itemprop="ratingValue"><?= $ratingSummary ?></span>% of <span itemprop="bestRating">100</span>
+                     </span>
+                 </span>
+            </div>
+        </div>
+        <div class="mgn-review-text">
+            (<span><?= $reviewsCount ?></span> <?= __('reviews') ?>)
+        </div>
+    </div>
+    <div class="magenest-photoreview-filter-options">
+        <div class="magenest-photoreview-filter">
+            <button class="filter-option active" value="all"><?= $block->escapeHtml(__('All (%1)', $reviewsCount)); ?></button>
+        </div>
+
+        <?php foreach (range(5, 1, -1) as $item): ?>
+            <div class="magenest-photoreview-filter">
+                <button class="filter-option" value="<?= $item . '_start' ?>"><?= $block->escapeHtml(__('%1 Start (%2)', $item, ($countFilter[$item . '_start'] ?? 0))); ?></button>
+            </div>
+        <?php endforeach; ?>
+
+        <div class="magenest-photoreview-filter">
+            <button class="filter-option" value="only-image"><?= $block->escapeHtml(__('With Images (%1)', ($countFilter['only-image'] ?? 0))); ?></button>
+        </div>
+    </div>
+</div>
+<div id="product-review-container" data-role="product-review">
+
+</div>
+<?= $block->getChildHtml() ?>
+
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Review/js/process-reviews": {
+                "productReviewUrl": "<?= $block->escapeJs($block->escapeUrl($block->getProductReviewUrl())) ?>",
+                "reviewsTabSelector": "#tab-label-reviews"
+            },
+            "Magenest_PhotoReview/js/process-filter-reviews": {
+                "sortUrl": "<?= $block->escapeJs($block->escapeUrl($url)) ?>",
+                "reviewsTabSelector": "#tab-label-reviews"
+            }
+        }
+    }
+</script>

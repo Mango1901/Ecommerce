@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../Magento/Cron/etc/crontab.xsd">
+    <group id="rewardpoints">
+        <job name="rewardpoints_cron" instance="Magenest\RewardPoints\Cron\DailyUpdate" method="execute">
+            <schedule>* * * * *</schedule>
+        </job>
+    </group>
+</config>

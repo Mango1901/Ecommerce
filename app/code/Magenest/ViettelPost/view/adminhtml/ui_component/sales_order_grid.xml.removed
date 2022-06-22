@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <listingToolbar name="listing_top">
+        <massaction name="listing_massaction">
+            <action name="mass_print_shippinglabel">
+                <settings>
+                    <url path="viettelpost/shipment/MassPrintLabel"/>
+                    <type>mass_printlabel</type>
+                    <label>Print Viettel Post Shipping Label</label>
+                    <confirm>
+                        <title translate="true">Print ViettelPost Shipping Label ?</title>
+                        <message translate="true">Are you sure you want to perform the selected orders?</message>
+                    </confirm>
+                </settings>
+            </action>
+        </massaction>
+    </listingToolbar>
+</listing>

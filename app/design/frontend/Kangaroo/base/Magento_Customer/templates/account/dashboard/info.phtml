@@ -1,0 +1,46 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var \Magento\Customer\Block\Account\Dashboard\Info $block */
+$telephone = $block->getCustomer()->getCustomAttribute('telephone');
+$telephoneBlock = $block->getLayout()->createBlock(\Magento\Customer\Block\Widget\Telephone::class);
+$helper = $this->helper(\Magenest\Customer\Helper\FormatHelper::class);
+?>
+<div class="block block-dashboard-info">
+    <div class="block-title">
+        <strong><?= $block->escapeHtml(__('Personal information')) ?></strong>
+        <div class="box-actions">
+            <a class="action edit" href="<?= $block->escapeUrl($block->getUrl('customer/account/edit')) ?>">
+                <span><?= $block->escapeHtml(__('Edit')) ?></span>
+            </a>
+            <a href="<?= $block->escapeUrl($block->getChangePasswordUrl()) ?>" class="action change-password">
+                <?= $block->escapeHtml(__('Change Password')) ?>
+            </a>
+        </div>
+    </div>
+    <div class="block-content">
+        <div class="box box-information">
+            <div class="box-content">
+                <p class="box-content-text">
+                    <span class="title"><?= __('Name') ?></span>
+                    <span class="content"><?= $block->escapeHtml($block->getName()) ?></span>
+                </p>
+                <p class="box-content-text">
+                    <span class="title"><?= __('Email') ?></span>
+                    <span class="content"><?= $block->escapeHtml($block->getCustomer()->getEmail()) ?></span>
+                </p>
+                <p class="box-content-text">
+                    <span class="title"><?= __('Phone') ?></span>
+                    <span class="content"><?= $telephoneBlock->isEnabled() && $telephone && !empty($telephone->getValue())
+                            ?  $helper->formatTelephoneVietnamese($telephone->getValue())
+                            : "" ?></span>
+                </p>
+                <?= $block->getChildHtml('customer.account.dashboard.info.extra'); ?>
+            </div>
+        </div>
+        <?= $block->getChildHtml('additional_blocks'); ?>
+    </div>
+</div>

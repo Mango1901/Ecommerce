@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Api/etc/extension_attributes.xsd">
+    <extension_attributes for="Magento\Sales\Api\Data\OrderInterface">
+        <attribute code="mp_affiliate" type="Magenest\AffiliateOpt\Api\Data\AffiliateInterface"/>
+    </extension_attributes>
+    <extension_attributes for="Magento\Sales\Api\Data\OrderItemInterface">
+        <attribute code="mp_affiliate" type="Magenest\AffiliateOpt\Api\Data\AffiliateItemInterface"/>
+    </extension_attributes>
+    <extension_attributes for="Magento\Sales\Api\Data\InvoiceInterface">
+        <attribute code="mp_affiliate" type="Magenest\AffiliateOpt\Api\Data\AffiliateInvoiceInterface"/>
+    </extension_attributes>
+    <extension_attributes for="Magento\Sales\Api\Data\InvoiceItemInterface">
+        <attribute code="mp_affiliate" type="Magenest\AffiliateOpt\Api\Data\AffiliateInvoiceItemInterface"/>
+    </extension_attributes>
+    <extension_attributes for="Magento\Sales\Api\Data\CreditmemoInterface">
+        <attribute code="mp_affiliate" type="Magenest\AffiliateOpt\Api\Data\AffiliateCreditmemoInterface"/>
+    </extension_attributes>
+    <extension_attributes for="Magento\Sales\Api\Data\CreditmemoItemInterface">
+        <attribute code="mp_affiliate" type="Magenest\AffiliateOpt\Api\Data\AffiliateCreditmemoItemInterface"/>
+    </extension_attributes>
+</config>

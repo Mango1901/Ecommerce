@@ -1,0 +1,306 @@
+.admin__fieldset#new_magenest_slider {
+    > .admin__field {
+        > .admin__field-control{
+            width: auto;
+            float: none;
+        }
+    }
+}
+#main-slider{
+    background: #f8f8f8;
+    padding: 15px;
+    &:after{
+        content: "";
+        display: block;
+        clear: both;
+    }
+}
+
+/* Common */
+.setting-icon:before {
+    content: '\e610';
+    font-family: 'Admin Icons';
+}
+.edit-icon:before {
+    content: '\e631';
+    font-family: 'Admin Icons';
+}
+.delete-icon:before {
+    content: '\e630';
+    font-family: 'Admin Icons';
+}
+
+/* Slider Content */
+.slider-tabs-title {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+.slider-tab-title {
+    list-style: none;
+    display: inline-block;
+    padding: 10px 20px;
+    > a {
+        color: #41362f;
+        font-weight: bold;
+        text-decoration: none;
+    }
+    &.active {
+        > a {
+            color: #ef672f;
+        }
+    }
+    &.no-active {
+        > a {
+            cursor: pointer;
+        }
+    }
+    &.ui-tabs-active {
+        position: relative;
+        z-index: 2;
+        background: #fff;
+        border-radius: 4px 4px 0 0;
+        > a {
+            color: #ef672f;
+        }
+    }
+    > a:hover {
+        color: #ef672f;
+    }
+}
+.slider-tabs-content {
+    > .ui-tabs-panel{
+        padding: 0;
+    }
+    .header{
+        margin-bottom: 10px;
+        > h4 {
+            display: inline-block;
+            margin: 0;
+        }
+    }
+    .setting{
+        display: inline-block;
+        position: relative;
+        padding: 8px;
+        > ul {
+            padding: 0;
+            margin: 0;
+            white-space: nowrap;
+            > li {
+                display: inline-block;
+                list-style: none;
+                + li {
+                    margin-left: 3px;
+                }
+                > .edit-icon,
+                > .delete-icon {
+                    font-size: 0;
+                    color: transparent;
+                    display: inline-block;
+                    padding: 2px;
+                    background: #f0f0f0;
+                    border-radius: 2px;
+                    &:hover {
+                        background: #e8e8e8;
+                    }
+                }
+                > .edit-icon:before {
+                    font-size: 14px;
+                    color: #27ae60;
+                }
+                > .delete-icon:before {
+                    font-size: 14px;
+                    color: #ef5e2f;
+                }
+            }
+        }
+    }
+}
+.slider-item-container{
+    position: relative;
+    margin-top: -1px;
+    padding: 15px;
+    background: #fff;
+    border: 1px dashed #e3e3e3;
+    -webkit-box-shadow: 0 3px 5px 0px rgba(0, 0, 0, 0.16);
+    -moz-box-shadow: 0 3px 5px 0px rgba(0, 0, 0, 0.16);
+    box-shadow: 0 3px 5px 0px rgba(0, 0, 0, 0.16);
+}
+.slider-item-content {
+    padding: 15px;
+    border: 1px dashed #e3e3e3;
+    background: #f8f8f8;
+    &:after {
+        content: "";
+        display: block;
+        clear: both;
+    }
+    .edit-content {
+        background: #fff;
+        border: 1px dashed #e3e3e3;
+        padding: 10px;
+        max-width: 100%;
+    }
+    .content-box {
+        background: #f8f8f8;
+        border: 1px dashed #e3e3e3;
+        margin: 5px;
+        padding: 10px 65px 10px 15px;
+        min-height: 40px;
+        position: relative;
+        cursor: grabbing;
+        .setting {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+    }
+}
+.slider-items-control {
+    padding: 15px;
+    &:after {
+        content: "";
+        display: block;
+        clear: both;
+    }
+    .items-control {
+        display: inline-block;
+        width: calc(~'100% - 330px');
+        float: left;
+        padding: 10px 0;
+    }
+    ul.items {
+        margin: 0;
+        > li {
+            display: inline-block;
+            padding: 0 10px;
+            + li {
+                border-left: 1px solid #999;
+            }
+            a {
+                text-decoration: none;
+                color: #41362f;
+                font-weight: bold;
+            }
+            &:hover,
+            &.active {
+                a {
+                    color: #ef672e;
+                }
+            }
+        }
+    }
+    .button.btn-add {
+        display: inline-block;
+        float: right;
+        margin-left: 5px;
+        width: 160px;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 600;
+        text-align: center;
+        text-decoration: none;
+        padding: 10px 5px;
+        height: 40px;
+        line-height: 20px;
+        border-radius: 4px;
+        background: #514943;
+        border: none;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        cursor: pointer;
+        &:hover {
+            background-color: #35302c;
+        }
+    }
+    .contentbox-actions {
+        display: block;
+        clear: both;
+        padding: 10px 0;
+        text-align: right;
+        &:after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+        label {
+            padding: 10px;
+            display: inline-block;
+            font-weight: bold;
+        }
+        .button.btn-add {
+            background: none;
+            border: 1px solid #514943;
+            color: #514943;
+            &:hover {
+                -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.16);
+                -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.16);
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.16);
+            }
+        }
+    }
+}
+
+/* Slider Setting */
+.slider-setting-container {
+    margin-left: 30px;
+    > h2 {
+        font-weight: bold;
+        text-align: center;
+        text-transform: uppercase;
+        border-bottom: 1px dashed #e3e3e3;
+        padding: 5px 0 10px;
+    }
+}
+
+.slider-secondary {
+    .admin__fieldset-wrapper-content .admin__fieldset {
+        padding: 15px;
+    }
+    .admin__fieldset {
+        > .admin__field {
+            &.admin__field--yesno {
+                > .admin__field-label {
+                    width: 120px;
+                    max-width: calc(~'50% - 30px');
+                    text-align: left;
+                }
+                > .admin__field-control {
+                    width: calc(~'50% - 180px');
+                    min-width: calc(~'50% - 30px');
+                    text-align: left;
+                }
+            }
+            &:not(.admin__field--yesno) {
+                > .admin__field-label,
+                > .admin__field-control {
+                    display: block;
+                    width: auto;
+                    float: none;
+                    text-align: left;
+                }
+            }
+        }
+    }
+    .admin__form-field-control,
+    .admin__field-control {
+        .admin__control-text,
+        .admin__control-select,
+        .admin__control-textarea {
+            width: 100%;
+            padding: 0.6rem 1rem 0.6rem;
+        }
+    }
+}
+@media (min-width: 1024px) and (min-height: 600px) {
+    .slider-main.col-l-8 {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 95px;
+    }
+}

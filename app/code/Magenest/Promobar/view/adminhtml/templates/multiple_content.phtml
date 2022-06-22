@@ -1,0 +1,1030 @@
+<?php if ($id = $this->getRequest()->getParam('id')) {
+    $haveData = 1;
+} else {
+    $haveData = 0;
+}
+$bar = $this->getBarById($id);
+//$multipleContent = json_decode($bar['multiple_content'], true);
+//$firstButton = json_decode($multipleContent[0]['button'], true);
+//$button = json_decode($multipleContent[0]['button'], true);
+?>
+<script>
+    require([
+        'jquery'
+    ], function ($) {
+        'use strict';
+        var interval, dataButton, status_preview = 0;
+        var currentRow = 0;
+        var height_bar = "0px";
+        var mobile_height_bar = "0px";
+        //get id of element show name button in the table
+        var idButton = '#button-0';
+        $(document).on('click', '.action-edit', function (i) {
+            clearInterval(interval);
+            var idEdit = i.target.id,
+                idInput = idEdit.replace("edit-", "");
+            idButton = '#button-' + idInput;
+            if (status_preview === 0) {
+                saveDataAfterAdd(currentRow);
+            }
+            status_preview = 0;
+            currentRow = idInput;
+            clearStyle(height_bar);
+            clearStyle(mobile_height_bar);
+            showInfoBar(idInput);
+            renderPreviewBar(idInput);
+        });
+        //get height of bar
+        $('#desktop-input-range-height-bar').on('mouseup keyup', function () {
+            height_bar = $('#desktop-input-range-height-bar').attr('value') + 'px';
+        });
+
+        $('#mobile-input-range-height-bar').on('mouseup keyup', function () {
+            mobile_height_bar = $('#mobile-input-range-height-bar').attr('value') + 'px';
+        });
+
+        //save data and clear old data of promo bar before add new row content in field multiple content
+        $(document).on('click', 'button.add-option', function () {
+            $('.preview-slider').css('display', 'block');
+            clearInterval(interval);
+            idButton = '#button-' + $('.add-option').attr('id');
+            // var idLastRow = $('.add-option').attr('id') - 1;
+
+            if (status_preview === 0) {
+                saveDataAfterAdd(currentRow);
+            }
+
+            currentRow = $('.add-option').attr('id');
+            var row = currentRow;
+            //clear css and text row old
+            while (row >= 0) {
+                var id = "#select-" + row;
+                $(id).text("Select");
+                $('.action-select').css('color', '#41362f');
+                $('tr#' + row).css('border', '');
+                row--;
+            }
+
+            //update new css and text for new row click
+            var current_id = "#select-" + currentRow;
+            $(current_id).text("Edit");
+            $(current_id).css('color', '#007bdb');
+            $('tr#' + currentRow).css('border', '2px solid #007bdb');
+            status_preview = 0;
+            dataButton = "";
+            $("#content").val("");
+            clearStyle(height_bar);
+            clearStyle(mobile_height_bar);
+        });
+
+        //event when select button and render button into promo bar preview
+        $("#button_id").click(function (i) {
+            var data = JSON.parse(i.target.value),
+                id = '#button-' + currentRow;
+            //enabled checkbox
+            //set value attribute style for button
+            if (data === 0) {
+                $('#check-range-right').attr("disabled", true);
+                $('#check-range-left').attr("disabled", true);
+                $('#mobile-check-range-left').attr("disabled", true);
+                $('#mobile-check-range-left').attr("disabled", true);
+                $(id).html('');
+                clearStyleButton();
+                $('.promoItemButton').hide();
+            } else {
+                clearStyleButton();
+                $("#mobile-input-range-right").attr('value', '0');
+                $("#mobile-range-value-right").html('0%');
+                $('#mobile-check-range-right').attr('checked', false);
+                $('#mobile-input-range-right').css('display', 'none');
+                $('#mobile-range-value-right').css('display', 'none');
+
+                $("#desktop-input-range-right").attr('value', '0');
+                $(".range-value-right").html('0%');
+                $('#check-range-right').attr('checked', false);
+                $('#desktop-input-range-right').css('display', 'none');
+                $('.range-value-right').css('display', 'none');
+
+                $("#mobile-input-range-left").attr('value', '0');
+                $("#mobile-range-value-left").html('0%');
+                $('#mobile-check-range-left').attr('checked', false);
+                $('#mobile-input-range-left').css('display', 'none');
+                $('#mobile-range-value-left').css('display', 'none');
+
+                $("#desktop-input-range-left").attr('value', '0');
+                $(".range-value-left").html('0%');
+                $('#check-range-left').attr('checked', false);
+                $('#desktop-input-range-left').css('display', 'none');
+                $('.range-value-left').css('display', 'none');
+                $('#check-range-right').attr("disabled", true);
+                $('#check-range-left').attr("disabled", true);
+                $('#check-range-right')[0].checked = true;
+                $('.promoItemContainer').css({
+                    'direction': 'ltr',
+                    'margin-right': '0%',
+                    'width': 'calc(100%-0%)'
+                });
+                $('.mobile-promoItemContainer').css({
+                    'direction': 'ltr',
+                    'margin-right': '0%',
+                    'width': 'calc(100%-0%)'
+                });
+                $('#desktop-input-range-right').css('display', 'block');
+                $('#mobile-input-range-right').css('display', 'block');
+                $('.range-value-right').css('display', 'block');
+                $('#check-range-right').removeAttr("disabled");
+                $('#check-range-left').removeAttr("disabled");
+                $('#mobile-check-range-right').removeAttr("disabled");
+                $('#mobile-check-range-left').removeAttr("disabled");
+                var edit_button = JSON.parse(data['edit_button']);
+                $(id).html(data['title']);
+                $('div.dv-content-button').css('color', data['text_color']);
+                $('div.mobile-dv-content-button').css('color', data['text_color']);
+                $('.promoItemButton a').css({
+                    'height': edit_button['height'] + 'px',
+                    'width': edit_button['width'] + 'px',
+                    'font-size': data['size'] + 'px',
+                    'border-style': data['border_style'],
+                    'border-width': data['border_width']
+                });
+
+                $('.mobile-promoItemButton a').css({
+                    'height': edit_button['height'] + 'px',
+                    'width': edit_button['width'] + 'px',
+                    'font-size': data['size'] + 'px',
+                    'border-style': data['border_style'],
+                    'border-width': data['border_width']
+                });
+
+                $('.promoItemButton').css('width', edit_button['width'] + 'px');
+                $('.mobile-promoItemButton').css('width', edit_button['width'] + 'px');
+                $('div.dv-content-button').html(data['content'].replace(/&nbsp;/g, ''));
+                $('div.mobile-dv-content-button').html(data['content'].replace(/&nbsp;/g, ''));
+                if ((edit_button['top_left'] + edit_button['top_right'] + edit_button['bottom_right'] + edit_button['bottom_left']) > 0) {
+                    var border = edit_button['top_left'] + 'px' + ' ' + edit_button['top_right'] + 'px' + ' ' + edit_button['bottom_right'] + 'px' + ' ' + edit_button['bottom_left'] + 'px';
+                    $('.promoItemButton a').css('border-radius', border);
+                    $('.mobile-promoItemButton a').css('border-radius', border);
+                }
+                else {
+                    $('.promoItemButton a').css('border-radius', edit_button['border'] + 'px');
+                    $('.mobile-promoItemButton a').css('border-radius', edit_button['border'] + 'px');
+                }
+
+                //padding text of button
+                if (edit_button['padding_right']) {
+                    $("div.dv-content-button").css({
+                        "right": "0",
+                        "padding-right": edit_button['padding_right'] + "px"
+                    });
+
+                    $("div.mobile-dv-content-button").css({
+                        "right": "0",
+                        "padding-right": edit_button['padding_right'] + "px"
+                    });
+                }
+                if (edit_button['padding_left']) {
+                    $("div.dv-content-button").css({
+                        "left": "0",
+                        "padding-left": edit_button['padding_left'] + "px"
+                    });
+                }
+                if (edit_button['padding_left']) {
+                    $("div.mobile-dv-content-button").css({
+                        "left": "0",
+                        "padding-left": edit_button['padding_left'] + "px"
+                    });
+                }
+                if (edit_button['padding_top']) {
+                    $("div.dv-content-button").css({
+                        "top": "0",
+                        "padding-top": edit_button['padding_top'] + "px"
+                    });
+                }
+                if (edit_button['padding_top']) {
+                    $("div.mobile-dv-content-button").css({
+                        "top": "0",
+                        "padding-top": edit_button['padding_top'] + "px"
+                    });
+                }
+                if (edit_button['padding_bottom']) {
+                    $("div.dv-content-button").css({
+                        "bottom": "0",
+                        "padding-bottom": edit_button['padding_bottom'] + "px"
+                    });
+                }
+                if (edit_button['padding_bottom']) {
+                    $("div.mobile-dv-content-button").css({
+                        "bottom": "0",
+                        "padding-bottom": edit_button['padding_bottom'] + "px"
+                    });
+                }
+
+
+                if (data['text_color'] === null) {
+                    $('.promoItemButton a').css('color', "");
+                    $('.mobile-promoItemButton a').css('color', "");
+                } else {
+                    $('.promoItemButton a').css('color', data['text_color']);
+                    $('.mobile-promoItemButton a').css('color', data['text_color']);
+                }
+                //hover color text button
+                $(".promoItemButton a").hover(function () {
+                    if (data['hover_color_text'] === null) {
+                        $('div.dv-content-button').css("color", data['text_color']).val(data['text_color']);
+                    } else {
+                        $('div.dv-content-button').css("color", data['hover_color_text']).val(data['hover_color_text']);
+                    }
+                }, function () {
+                    $('div.dv-content-button').css("color", data['text_color']).val(data['text_color']);
+                });
+
+                $(".mobile-promoItemButton a").hover(function () {
+                    if (data['hover_color_text'] === null) {
+                        $('div.mobile-dv-content-button').css("color", data['text_color']).val(data['text_color']);
+                    } else {
+                        $('div.mobile-dv-content-button').css("color", data['hover_color_text']).val(data['hover_color_text']);
+                    }
+                }, function () {
+                    $('div.mobile-dv-content-button').css("color", data['text_color']).val(data['text_color']);
+                });
+
+
+                if (data['background_color'] === null) {
+                    $('.promoItemButton a').css('background-color', "transparent");
+                    $('.mobile-promoItemButton a').css('background-color', "transparent");
+                } else {
+                    $('.promoItemButton a').css('background-color', data['background_color']);
+                    $('.mobile-promoItemButton a').css('background-color', data['background_color']);
+                }
+                //hover color background button
+                $(".promoItemButton a").hover(function () {
+                    if (data['hover_color_button'] === null) {
+                        if (data['background_color'] === null) {
+                            $(this).css('background-color', "transparent");
+                        } else {
+                            $(this).css("background-color", data['background_color']).val(data['background_color']);
+                        }
+                    } else {
+                        $(this).css("background-color", data['hover_color_button']).val(data['hover_color_button']);
+                    }
+                }, function () {
+                    if (data['background_color'] === null) {
+                        $(this).css('background-color', "transparent");
+                    } else {
+                        $(this).css("background-color", data['background_color']).val(data['background_color']);
+                    }
+                });
+                $(".mobile-promoItemButton a").hover(function () {
+                    if (data['hover_color_button'] === null) {
+                        if (data['background_color'] === null) {
+                            $(this).css('background-color', "transparent");
+                        } else {
+                            $(this).css("background-color", data['background_color']).val(data['background_color']);
+                        }
+                    } else {
+                        $(this).css("background-color", data['hover_color_button']).val(data['hover_color_button']);
+                    }
+                }, function () {
+                    if (data['background_color'] === null) {
+                        $(this).css('background-color', "transparent");
+                    } else {
+                        $(this).css("background-color", data['background_color']).val(data['background_color']);
+                    }
+                });
+
+
+                if (data['background_color_border'] === null) {
+                    $('.promoItemButton a').css('border-color', "transparent");
+                    $('.mobile-promoItemButton a').css('border-color', "transparent");
+                } else {
+                    $('.promoItemButton a').css('border-color', data['background_color_border']);
+                    $('.mobile-promoItemButton a').css('border-color', data['background_color_border']);
+                }
+                //hover color border button
+                $(".promoItemButton a").hover(function () {
+                    if (data['hover_color_border'] === null) {
+                        if (data['background_color_border'] === null) {
+                            $(this).css('border-color', "transparent");
+                        } else {
+                            $(this).css("border-color", data['background_color_border']).val(data['background_color_border']);
+                        }
+                    } else {
+                        $(this).css("border-color", data['hover_color_border']).val(data['hover_color_border']);
+                    }
+                }, function () {
+                    if (data['background_color_border'] === null) {
+                        $(this).css('border-color', "transparent");
+                    } else {
+                        $(this).css("border-color", data['background_color_border']).val(data['background_color_border']);
+                    }
+                });
+                $(".mobile-promoItemButton a").hover(function () {
+                    if (data['hover_color_border'] === null) {
+                        if (data['background_color_border'] === null) {
+                            $(this).css('border-color', "transparent");
+                        } else {
+                            $(this).css("border-color", data['background_color_border']).val(data['background_color_border']);
+                        }
+                    } else {
+                        $(this).css("border-color", data['hover_color_border']).val(data['hover_color_border']);
+                    }
+                }, function () {
+                    if (data['background_color_border'] === null) {
+                        $(this).css('border-color', "transparent");
+                    } else {
+                        $(this).css("border-color", data['background_color_border']).val(data['background_color_border']);
+                    }
+                });
+                $('.promoItemButton').show();
+                $('.mobile-promoItemButton').show();
+            }
+        });
+
+        //get id row exist in table
+        $(document).on('click', 'button.preview-slider', function () {
+            var id, timeInterval, repeat = 0,
+                time = $('#delay_content').val(),
+                arrayId = [];
+            saveDataAfterAdd(currentRow);
+            currentRow = -1;
+            status_preview = 1;
+            $("#mapmultiplecontent table tbody tr").each(function () {
+                id = this.id;
+                arrayId.push(id);
+            });
+            // loop and auto next content
+            if (time === "") {
+                time = 2;
+            }
+            clearStyle(height_bar);
+            renderPreviewBar(arrayId[repeat]);
+            repeat++;
+            interval = setInterval(function () {
+                timeInterval = time;
+                if (repeat < arrayId.length) {
+                    clearStyle(height_bar);
+                    renderPreviewBar(arrayId[repeat]);
+                    if (repeat === arrayId.length - 1) {
+                        repeat = 0;
+                    } else {
+                        repeat++;
+                    }
+                }
+            }, time * 1000);
+            $('button.add-option').attr("disabled", true);
+            $("#content_ifr").css("display", 'none');
+            $(".admin__control-wysiwig textarea").attr("disabled", true);
+            $("#size").attr("disabled", true);
+            $("#delay_content").attr("disabled", true);
+            $("#background_text").attr("disabled", true);
+            $("#background_color").attr("disabled", true);
+            $("#desktop-input-range-position-text").attr("disabled", true);
+            $("#button_id").attr("disabled", true);
+            $("#url").attr("disabled", true);
+            $("#mobile_bar_text_size").attr("disabled", true);
+            $("#mobile-input-range-position-text").attr("disabled", true);
+            $("#templateMultipleContent").find("input,button,textarea,select").attr("disabled", true);
+            $("#templateMultipleContent").find("button").text("Select");
+
+            // clear css
+            var row = $('.add-option').attr('id');
+            //clear css and text row old
+            while (row >= 0) {
+                $('.action-select').css('color', '#41362f');
+                $('tr#' + row).css('border', '');
+                row--;
+            }
+
+            if ($(this).hasClass('stop_button')) {
+                $(this).text('Preview').removeClass('stop_button');
+            } else {
+                $(this).text('Stop').addClass('stop_button');
+                $(this).removeClass('preview-slider');
+            }
+        });
+
+        //stop preview
+        $(document).on('click', '.stop_button', function() {
+            clearInterval(interval);
+            $('button.add-option').prop("disabled", false);
+            $("#content_ifr").css("display", 'block');
+            $(".admin__control-wysiwig textarea").attr("disabled", false);
+            $("#size").attr("disabled", false);
+            $("#delay_content").attr("disabled", false);
+            $("#background_text").attr("disabled", false);
+            $("#background_color").attr("disabled", false);
+            $("#desktop-input-range-position-text").attr("disabled", false);
+            $("#button_id").attr("disabled", false);
+            $("#url").attr("disabled", false);
+            $("#mobile_bar_text_size").attr("disabled", false);
+            $("#mobile-input-range-position-text").attr("disabled", false);
+            $("#templateMultipleContent").find("input,button,textarea,select").attr("disabled", false);
+            status_preview = 0;
+            $(this).text('Preview').addClass('preview-slider');
+            $(this).removeClass('stop_button');
+        });
+
+            //convert type field range to number before save data in the form
+        $('#edit_form').submit(function () {
+            $("#theme").prop('disabled', '');
+            if(status_preview === 0){
+                saveDataAfterAdd(currentRow);
+            }
+        });
+
+        $(document).ready(function() {
+            $('#createwidget').click(function(event){
+                if(status_preview === 0){
+                    saveDataAfterAdd(currentRow);
+                }
+            });
+        });
+
+        function clearStyle(height) {
+            //clear data of preview promo bar
+            $(".promoItem > div").css("background-color", "");
+            $(".mobile-promoItem > div").css("background-color", "");
+            $("#content_ifr").contents().find('body').html('');
+            $(".promoItemContainer").css("top", "");
+            $(".mobile-promoItemContainer").css("top", "");
+            $(".promoItemContent > div").text('');
+            $('.promoItemContent > div').css({
+                'font-size': "",
+                'color': ""
+            });
+            $(".mobile-promoItemContent > div").text('');
+            $('.mobile-promoItemContent > div').css({
+                'font-size': "",
+                'color': ""
+            });
+            $(".promoItemButton").css({
+                "display": "none",
+                'width': ""
+            });
+
+            $(".mobile-promoItemButton").css({
+                "display": "none",
+                'width': ""
+            });
+            clearStyleButton();
+            $('.promoItemContainer').css({
+                'direction': "ltr",
+                'width': "100%",
+                'margin': ""
+            });
+            $('.mobile-promoItemContainer').css({
+                'direction': "ltr",
+                'width': "100%",
+                'margin': ""
+            });
+
+            $("#content").html('');
+            $("#size").attr('value', '');
+            $("#mobile_bar_text_size").attr('value', '');
+            $("#background_color").attr('value', '');
+            $("#background_color").css("background-color", "");
+            $("#background_text").attr('value', '');
+            $("#background_text").css("background-color", "");
+            $("#url").attr('value', '');
+            $('#button_id option[value= 0]').attr('selected', 'selected');
+
+            $("#mobile-input-range-position-text").attr('value', '0');
+            $("#mobile-range-value-position-text").html('0px');
+            $("#desktop-input-range-position-text").attr('value', '0');
+            $(".range-value-position-text").html('0px');
+            $("#mobile-input-range-button-up-down").attr('value', '0');
+            $("#mobile-range-value-button-up-down").html('0px');
+            $("#desktop-input-range-button-up-down").attr('value', '0');
+            $(".range-value-button-up-down").html('0px');
+
+            $("#mobile-input-range-right").attr('value', '0');
+            $("#mobile-range-value-right").html('0%');
+            $('#mobile-check-range-right').attr('checked', false);
+            $('#mobile-input-range-right').css('display', 'none');
+            $('#mobile-range-value-right').css('display', 'none');
+
+            $("#desktop-input-range-right").attr('value', '0');
+            $(".range-value-right").html('0%');
+            $('#check-range-right').attr('checked', false);
+            $('#desktop-input-range-right').css('display', 'none');
+            $('.range-value-right').css('display', 'none');
+
+            $("#mobile-input-range-left").attr('value', '0');
+            $("#mobile-range-value-left").html('0%');
+            $('#mobile-check-range-left').attr('checked', false);
+            $('#mobile-input-range-left').css('display', 'none');
+            $('#mobile-range-value-left').css('display', 'none');
+
+            $("#desktop-input-range-left").attr('value', '0');
+            $(".range-value-left").html('0%');
+            $('#check-range-left').attr('checked', false);
+            $('#desktop-input-range-left').css('display', 'none');
+            $('.range-value-left').css('display', 'none');
+            $('#check-range-right').attr("disabled", true);
+            $('#check-range-left').attr("disabled", true);
+        };
+
+        function saveDataAfterAdd(id) {
+            var content = $("#content").val(),
+                size = $("#size").val(),
+                mobileBarTextSize = $("#mobile_bar_text_size").val(),
+                positionText = $(".range-value-position-text").text(),
+                mobilePostionText = $("#mobile-range-value-position-text").text(),
+                textColor = $("#background_text").val(),
+                backgroundColor = $("#background_color").val(),
+                button = JSON.parse($("#button_id  option:selected").val()),
+                url = $("#url").val(),
+                positionButton = $("#position-button").find('tr').map(function () {
+                    return [$("th", this).text(), $("td", this).map(function () {
+                        return $(this).text();
+                    }).get()];
+                }).get(),
+                mobilePositionButton = $("#mobile-position-button").find('tr').map(function () {
+                    return [$("th", this).text(), $("td", this).map(function () {
+                        return $(this).text();
+                    }).get()];
+                }).get();
+
+            if (button !== 0) {
+                if ($('input[id="check-range-right"]').is(':checked')) {
+                    button['displayRight'] = positionButton[3][3];
+                    button['displayLeft'] = "no check";
+                    button['upDown'] = positionButton[5][3];
+                } else if ($('input[id="check-range-left"]').is(':checked')) {
+                    button['displayLeft'] = positionButton[1][3];
+                    button['displayRight'] = "no check";
+                    button['upDown'] = positionButton[5][3];
+                }
+
+                if ($('input[id="mobile-check-range-right"]').is(':checked')) {
+                    button['mobileDisplayRight'] = mobilePositionButton[3][3];
+                    button['mobileDisplayLeft'] = "no check";
+                    button['mobileUpDown'] = mobilePositionButton[5][3];
+                } else if ($('input[id="mobile-check-range-left"]').is(':checked')) {
+                    button['mobileDisplayLeft'] = mobilePositionButton[1][3];
+                    button['mobileDisplayRight'] = "no check";
+                    button['mobileUpDown'] = mobilePositionButton[5][3];
+                }
+            }
+            if (content !== '') {
+                if (button !== 0) {
+                    var button_data = {
+                        data: button,
+                        edit_button: JSON.parse(button['edit_button'])
+                    }
+                }
+                if ($("input[name*='multiple_content[" + id + "][content]']").val()) {
+                    var dataOldContent = $("input[name*='multiple_content[" + id + "][content]']").val();
+                }
+                if ($("input[name*='multiple_content[" + id + "][button]']").val()) {
+                    var dataOldButton = $("input[name*='multiple_content[" + id + "][button]']").val();
+                }
+                var rowButton = {
+                    button: button_data
+                };
+                var dataRowButton = JSON.stringify(rowButton);
+                if (dataRowButton !== dataOldButton) {
+                    $("input[name*='multiple_content[" + id + "][button]']").val(dataRowButton);
+                }
+                var rowContent = {
+                    content: content,
+                    size: size,
+                    positionText: positionText,
+                    textColor: textColor,
+                    backgroundColor: backgroundColor,
+                    url: url,
+                    mobileSize: mobileBarTextSize,
+                    mobilePositionText: mobilePostionText
+                };
+
+                var mobileRowContent = {
+                    content: content,
+                    size: mobileBarTextSize,
+                    positionText: positionText,
+                    textColor: textColor,
+                    backgroundColor: backgroundColor,
+                    url: url
+                };
+
+                var dataRowContent = JSON.stringify(rowContent);
+                var mobileDataRowContent = JSON.stringify(mobileRowContent);
+                if (dataRowContent !== dataOldContent) {
+                    $("input[name*='multiple_content[" + id + "][content]']").val(dataRowContent);
+                    $("input[name*='mobile_multiple_content[" + id + "][content]']").val(mobileDataRowContent);
+                }
+            }
+        };
+
+        function clearStyleButton() {
+            // $('.promoItemButton a').html('');
+            $(".promoItemButton a").css({
+                "display": "inline-block",
+                "top": "",
+                'height': "",
+                'width': "",
+                'font-size': "",
+                'border': "",
+                'border-radius': "",
+                "border-color": "",
+                "background-color": ""
+            });
+
+            $(".mobile-promoItemButton a").css({
+                "display": "inline-block",
+                "top": "",
+                'height': "",
+                'width': "",
+                'font-size': "",
+                'border': "",
+                'border-radius': "",
+                "border-color": "",
+                "background-color": ""
+            });
+            $("div.dv-content-button").css({
+                'right': "",
+                "top": "",
+                "left": "",
+                "bottom": "",
+                "padding-right": "",
+                "padding-left": "",
+                "padding-top": "",
+                "padding-bottom": "",
+                "color": ""
+            });
+            $("div.mobile-dv-content-button").css({
+                'right': "",
+                "top": "",
+                "left": "",
+                "bottom": "",
+                "padding-right": "",
+                "padding-left": "",
+                "padding-top": "",
+                "padding-bottom": "",
+                "color": ""
+            });
+            $('.promoItemContainer').css({
+                "direction": "",
+                "margin-left": "",
+                "margin-right": "",
+                "width": "",
+                "margin-top": "",
+            });
+            $('.mobile-promoItemContainer').css({
+                "direction": "",
+                "margin-left": "",
+                "margin-right": "",
+                "width": "",
+                "margin-top": "",
+            });
+        }
+
+        function isJson(str) {
+            try {
+                JSON.parse(str);
+            } catch (e) {
+                return false;
+            }
+            return true;
+        }
+
+        function renderPreviewBar(id) {
+            clearStyleButton();
+            var mobileDataContent;
+            //render content promo bar
+            var dataContent = [];
+            var dataButton = [];
+
+            if (isJson($("input[name*='multiple_content[" + id + "][content]']").val())) {
+                dataContent = JSON.parse($("input[name*='multiple_content[" + id + "][content]']").val());
+            }
+
+            if (isJson($("input[name*='mobile_multiple_content[" + id + "][content]']").val())) {
+                mobileDataContent = JSON.parse($("input[name*='mobile_multiple_content[" + id + "][content]']").val());
+            }else{
+                mobileDataContent = dataContent;
+            }
+
+            if ($("input[name*='mobile_multiple_content[" + id + "][content]']").val() != undefined) {
+                mobileDataContent = JSON.parse($("input[name*='mobile_multiple_content[" + id + "][content]']").val());
+            } else {
+                // mobileDataContent = JSON.parse($("input[name*='multiple_content[" + id + "][content]']").val());
+                mobileDataContent = dataContent;
+            }
+            if (isJson($("input[name*='multiple_content[" + id + "][button]']").val())) {
+                dataButton = JSON.parse($("input[name*='multiple_content[" + id + "][button]']").val())
+            }
+            $(".promoItem > div").css("background-color", dataContent['backgroundColor']);
+            $(".mobile-promoItem > div").css("background-color", dataContent['backgroundColor']);
+            $('.promoItemContent > div').css('color', dataContent['textColor']);
+            $(".promoItemContent > div").html(dataContent['content']);
+            $('.mobile-promoItemContent > div').css('color', dataContent['textColor']);
+            $(".mobile-promoItemContent > div").html(dataContent['content']);
+            $('.promoItemButton a').attr('href', dataContent['url']);
+            $('.promoItemContent > div').css('font-size', dataContent['size'] + 'px');
+            $('.mobile-promoItemContent > div').css('font-size', mobileDataContent['mobileSize'] + 'px');
+            $('.promoItemContainer').css('top', dataContent['positionText']);
+            // $('.mobile-promoItemContainer').css('top', dataContent['positionText']);
+            $('.mobile-promoItemContainer').css('top', mobileDataContent['mobilePositionText']);
+            //render button
+            if (dataButton['button']) {
+                $('.promoItemButton').show();
+                $('.mobile-promoItemButton').show();
+                $(".promoItemButton a").css({
+                    "display": "inline-block",
+                    "top": dataButton['button']['data']['upDown'],
+                    'height': dataButton['button']['edit_button']['height'] + 'px',
+                    'width': dataButton['button']['edit_button']['width'] + 'px',
+                    'font-size': dataButton['button']['data']['size'] + 'px',
+                    'border': dataButton['button']['data']['border_style']
+                        + ' ' + dataButton['button']['data']['border_width']
+                        + 'px ' + dataButton['button']['data']['background_color_border']
+                });
+
+                $(".mobile-promoItemButton a").css({
+                    "display": "inline-block",
+                    "top": dataButton['button']['data']['mobileUpDown'],
+                    'height': dataButton['button']['edit_button']['height'] + 'px',
+                    'width': dataButton['button']['edit_button']['width'] + 'px',
+                    'font-size': dataButton['button']['data']['size'] + 'px',
+                    'border': dataButton['button']['data']['border_style']
+                        + ' ' + dataButton['button']['data']['border_width']
+                        + 'px ' + dataButton['button']['data']['background_color_border']
+                });
+
+                $('.promoItemButton').css('width', dataButton['button']['edit_button']['width'] + 'px');
+                $('.mobile-promoItemButton').css('width', dataButton['button']['edit_button']['width'] + 'px');
+
+                $('div.dv-content-button').html(dataButton['button']['data']['content']);
+                $('div.mobile-dv-content-button').html(dataButton['button']['data']['content']);
+                if ((dataButton['button']['edit_button']['top_left'] + dataButton['button']['edit_button']['top_right'] + dataButton['button']['edit_button']['bottom_right'] + dataButton['button']['edit_button']['bottom_left']) > 0) {
+                    var border = dataButton['button']['edit_button']['top_left'] + 'px' + ' ' + dataButton['button']['edit_button']['top_right'] + 'px' + ' ' + dataButton['button']['edit_button']['bottom_right'] + 'px' + ' ' + dataButton['button']['edit_button']['bottom_left'] + 'px';
+                    $('.promoItemButton a').css('border-radius', border);
+                    $('.mobile-promoItemButton a').css('border-radius', border);
+                }
+                else {
+                    $('.promoItemButton a').css('border-radius', dataButton['button']['edit_button']['border'] + 'px');
+                    $('.mobile-promoItemButton a').css('border-radius', dataButton['button']['edit_button']['border'] + 'px');
+                }
+
+                //padding text of button
+                if (dataButton['button']['edit_button']['padding_right']) {
+                    $("div.dv-content-button").css("right", "0");
+                    $("div.dv-content-button").css("padding-right", dataButton['button']['edit_button']['padding_right'] + "px");
+                    $("div.mobile-dv-content-button").css("right", "0");
+                    $("div.mobile-dv-content-button").css("padding-right", dataButton['button']['edit_button']['padding_right'] + "px");
+                }
+                if (dataButton['button']['edit_button']['padding_left']) {
+                    $("div.dv-content-button").css("left", "0");
+                    $("div.dv-content-button").css("padding-left", dataButton['button']['edit_button']['padding_left'] + "px");
+                    $("div.mobile-dv-content-button").css("left", "0");
+                    $("div.mobile-dv-content-button").css("padding-left", dataButton['button']['edit_button']['padding_left'] + "px");
+                }
+                if (dataButton['button']['edit_button']['padding_top']) {
+                    $("div.dv-content-button").css("top", "0");
+                    $("div.dv-content-button").css("padding-top", dataButton['button']['edit_button']['padding_top'] + "px");
+                    $("div.mobile-dv-content-button").css("top", "0");
+                    $("div.mobile-dv-content-button").css("padding-top", dataButton['button']['edit_button']['padding_top'] + "px");
+                }
+                if (dataButton['button']['edit_button']['padding_bottom']) {
+                    $("div.dv-content-button").css("bottom", "0");
+                    $("div.dv-content-button").css("padding-bottom", dataButton['button']['edit_button']['padding_bottom'] + "px");
+                    $("div.mobile-dv-content-button").css("bottom", "0");
+                    $("div.mobile-dv-content-button").css("padding-bottom", dataButton['button']['edit_button']['padding_bottom'] + "px");
+                }
+
+                //position button
+                if (dataButton['button']['data']['displayLeft'] !== 'no check') {
+                    $('.promoItemContainer').css('direction', 'rtl');
+                    $('.promoItemContainer').css('margin-left', dataButton['button']['data']['displayLeft']);
+                    $('.promoItemContainer').css('width', 'calc(100% - ' + dataButton['button']['data']['displayLeft'] + ')');
+                }
+                if (dataButton['button']['data']['displayRight'] !== 'no check') {
+                    $('.promoItemContainer').css('direction', 'ltr');
+                    $('.promoItemContainer').css('margin-right', dataButton['button']['data']['displayRight']);
+                    $('.promoItemContainer').css('width', 'calc(100% - ' + dataButton['button']['data']['displayRight'] + ')');
+                }
+                $('.bar-button').css('margin-top', dataButton['button']['data']['upDown']);
+
+
+                //mobile position button
+                if (dataButton['button']['data']['mobileDisplayLeft'] !== 'no check') {
+                    $('.mobile-promoItemContainer').css('direction', 'rtl');
+                    $('.mobile-promoItemContainer').css('margin-left', dataButton['button']['data']['mobileDisplayLeft']);
+                    $('.mobile-promoItemContainer').css('width', 'calc(100% - ' + dataButton['button']['data']['mobileDisplayLeft'] + ')');
+                }
+                if (dataButton['button']['data']['mobileDisplayRight'] !== 'no check') {
+                    $('.mobile-promoItemContainer').css('direction', 'ltr');
+                    $('.mobile-promoItemContainer').css('margin-right', dataButton['button']['data']['mobileDisplayRight']);
+                    $('.mobile-promoItemContainer').css('width', 'calc(100% - ' + dataButton['button']['data']['mobileDisplayRight'] + ')');
+                }
+
+                //color text
+                $('div.dv-content-button').css("color", dataButton['button']['data']['text_color']).val(dataButton['button']['data']['text_color']);
+                $('div.mobile-dv-content-button').css("color", dataButton['button']['data']['text_color']).val(dataButton['button']['data']['text_color']);
+                //hover color text button
+                $(".promoItemButton a").hover(function () {
+                    if (dataButton['button']['data']['hover_color_text'] === null) {
+                        $('div.dv-content-button').css("color", dataButton['button']['data']['text_color']).val(dataButton['button']['data']['text_color']);
+                    } else {
+                        $('div.dv-content-button').css("color", dataButton['button']['data']['hover_color_text']).val(dataButton['button']['data']['hover_color_text']);
+                    }
+                }, function () {
+                    $('div.dv-content-button').css("color", dataButton['button']['data']['text_color']).val(dataButton['button']['data']['text_color']);
+                });
+
+                $(".mobile-promoItemButton a").hover(function () {
+                    if (dataButton['button']['data']['hover_color_text'] === null) {
+                        $('div.mobile-dv-content-button').css("color", dataButton['button']['data']['text_color']).val(dataButton['button']['data']['text_color']);
+                    } else {
+                        $('div.mobile-dv-content-button').css("color", dataButton['button']['data']['hover_color_text']).val(dataButton['button']['data']['hover_color_text']);
+                    }
+                }, function () {
+                    $('div.mobile-dv-content-button').css("color", dataButton['button']['data']['text_color']).val(dataButton['button']['data']['text_color']);
+                });
+
+
+                //background color
+                if (dataButton['button']['data']['background_color'] === null) {
+                    $(".promoItemButton a").css("background-color", "transparent");
+                    $(".mobile-promoItemButton a").css("background-color", "transparent");
+                } else {
+                    $(".promoItemButton a").css("background-color", dataButton['button']['data']['background_color']).val(dataButton['button']['data']['background_color']);
+                    $(".mobile-promoItemButton a").css("background-color", dataButton['button']['data']['background_color']).val(dataButton['button']['data']['background_color']);
+                };
+                //hover color background button
+                $(".promoItemButton a").hover(function () {
+                    if (dataButton['button']['data']['hover_color_button'] === null) {
+                        if (dataButton['button']['data']['background_color'] === null) {
+                            $(this).css("background-color", "transparent");
+                        } else {
+                            $(this).css("background-color", dataButton['button']['data']['background_color']).val(dataButton['button']['data']['background_color']);
+                        }
+                    } else {
+                        $(this).css("background-color", dataButton['button']['data']['hover_color_button']).val(dataButton['button']['data']['hover_color_button']);
+                    }
+                }, function () {
+                    if (dataButton['button']['data']['background_color'] === null) {
+                        $(this).css("background-color", "transparent");
+                    } else {
+                        $(this).css("background-color", dataButton['button']['data']['background_color']).val(dataButton['button']['data']['background_color']);
+                    }
+                });
+                $(".mobile-promoItemButton a").hover(function () {
+                    if (dataButton['button']['data']['hover_color_button'] === null) {
+                        if (dataButton['button']['data']['background_color'] === null) {
+                            $(this).css("background-color", "transparent");
+                        } else {
+                            $(this).css("background-color", dataButton['button']['data']['background_color']).val(dataButton['button']['data']['background_color']);
+                        }
+                    } else {
+                        $(this).css("background-color", dataButton['button']['data']['hover_color_button']).val(dataButton['button']['data']['hover_color_button']);
+                    }
+                }, function () {
+                    if (dataButton['button']['data']['background_color'] === null) {
+                        $(this).css("background-color", "transparent");
+                    } else {
+                        $(this).css("background-color", dataButton['button']['data']['background_color']).val(dataButton['button']['data']['background_color']);
+                    }
+                });
+
+
+                if (dataButton['button']['data']['background_color_border'] === null) {
+                    $(".promoItemButton a").css("border-color", "transparent");
+                    $(".mobile-promoItemButton a").css("border-color", "transparent");
+                } else {
+                    $(".promoItemButton a").css("border-color", dataButton['button']['data']['background_color_border']).val(dataButton['button']['data']['background_color_border']);
+                    $(".mobile-promoItemButton a").css("border-color", dataButton['button']['data']['background_color_border']).val(dataButton['button']['data']['background_color_border']);
+                }
+                //hover color border button
+                $(".promoItemButton a").hover(function () {
+                    if (dataButton['button']['data']['hover_color_border'] === null) {
+                        if (dataButton['button']['data']['background_color_border'] === null) {
+                            $(this).css("border-color", "transparent");
+                        } else {
+                            $(this).css("border-color", dataButton['button']['data']['background_color_border']).val(dataButton['button']['data']['background_color_border']);
+                        }
+                    } else {
+                        $(this).css("border-color", dataButton['button']['data']['hover_color_border']).val(dataButton['button']['data']['hover_color_border']);
+                    }
+                }, function () {
+                    if (dataButton['button']['data']['background_color_border'] === null) {
+                        $(this).css("border-color", "transparent");
+                    } else {
+                        $(this).css("border-color", dataButton['button']['data']['background_color_border']).val(dataButton['button']['data']['background_color_border']);
+                    }
+                });
+                $(".mobile-promoItemButton a").hover(function () {
+                    if (dataButton['button']['data']['hover_color_border'] === null) {
+                        if (dataButton['button']['data']['background_color_border'] === null) {
+                            $(this).css("border-color", "transparent");
+                        } else {
+                            $(this).css("border-color", dataButton['button']['data']['background_color_border']).val(dataButton['button']['data']['background_color_border']);
+                        }
+                    } else {
+                        $(this).css("border-color", dataButton['button']['data']['hover_color_border']).val(dataButton['button']['data']['hover_color_border']);
+                    }
+                }, function () {
+                    if (dataButton['button']['data']['background_color_border'] === null) {
+                        $(this).css("border-color", "transparent");
+                    } else {
+                        $(this).css("border-color", dataButton['button']['data']['background_color_border']).val(dataButton['button']['data']['background_color_border']);
+                    }
+                });
+
+
+            }
+            else {
+                $('.promoItemButton').hide();
+                $('.mobile-promoItemButton').hide();
+            }
+            // $('#button-container').css('margin-top', '-65px');
+
+        };
+
+        function showInfoBar(id) {
+            var dataContent = [];
+            var dataButton = [];
+
+            if (isJson($("input[name*='multiple_content[" + id + "][content]']").val())) {
+                dataContent = JSON.parse($("input[name*='multiple_content[" + id + "][content]']").val());
+            }
+
+            if (isJson($("input[name*='multiple_content[" + id + "][button]']").val())) {
+                dataButton = JSON.parse($("input[name*='multiple_content[" + id + "][button]']").val());
+            }
+            var positionButton;
+            var mobilePositionButton;
+            $("#background_color").css("background-color", dataContent['backgroundColor']);
+            $("#background_text").css("background-color", dataContent['textColor']);
+            $("#background_color").val(dataContent['backgroundColor']);
+            $("#background_text").val(dataContent['textColor']);
+            if (dataButton['button']) {
+                $("#button_id option").each(function () {
+                    if ($(this).html() === dataButton['button']['data']['title']) $(this).attr("selected", "selected");
+                });
+                $('#check-range-right').removeAttr("disabled");
+                $('#check-range-left').removeAttr("disabled");
+                $('#mobile-check-range-right').removeAttr("disabled");
+                $('#mobile-check-range-left').removeAttr("disabled");
+            } else {
+                $("#button_id option[value=0]").attr('selected', 'selected');
+                $('#check-range-right').attr("disabled", true);
+                $('#check-range-left').attr("disabled", true);
+                $('#mobile-check-range-right').attr("disabled", true);
+                $('#mobile-check-range-left').attr("disabled", true);
+
+            }
+            $("#content").val(dataContent['content']);
+            $("#content_ifr").contents().find('body').html(dataContent['content']);
+            $("#size").val(dataContent['size']);
+            $("#url").val(dataContent['url']);
+            if (dataContent['positionText'] !== undefined) {
+                var positionText = dataContent['positionText'].replace('px', '');
+                $('#mobile-input-range-position-text').attr('value', positionText);
+                $('#mobile-range-value-position-text').html(dataContent['positionText']);
+
+                $('#desktop-input-range-position-text').attr('value', positionText);
+                $('.range-value-position-text').html(dataContent['positionText']);
+            }
+
+            if (dataButton['button']) {
+                if (dataButton['button']['data']['displayLeft'] !== 'no check') {
+                    $('#check-range-left').prop('checked', true);
+                    $('#mobile-check-range-left').prop('checked', true);
+                    $('#mobile-input-range-left').css('display', 'block');
+                    $('#mobile-range-value-left').css('display', 'block');
+                    $('#desktop-input-range-left').css('display', 'block');
+                    $('.range-value-left').css('display', 'block');
+                    positionButton = dataButton['button']['data']['displayLeft'].replace('%', '');
+                    $('#mobile-input-range-left').attr('value', positionButton);
+                    $('#mobile-range-value-left').html(dataButton['button']['data']['displayLeft']);
+                    $('#desktop-input-range-left').attr('value', positionButton);
+                    $('.range-value-left').html(dataButton['button']['data']['displayLeft']);
+                }
+                if (dataButton['button']['data']['displayRight'] !== 'no check') {
+                    $('#check-range-right').prop('checked', true);
+                    $('#mobile-check-range-right').prop('checked', true);
+                    $('#mobile-input-range-right').css('display', 'block');
+                    $('#mobile-range-value-right').css('display', 'block');
+                    $('#desktop-input-range-right').css('display', 'block');
+                    $('.range-value-right').css('display', 'block');
+                    positionButton = dataButton['button']['data']['displayRight'].replace('%', '');
+                    $('#mobile-input-range-right').attr('value', positionButton);
+                    $('#mobile-range-value-right').html(dataButton['button']['data']['displayLeft']);
+                    $('#desktop-input-range-right').attr('value', positionButton);
+                    $('.range-value-right').html(dataButton['button']['data']['displayRight']);
+                }
+                positionButton = dataButton['button']['data']['upDown'].replace('px', '');
+                mobilePositionButton = dataButton['button']['data']['mobileUpDown']
+                if (mobilePositionButton != undefined) {
+                    mobilePositionButton = dataButton['button']['data']['mobileUpDown'].replace('px', '');
+                }
+                $('#mobile-input-range-button-up-down').attr('value', mobilePositionButton);
+                $('#mobile-range-value-button-up-down').html(dataButton['button']['data']['mobileUpDown']);
+                $('#desktop-input-range-button-up-down').attr('value', positionButton);
+                $('.range-value-button-up-down').html(dataButton['button']['data']['upDown']);
+            }
+        }
+    });
+
+</script>

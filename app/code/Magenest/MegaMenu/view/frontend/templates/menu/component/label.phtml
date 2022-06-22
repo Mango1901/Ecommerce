@@ -1,0 +1,7 @@
+<?php
+/** @var \Magenest\MegaMenu\Block\Menu\Component\Label $block */
+?>
+<?php if ($block->getLabelId()): ?>
+    <?php $model = $block->getLabelModel(); ?>
+    <?= $model->getToHtml(); ?>
+<?php endif; ?>

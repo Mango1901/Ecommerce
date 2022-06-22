@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Catalog\Model\Product\Option">
+        <arguments>
+            <argument name="optionGroups" xsi:type="array">
+                <item name="date" xsi:type="string">Magento\Catalog\Model\Product\Option\Type\Date</item>
+                <item name="file" xsi:type="string">Magento\Catalog\Model\Product\Option\Type\File</item>
+                <item name="select" xsi:type="string">Magento\Catalog\Model\Product\Option\Type\Select</item>
+                <item name="text" xsi:type="string">Magento\Catalog\Model\Product\Option\Type\Text</item>
+                <item name="swatch" xsi:type="string">Magento\Catalog\Model\Product\Option\Type\Select</item>
+                <item name="text_swatch" xsi:type="string">Magento\Catalog\Model\Product\Option\Type\Select</item>
+            </argument>
+            <argument name="optionTypesToGroups" xsi:type="array">
+                <item name="field" xsi:type="const">Magento\Catalog\Api\Data\ProductCustomOptionInterface::OPTION_GROUP_TEXT</item>
+                <item name="area" xsi:type="const">Magento\Catalog\Api\Data\ProductCustomOptionInterface::OPTION_GROUP_TEXT</item>
+                <item name="file" xsi:type="const">Magento\Catalog\Api\Data\ProductCustomOptionInterface::OPTION_GROUP_FILE</item>
+                <item name="drop_down" xsi:type="const">Magento\Catalog\Api\Data\ProductCustomOptionInterface::OPTION_GROUP_SELECT</item>
+                <item name="radio" xsi:type="const">Magento\Catalog\Api\Data\ProductCustomOptionInterface::OPTION_GROUP_SELECT</item>
+                <item name="checkbox" xsi:type="const">Magento\Catalog\Api\Data\ProductCustomOptionInterface::OPTION_GROUP_SELECT</item>
+                <item name="multiple" xsi:type="const">Magento\Catalog\Api\Data\ProductCustomOptionInterface::OPTION_GROUP_SELECT</item>
+                <item name="date" xsi:type="const">Magento\Catalog\Api\Data\ProductCustomOptionInterface::OPTION_GROUP_DATE</item>
+                <item name="date_time" xsi:type="const">Magento\Catalog\Api\Data\ProductCustomOptionInterface::OPTION_GROUP_DATE</item>
+                <item name="time" xsi:type="const">Magento\Catalog\Api\Data\ProductCustomOptionInterface::OPTION_GROUP_DATE</item>
+                <item name="text_swatch" xsi:type="string">swatch</item>
+            </argument>
+        </arguments>
+        <plugin name="check_with_swatch"
+                type="Magenest\CustomCatalog\Plugin\SwatchOption" sortOrder="10"/>
+    </type>
+
+    <type name="Magento\Catalog\Model\Product\Option\Type\Select">
+        <arguments>
+            <argument name="singleSelectionTypes" xsi:type="array">
+                <item name="text_swatch" xsi:type="const">\Magenest\CustomCatalog\Block\Adminhtml\Product\Edit\Tab\Options\Type\Swatch::OPTION_TYPE_TEXT_SWATCH</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Eav\Model\Config">
+        <arguments>
+            <argument name="attributesForPreload" xsi:type="array">
+                <item name="catalog_category" xsi:type="array">
+                    <item name="include_in_category_menu" xsi:type="string">catalog_category</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+    <preference for="Magento\Catalog\Controller\Adminhtml\Category\Save"
+                type="Magenest\CustomCatalog\Controller\Adminhtml\Category\Save"/>
+
+    <preference for="Magento\CatalogImportExport\Model\Import\Product\Option"
+                type="Magenest\CustomCatalog\Preference\Model\Import\Product\Option"/>
+
+    <preference for="Magento\Catalog\Model\Product\Option\Value"
+                type="Magenest\CustomCatalog\Preference\Model\Product\Option\Value"/>
+
+    <preference for="Magento\Catalog\Model\Product\Option\Type\Select"
+                type="Magenest\CustomCatalog\Preference\Model\Product\Option\Type\Select"/>
+
+    <type name="Magento\CatalogWidget\Block\Product\ProductsList">
+        <plugin name="add_context_to_cache_key" type="Magenest\CustomCatalog\Plugin\AddContextToCacheKey"/>
+    </type>
+</config>

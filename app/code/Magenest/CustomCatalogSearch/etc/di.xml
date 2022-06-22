@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\CatalogSearch\Model\Indexer\IndexStructure" type="Magenest\CustomCatalogSearch\CatalogSearch\Model\Indexer\IndexStructure" />
+    <!--fix issue magento try to create child index and clone data index-->
+    <type name="Magento\CatalogSearch\Model\Indexer\Fulltext\Action\DataProvider">
+        <plugin name="Magenest_CustomizeCatalogSearch::IndexDataProvider" type="Magenest\CustomCatalogSearch\Plugins\Model\Indexer\Fulltext\Action\DataProvider"/>
+    </type>
+</config>

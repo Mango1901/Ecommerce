@@ -1,0 +1,36 @@
+<?php
+/** @var  $block \Magenest\NotificationBox\Block\Notification\Notification */
+/** show icon notification when customer is login */
+?>
+<div class="notificationBox" data-bind="scope: 'notificationBox'" hidden>
+    <div class="magenest-notification" data-bind="visible: visibleNotificationBox">
+        <span class="magenest-notification-icon" ><img src="<?=$block->getViewFileUrl('Magenest_NotificationBox::image/noti.png');?>" alt=""></span>
+        <span class="magenest-notification-count" data-bind="text: totalNotificationUnread"></span>
+        <div >
+            <!-- ko template: getTemplate() --><!-- /ko -->
+        </div>
+    </div>
+</div>
+
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Ui/js/core/app": {
+               "components": {
+                    "notificationBox": {
+                        "component": "Magenest_NotificationBox/js/notification/notification",
+                        "template" : "Magenest_NotificationBox/notification",
+                        "config": {
+                                    "url"                           : "<?=$block->getUrl("notibox/customer/notification")?>",
+                                    "currentUrl"                    : "<?=$block->getUrl()?>",
+                                    "backgroundColorValue"          : "<?=$block->getThemeColor()?>",
+                                    "boxPositionClass"              : "<?=$block->getBoxPosition()?>",
+                                    "notificationBoxWidth"          : "<?=$block->getBoxWidth()?>"
+                        }
+                    }
+                }
+            }
+        }
+    }
+</script>
+

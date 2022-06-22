@@ -1,0 +1,55 @@
+<?php
+/** @var \Magenest\ViewStock\Block\Product\SalableQty $block */
+if ($block->isEnabled()) : ?>
+<?php
+$sourcesBySku = $block->getQuantityBySource();
+$currentArea = $block->getCurrentArea();
+$currentSource = $sourcesBySku[$currentArea] ?? false;
+?>
+<div class="salable_qty_container mobile-visible">
+    <?php if (count($sourcesBySku)): ?>
+        <span><?= __("Available Stock") ?>: </span>
+        <ul>
+            <?php if ($currentSource): ?>
+                <?php unset($sourcesBySku[$currentArea]); ?>
+                <li>
+                    <?php if (count($currentSource['skus']) == 0): ?>
+                        <span><?= __("Source Name") ?>: <?= __('Out of Stock') ?></span>
+                    <?php else: ?>
+                        <span><?= $currentSource['area'] . ": " ?></span>
+                        <?php if (count($currentSource['skus']) > 1):?>
+                            <br>
+                            <?php foreach ($currentSource['skus'] as $item):?>
+                                <?php if ($item['quantity']): ?>
+                                    <span><?= $item['name'] . ": " . $item['quantity'] ?></span>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <span><?= reset($currentSource['skus'])['quantity'] ?></span>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                </li>
+            <?php endif; ?>
+            <?php foreach ($sourcesBySku as $sourceBySku): ?>
+                <li>
+                    <?php if (count($sourceBySku['skus']) == 0): ?>
+                        <span><?= __("Source Name") ?>: <?= __('Out of Stock') ?></span>
+                    <?php else: ?>
+                        <span><?= $sourceBySku['area'] . ": " ?></span>
+                        <?php if (count($sourceBySku['skus']) > 1):?>
+                            <?php foreach ($sourceBySku['skus'] as $item):?>
+                                <?php if ($item['quantity']): ?>
+                                    <br>
+                                    <span><?= $item['name'] . ": " . $item['quantity'] ?></span>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <span><?= reset($sourceBySku['skus'])['quantity'] ?></span>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                </li>
+            <?php endforeach;?>
+        </ul>
+    <?php endif; ?>
+</div>
+<?php endif; ?>

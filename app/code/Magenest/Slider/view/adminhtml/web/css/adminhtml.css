@@ -1,0 +1,5 @@
+.admin__menu #menu-magenest-slider-slider > a:before {
+    background: url("../images/slider-icon.png") center center no-repeat;
+    content: "";
+    background-size: auto 100%;
+}

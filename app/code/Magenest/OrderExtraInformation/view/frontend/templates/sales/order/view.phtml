@@ -1,0 +1,62 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+/** @var \Magento\Sales\Block\Order\Info $block */
+$customerNote = $block->getOrder()->getCustomerNote();
+$deliveryTime = $block->getOrder()->getDeliveryTime();
+$companyName = $block->getOrder()->getCompanyName();
+$taxCode = $block->getOrder()->getTaxCode();
+$companyAddress = $block->getOrder()->getCompanyAddress();
+$companyEmail = $block->getOrder()->getCompanyEmail();
+$telephoneCustomerConsign = $block->getOrder()->getTelephoneCustomerConsign();
+?>
+<?php if ($customerNote): ?>
+<div class="block-customer-note">
+    <div class="block-title">
+        <strong><?= $block->escapeHtml(__('Customer Note')) ?></strong>
+    </div>
+    <div class="box box-order-customer-note">
+        <?php if ($customerNote): ?>
+            <div class="box-content"><?= __($customerNote) ?></div>
+        <?php endif; ?>
+    </div>
+</div>
+<?php endif; ?>
+<?php if ($companyName || $companyAddress || $taxCode || $companyEmail): ?>
+<div class="block block-additional-information">
+
+    <div class="block-title">
+        <strong><?= $block->escapeHtml(__('VAT Invoice Information')) ?></strong>
+    </div>
+    <div class="block-content">
+        <?php if ($companyAddress): ?>
+        <div class="box box-order-vat-invoice">
+            <div class="box-content">
+                <table class="box-vat-invoice-table">
+                    <tbody>
+                        <tr>
+                            <td><?= $block->escapeHtml(__('Company Name')) ?>:</td>
+                            <td><?= $companyName ?></td>
+                        </tr>
+                        <tr>
+                            <td><?= $block->escapeHtml(__('Tax Code')) ?>:</td>
+                            <td><?= $taxCode ?></td>
+                        </tr>
+                        <tr>
+                            <td><?= $block->escapeHtml(__('Company Address')) ?>:</td>
+                            <td><?= $companyAddress ?></td>
+                        </tr>
+                        <tr>
+                            <td><?= $block->escapeHtml(__('Company Email')) ?>:</td>
+                            <td><?= $companyEmail ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <?php endif; ?>
+    </div>
+</div>
+<?php endif; ?>

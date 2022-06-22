@@ -1,0 +1,130 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="checkout" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="checkout.root">
+            <arguments>
+                <argument name="jsLayout" xsi:type="array">
+                    <item name="components" xsi:type="array">
+                        <item name="checkout" xsi:type="array">
+                            <item name="children" xsi:type="array">
+                                <item name="steps" xsi:type="array">
+                                    <item name="children" xsi:type="array">
+                                        <item name="shipping-step" xsi:type="array">
+                                            <item name="children" xsi:type="array">
+                                                <item name="shippingAddress" xsi:type="array">
+                                                    <item name="config" xsi:type="array">
+                                                        <item name="popUpForm" xsi:type="array">
+                                                            <item name="options" xsi:type="array">
+                                                                <item name="title" xsi:type="string" translate="true">New Address</item>
+                                                                <item name="buttons" xsi:type="array">
+                                                                    <item name="save" xsi:type="array">
+                                                                        <item name="text" xsi:type="string" translate="true">Complete</item>
+                                                                    </item>
+                                                                    <item name="cancel" xsi:type="array">
+                                                                        <item name="text" xsi:type="string" translate="true">Back</item>
+                                                                    </item>
+                                                                </item>
+                                                            </item>
+                                                        </item>
+                                                    </item>
+                                                </item>
+                                            </item>
+                                        </item>
+                                        <item name="billing-step" xsi:type="array">
+                                            <item name="children" xsi:type="array">
+                                                <item name="shipping-information" xsi:type="array">
+                                                    <item name="sortOrder" xsi:type="string">1</item>
+                                                    <item name="component" xsi:type="string">Magento_Checkout/js/view/shipping-information</item>
+                                                    <item name="config" xsi:type="array">
+                                                        <item name="deps" xsi:type="string">checkout.steps.shipping-step.shippingAddress</item>
+                                                    </item>
+                                                    <item name="displayArea" xsi:type="string">shipping-information</item>
+                                                    <item name="children" xsi:type="array">
+                                                        <item name="ship-to" xsi:type="array">
+                                                            <item name="component" xsi:type="string">Magento_Checkout/js/view/shipping-information/list</item>
+                                                            <item name="displayArea" xsi:type="string">ship-to</item>
+                                                        </item>
+                                                    </item>
+                                                </item>
+                                            </item>
+                                        </item>
+                                    </item>
+                                </item>
+                                <item name="sidebar" xsi:type="array">
+                                    <item name="children" xsi:type="array">
+                                        <item name="summary" xsi:type="array">
+                                            <item name="children" xsi:type="array">
+                                                <item name="cart_items" xsi:type="array">
+                                                    <item name="sortOrder" xsi:type="number">10</item>
+                                                </item>
+                                                <item name="totals" xsi:type="array">
+                                                    <item name="sortOrder" xsi:type="number">20</item>
+                                                    <item name="children" xsi:type="array">
+                                                        <item name="subtotal" xsi:type="array">
+                                                            <item name="config" xsi:type="array">
+                                                                <item name="title" xsi:type="string" translate="true">Subtotal</item>
+                                                            </item>
+                                                        </item>
+                                                        <item name="grand-total" xsi:type="array">
+                                                            <item name="config" xsi:type="array">
+                                                                <item name="title" xsi:type="string" translate="true">Total</item>
+                                                            </item>
+                                                        </item>
+                                                        <item name="discount" xsi:type="array">
+                                                            <item name="config" xsi:type="array">
+                                                                <item name="sortOrder" xsi:type="number">100</item>
+                                                            </item>
+                                                        </item>
+                                                    </item>
+                                                </item>
+                                                <item name="itemsAfter" xsi:type="array">
+                                                    <item name="children" xsi:type="array">
+                                                        <item name="navigator-btn" xsi:type="array">
+                                                            <item name="component" xsi:type="string">
+                                                                Magento_Checkout/js/view/summary/navigator-btn
+                                                            </item>
+                                                            <item name="template" xsi:type="string">
+                                                                Magento_Checkout/summary/navigator-btn
+                                                            </item>
+                                                        </item>
+                                                    </item>
+                                                </item>
+                                            </item>
+                                        </item>
+                                        <item name="shipping-information" xsi:type="array">
+                                            <item name="config" xsi:type="array">
+                                                <item name="componentDisabled" xsi:type="boolean">true</item>
+                                            </item>
+                                        </item>
+                                    </item>
+                                </item>
+                            </item>
+                        </item>
+                    </item>
+                </argument>
+            </arguments>
+        </referenceBlock>
+
+        <referenceContainer name="content">
+            <block class="Magento\Theme\Block\Html\Title" name="page.main.title.mobile" template="Magento_Theme::html/title-mobile.phtml" before="-"/>
+        </referenceContainer>
+
+        <referenceBlock name="page.main.title.mobile">
+            <action method="setPageTitle">
+                <argument translate="true" name="title" xsi:type="string">Delivery information</argument>
+            </action>
+        </referenceBlock>
+
+        <referenceBlock name="nav-toggle" remove="true" />
+
+        <referenceContainer name="page.header.block" remove="true" />
+        <referenceBlock name="menu.bottom.mobile" remove="true" />
+        <referenceContainer name="header-bannerPrompteur" remove="true" />
+    </body>
+</page>

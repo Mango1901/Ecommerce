@@ -1,0 +1,46 @@
+<?php
+/**
+ * Magenest
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magenest.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.magenest.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Magenest
+ * @package     Magenest_StoreCredit
+ * @copyright   Copyright (c) Magenest (https://www.magenest.com/)
+ * @license     https://www.magenest.com/LICENSE.txt
+ */
+
+/** @var \Magenest\StoreCredit\Helper\Data $helper */
+$helper = $this->helper(\Magenest\StoreCredit\Helper\Data::class);
+?>
+<?php if ($helper->isDisplayedOnToplink()): ?>
+    <li id="mpstorecredit-toplink" data-bind="scope: 'mpstorecredit_toplink'">
+        <a href="<?php echo $this->getUrl('mpstorecredit/') ?>" target="_blank">
+            <span data-bind="text: label()"></span>
+        </a>
+        <script type="text/x-magento-init">
+        {
+            "#mpstorecredit-toplink": {
+                "Magento_Ui/js/core/app": {
+                    "components": {
+                        "mpstorecredit_toplink": {
+                            "component": "Magenest_StoreCredit/js/view/toplink"
+                        }
+                    }
+                }
+            }
+        }
+
+
+        </script>
+    </li>
+<?php endif; ?>

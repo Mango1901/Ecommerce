@@ -1,0 +1,142 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Customer\Model\AccountManagement">
+        <plugin name="customer_login_telephone_plugin_account_management_plugin"
+                type="Magenest\Customer\Plugin\AccountManagementPlugin"
+                sortOrder="10"
+                disabled="false"/>
+    </type>
+
+    <type name="Magento\Customer\Helper\View">
+        <plugin name="change_rule_load_name_customer" type="Magenest\Customer\Plugin\Helper\View" />
+    </type>
+
+    <type name="Magento\Customer\Model\Customer">
+        <plugin name="change_rule_load_name_customer" type="Magenest\Customer\Plugin\Model\Customer" />
+    </type>
+
+    <preference for="CustomerNameExpression" type="CustomerNameExpressionCustom"/>
+    <preference for="ShippingAddressExpression" type="ShippingAddressExpressionCustom"/>
+    <preference for="BillingAddressExpression" type="BillingAddressExpressionCustom"/>
+    <preference for="BillingNameAggregator" type="BillingNameAggregatorCustom"/>
+    <preference for="ShippingNameAggregator" type="ShippingNameAggregatorCustom"/>
+    <preference for="Magento\Customer\Model\ResourceModel\Grid\Collection" type="Magento\Customer\Model\ResourceModel\Grid\CustomCollection" />
+    <virtualType name="Magento\Customer\Model\ResourceModel\Grid\CustomCollection" type="Magenest\Customer\Ui\Component\Listing\CustomerDataProvider">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">customer_grid_flat</argument>
+            <argument name="resourceModel" xsi:type="string">Magento\Customer\Model\ResourceModel\Customer</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="CustomerNameExpressionCustom" type="Magento\Framework\DB\Sql\ConcatExpression">
+        <arguments>
+            <argument name="tableName" xsi:type="string">e</argument>
+            <argument name="columns" xsi:type="array">
+                <item name="prefix" xsi:type="array">
+                    <item name="tableAlias" xsi:type="string">e</item>
+                    <item name="columnName" xsi:type="string">prefix</item>
+                </item>
+                <item name="lastname" xsi:type="array">
+                    <item name="tableAlias" xsi:type="string">e</item>
+                    <item name="columnName" xsi:type="string">lastname</item>
+                </item>
+                <item name="middlename" xsi:type="array">
+                    <item name="tableAlias" xsi:type="string">e</item>
+                    <item name="columnName" xsi:type="string">middlename</item>
+                </item>
+                <item name="firstname" xsi:type="array">
+                    <item name="tableAlias" xsi:type="string">e</item>
+                    <item name="columnName" xsi:type="string">firstname</item>
+                </item>
+                <item name="suffix" xsi:type="array">
+                    <item name="tableAlias" xsi:type="string">e</item>
+                    <item name="columnName" xsi:type="string">suffix</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="ShippingAddressExpressionCustom" type="Magento\Framework\DB\Sql\ConcatExpression">
+        <arguments>
+            <argument name="columns" xsi:type="array">
+                <item name="prefix" xsi:type="array">
+                    <item name="tableAlias" xsi:type="string">shipping</item>
+                    <item name="columnName" xsi:type="string">street</item>
+                </item>
+                <item name="lastname" xsi:type="array">
+                    <item name="tableAlias" xsi:type="string">shipping</item>
+                    <item name="columnName" xsi:type="string">postcode</item>
+                </item>
+                <item name="middlename" xsi:type="array">
+                    <item name="tableAlias" xsi:type="string">shipping</item>
+                    <item name="columnName" xsi:type="string">region</item>
+                </item>
+                <item name="firstname" xsi:type="array">
+                    <item name="tableAlias" xsi:type="string">shipping</item>
+                    <item name="columnName" xsi:type="string">city</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="BillingAddressExpressionCustom" type="Magento\Framework\DB\Sql\ConcatExpression">
+        <arguments>
+            <argument name="columns" xsi:type="array">
+                <item name="prefix" xsi:type="array">
+                    <item name="tableAlias" xsi:type="string">billing</item>
+                    <item name="columnName" xsi:type="string">street</item>
+                </item>
+                <item name="lastname" xsi:type="array">
+                    <item name="tableAlias" xsi:type="string">billing</item>
+                    <item name="columnName" xsi:type="string">postcode</item>
+                </item>
+                <item name="middlename" xsi:type="array">
+                    <item name="tableAlias" xsi:type="string">billing</item>
+                    <item name="columnName" xsi:type="string">region</item>
+                </item>
+                <item name="firstname" xsi:type="array">
+                    <item name="tableAlias" xsi:type="string">billing</item>
+                    <item name="columnName" xsi:type="string">city</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="BillingNameAggregatorCustom" type="Magento\Framework\DB\Sql\ConcatExpression">
+        <arguments>
+            <argument name="columns" xsi:type="array">
+                <item name="lastname" xsi:type="array">
+                    <item name="tableAlias" xsi:type="string">sales_billing_address</item>
+                    <item name="columnName" xsi:type="string">lastname</item>
+                </item>
+                <item name="firstname" xsi:type="array">
+                    <item name="tableAlias" xsi:type="string">sales_billing_address</item>
+                    <item name="columnName" xsi:type="string">firstname</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="ShippingNameAggregatorCustom" type="Magento\Framework\DB\Sql\ConcatExpression">
+        <arguments>
+            <argument name="columns" xsi:type="array">
+                <item name="lastname" xsi:type="array">
+                    <item name="tableAlias" xsi:type="string">sales_shipping_address</item>
+                    <item name="columnName" xsi:type="string">lastname</item>
+                </item>
+                <item name="firstname" xsi:type="array">
+                    <item name="tableAlias" xsi:type="string">sales_shipping_address</item>
+                    <item name="columnName" xsi:type="string">firstname</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Magento\Customer\Model\Metadata\Form">
+        <plugin name="extract_data_from_full_name_to_first_last_name" type="Magenest\Customer\Plugin\Model\Metadata\Form" />
+    </type>
+
+    <type name="Magento\Checkout\Api\ShippingInformationManagementInterface">
+        <plugin name="fullname_shipping_information_management" type="Magenest\Customer\Plugin\ShippingInformationManagement" sortOrder="3"/>
+    </type>
+</config>

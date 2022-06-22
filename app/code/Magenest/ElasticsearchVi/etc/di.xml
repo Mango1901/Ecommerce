@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+	<type name="Magento\Elasticsearch\Model\Adapter\Index\BuilderInterface">
+		<plugin name="add_non_accent_analyzer" type="Magenest\ElasticsearchVi\Plugin\FilterViAccent" sortOrder="10"/>
+	</type>
+
+	<type name="Magento\Elasticsearch\Model\Adapter\FieldMapper\Product\FieldProvider\StaticField">
+		<plugin name="add_non_accent_field" type="Magenest\ElasticsearchVi\Plugin\FilterViAccent" sortOrder="10"/>
+	</type>
+
+	<type name="Magento\Elasticsearch\SearchAdapter\Query\Builder\Match">
+		<plugin name="query_non_accent_field" type="Magenest\ElasticsearchVi\Plugin\AddNonAccentFieldToQuery" sortOrder="10"/>
+	</type>
+
+	<type name="Magento\Elasticsearch7\Model\Client\Elasticsearch">
+		<arguments>
+			<argument name="fieldsMappingPreprocessors" xsi:type="array">
+				<item name="elasticsearch7_add_default_search_non_accent_field" xsi:type="object">Magenest\ElasticsearchVi\Model\Adapter\FieldMapper\AddDefaultSearchNonAccentField</item>
+			</argument>
+		</arguments>
+	</type>
+
+	<type name="Magenest\ElasticsearchVi\Plugin\FilterViAccent">
+		<arguments>
+			<argument name="fieldTypeConverter" xsi:type="object">Magento\Elasticsearch\Elasticsearch5\Model\Adapter\FieldMapper\Product\FieldProvider\FieldType\Converter</argument>
+			<argument name="fieldIndexResolver" xsi:type="object">Magento\Elasticsearch\Elasticsearch5\Model\Adapter\FieldMapper\Product\FieldProvider\FieldIndex\IndexResolver</argument>
+			<argument name="fieldTypeResolver" xsi:type="object">\Magento\Elasticsearch\Elasticsearch5\Model\Adapter\FieldMapper\Product\FieldProvider\FieldType\Resolver\CompositeResolver</argument>
+			<argument name="fieldNameResolver" xsi:type="object">elasticsearch5FieldNameResolver</argument>
+		</arguments>
+	</type>
+
+	<type name="Magenest\ElasticsearchVi\Model\AccentAttribute">
+		<arguments>
+			<argument name="attributeToFilterWithAccent" xsi:type="array">
+				<item name="name" xsi:type="string">1</item>
+				<item name="description" xsi:type="string">1</item>
+				<item name="short_description" xsi:type="string">1</item>
+			</argument>
+		</arguments>
+	</type>
+</config>

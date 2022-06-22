@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget id="magenest_category_slider" class="Magenest\Slider\Block\Widget\SliderView">
+        <label translate="true">Category Slider</label>
+        <description>Show category slider</description>
+        <parameters>
+            <parameter name="slider_id" xsi:type="select" visible="true"
+                       source_model="Magenest\Slider\Model\ResourceModel\Slider\CategorySliderList">
+                <label translate="true">Choose Slider</label>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

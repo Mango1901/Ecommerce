@@ -1,0 +1,26 @@
+{
+    "quote": {
+        "column": {
+            "delivery_time": true,
+            "company_email": true,
+            "telephone_customer_consign": true
+        }
+    },
+    "sales_order": {
+        "column": {
+            "delivery_time": true,
+            "company_email": true,
+            "telephone_customer_consign": true
+        }
+    },
+    "quote_address": {
+        "column": {
+            "telephone_customer_consign": true
+        }
+    },
+    "sales_order_address": {
+        "column": {
+            "telephone_customer_consign": true
+        }
+    }
+}

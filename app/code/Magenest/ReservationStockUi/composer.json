@@ -1,0 +1,22 @@
+{
+  "name": "magenest/reservation-stock-ui",
+  "version": "1.0.0",
+  "description": "Reservation Stock Admin Ui by Magenest",
+  "type": "magento2-module",
+  "require": {
+    "magento/framework": "*",
+    "magento/module-inventory-reservations": "1.1.*",
+    "magento/module-inventory-reservations-api": "1.1.*"
+  },
+  "license": [
+    "Open Software License (OSL)"
+  ],
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Magenest\\ReservationStockUi\\": ""
+    }
+  }
+}

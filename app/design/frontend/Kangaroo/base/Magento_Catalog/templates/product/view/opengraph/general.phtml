@@ -1,0 +1,31 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var $block \Magento\Catalog\Block\Product\View */
+$product = $block->getProduct();
+?>
+
+<meta property="og:type" content="product"/>
+<meta property="og:title"
+      content="<?= $block->escapeHtmlAttr($block->stripTags($product->getName())) ?>"/>
+<meta property="og:image"
+      content="<?= $block->escapeUrl($block->getImage($product, 'product_base_image')->getImageUrl()) ?>"/>
+<meta property="og:image:url"
+      content="<?= $block->escapeUrl($block->getImage($product, 'product_base_image')->getImageUrl()) ?>"/>
+<meta property="og:image:alt"
+      content="<?= $block->escapeHtmlAttr($block->stripTags($product->getName())) ?>"/>
+<meta property='og:site_name'
+      content="<?= $block->escapeHtmlAttr($block->stripTags($product->getName())) ?>"/>
+<meta property="og:description"
+      content="<?= $block->escapeHtmlAttr($block->stripTags($block->getProduct()->getMetaTitle() ?? $product->getShortDescription())) ?>"/>
+<meta property="og:url" content="<?= $block->escapeUrl($product->getProductUrl()) ?>"/>
+<?php if ($priceAmount = $product
+    ->getPriceInfo()
+    ->getPrice(\Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE)
+    ->getAmount()): ?>
+    <meta property="product:price:amount" content="<?= $block->escapeHtmlAttr($priceAmount) ?>"/>
+    <?= $block->getChildHtml('meta.currency') ?>
+<?php endif; ?>

@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2018 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <virtualType name="Magenest\NotificationBox\Model\ResourceModel\NotificationType\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">magenest_notification_type</argument>
+            <argument name="resourceModel" xsi:type="string">Magenest\NotificationBox\Model\ResourceModel\NotificationType</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="Magenest\NotificationBox\Model\ResourceModel\Notification\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">magenest_notification</argument>
+            <argument name="resourceModel" xsi:type="string">Magenest\NotificationBox\Model\ResourceModel\Notification</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="Magenest\NotificationBox\Model\ResourceModel\CustomerNotification\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">magenest_customer_notification</argument>
+            <argument name="resourceModel" xsi:type="string">Magenest\NotificationBox\Model\ResourceModel\CustomerNotification</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="Magenest\NotificationBox\Model\ResourceModel\CustomerToken\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">magenest_customer_token</argument>
+            <argument name="resourceModel" xsi:type="string">Magenest\NotificationBox\Model\ResourceModel\CustomerToken</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="magenest_notification_type_data_source" xsi:type="string">Magenest\NotificationBox\Model\ResourceModel\NotificationType\Grid\Collection</item>
+                <item name="magenest_notification_data_source" xsi:type="string">Magenest\NotificationBox\Model\ResourceModel\Notification\Grid\Collection</item>
+                <item name="magenest_customer_notification_data_source" xsi:type="string">Magenest\NotificationBox\Model\ResourceModel\CustomerNotification\Grid\Collection</item>
+                <item name="magenest_register_data_source" xsi:type="string">Magenest\NotificationBox\Model\ResourceModel\CustomerToken\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <preference for="Magenest\NotificationBox\Api\SaveTokenInterface" type="Magenest\NotificationBox\Model\Api\SaveToken"/>
+    <preference for="Magenest\NotificationBox\Api\GetNotificationInterface" type="Magenest\NotificationBox\Model\Api\GetNotification"/>
+    <preference for="Magenest\NotificationBox\Api\HandleNotificationInterface" type="Magenest\NotificationBox\Model\Api\HandleNotification"/>
+    <preference for="Magenest\NotificationBox\Api\IsProductHavePromotionInterface" type="Magenest\NotificationBox\Model\IsProductHavePromotion"/>
+</config>

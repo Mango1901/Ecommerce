@@ -1,0 +1,48 @@
+<?php
+/**
+ * Magenest
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magenest.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.magenest.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Magenest
+ * @package     Magenest_StoreCredit
+ * @copyright   Copyright (c) Magenest (https://www.magenest.com/)
+ * @license     https://www.magenest.com/LICENSE.txt
+ */
+
+/** @var \Magenest\StoreCredit\Block\Account\Dashboard\Setting $block */
+$helper = $block->getEmailHelper();
+if ($helper->isEnabledEmail()): ?>
+    <form class="form form-dashboard-setting" method="post" id="form-validate" enctype="multipart/form-data"
+          action="<?php echo $block->escapeUrl($block->getUrl('mpstorecredit/index/settingPost')) ?>">
+        <fieldset class="fieldset email-notification">
+            <legend class="legend"><span><?php echo $block->escapeHtml(__('Notification Settings')) ?></span></legend>
+            <br>
+            <div class="field choice">
+                <input name="mp_credit_notification" id="mp-credit-notification" type="checkbox"
+                       title="<?php echo __('Update Balance Notification') ?>"
+                    <?php if ($block->getMpCreditNotification()):
+                        ?> checked="checked"<?php
+                    endif; ?>/>
+                <label class="label" for="mp-credit-notification">
+                    <span><?php echo $block->escapeHtml(__('Update Balance Notification')) ?></span>
+                </label>
+            </div>
+        </fieldset>
+        <div class="actions-toolbar">
+            <div class="primary">
+                <button type="submit" class="action save primary" title="<?php echo __('Save') ?>">
+                    <span><?php echo $block->escapeHtml(__('Save')) ?></span></button>
+            </div>
+        </div>
+    </form>
+<?php endif; ?>

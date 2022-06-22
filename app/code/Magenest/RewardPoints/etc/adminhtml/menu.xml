@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Magenest_RewardPoints::system_rewardpoints_settings"  title="Reward Points - Kpoint" module="Magenest_RewardPoints" sortOrder="120" parent="Magenest_Backend::Magenest" resource="Magenest_RewardPoints::system_rewardpoints_settings"/>
+        <add id="Magenest_RewardPoints::system_rewardpoints_account" title="Points Management" module="Magenest_RewardPoints" sortOrder="10" parent="Magenest_RewardPoints::system_rewardpoints_settings" action="rewardpoints/account/index" resource="Magenest_RewardPoints::system_rewardpoints_account"/>
+        <add id="Magenest_RewardPoints::system_rewardpoints_points_transaction" title="Transaction History" module="Magenest_RewardPoints" sortOrder="20" parent="Magenest_RewardPoints::system_rewardpoints_settings" action="rewardpoints/transaction/index" resource="Magenest_RewardPoints::system_rewardpoints_points_transaction"/>
+        <add id="Magenest_RewardPoints::system_rewardpoints_earning_rule" title="Rules" module="Magenest_RewardPoints" sortOrder="40" parent="Magenest_RewardPoints::system_rewardpoints_settings" action="rewardpoints/rule/index" resource="Magenest_RewardPoints::system_rewardpoints_earning_rule"/>
+        <add id="Magenest_RewardPoints::system_rewardpoints_configuration"  title="Configuration" module="Magenest_RewardPoints" sortOrder="60" parent="Magenest_RewardPoints::system_rewardpoints_settings" action="adminhtml/system_config/edit/section/rewardpoints" resource="Magenest_RewardPoints::system_rewardpoints_configuration"/>
+        <add id="Magenest_RewardPoints::system_rewardpoints_membership" title="Membership" module="Magenest_RewardPoints" sortOrder="55" parent="Magenest_RewardPoints::system_rewardpoints_settings" action="rewardpoints/membership/index" resource="Magenest_RewardPoints::system_rewardpoints_membership"/>
+    </menu>
+</config>

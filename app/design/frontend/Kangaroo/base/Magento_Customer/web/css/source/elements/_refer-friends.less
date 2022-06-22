@@ -1,0 +1,227 @@
+& when (@media-common = true) {
+    .affiliate-account-refer {
+        color: #383E4F;
+
+        h3 {
+            font-size: 14px;
+            line-height: 20px;
+            font-weight: 500;
+            margin-top: 0;
+        }
+
+        .tutorial-list {
+            .lib-vendor-prefix-display(flex);
+
+            strong {
+                font-size: 12px;
+                line-height: 20px;
+                font-weight: 500;
+                margin: 3px 0 0;
+            }
+
+            ul {
+                li {
+                    font-size: 12px;
+                    line-height: 20px;
+                    font-weight: normal;
+                    color: #000;
+                    margin: 0;
+
+                    &:before {
+                        content: '-';
+                        padding-right: 3px;
+                    }
+                }
+            }
+        }
+
+        .affiliate-refer-type {
+            margin-top: 35px;
+
+            .fieldset {
+                &:not(:last-child) {
+                    margin-bottom: 30px;
+                }
+            }
+
+            .field {
+                margin: 0 0 12px;
+
+                &.url, &.code, &.email {
+                    background-color: #F5F5F5;
+                    border-radius: 4px;
+                    padding: 19px 14px;
+
+                    input {
+                        background-color: #FFFFFF;
+                        border: 1px solid #E0E6EC;
+                        border-radius: 4px;
+                        height: 38px;
+                        color: #000 !important;
+                    }
+
+                    .label {
+                        font-weight: 500 !important;
+                    }
+                }
+
+                .affiliate-strength-meter {
+                    padding-left: 1px;
+                    font-size: 12px;
+                    line-height: 20px;
+                    margin-top: 5px;
+                    color: #000;
+                }
+
+                .input-text {
+                    color: #697180;
+                    font-size: 13px;
+                    line-height: 20px;
+                    font-family: inherit;
+
+                    &::placeholder {
+                        color: #8F9AA5;
+                    }
+                }
+
+                .note {
+                    font-size: 10px;
+                    color: #697180;
+                }
+            }
+
+            .box-title {
+                .lib-vendor-prefix-display(flex);
+                margin-bottom: 10px;
+                justify-content: space-between;
+                -webkit-justify-content: space-between;
+
+                h3 {
+                    margin: 0;
+                }
+            }
+
+            .input-read-only {
+                position: relative;
+
+                input {
+                    padding-right: 105px;
+                }
+
+                .copy {
+                    font-size: 14px;
+                    line-height: 22px;
+                    color: #000;
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    right: 12px;
+                    cursor: pointer;
+
+                    &:before {
+                        content: "\e902";
+                        font-family: 'kangaroo-icon';
+                        color: #697180;
+                        padding-right: 7px;
+                    }
+
+                    &.copied {
+                        color: @primary-color;
+                        padding-left: 30px;
+
+                        &:before{
+                            background-image: url("data:image/svg+xml,%0A%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M10 0.375C4.68438 0.375 0.375 4.68438 0.375 10C0.375 15.3156 4.68438 19.625 10 19.625C15.3156 19.625 19.625 15.3156 19.625 10C19.625 4.68438 15.3156 0.375 10 0.375ZM14.172 8.3725C14.2488 8.28469 14.3073 8.1824 14.344 8.07165C14.3807 7.9609 14.3949 7.84392 14.3857 7.72761C14.3766 7.6113 14.3442 7.49799 14.2906 7.39436C14.237 7.29073 14.1632 7.19887 14.0736 7.12417C13.984 7.04948 13.8803 6.99347 13.7687 6.95943C13.6571 6.92539 13.5398 6.91402 13.4238 6.92597C13.3077 6.93793 13.1952 6.97298 13.0929 7.02905C12.9906 7.08513 12.9005 7.1611 12.828 7.2525L9.0655 11.7666L7.11862 9.81888C6.9536 9.65949 6.73257 9.57129 6.50315 9.57329C6.27373 9.57528 6.05427 9.6673 5.89203 9.82953C5.7298 9.99177 5.63778 10.2112 5.63579 10.4406C5.63379 10.6701 5.72199 10.8911 5.88138 11.0561L8.50638 13.6811C8.59235 13.767 8.69528 13.8341 8.80861 13.8781C8.92194 13.922 9.04319 13.9418 9.16461 13.9363C9.28603 13.9308 9.40498 13.9 9.51386 13.846C9.62274 13.792 9.71917 13.7159 9.797 13.6225L14.172 8.3725Z' fill='%23018D46'/%3E%3C/svg%3E%0A");
+                            background-repeat: no-repeat;
+                            width: 20px;
+                            height: 20px;
+                            content: '';
+                            position: absolute;
+                            left: 0;
+                        }
+                    }
+                }
+            }
+
+            .cs_import {
+                font-size: 14px;
+                line-height: 20px;
+                font-weight: normal;
+                cursor: pointer;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+
+            .actions-toolbar {
+                margin-left: 0 !important;
+                margin-top: 25px;
+
+                &:before, &:after {
+                    display: none;
+                }
+
+                .primary {
+                    display: block;
+                    float: unset;
+                }
+
+                .action {
+                    height: 40px;
+                    padding: 2px 24px 0;
+                    font-size: 14px;
+                    line-height: 16px;
+                    letter-spacing: 0.56px;
+                    text-transform: uppercase;
+                    width: auto;
+                }
+            }
+        }
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .affiliate-account-refer {
+        .tutorial-list {
+            ul {
+                padding-left: 12px;
+            }
+        }
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .affiliate-account-refer {
+        .page-title-wrapper:not(.mobile-device) {
+            display: none;
+        }
+
+        .column.main {
+            background-color: #fff;
+            border: 1px solid #E0E6EC;
+            border-radius: 4px;
+            padding: 22px 12px;
+            margin-bottom: 40px !important;
+        }
+
+        .tutorial-list {
+            strong {
+                display: none;
+            }
+
+            ul {
+                padding-left: 0;
+            }
+        }
+
+        .affiliate-refer-type {
+            .fieldset.request {
+                .input-text {
+                    background-color: #FFFFFF !important;
+                    border: 1px solid #E0E6EC !important;
+                    border-radius: 4px !important;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,18 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+/** @var \Magenest\OrderManagement\Block\Adminhtml\Order\View\Info $block */
+$order = $block->getOrder();
+?>
+<?php if(!empty($order->getConfirmedPersonName())): ?>
+<tr>
+    <th><?= $block->escapeHtml(__('Confirmed Salesman Name')) ?></th>
+    <td><?= $block->escapeHtml($block->getUsername($order->getConfirmedPersonName()), ['br']) ?></td>
+</tr>
+<tr>
+    <th><?= $block->escapeHtml(__('Warehouse')) ?></th>
+    <td><?= $block->escapeHtml($block->getWarehouseLabel(($order->getWarehouse())), ['br']) ?></td>
+</tr>
+<?php endif; ?>

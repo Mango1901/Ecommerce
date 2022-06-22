@@ -1,0 +1,14 @@
+
+<?php
+/** @var \Magenest\PhotoReview\Block\Adminhtml\Review\Video $block */
+$collections = $block->getAllPhoto();
+foreach ($collections as $collection):
+    ?>
+    <?php if ($collection->getType() == \Magenest\PhotoReview\Observer\Review\Detail::TYPE_VIDEO) : ?>
+    <div class="photo_review">
+        <video src="<?= $block->getVideoUrl($collection->getPath()) ?>" height="100%" width="100%" controls></video>
+    </div>
+<?php
+endif;
+endforeach;
+?>

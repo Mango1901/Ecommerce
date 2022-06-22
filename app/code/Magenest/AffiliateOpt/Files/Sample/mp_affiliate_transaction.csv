@@ -1,0 +1,3 @@
+account_email,action,amount,status,store_id
+test666@gmail.com,admin,10,2,1
+roni_cost@example.com,admin,20,2,1

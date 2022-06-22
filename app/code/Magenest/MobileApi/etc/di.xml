@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!--Reference-->
+    <preference for="Magenest\MobileApi\Api\Data\Catalog\ReviewInterface" type="Magenest\MobileApi\Model\Catalog\Review"/>
+    <preference for="Magenest\MobileApi\Api\Data\Catalog\Product\ReviewInterface" type="Magenest\MobileApi\Model\Catalog\Product\Review"/>
+    <preference for="Magenest\MobileApi\Api\Data\Catalog\PricingInterface" type="Magenest\MobileApi\Model\Catalog\Pricing"/>
+    <preference for="Magenest\MobileApi\Api\Data\Catalog\AttributeInterface" type="Magenest\MobileApi\Model\Catalog\Attribute"/>
+    <preference for="Magenest\MobileApi\Api\Data\Catalog\Product\Configurable\ConfigInterface" type="Magenest\MobileApi\Model\Catalog\Product\Configurable\Config"/>
+    <preference for="Magenest\MobileApi\Api\ProductGetSalableQtyInterface" type="Magenest\MobileApi\Model\Catalog\Product\GetSalableQty"/>
+
+    <preference for="Magenest\MobileApi\Api\Data\Affiliate\WidgetInterface" type="Magenest\MobileApi\Model\Affiliate\Widget"/>
+    <preference for="Magenest\MobileApi\Api\Data\Affiliate\SettingsInterface" type="Magenest\MobileApi\Model\Affiliate\Settings"/>
+    <preference for="Magenest\MobileApi\Api\Data\Catalog\Widget\ProductSliderInterface" type="Magenest\MobileApi\Model\Catalog\Widget\ProductSlider"/>
+    <preference for="Magenest\MobileApi\Api\Data\Store\HomeInterface" type="Magenest\MobileApi\Model\Store\Home"/>
+    <preference for="Magenest\MobileApi\Api\Data\DataObjectInterface" type="Magenest\MobileApi\Model\DataObject"/>
+    <preference for="Magenest\MobileApi\Api\Data\Cart\ItemOptionsInterface" type="Magenest\MobileApi\Model\Cart\ItemOptions"/>
+    <preference for="Magenest\MobileApi\Api\Data\Store\ContactInterface" type="Magenest\MobileApi\Model\Store\Contact"/>
+    <preference for="Magenest\MobileApi\Api\Data\Store\PromotionInterface" type="Magenest\MobileApi\Model\Store\Promotion"/>
+    <preference for="Magenest\MobileApi\Api\Data\Store\MediaEntryInterface" type="Magenest\MobileApi\Model\Store\MediaEntry"/>
+    <preference for="Magenest\MobileApi\Api\Data\Customer\VatInvoiceInterface" type="Magenest\MobileApi\Model\Customer\VatInvoice"/>
+    <preference for="Magenest\MobileApi\Api\Data\Promotion\GiftInterface" type="Magenest\MobileApi\Model\Promotion\Gift"/>
+    <preference for="Magenest\MobileApi\Api\BannerSliderInterface" type="Magenest\MobileApi\Model\BannerSlider"/>
+    <preference for="Magenest\MobileApi\Api\Data\SliderImageInterface" type="Magenest\MobileApi\Model\SliderImage"/>
+
+    <!--<preference for="Magenest\MobileApi\Api\OrderApiInterface" type="Magenest\MobileApi\Model\Order\OrderRepository"/>-->
+    <preference for="Magenest\MobileApi\Api\Filter\FilterManagementInterface" type="Magenest\MobileApi\Model\Filter\FilterManagement"/>
+    <preference for="Magenest\MobileApi\Api\Wishlist\WishlistManagementInterface" type="Magenest\MobileApi\Model\Wishlist\WishlistManagement"/>
+    <preference for="Magenest\MobileApi\Api\ProductManagementInterface" type="Magenest\MobileApi\Model\ProductManagement"/>
+    <preference for="Magenest\MobileApi\Api\AccountManagementInterface" type="Magenest\MobileApi\Model\AccountManagement"/>
+    <preference for="Magenest\MobileApi\Api\CartManagementInterface" type="Magenest\MobileApi\Model\CartManagement"/>
+    <preference for="Magenest\MobileApi\Api\StoreManagementInterface" type="Magenest\MobileApi\Model\StoreManagement"/>
+    <preference for="Magenest\MobileApi\Api\CategoryManagementInterface" type="Magenest\MobileApi\Model\CategoryManagement"/>
+    <preference for="Magenest\MobileApi\Api\SaleManagementInterface" type="Magenest\MobileApi\Model\SaleManagement"/>
+
+    <preference for="Magenest\MobileApi\Api\UserManagementInterface" type="Magenest\MobileApi\Model\UserManagement"/>
+    <preference for="Magenest\MobileApi\Api\Data\AddressInterface" type="Magenest\MobileApi\Model\Address"/>
+    <preference for="Magenest\MobileApi\Api\ProductReviewsInterface" type="Magenest\MobileApi\Model\ProductReviewsRepository"/>
+    <preference for="Magenest\MobileApi\Api\ResetPasswordInterface" type="Magenest\MobileApi\Model\ResetPassword"/>
+    <!-- Review -->
+    <preference for="Magenest\MobileApi\Api\Data\ReviewInterface" type="Magenest\MobileApi\Model\Review\Review"/>
+    <preference for="Magenest\MobileApi\Api\ReviewRepositoryInterface" type="Magenest\MobileApi\Model\ReviewRepository"/>
+
+    <!--Plugin-->
+    <type name="Magento\Store\App\Request\StorePathInfoValidator">
+        <plugin name="magenest_mobile_api" type="Magenest\MobileApi\Model\Plugin\Store\App\Request\StorePathInfoValidator" sortOrder="1"/>
+    </type>
+    <type name="Magento\Customer\Model\ResourceModel\CustomerRepository">
+        <plugin name="add_customer_telephone" type="Magenest\MobileApi\Model\Plugin\Customer\AddCustomerTelephone"/>
+    </type>
+    <!--Type-->
+    <type name="Magenest\MobileApi\Model\ProductManagement">
+        <arguments>
+            <argument name="filterList" xsi:type="object">categoryFilterList</argument>
+        </arguments>
+    </type>
+    <type name="Magenest\MobileApi\Model\Filter\FilterManagement">
+        <arguments>
+            <argument name="filterList" xsi:type="object">categoryFilterList</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\EntityManager\Operation\ExtensionPool">
+        <arguments>
+            <argument name="extensionActions" xsi:type="array">
+                <item name="Magento\Catalog\Api\Data\ProductInterface" xsi:type="array">
+                    <item name="read" xsi:type="array">
+                        <item name="reviewReader" xsi:type="string">Magenest\MobileApi\Model\Catalog\Product\ReadHandler</item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magenest\MobileApi\Model\Catalog\Product\ReadHandler">
+        <arguments>
+            <argument name="productOptionsReader" xsi:type="array">
+                <item name="configurable" xsi:type="object">Magenest\MobileApi\Model\Catalog\Product\Type\Configurable</item>
+                <item name="bundle" xsi:type="object">Magenest\MobileApi\Model\Catalog\Product\Type\Bundle</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magenest\MobileApi\Model\Store\Home\StoreDetector">
+        <arguments>
+            <argument name="storeComposite" xsi:type="array">
+                <item name="default" xsi:type="array">
+                    <item name="product_sliders" xsi:type="object">Magenest\MobileApi\Model\Store\Home\Renderer\En\ProductSliders</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+    <preference type="Magenest\MobileApi\Model\Resolver\CmsBlockProductHomePage\Query\ProductQuery"
+                for="Magenest\MobileApi\Model\Resolver\CmsBlockProductHomePage\Query\ProductQueryInterface"/>
+
+    <preference type="Magenest\MobileApi\Model\Resolver\HotNewsHomePage\Query\PostsQuery"
+                for="Magenest\MobileApi\Model\Resolver\HotNewsHomePage\Query\PostsQueryInterface"/>
+
+    <preference type="Magenest\MobileApi\Model\Resolver\CmsBlockColumnHomePage\Query\ColumnQuery"
+                for="Magenest\MobileApi\Model\Resolver\CmsBlockColumnHomePage\Query\ColumnQueryInterface"/>
+
+    <preference type="Magenest\MobileApi\Model\Resolver\Banner\Query\BannerQuery"
+                for="Magenest\MobileApi\Model\Resolver\Banner\Query\BannerQueryInterface"/>
+
+    <preference type="Magenest\MobileApi\Model\Resolver\Slider\Query\SliderQuery"
+                for="Magenest\MobileApi\Model\Resolver\Slider\Query\SliderQueryInterface"/>
+
+    <preference for="Magenest\MobileApi\Api\Data\CustomerInterface" type="Magenest\MobileApi\Model\Data\Customer"/>
+</config>

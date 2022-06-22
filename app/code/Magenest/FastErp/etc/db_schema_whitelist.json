@@ -1,0 +1,39 @@
+{
+    "magenest_erp_history_log": {
+        "column": {
+            "entity_id": true,
+            "erp_id": true,
+            "type_erp": true,
+            "status": true,
+            "note": true,
+            "created_at": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "magenest_erp_order_queue": {
+        "column": {
+            "entity_id": true,
+            "order_id": true,
+            "increment_id": true,
+            "status": true,
+            "erp_id": true,
+            "created_at": true,
+            "updated_at": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "sales_order": {
+        "column": {
+            "erp_id": true
+        }
+    },
+    "inventory_source": {
+        "column": {
+            "erp_source_code": true
+        }
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "customer_entity": {
+        "column": {
+            "fullname": true
+        }
+    },
+    "customer_address_entity": {
+        "column": {
+            "fullname": true
+        }
+    },
+    "quote_address": {
+        "column": {
+            "fullname": true
+        }
+    },
+    "sales_order_address": {
+        "column": {
+            "fullname": true
+        }
+    }
+}

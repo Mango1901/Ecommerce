@@ -1,0 +1,561 @@
+//
+//  Common
+//  _____________________________________________
+& when (@media-common = true) {
+    .customer-account-login,
+    .customer-account-create,
+    .customer-account-forgotpassword,
+    .customer-account-createpassword {
+        .column.main {
+            .lib-vendor-prefix-display(flex);
+            justify-content: space-around;
+            -webkit-justify-content: space-around;
+            .lib-vendor-box-align(center);
+        }
+
+        .sections.nav-sections {
+            display: none;
+        }
+
+        .page-wrapper {
+            background-color: #F5F5F5;
+        }
+
+        .page-title-wrapper {
+            .page-title {
+                font-size: 18px;
+                width: 100%;
+                text-align: left;
+                color: #383E4F;
+                font-weight: @font-weight__heavier;
+                margin-bottom: 18px;
+            }
+        }
+
+        .s-network {
+            width: 100%;
+            margin: 0;
+            position: relative;
+            height: 25px;
+
+            &:not(.create)::before {
+                margin: 0;
+                left: 50%;
+                top: 50%;
+                right: unset;
+                transform: translateX(-50%);
+                border: 0;
+                height: 1px;
+                width: 85%;
+                background-color: #E0E6EC;
+                position: absolute;
+            }
+
+            span {
+                border: 0;
+                border-radius: 0;
+                background-color: #fff;
+                .lib-vendor-prefix-display(inline-flex);
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 12px;
+                color: #ccc;
+                text-transform: uppercase;
+                padding: 5px 15px;
+            }
+        }
+
+        .s-network-logo-login {
+            .s-network {
+                display: block;
+                float: left;
+                margin: 0 !important;
+            }
+
+            center {
+                width: 100%;
+            }
+
+            .btn-snetwork {
+                .lib-vendor-prefix-display(flex);
+                .lib-vendor-box-align(center);
+                justify-content: center;
+                -webkit-justify-content: center;
+                margin-top: 5px;
+
+                .modal-socialogin {
+                    width: 110px;
+                    height: 40px;
+                    float: unset;
+                    box-shadow: none;
+                    border-radius: 2px;
+                    padding: 0;
+                    .lib-vendor-prefix-display(flex);
+                    .lib-vendor-box-align(center);
+                    justify-content: center;
+                    -webkit-justify-content: center;
+                    .lib-vendor-prefix-flex-direction(row-reverse);
+
+                    span {
+                        font-size: 12px;
+                        line-height: 20px;
+                        color: #fff1ec;
+                        font-weight: 500;
+                        padding-left: 10px;
+                        padding-top: 2px;
+                    }
+
+                    &.modal-facebook {
+                        background: #1877f2;
+
+                        &:after {
+                            content: '';
+                            background-image: url(../images/socialogin/fb-icon.svg);
+                            background-size: contain;
+                            width: 22px;
+                            height: 22px;
+                            background-repeat: no-repeat;
+                            display: inline-block;
+                        }
+                    }
+
+                    &.modal-google {
+                        background: #4285f4;
+
+                        span {
+                            padding-left: 20px;
+                        }
+
+                        &:after {
+                            content: '';
+                            background-image: url(../images/socialogin/g-logo.png);
+                            background-size: 20px;
+                            width: 36px;
+                            height: 36px;
+                            background-repeat: no-repeat;
+                            display: inline-block;
+                            background-color: #fff;
+                            background-position: center;
+                            position: absolute;
+                            left: 2px;
+                        }
+                    }
+                }
+            }
+        }
+
+        .create-account {
+            order: 1;
+            text-align: center;
+            padding: 15px 0 30px;
+
+            span {
+                font-size: 12px;
+                font-weight: 400;
+                color: #484848;
+            }
+
+            a {
+                font-size: 13px;
+                color: @primary-color;
+                font-weight: 500;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+
+        .form-login, .form-create-account {
+            .password.required, .confirmation.required {
+                position: relative;
+            }
+        }
+
+        .form-create-account {
+            .show-password {
+                top: 30px;
+            }
+        }
+
+        .form.password {
+            min-width: unset !important;
+        }
+
+        .form.password,
+        .login-container,
+        .register-box {
+            background-color: #fff;
+            border-radius: 4px;
+            border: 1px solid #E0E6EC;
+        }
+
+        .login-container, .form-create-account, .form.password {
+            .lib-vendor-prefix-display(flex);
+            .lib-vendor-prefix-flex-direction(column);
+
+            &:before, &:after {
+                display: none;
+            }
+
+            .block {
+                width: 100%;
+                margin: 0;
+
+                &-title {
+                    font-size: 20px;
+                    font-weight: 500;
+                    color: #383E4F;
+                    padding-bottom: 10px;
+                    margin-bottom: 10px;
+                    border-bottom: 0;
+
+                    strong {
+                        font-weight: 500;
+                    }
+                }
+
+                &-content {
+                    font-size: 14px;
+                    color: #383E4F;
+                    font-weight: @font-weight__regular;
+
+                    .fieldset {
+                        font-size: 14px;
+                        color: #383E4F;
+                        font-weight: @font-weight__regular;
+                        margin: 0;
+
+                        &:after {
+                            margin-left: auto;
+                            display: none;
+                        }
+                    }
+
+                    .field {
+                        margin: 0 0 10px;
+
+                        &.company {
+                            display: none;
+                        }
+
+                        label {
+                            width: 100%;
+                            margin: 0 0 5px;
+                            text-align: left;
+                            font-size: 12px;
+                            color: #383E4F;
+                            font-weight: @font-weight__regular;
+                        }
+
+                        .control {
+                            width: 100%;
+
+                            input {
+                                height: 40px;
+                                font-size: 12px;
+                                line-height: 20px;
+                                font-weight: normal;
+                                color: #2C2727;
+                                border-radius: 0;
+                                padding: 0 12px;
+                                border: 1px solid #E0E6EC;
+                            }
+                        }
+
+                        &.note {
+                            margin: 0 0 20px;
+                        }
+
+                        &.choice {
+                            display: none;
+                        }
+                    }
+                }
+            }
+
+            .actions-toolbar {
+                clear: both;
+                margin-left: 0 !important;
+                margin-top: 25px;
+
+                &:before, &:after {
+                    display: none;
+                }
+
+                .primary {
+                    float: unset;
+                }
+
+                > .primary {
+                    .lib-vendor-prefix-display(flex);
+                }
+
+                .primary {
+                    width: 100%;
+
+                    .action {
+                        height: 40px;
+                        padding: 2px 24px 0;
+                        font-size: 14px;
+                        line-height: 16px;
+                        letter-spacing: 0.56px;
+                        text-transform: uppercase;
+                        width: 100%;
+                        border-radius: 2px;
+                        display: block;
+                        margin-right: 0;
+                        .lib-vendor-prefix-display(flex);
+                        .lib-vendor-box-align(center);
+                        justify-content: center;
+                        -webkit-justify-content: center;
+                    }
+                }
+
+                .secondary {
+                    .action {
+                        font-size: 12px;
+                        color: #05a;
+                        font-weight: 400;
+                        margin-top: 12px;
+
+                        &:hover {
+                            text-decoration: underline;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // account create
+    .customer-account-create {
+        .form-create-account {
+            margin-bottom: 10px;
+
+            .fieldset {
+                &.address {
+                    width: 100%;
+                    border: 0;
+                    padding: 0;
+                    min-height: auto;
+                }
+            }
+        }
+    }
+
+    // forgot password
+    .customer-account-forgotpassword,
+    .customer-account-createpassword {
+        .page-title-wrapper .page-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: #383E4F;
+            border-bottom: 1px solid #E0E6EC;
+            padding-bottom: 10px;
+            margin-bottom: 18px;
+        }
+
+        .password.form {
+            margin-bottom: 40px;
+
+            .fieldset {
+                margin-bottom: 0;
+
+                .field {
+                    margin: 0 0 10px;
+
+                    label {
+                        width: 100%;
+                        margin: 0 0 5px;
+                        text-align: left;
+                        font-size: 12px;
+                        color: #383E4F;
+                        font-weight: @font-weight__regular;
+                    }
+
+                    .control {
+                        width: 100%;
+                        position: relative;
+
+                        input {
+                            height: 40px;
+                            font-size: 12px;
+                            line-height: 20px;
+                            font-weight: normal;
+                            color: #2C2727;
+                            border-radius: 0;
+                            padding: 0 12px;
+                            border: 1px solid #E0E6EC;
+                        }
+                    }
+                }
+            }
+
+            .actions-toolbar {
+                margin-left: 0;
+
+                button {
+                    width: 100%;
+                    padding: 10px 30px;
+                    text-transform: uppercase;
+                }
+            }
+        }
+    }
+}
+
+//
+//  Desktop
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .customer-account-login,
+    .customer-account-create,
+    .customer-account-forgotpassword,
+    .customer-account-createpassword {
+        .page-main {
+            padding-top: 70px;
+            padding-bottom: 30px;
+        }
+
+        .login-container,
+        .register-box,
+        .form.password {
+            width: 400px;
+            max-width: 50%;
+            padding: 25px 30px;
+        }
+
+        .register-box {
+            padding: 20px 30px;
+        }
+
+        .login-logo {
+            .lib-vendor-prefix-display(flex);
+            .lib-vendor-box-align(center);
+            .lib-vendor-prefix-flex-direction(column);
+            width: 400px;
+            max-width: 50%;
+
+            img {
+                width: 300px;
+            }
+
+            .description {
+                font-size: 20px;
+                text-align: center;
+                max-width: 400px;
+                margin-top: 30px;
+            }
+        }
+
+        .s-network-logo-login {
+            .lib-vendor-prefix-display(flex);
+            .lib-vendor-box-align(center);
+
+            .s-network {
+                width: 20%;
+                margin-top: 10px !important;
+                @media (max-width: 1199px) {
+                    width: 25%;
+                }
+                @media (max-width: 1023px) {
+                    width: 35%;
+                }
+            }
+
+            .btn-snetwork {
+                text-align: left;
+            }
+        }
+    }
+
+    // account create
+    .customer-account-create {
+        .column.main {
+            float: left;
+        }
+
+        .field-name-lastname {
+            float: left;
+            width: calc(~'50% - 5px');
+        }
+
+        .field-name-firstname {
+            float: right;
+            width: calc(~'50% - 5px');
+        }
+
+        .form-create-account {
+            width: 100% !important;
+            min-width: auto !important;
+        }
+    }
+}
+
+//
+//  Mobile
+//  _____________________________________________
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .customer-account-login,
+    .customer-account-create,
+    .customer-account-forgotpassword,
+    .customer-account-createpassword {
+
+        .login-container,
+        .register-box,
+        .form.password {
+            width: 100%;
+            padding: 20px 15px;
+        }
+
+        .page-main {
+            padding-top: 50px;
+        }
+
+        .page-title-wrapper {
+            .page-title {
+                font-size: 18px;
+            }
+        }
+
+        .s-network-logo-login {
+            display: block;
+            text-align: center;
+
+            .s-network {
+                width: 100%;
+            }
+
+            .btn-snetwork {
+                text-align: center;
+            }
+        }
+    }
+
+    // account create
+    .customer-account-create {
+        .form-create-account {
+            .fieldset {
+                .field {
+                    .control {
+                        .password-strength-meter {
+                            @media (max-width: 320px) {
+                                font-size: 12px;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .actions {
+                button {
+                    width: 100%;
+                    margin-bottom: 15px;
+                }
+            }
+        }
+    }
+}

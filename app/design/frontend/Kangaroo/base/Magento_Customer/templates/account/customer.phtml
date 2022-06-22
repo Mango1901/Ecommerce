@@ -1,0 +1,88 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+/** @var Magenest\CustomSource\Block\Element\AreaPopup $block */
+?>
+
+<?php if ($block->customerLoggedIn()) : ?>
+    <div class="header-customer header-customer-login" data-block="customerdropdown">
+        <span class="customer-name"
+              data-trigger="customertrigger">
+            <span type="button"
+                  class="header-customer-icon"
+                  tabindex="-1"
+                  data-action="customer-menu-toggle">
+                <span data-bind="scope: 'customer'">
+                    <!-- ko if: customer().fullname  -->
+                        <span class="logged-in" data-bind="text: customer().fullname"></span>
+                    <!-- /ko -->
+                </span>
+            </span>
+        </span>
+
+        <div class="customer-menu" data-mage-init='{
+            "dropdownDialog": {
+                "appendTo": "[data-block=customerdropdown]",
+                "triggerTarget":"[data-trigger=customertrigger]",
+                "timeout": 2000,
+                "closeOnMouseLeave": false,
+                "closeOnEscape": true,
+                "triggerClass": "active",
+                "parentClass": "active",
+                "buttons": []
+            }
+        }'>
+            <ul>
+                <li>
+                    <a class="desktop-device" href="<?= $block->getBaseUrl() ?>customer/account/">
+                        <?= $block->escapeHtml(__('Account')) ?>
+                    </a>
+                    <a class="mobile-device" href="<?= $block->getBaseUrl() ?>customer">
+                        <?= $block->escapeHtml(__('Account')) ?>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= $block->getBaseUrl() ?>customer/account/logout">
+                        <?= $block->escapeHtml(__('Log out')) ?>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+<?php else: ?>
+    <div class="header-customer header-customer-notlogin">
+        <a id="customer-signup" href="<?= $block->getBaseUrl() ?>customer/account/create">
+            <?= $block->escapeHtml(__('Register')) ?>
+        </a>
+        <a id="customer-signin" href="<?= $block->getBaseUrl() ?>customer/account/login">
+            <?= $block->escapeHtml(__('Log in')) ?>
+        </a>
+    </div>
+
+    <script>
+        require(['jquery', 'mage/cookies'], function ($) {
+            if (location.href.search('customer/account') === -1) {
+                $.mage.cookies.clear('login_redirect');
+                $.mage.cookies.set('login_redirect', location.href);
+            }
+        })
+    </script>
+<?php endif ?>
+
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Ui/js/core/app": {
+                "components": {
+                    "customer": {
+                        "component": "Magento_Customer/js/view/customer"
+                    }
+                }
+            }
+        }
+    }
+
+</script>

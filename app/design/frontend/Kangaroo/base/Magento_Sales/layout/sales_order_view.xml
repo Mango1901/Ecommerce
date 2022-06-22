@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="page.main.title">
+            <container name="order.actions.container" htmlTag="div" htmlClass="actions-toolbar order-actions-toolbar" before="order.status">
+                <block class="Magento\Sales\Block\Order\Info\Buttons" as="buttons" name="sales.order.info.buttons" cacheable="false"/>
+            </container>
+        </referenceContainer>
+
+        <referenceBlock name="page_description" remove="true"/>
+        <referenceBlock name="order.date" remove="true" />
+        <referenceBlock name="sales.order.info.buttons.cancel" remove="true" />
+        <referenceBlock name="tax" remove="true" />
+    </body>
+</page>

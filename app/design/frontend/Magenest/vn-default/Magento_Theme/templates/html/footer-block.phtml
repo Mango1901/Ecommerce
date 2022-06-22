@@ -1,0 +1,43 @@
+<div class="footer-block">
+    <div class="footer-col">
+        <?php
+        echo $block->getLayout()
+            ->createBlock('Magento\Cms\Block\Block')
+            ->setBlockId('footer-logo') // cms block identifier
+            ->toHtml();
+        ?>
+    </div>
+    <div class="footer-col">
+        <?php
+        echo $block->getLayout()
+            ->createBlock('Magento\Cms\Block\Block')
+            ->setBlockId('footer-column1') // cms block identifier
+            ->toHtml();
+        ?>
+    </div>
+    <div class="footer-col">
+        <?php
+        echo $block->getLayout()
+            ->createBlock('Magento\Cms\Block\Block')
+            ->setBlockId('footer-column2') // cms block identifier
+            ->toHtml();
+        ?>
+    </div>
+    <div class="footer-col">
+        <?php
+        echo $block->getLayout()
+            ->createBlock('Magento\Cms\Block\Block')
+            ->setBlockId('footer-column3') // cms block identifier
+            ->toHtml();
+        ?>
+    </div>
+
+    <div class="footer-col">
+        <?php
+        echo $block->getLayout()
+            ->createBlock('Magento\Cms\Block\Block')
+            ->setBlockId('footer-column4') // cms block identifier
+            ->toHtml();
+        ?>
+    </div>
+</div>

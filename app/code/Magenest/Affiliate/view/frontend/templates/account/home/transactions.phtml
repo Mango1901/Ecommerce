@@ -1,0 +1,123 @@
+<?php
+
+
+/** @var Magenest\Affiliate\Block\Account\Home\Transaction $block */
+$transactions = $block->getTransactions()
+
+?>
+<div class="box-account box-info box-affiliate-transaction">
+    <div class="box-head">
+        <h2><?= __('Transaction history') ?></h2>
+        <div class="box-filter">
+            <label class="label">
+                <input type="text" id="daterange" name="daterange" value="" style="width: 200px"/>
+            </label>
+            <script>
+                require([
+                    'jquery',
+                    'moment',
+                    'mage/translate',
+                    'daterangepicker',
+                ], function($, moment, $t){
+                    const fromDateParam = '<?= $block->getRequest()->getParam('from_date') ?>';
+                    const toDateParam = '<?= $block->getRequest()->getParam('to_date') ?>';
+                    const formatDate = 'YYYY-MM-DD';
+
+                    let start = moment().subtract(30, 'days');
+                    let end = moment();
+
+                    if (moment(fromDateParam, formatDate, true).isValid()) {
+                        start = fromDateParam;
+                    }
+
+                    if (moment(toDateParam, formatDate, true).isValid()) {
+                        end = toDateParam;
+                    }
+
+                    $('#daterange').daterangepicker({
+                        showDropdowns: true,
+                        timePicker: false,
+                        opens: 'left',
+                        startDate: start,
+                        endDate: end,
+                        applyButtonClasses: 'btn-primary',
+                        locale: {
+                            format: formatDate,
+                            applyLabel: $t('Apply'),
+                            cancelLabel: $t('Cancel')
+                        }
+                    });
+
+                    $('#daterange').on('apply.daterangepicker', function(ev, picker) {
+                        const fromDate = picker.startDate.format(formatDate);
+                        const toDate = picker.endDate.format(formatDate);
+                        $(this).val(fromDate + ' - ' + toDate);
+                        let param = `?from_date=${fromDate}&to_date=${toDate}`;
+                        const limitParam = '<?= $block->getRequest()->getParam('limit') ?>';
+
+                        if (!!limitParam) {
+                            param += `&limit=${limitParam}`
+                        }
+
+                        window.location.href = '<?= $this->getUrl('*/*/*') ?>' + param
+                    });
+                });
+            </script>
+        </div>
+    </div>
+    <div class="block transaction-history">
+        <table class="data-table" id="affiliate-transactions-history">
+            <thead>
+            <tr>
+                <th class="col id">#</th>
+                <th class="col title"><?= __('Title') ?></th>
+                <th class="col amount"><?= __('Total commission') ?></th>
+                <th class="col amount"><?= __('Tax deduction') ?></th>
+                <th class="col amount"><?= __('Amount') ?></th>
+                <th class="col transactions"><?= __('Customer transactions') ?></th>
+                <th class="col status"><?= __('Status') ?></th>
+                <th class="col created_at"><?= __('Created Date') ?></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php if ($transactions->getSize()): ?>
+                <?php foreach ($transactions as $transaction): ?>
+                    <tr>
+                        <td data-th="#" class="col id"><?= $transaction->getId() ?></td>
+                        <td data-th="<?= __('Title') ?>" class="col title"><?= __($transaction->getTitle()) ?></td>
+                        <td data-th="<?= __('Total commission') ?>" class="col a-right amount <?= $transaction->getTotalCommission() > 0 ? 'amount-plus': '' ?>">
+                            <span class="price">
+                                <?= $block->formatPriceAffiliate($transaction->getTotalCommission()) ?>
+                            </span>
+                        </td>
+                        <td data-th="<?= __('Tax deduction') ?>" class="col a-right amount">
+                            <span class="price">
+                                <?= $block->formatPriceAffiliate($transaction->getTaxDeduction()) ?>
+                            </span>
+                        </td>
+                        <td data-th="<?= __('Amount') ?>" class="col a-right amount <?= $transaction->getAmount() > 0 ? 'amount-plus': '' ?>">
+                            <span class="price">
+                                <?= $block->formatPriceAffiliate($transaction->getAmount()) ?>
+                            </span>
+                        </td>
+                        <td data-th="<?= __('Transactions') ?>" class="col transactions"><?= $block->getCustomerEmailByOrderId($transaction->getOrderId()); ?></td>
+                        <td data-th="<?= __('Status') ?>" class="col status"><?= $transaction->getStatusLabel() ?></td>
+                        <td data-th="<?= __('Created Date') ?>" class="col created_at">
+                            <span class="nobr"><?= $block->formatDate($transaction->getCreatedAt(), \IntlDateFormatter::MEDIUM, true) ?></span>
+                        </td>
+                    </tr>
+                <?php endforeach ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="6" class="no-transaction">
+                        <span><?= __('No transaction found!') ?></span>
+                    </td>
+                </tr>
+            <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+    <?php if ($this->getChildHtml('pager')): ?>
+        <?= $block->getChildBlock('pager')->setData('toolbar_number_title', 'Transaction')->toHtml() ?>
+    <?php endif; ?>
+</div>

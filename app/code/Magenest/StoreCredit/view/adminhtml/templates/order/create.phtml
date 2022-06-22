@@ -1,0 +1,51 @@
+<?php
+/**
+ * Magenest
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magenest.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.magenest.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Magenest
+ * @package     Magenest_StoreCredit
+ * @copyright   Copyright (c) Magenest (https://www.magenest.com/)
+ * @license     https://www.magenest.com/LICENSE.txt
+ */
+
+/** @var \Magenest\StoreCredit\Block\Adminhtml\Order\Create\StoreCredit $block */
+$checked = $block->isSpendingCredit() ? 'checked="checked"' : '';
+$label = __('Store Credit Score') . ' [-' . $block->getConvertAndFormatBalance() . ']';
+?>
+
+<?php if ($block->isEnabled() && $block->isEnabledSpending()): ?>
+    <div id="order-billing-store-credit">
+        <dl class="admin__order-payment-extra-fee">
+            <dd class="admin__order-shipment-methods-options">
+                <ul class="admin__order-shipment-extra-fee-options-list">
+                    <li class="admin__field-option">
+                        <input type="checkbox" name="mp_store_credit" id="mp-store-credit"
+                               class="admin__control-checkbox mp-store-credit" <?php echo $checked ?>/>
+                        <label class="admin__field-label" for="mp-store-credit"><?php echo $label ?></label>
+                    </li>
+                </ul>
+            </dd>
+        </dl>
+    </div>
+
+    <style type="text/css">
+        #order-billing-store-credit li.admin__field-option {
+            display: inline-block;
+        }
+    </style>
+
+    <script type="text/javascript">
+        require(['Magenest_StoreCredit/js/view/order/create']);
+    </script>
+<?php endif; ?>

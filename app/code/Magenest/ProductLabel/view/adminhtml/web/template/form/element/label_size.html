@@ -1,0 +1,28 @@
+<!--
+/**
+ * Copyright © 2020 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ *
+ * Magenest_ProductLabel extension
+ * NOTICE OF LICENSE
+ *
+ * @category Magenest
+ * @package  Magenest_ProductLabel
+ */
+ -->
+
+<div class="range-slider">
+    <input class="range-slider__range" type="range" min="50" max="150"
+           data-bind="
+        event: {click: clickLabelSize},
+        hasFocus: focused,
+        valueUpdate: valueUpdate,
+        attr: {
+            value: sizeDefault,
+            name: inputName,
+            placeholder: placeholder,
+            'aria-describedby': noticeId,
+            id: uid
+    }"/>
+    <span class="range-slider__value" data-bind="text: sizeDefault"></span><span>px</span>
+</div>

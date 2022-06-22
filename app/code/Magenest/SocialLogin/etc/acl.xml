@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magenest_SocialLogin::sociallogin" title="Magenest SocialLogin">
+                    <resource id="Magenest_SocialLogin::config_sociallogin" title="SocialLogin Setting Section"/>
+                    <resource id="Magenest_SocialLogin::menu_sociallogin" title="SocialLogin Menu Section"/>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

@@ -1,0 +1,64 @@
+/**
+* Copyright © Magento, Inc. All rights reserved.
+* See COPYING.txt for license details.
+*/
+.sales-order-address {
+  .directory-fields {
+    padding: 0;
+
+      > .field {
+          display: flex;
+          margin-bottom: 3rem;
+          margin-top: 1.5rem;
+
+          > label {
+              width: calc(~"(100%) * 0.25 - 30px");
+              float: left;
+              margin-left: 6px;
+          }
+
+          > .control {
+              width: calc(~"(100%) * 0.5 - 15px");
+              float: left;
+              margin-left: 30px;
+          }
+      }
+
+      .field-country {
+          display: none;
+      }
+  }
+}
+
+.order-address {
+  .directory-fields {
+    padding-bottom: 25px;
+    position: relative;
+    margin-left: -30px;
+    padding-left: 30px;
+    .admin__field + .admin__field {
+      margin-top: 2.5rem;
+    }
+  }
+}
+/*.order-billing_address_directory-fields , .order-shipping_address_directory-fields{
+    .admin__field {
+        .admin__field-label {
+            margin-left: auto;
+        }
+    }
+}
+
+.directory-fields {
+    padding-top: 0;
+    margin-left: 434px;
+    .admin__field {
+        label {
+            float: left;
+            margin-left: -75px;
+        }
+        .admin__field-control {
+            padding-left: 3px;
+        }
+    }
+    }*/

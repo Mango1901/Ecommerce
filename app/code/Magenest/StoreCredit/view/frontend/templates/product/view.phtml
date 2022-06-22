@@ -1,0 +1,59 @@
+<?php
+/**
+ * Magenest
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magenest.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.magenest.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Magenest
+ * @package     Magenest_StoreCredit
+ * @copyright   Copyright (c) Magenest (https://www.magenest.com/)
+ * @license     https://www.magenest.com/LICENSE.txt
+ */
+
+// @codingStandardsIgnoreFile
+
+/* @var \Magenest\StoreCredit\Block\Product\View $block */
+$information = $block->getInformation();
+$ninCredit = $block->formatPrice($information['minCredit']);
+$maxCredit = $block->formatPrice($information['maxCredit']);
+$placeholder = __('From %1 To %2', $ninCredit, $maxCredit);
+?>
+
+<div id="credit-container">
+    <?php if (!$information['creditRange']): ?>
+        <div class="credit-fixed">
+            <h2 class="credit-title"><?php echo __('Credit Amount') ?></h2>
+            <h2 class="credit-amount"><?php echo $block->formatPrice($information['creditAmount']) ?></h2>
+        </div>
+    <?php else: ?>
+        <div class="fieldset credit-range">
+            <div class="field credit-field required">
+                <label class="label" for="credit-amount">
+                    <span><?php echo __('Enter Amount') ?></span>
+                </label>
+                <div class="control">
+                    <input type="hidden" name="credit_amount" id="credit-amount" class="credit-amount">
+                    <input type="number" name="credit_amount_convert" id="credit-amount-convert"
+                           class="input-text credit-amount-convert"
+                           placeholder="<?php echo $placeholder ?>"
+                           data-validate="{'required-number':true,'validate-item-quantity':{'minAllowed':1}}">
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            window.storeCreditInformation = <?php /* @escapeNotVerified */ echo \Magenest\StoreCredit\Helper\Data::jsonEncode($information); ?>;
+
+            require(['Magenest_StoreCredit/js/view/product']);
+        </script>
+    <?php endif; ?>
+</div>

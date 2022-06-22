@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="catalog_product_option_price_configuration_after">
+        <observer name="add_product_option_origin_final_price" instance="Magenest\AffiliateCatalogRule\Observer\AddProductOptionOriginFinalPrice" />
+    </event>
+</config>

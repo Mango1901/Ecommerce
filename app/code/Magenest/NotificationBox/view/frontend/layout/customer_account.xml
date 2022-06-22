@@ -1,0 +1,13 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="customer_account_navigation" >
+            <block class="Magenest\Customer\Block\NotificationNavigation" name="customer-account-notification-link" ifconfig="magenest_notification_box/general/enable">
+                <arguments>
+                    <argument name="path" xsi:type="string">notibox/customer/notification</argument>
+                    <argument name="label" xsi:type="string" translate="true">My Notification</argument>
+                    <argument name="sortOrder" xsi:type="number">900</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

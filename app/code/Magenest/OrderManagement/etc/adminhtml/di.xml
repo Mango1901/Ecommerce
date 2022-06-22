@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!--Plugin-->
+    <type name="Magento\Sales\Model\ResourceModel\Order\Grid\Collection">
+        <plugin name="magenest_order_management" type="Magenest\OrderManagement\Model\Plugin\ResourceModel\Order\Grid\Collection" />
+    </type>
+<!--    <type name="Magento\Sales\Block\Adminhtml\Order\View">-->
+<!--        <plugin name="magenest_order_management" type="Magenest\OrderManagement\Block\Adminhtml\Plugin\Sales\Order\View" />-->
+<!--    </type>-->
+    <type name="Magento\Sales\Controller\Adminhtml\Order\Index">
+        <plugin name="magenest_order_management" type="Magenest\OrderManagement\Controller\Adminhtml\Plugin\Order\Index" />
+    </type>
+    <type name="Magento\Sales\Model\Order\Email\Container\CreditmemoIdentity">
+        <plugin name="add_warehouse_notifier" type="Magenest\OrderManagement\Plugin\Magento\Sales\Model\Order\Email\Container\CreditmemoIdentity" />
+    </type>
+    <type name="Magento\Sales\Block\Adminhtml\Order\View\Items">
+        <plugin name="remove_tax_columns_item_ordered" type="Magenest\OrderManagement\Plugin\Magento\Sales\Block\Adminhtml\Order\View\Items" />
+    </type>
+    <type name="Magento\Sales\Block\Adminhtml\Order\View\Items\Renderer\DefaultRenderer">
+        <plugin name="remove_tax_columns_item_rendered" type="Magenest\OrderManagement\Plugin\Magento\Sales\Block\Adminhtml\Order\View\Items\Renderer\DefaultRenderer" />
+    </type>
+    <type name="Magento\Sales\Model\Order\Config">
+        <plugin name="remove_migrate_order_status" type="Magenest\OrderManagement\Plugin\Magento\Sales\Model\Order\Config" />
+    </type>
+</config>

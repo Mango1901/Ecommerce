@@ -1,0 +1,57 @@
+<?php
+/** @var \Magenest\ViettelPost\Block\Adminhtml\Shipment\Inventory $block */
+$shipment = $block->getShipment();
+$order = $shipment->getOrder();
+$shippingCarriers = $block->getShippingCarrier();
+$proviceData = $block->getProvinceData();
+$districtData = $block->getDistrictData();
+$wardsData = $block->getWardsData();
+?>
+<?php if ($block->isDisplayed()){ ?>
+    <div class="admin__page-section-item shipment-carrier" data-bind="scope: 'vt_form'" id="vt_form">
+        <div class="admin__page-section-item-title">
+            <span class="title">Select shipping carrier</span>
+        </div>
+        <div class="admin__page-section-item-content">
+            <select class="select admin__control-select" id="carrier_select" name="shipment[carrier_select]" data-bind="event:{ change: checkShouldDisplayNote}">
+<!--                <option value="">Select shipping carrier</option>-->
+                <?php foreach ($shippingCarriers as $carrierCode => $carrierModel){?>
+                    <option value="<?= $carrierCode?>"><?= ucwords(str_replace("_", " ", $carrierCode))?></option>
+                <?php } ?>
+            </select>
+        </div>
+
+        <!-- ko if: displayViettelPostField -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+        <!-- /ko -->
+
+        <script type="text/x-magento-init">
+            {
+                 "#vt_form": {
+                        "Magento_Ui/js/core/app": {
+                            "components": {
+                                "vt_form": {
+                                    "component": "Magenest_ViettelPost/js/address",
+                                    "province": "<?=$block->escapeJs(json_encode($proviceData))?>",
+                                    "district": "<?=$block->escapeJs(json_encode($districtData))?>",
+                                    "wards": "<?=$block->escapeJs(json_encode($wardsData))?>"
+                                }
+                            }
+                        }
+                 }
+            }
+
+        </script>
+
+        <div data-bind="visible: displayViettelPostField">
+            <div class="admin__page-section-item-title">
+                <span class="title">Shipment Note</span>
+            </div>
+
+            <div class="admin__page-section-item-content">
+                <textarea id="shipment_order_note" name="shipment[shipment_order_note]" rows="6" cols="80"><?= $order->getCustomerNote()?></textarea>
+            </div>
+        </div>
+        <br>
+    </div>
+<?php } ?>

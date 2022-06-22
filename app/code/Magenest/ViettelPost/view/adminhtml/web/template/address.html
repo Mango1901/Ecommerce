@@ -1,0 +1,102 @@
+<div class="directory-fields directory-fields">
+    <div class="field field-city admin__field">
+        <label class="label admin__field-label" for="city_id">
+            <span>Province</span>
+        </label>
+        <div class=" admin__field-control">
+            <select id="city_id" name="province_id" class="select admin__control-select"
+                    data-validate="{required:true}"
+                    data-bind="
+                           options: provinceArr,
+                           optionsText: function(item) {return item.province_name},
+                           optionsValue: function(item) {return item.province_id},
+                           optionsCaption: 'Please select',
+                           value: provinceId,
+                           event:{ change: changeDistrictArr}
+                      ">
+            </select>
+        </div>
+    </div>
+
+    <div class="field field-district admin__field">
+        <label class="label admin__field-label" for="district_id">
+            <span>District</span>
+        </label>
+        <div class=" admin__field-control">
+            <select id="district_id" name="district_id" class="select admin__control-select"
+                    data-bind="
+                        options: districtArrKo,
+                        optionsText: function(item) {return item.district_name},
+                        optionsValue: function(item) {return item.district_id},
+                        optionsCaption: 'Please select',
+                        value: districtId,
+                        event:{ change: changeWardsArr}
+                    ">
+            </select>
+        </div>
+    </div>
+    <div class="field field-ward admin__field">
+        <label class="label admin__field-label" for="ward_id">
+            <span>Wards</span>
+        </label>
+        <div class=" admin__field-control">
+            <select id="ward_id" name="wards_id" class="select admin__control-select"
+                    data-bind="
+                        options: wardsArrKo,
+                        optionsText: function(item) {return item.wards_name},
+                        optionsValue: function(item) {return item.wards_id},
+                        optionsCaption: 'Please select',
+                        value: wardsId
+                    ">
+            </select>
+        </div>
+    </div>
+    <div class="field field-city admin__field">
+        <label class="label admin__field-label" for="city_id">
+            <span>Order Service Add</span>
+        </label>
+        <div class="admin__field-control">
+            <select id="order_service_add" name="order_service_add" class="select admin__control-select">
+                <option value="">Please select</option>
+                <option value="GBH">Bảo hiểm</option>
+                <option value="GBP">Báo phát</option>
+                <option value="GCH">GCH Chuyển hoàn</option>
+                <option value="GDK">Đồng kiểm</option>
+                <option value="GGD">Giao Bưu phẩm tại điểm giao dịch</option>
+                <option value="GNG">Gửi tại bưu cục (Giảm 10% cước)</option>
+                <option value="GTK">Thư ký</option>
+                <option value="GTT">Phát tận tay</option>
+                <option value="HGC">Hàng giá trị cao</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="admin__field admin__field-small">
+        <label class="label admin__field-label" for="product_weight"><span>Product Weight (gram)</span></label>
+        <div class="admin__field-control control">
+            <input id="product_weight" name="product_weight" data-validate="{'validate-greater-than-zero':true}"
+                   class="input-text admin__control-text" type="text">
+        </div>
+    </div>
+    <div class="admin__field admin__field-small">
+        <label class="label admin__field-label" for="product_length"><span>Product Length (cm)</span></label>
+        <div class="admin__field-control control">
+            <input id="product_length" name="product_length" data-validate="{'validate-greater-than-zero':true}"
+                   class="input-text admin__control-text" type="text">
+        </div>
+    </div>
+    <div class="admin__field admin__field-small">
+        <label class="label admin__field-label" for="product_width"><span>Product Width (cm)</span></label>
+        <div class="admin__field-control control">
+            <input id="product_width" name="product_width" data-validate="{'validate-greater-than-zero':true}"
+                   class="input-text admin__control-text" type="text">
+        </div>
+    </div>
+    <div class="admin__field admin__field-small">
+        <label class="label admin__field-label" for="product_height"><span>Product Height (cm)</span></label>
+        <div class="admin__field-control control">
+            <input id="product_height" name="product_height" data-validate="{'validate-greater-than-zero':true}"
+                   class="input-text admin__control-text" type="text">
+        </div>
+    </div>
+</div>

@@ -1,0 +1,733 @@
+<?php
+// @codingStandardsIgnoreFile
+
+$helper = $this->helper('Magenest\MapList\Helper\Config');
+$dataView = $block->getDataView();
+$dataConfig = $block->getConfig();
+$unitSystem = $dataConfig['unit'];
+$api_key = $dataConfig['mapApi'];
+$baseUrl = $this->getBaseUrl();
+
+$arrTime = $helper->getOpenHours();
+
+$active_tab = $helper->getShowtab();
+
+$configZoom = $helper->getZoom();
+
+
+?>
+<!--Popup infomation of Store-->
+<div style="display:none" id="popup-modal">
+    <section class="tabs">
+        <input id="tab-1" type="radio" name="radio-set" class="tab-selector-1" checked="checked"/>
+        <label for="tab-1" class="tab-label-1">Store</label>
+
+        <input id="tab-2" type="radio" name="radio-set" class="tab-selector-2" style="background:#ededed!important"/>
+        <label for="tab-2" class="tab-label-2">Hours</label>
+
+        <input id="tab-3" type="radio" name="radio-set" class="tab-selector-3" style="background:#ededed!important"/>
+        <label for="tab-3" class="tab-label-3">Promotions</label>
+
+        <input id="tab-4" type="radio" name="radio-set" class="tab-selector-4" style="background:#ededed!important"/>
+        <label for="tab-4" class="tab-label-4">Get Direction</label>
+
+        <div class="clear-shadow"></div>
+
+        <div class="content">
+            <div class="content-1">
+                <br>
+                <h1><p id="store_name"></p></h1>
+                <h3><p id="addr"></p></h3>
+                <h3><p id="phone"></p></h3>
+                <h3 id="email_maplist"></h3>
+                <h3><a id="website" target="_blank" href=""></a></h3>
+                <h3><p id="description"></p></h3>
+                <div class="viewStore">
+                    <a id="viewStore"
+                       href=""><?= __("View store") ?> </a>
+                </div>
+            </div>
+
+
+            <!--Content tab opening hours-->
+            <div class="content-2" style="display:none">
+                <br>
+                <h1>Opening Hours</h1>
+                <table>
+                    <tbody>
+                    <tr id="mondayy">
+                        <td>
+                            <p align="right">Monday: </p>
+                        </td>
+                        <td>
+                            <p align="left" id="monday"></p>
+                        </td>
+                    </tr>
+                    <tr id="tuesdayy">
+                        <td>
+                            <p align="right">Tuesday: </p>
+                        </td>
+                        <td>
+                            <p align="left" id="tuesday"></p>
+                        </td>
+                    </tr>
+                    <tr id="wednesdayy">
+                        <td>
+                            <p align="right">Wednesday: </p>
+                        </td>
+                        <td>
+                            <p align="left" id="wednesday"></p>
+                        </td>
+                    </tr>
+                    <tr id="thursdayy">
+                        <td>
+                            <p align="right">Thursday: </p>
+                        </td>
+                        <td>
+                            <p align="left" id="thursday"></p>
+                        </td>
+                    </tr>
+                    <tr id="fridayy">
+                        <td>
+                            <p align="right">Friday: </p>
+                        </td>
+                        <td>
+                            <p align="left" id="friday"></p>
+                        </td>
+                    </tr>
+                    <tr id="saturdayy">
+                        <td>
+                            <p align="right">Saturday: </p>
+                        </td>
+                        <td>
+                            <p align="left" id="saturday"></p>
+                        </td>
+                    </tr>
+                    <tr id="sundayy">
+                        <td>
+                            <p align="right">Sunday: </p>
+                        </td>
+                        <td>
+                            <p align="left" id="sunday"></p>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <!--Content tab Special Date-->
+            <div class="content-3" style="display:none">
+                <br>
+                <h1>Special Date</h1>
+                <div class="prettyMapList map_list-location">
+                    <div id="fisrt-div" style="max-height: 300px; overflow-y: auto">
+                        <ul id="fisrt-ul" class="unstyled prettyListItems"></ul>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--Tab Direction-->
+            <div class="content-4" style="display:none">
+                <br>
+                <h1>Get Direction</h1>
+                <p id="geolocation_warning" style="display: none"><font color="red" style="font-size:2em"><strong>SORRY,
+                            Geolocation service
+                            is not supported in your browsers. You need pick location manually to get direction</strong></font>
+                </p>
+                <h3>Start (Your Location): <a id="start_addr"> </a></h3>
+                <h3>End (Store Address): <a id="end_addr"> </a></h3>
+                <input id="cur_lat" type="hidden"/>
+                <input id="cur_lng" type="hidden"/>
+                <button onclick="geolocation();">Get Direction from your location</button>
+                <br>
+                <div id="map" style=""></div>
+                <div id="right-panel">
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<style>
+    #map * {
+        overflow: visible;
+    }
+</style>
+<script>
+    var loc_array = <?= json_encode($dataView);?>;
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function ($, modal) {
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                title: '',
+                buttons: [{
+                    text: $.mage.__('Close'),
+                    class: '',
+                    click: function () {
+                        this.closeModal();
+                    }
+                }]
+            };
+
+            var popup = modal(options, $('#popup-modal'));
+            $('.location_list').each(function (index) {
+                $(this).on("click", function () {
+                    $('#right-panel').empty();
+                    var openHours = [];
+                    index_arr = $(this).find('input[name="index"]').val();
+                    cur_lat = loc_array[index_arr].latitude;
+                    cur_lng = loc_array[index_arr].longitude;
+                    marker_img = loc_array[index_arr].small_image_url;
+                    if (loc_array[index_arr].phone_number == null) {
+                        loc_array[index_arr].phone_number = '';
+                    }
+                    if (loc_array[index_arr].description == null) {
+                        loc_array[index_arr].description = '';
+                    }
+                    if (loc_array[index_arr].short_description == null) {
+                        loc_array[index_arr].short_description = '';
+                    }
+                    if (loc_array[index_arr].website == null) {
+                        loc_array[index_arr].website = '';
+                    }
+                    if (loc_array[index_arr].email == null) {
+                        loc_array[index_arr].email = '';
+                    }
+                    if (loc_array[index_arr].opening_hours == null) {
+                        openHours = <?= $arrTime ?>;
+                    } else {
+                        openHours = JSON.parse(loc_array[index_arr].opening_hours);
+                    }
+                    var specialDate = JSON.parse(loc_array[index_arr].special_date);
+                    reloadmap();
+                    clearMarker();
+                    marker = placeMarker(map, cur_lat, cur_lng, marker_img);
+
+                    //tab store information
+                    $('#end_addr').text(loc_array[index_arr].address != null ? loc_array[index_arr].address : getAddress(cur_lat, cur_lng));
+                    $('#addr').text(loc_array[index_arr].address != null ? loc_array[index_arr].address : getAddress(cur_lat, cur_lng));
+                    $('#store_name').text(loc_array[index_arr].title);
+                    $('#shor_des').text(loc_array[index_arr].short_description);
+                    $('#description').text($(loc_array[index_arr].description).text());
+                    $('#cur_lat').val(cur_lat);
+                    $('#cur_lng').val(cur_lng);
+                    $('#website').attr("href", (loc_array[index_arr].website));
+                    $('#website').text(loc_array[index_arr].website);
+                    $('#website').css("color", "#006bb4")
+                    $('#email_maplist').text(loc_array[index_arr].email);
+                    $('#phone').text(loc_array[index_arr].phone_number);
+                    $('#viewStore').attr('href',"<?= $block->getUrl('maplist/view/index') . 'id/'?>" + loc_array[index_arr].location_id);
+
+
+                    //tab opening hours
+                    if (openHours['opening_hours_monday'] === "" || openHours['opening_hours_monday'] === null) {
+                        $('#mondayy').hide();
+                    } else $('#mondayy').show();
+                    if (openHours['opening_hours_tuesday'] === "" || openHours['opening_hours_tuesday'] === null) {
+                        $('#tuesdayy').hide();
+                    } else $('#tuesdayy').show();
+                    if (openHours['opening_hours_wednesday'] === "" || openHours['opening_hours_wednesday'] === null) {
+                        $('#wednesdayy').hide();
+                    } else $('#wednesdayy').show();
+                    if (openHours['opening_hours_thursday'] === "" || openHours['opening_hours_thursday'] === null) {
+                        $('#thursdayy').hide();
+                    } else $('#thursdayy').show();
+                    if (openHours['opening_hours_friday'] === "" || openHours['opening_hours_friday'] === null) {
+                        $('#fridayy').hide();
+                    } else $('#fridayy').show();
+                    if (openHours['opening_hours_saturday'] === "" || openHours['opening_hours_saturday'] === null) {
+                        $('#saturdayy').hide();
+                    } else $('#saturdayy').show();
+                    if (openHours['opening_hours_sunday'] === "" || openHours['opening_hours_sunday'] === null) {
+                        $('#sundayy').hide();
+                    } else $('#sundayy').show();
+
+                    $('#monday').text(openHours['opening_hours_monday']);
+                    $('#tuesday').text(openHours['opening_hours_tuesday']);
+                    $('#wednesday').text(openHours['opening_hours_wednesday']);
+                    $('#thursday').text(openHours['opening_hours_thursday']);
+                    $('#friday').text(openHours['opening_hours_friday']);
+                    $('#saturday').text(openHours['opening_hours_saturday']);
+                    $('#sunday').text(openHours['opening_hours_sunday']);
+
+                    //Find and highlight today
+                    var findToday = new Date().getDay();
+                    if (findToday === 0) {
+                        $('#sundayy').css("font-weight", "bold");
+                        $('#sundayy').css("font-size", "1.1em");
+                    } else if (findToday === 1) {
+                        $('#mondayy').css("font-weight", "bold");
+                        $('#mondayy').css("font-size", "1.1em");
+                    } else if (findToday === 2) {
+                        $('#tuesdayy').css("font-weight", "bold");
+                        $('#tuesdayy').css("font-size", "1.1em");
+                    } else if (findToday === 3) {
+                        $('#wednesdayy').css("font-weight", "bold");
+                        $('#wednesdayy').css("font-size", "1.1em");
+                    } else if (findToday === 4) {
+                        $('#thursdayy').css("font-weight", "bold");
+                        $('#thursdayy').css("font-size", "1.1em");
+                    } else if (findToday === 5) {
+                        $('#fridayy').css("font-weight", "bold");
+                        $('#fridayy').css("font-size", "1.1em");
+                    } else {
+                        $('#saturdayy').css("font-weight", "bold");
+                        $('#saturdayy').css("font-size", "1.1em");
+                    }
+
+                    //tab special date
+                    //find and highlight today if it coincides with a special day and reformat special date
+                    var html2 = '';
+                    var table = document.getElementById('fisrt-li');
+                    var today = new Date();
+                    var dd = today.getDate();
+                    var mm = today.getMonth() + 1;
+                    var yyyy = today.getFullYear();
+
+                    if (mm === 10 || mm === 11 || mm === 12) {
+                        var mm1 = mm;
+                    } else {
+                        var mm1 = '0' + mm;
+                    }
+                    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                    var fullday = mm1 + '/' + dd + '/' + yyyy;
+                    var today = fullday.toString();
+                    var formatddate;
+                    var speDate;
+
+                    //if tab special page haven't content
+                    if (table == null) {
+                        $.each(specialDate, function (key, value) {
+                            if (value['special_date'] === today) {
+                                speDate = value['special_date'].split("/");
+                                $.each(months, function (key, value) {
+                                    if (speDate[0] == key + 1) {
+                                        formatddate = value + '/' + speDate[1] + '/' + speDate[2];
+                                    }
+                                });
+                                html2 += '<li id="fisrt-li">' +
+                                    '<div class="corePrettyStyle prettylink map location location_list">' +
+                                    '<p style="font-weight:bold ; font-size:1.2em" id="special-date">' + formatddate + '</p>' +
+                                    '<p style="font-weight:bold ; font-size:1.2em" id="description">' + value['description'] + '</p>' +
+                                    '</div>' +
+                                    '</li>';
+                            } else {
+                                speDate = value['special_date'].split("/");
+                                $.each(months, function (key, value) {
+                                    if (speDate[0] == key + 1) {
+                                        formatddate = value + '/' + speDate[1] + '/' + speDate[2];
+                                    }
+                                });
+                                html2 += '<li id="fisrt-li">' +
+                                    '<div class="corePrettyStyle prettylink map location location_list">' +
+                                    '<p id="special-date">' + formatddate + '</p>' +
+                                    '<p id="description">' + value['description'] + '</p>' +
+                                    '</div>' +
+                                    '</li>';
+                            }
+                        });
+                        $('#fisrt-ul').append(html2);
+                    } else {
+                        //if tab special page have content
+                        html2 += '<ul id="fisrt-ul" class="unstyled prettyListItems">';
+                        $.each(specialDate, function (key, value) {
+                            if (value['special_date'] === today) {
+                                speDate = value['special_date'].split("/");
+                                $.each(months, function (key, value) {
+                                    if (speDate[0] == key + 1) {
+                                        formatddate = value + '/' + speDate[1] + '/' + speDate[2];
+                                    }
+                                });
+                                html2 += '<li id="fisrt-li">' +
+                                    '<div class="corePrettyStyle prettylink map location location_list">' +
+                                    '<p style="font-weight:bold ; font-size:1.2em" id="special-date">' + formatddate + '</p>' +
+                                    '<p style="font-weight:bold ; font-size:1.2em" id="description">' + value['description'] + '</p>' +
+                                    '</div>' +
+                                    '</li>';
+                            } else {
+                                speDate = value['special_date'].split("/");
+                                $.each(months, function (key, value) {
+                                    if (speDate[0] == key + 1) {
+                                        formatddate = value + '/' + speDate[1] + '/' + speDate[2];
+                                    }
+                                });
+                                html2 += '<li id="fisrt-li">' +
+                                    '<div class="corePrettyStyle prettylink map location location_list">' +
+                                    '<p id="special-date">' + formatddate + '</p>' +
+                                    '<p id="description">' + value['description'] + '</p>' +
+                                    '</div>' +
+                                    '</li>';
+                            }
+                        });
+                        html2 += '</ul>';
+                        $('#fisrt-ul').remove();
+                        $('#fisrt-div').append(html2);
+                    }
+                    $('#popup-modal').modal('openModal');
+                    geolocation();
+                })
+            });
+            $('.modal-header').remove();
+        }
+    );
+</script>
+
+<!--display store in tab Product Available at-->
+<?php if (!!$dataView && $active_tab == 1) { ?>
+    <div class="prettyMapList map_list-location">
+        <div id="ListContainer" style="max-height: 300px; overflow-y: auto">
+            <ul class="unstyled prettyListItems">
+                <?php foreach ($dataView as $k => $location) { ?>
+                    <li>
+                        <div id="map_location_list" class="corePrettyStyle prettylink map location location_list">
+                            <input style="display: none" type="text" name="index" value="<?= $k ?>">
+                            <div class="">
+                                <a href="#"><?= $location['title'] ?></a>
+                                <div class="">
+                                    <?= ($location['address'] != null ? $location['address'] : $block->getAddress($location['latitude'], $location['longitude'], $helper->getApiKey())) ?>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                <?php } ?>
+            </ul>
+        </div>
+    </div>
+<?php } ?>
+<script>
+    require([
+            'jquery',
+        ], function ($) {
+            'use strict';
+            //display tab Product Available when active
+            var activeTab = '<?= $active_tab?>';
+            var numberStore = '<?php if (!!$dataView) {
+                echo sizeof($dataView);
+            } else {
+                echo null;
+            }?>';
+            if (numberStore == '' || activeTab == 0) {
+                var container = document.getElementsByClassName('product data items');
+                var elements = container[0].children;
+                for (var i = 0; i < elements.length; i++) {
+                    if (elements[i].id == 'tab-label-maplist.catalog.locationCatalog') {
+                        elements[0].hidden = true;
+                    }
+                }
+            }
+        }
+    );
+</script>
+
+<script>
+
+    //Show map in tab Direction
+    var default_zoom = parseInt('<?= $configZoom; ?>');
+    var default_travel_mode = '<?= $dataConfig['travel_mode'] ?>';
+    var directionsDisplay;
+    var directionsService;
+    var map;
+    var bounds;
+    var marker, marker2;
+
+    function myMap() {
+        var lat = document.getElementById("cur_lat").value;
+        var lng = document.getElementById("cur_lng").value;
+        directionsDisplay = new google.maps.DirectionsRenderer;
+        directionsService = new google.maps.DirectionsService;
+        var geocoder = new google.maps.Geocoder;
+        var infowindow = new google.maps.InfoWindow;
+        var center = new google.maps.LatLng(lat, lng);
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoomControl: false,
+            scaleControl: false,
+            scrollwheel: true,
+            zoom: default_zoom,
+            center: center,
+            mapTypeId: 'roadmap'
+        });
+
+        //add direction windows
+        directionsDisplay.setMap(map);
+        directionsDisplay.setPanel(document.getElementById('right-panel'));
+
+        marker = placeMarker(map, lat, lng);
+        google.maps.event.addListener(map, 'click', function (event) {
+            if (typeof marker2 != 'undefined') {
+                marker2.setMap(null);
+            }
+            var pos = {
+                lat: event.latLng.lat(),
+                lng: event.latLng.lng()
+            };
+            // geocodeLatLng(geocoder, map, infowindow, pos);
+            // getAddress(pos.lat, pos.lng);
+            marker2 = placeMarker(map, pos.lat, pos.lng);
+
+            calculateAndDisplayRoute(directionsService, directionsDisplay,
+                marker2.position, marker.position);
+        });
+    }
+</script>
+<!--end google javascript API-->
+<script src="https://maps.googleapis.com/maps/api/js?key=<?= $api_key ?>&libraries=places&callback=myMap"
+        async defer></script>
+<script>
+
+    //function for map
+
+    function getGoogleLoc(lat, lng) {
+        return new google.maps.LatLng(lat, lng);
+    }
+
+    function clearMarker() {
+        marker.setMap(null);
+        if (typeof marker2 != 'undefined') {
+            marker2.setMap(null);
+        }
+    }
+
+    function placeMarker(map, lat, lng, marker_url = null) {
+        map.setCenter(getGoogleLoc(parseFloat(lat), parseFloat(lng)));
+        return new google.maps.Marker({
+            position: getGoogleLoc(parseFloat(lat), parseFloat(lng)),
+            map: map
+        });
+    }
+
+    function reloadmap() {
+        //when you resize the map, you lose your zoom and your center
+        //so you need to get them again here
+        z = map.getZoom();
+        c = map.getCenter();
+        google.maps.event.trigger(map, 'resize');
+        //and set them again here
+        map.setZoom(z);
+        map.setCenter(c);
+    }
+
+    function geolocation() {
+        if (navigator.geolocation) {
+            var location_timeout = setTimeout("geolocFail()", 5000);
+
+            navigator.geolocation.getCurrentPosition(
+                function (position) {
+                    var geocoder = new google.maps.Geocoder;
+                    var infowindow = new google.maps.InfoWindow;
+                    clearTimeout(location_timeout);
+                    document.getElementById('geolocation_warning').style = "display: none";
+                    var pos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                    calculateAndDisplayRoute(directionsService, directionsDisplay,
+                        getGoogleLoc(pos.lat, pos.lng), marker.position);
+                }, function (error) {
+                    calculateAndDisplayRoute(directionsService, directionsDisplay,
+                        marker.position, marker.position);
+                    map.setZoom(default_zoom);
+                    map.setCenter(marker.position);
+                    clearTimeout(location_timeout);
+                    geolocFail();
+                });
+
+        } else {
+            geolocFail();
+        }
+    }
+
+    function geocodeLatLng(geocoder, map, infowindow, pos) {
+        require(['jquery'], function ($) {
+            var latlng = {lat: parseFloat(pos.lat), lng: parseFloat(pos.lng)};
+            geocoder.geocode({'location': latlng}, function (results, status) {
+                if (status === 'OK') {
+                    if (results[0]) {
+                        $('#start_addr').text(results[0].formatted_address);
+                    } else {
+                        window.alert('No results found');
+                    }
+                } else {
+                    window.alert('Geocoder failed due to: ' + status);
+                }
+            });
+        });
+    }
+
+
+    function geolocFail() {
+        document.getElementById('geolocation_warning').style = "";
+    }
+
+    function calculateAndDisplayRoute(directionsService, directionsDisplay, origin, destination) {
+        clearMarker();
+        var unitSystem = <?= $unitSystem ?>;
+        directionsService.route({
+            origin: origin,
+            destination: destination,
+            travelMode: google.maps.TravelMode.DRIVING,
+            unitSystem: unitSystem
+        }, function (response, status) {
+            if (status === 'OK') {
+                directionsDisplay.setDirections(response);
+            } else {
+                require(['jquery'], function ($) {
+                    $('#right-panel').empty();
+                    if (status === 'ZERO_RESULTS') {
+                        $("#geolocation_warning > font > strong").text('Sorry, no route could be found between the origin and destination !');
+                    } else if (status === 'NOT_FOUND') {
+                        $("#geolocation_warning > font > strong").text('Sorry, at least one of the locations specified in the request\'s origin, destination, or waypoints could not be geocoded !');
+                    } else if (status === 'MAX_ROUTE_LENGTH_EXCEEDED') {
+                        $("#geolocation_warning > font > strong").text('Sorry, the requested route is too long and cannot be processed. Try reducing the number of waypoints, turns, or instructions !');
+                    } else if (status === 'OVER_QUERY_LIMIT') {
+                        $("#geolocation_warning > font > strong").text('Sorry, the webpage has sent too many requests within the allowed time period !');
+                    } else if (status === 'REQUEST_DENIED') {
+                        $("#geolocation_warning > font > strong").text('Sorry, the webpage is not allowed to use the directions service !');
+                    } else if (status === 'UNKNOWN_ERROR') {
+                        $("#geolocation_warning > font > strong").text('Sorry, the directions request could not be processed due to a server error. The request may succeed if you try again !');
+                    } else {
+                        $("#geolocation_warning > font > strong").text('Sorry, we can not find the direction ' + status);
+                    }
+                });
+            }
+        });
+    }
+
+    function getAddress(lat, lng) {
+        // require(['jquery'], function ($) {
+        var add = "";
+        jQuery.ajax({
+            async: false,
+            url: 'https://maps.googleapis.com/maps/api/geocode/json',
+            data: {
+                sensor: false,
+                latlng: lat + "," + lng,
+                key: '<?= $api_key?>'
+            },
+            success: function (data) {
+                var responses = data.results;
+                if (data.status == 'OK' && responses.length > 0) {
+                    add = (responses[0].formatted_address);
+                } else {
+                    add = '<?= __("Unknown address") ?>';
+                }
+            }
+        });
+        return add;
+    }
+
+    function getDistance() {
+        require([
+            'jquery'
+        ], function ($) {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function (position) {
+                        var pos = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        };
+                        var destinations = [];
+                        for (var i = 0; i < loc_array.length; i++) {
+                            destinations.push(new google.maps.LatLng(loc_array[i].latitude, loc_array[i].longitude));
+                        }
+                        var distanceMatrix = new google.maps.DistanceMatrixService();
+                        var distanceRequest = {
+                            origins: [new google.maps.LatLng(position.coords.latitude, position.coords.longitude)],
+                            destinations: destinations,
+                            travelMode: google.maps.TravelMode.DRIVING,
+                            avoidHighways: false,
+                            avoidTolls: false
+                        };
+                        distanceMatrix.getDistanceMatrix(distanceRequest, function (response, status) {
+                            if (status != google.maps.DistanceMatrixStatus.OK) {
+                                alert('Error was: ' + status);
+                            } else {
+                                var origin = response.originAddresses[0];
+                                var elements = response.rows[0].elements;
+                                var distance = [];
+                                for (var i = 0; i < elements.length; i++) {
+                                    distance.push(elements[i].distance.value);
+                                }
+                                var index = distance.indexOf(Math.min.apply(null, distance));
+                                var destination = response.destinationAddresses[index];
+                                reloadmap();
+                                clearMarker();
+                                $('#start_addr').text(origin);
+                                $('#end_addr').text(destination);
+                                $('#store_name').text(loc_array[index].title);
+                                marker = placeMarker(map, loc_array[index].latitude, loc_array[index].longitude);
+                                $('#popup-modal').modal('openModal');
+                                calculateAndDisplayRoute(directionsService, directionsDisplay,
+                                    getGoogleLoc(pos.lat, pos.lng), getGoogleLoc(loc_array[index].latitude, loc_array[index].longitude));
+                            }
+                        });
+
+                    },
+                    function (error) {
+                        alert("SORRY, Geolocation service is not supported in your browsers !");
+                    },
+                    {
+                        maximumAge: 10000,
+                        enableHighAccuracy: true
+                    });
+            }
+        })
+    }
+</script>
+<script>
+    require([
+        'jquery',
+        'Magento_Ui/js/lib/view/utils/async'
+    ], function ($) {
+        'use strict';
+        $.async(".adp-placemark td.adp-text", function () {
+            var listener = google.maps.event.addListener(map, "idle", function () {
+                map.setZoom(default_zoom);
+                map.setCenter(marker.getPosition());
+                google.maps.event.removeListener(listener);
+            });
+            $('#start_addr').text($(".adp-placemark td.adp-text").first().text());
+            $(".adp-placemark td.adp-text").on('DOMSubtreeModified', function () {
+                $('#start_addr').text($(".adp-placemark td.adp-text").first().text());
+            });
+        });
+        //event when click tab
+        $('#tab-1').on('click', function () {
+            $('.content-1').show();
+            $('.content-2').hide();
+            $('.content-3').hide();
+            $('.content-4').hide();
+            $('.modal-content').css("overflow-y", "auto");
+        });
+        $('#tab-2').on('click', function () {
+            $('.content-2').show();
+            $('.content-1').hide();
+            $('.content-3').hide();
+            $('.content-4').hide();
+            $('.modal-content').css("overflow-y", "auto");
+
+        });
+        $('#tab-3').on('click', function () {
+            $('.content-3').show();
+            $('.content-1').hide();
+            $('.content-2').hide();
+            $('.content-4').hide();
+            $('.modal-content').css("overflow-y", "auto");
+
+        });
+        $('#tab-4').on('click', function () {
+            $('.content-4').show();
+            $('.content-1').hide();
+            $('.content-2').hide();
+            $('.content-3').hide();
+            $('.modal-content').css("overflow-y", "auto");
+        });
+    });
+</script>

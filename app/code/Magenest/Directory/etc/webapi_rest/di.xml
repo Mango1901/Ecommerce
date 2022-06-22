@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Quote\Model\Quote\Address\CustomAttributeList">
+        <plugin name="magenest_directory_web_api_rest" type="Magenest\Directory\Model\Plugin\Quote\Address\FeCustomAttributeList" sortOrder="10" />
+    </type>
+</config>

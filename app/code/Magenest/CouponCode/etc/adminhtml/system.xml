@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="magenest_coupon" translate="label" type="text"
+                 sortOrder="100" showInDefault="1" showInWebsite="1"
+                 showInStore="1">
+            <label>Coupon Code</label>
+            <tab>magenest</tab>
+            <resource>Magenest_CouponCode::couponcode</resource>
+            <group id="couponlisting" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="1"
+                   translate="label">
+                <label>Coupon listing settings</label>
+                <field id="enable" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label"
+                       type="select" canRestore="1">
+                    <label>Enable Coupon Listing</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enable/Disable Coupon Code Listing.</comment>
+                    <config_path>magenest_coupon/couponlisting/enable</config_path>
+                </field>
+            </group>
+            <group id="eventmenu" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="1"
+                   translate="label">
+                <label>Event top menu</label>
+                <field id="enable" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label"
+                       type="select" canRestore="1">
+                    <label>Display top menu in frontend</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <config_path>magenest_coupon/eventmenu/enable</config_path>
+                </field>
+                <field id="event_name" translate="label" type="text" sortOrder="30" showInDefault="1"
+                       showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Event name</label>
+                    <validate>validate-no-empty</validate>
+                    <config_path>magenest_coupon/eventmenu/event_name</config_path>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

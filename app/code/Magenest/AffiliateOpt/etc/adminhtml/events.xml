@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!--
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="mp_affiliate_transaction">
+        <observer name="mp_affiliate_add_menu_report" instance="Magenest\AffiliateOpt\Observer\MpAffiliateAddMenuReport"/>
+    </event>
+    <event name="sales_order_save_after">
+        <observer name="mp_sales_order_save_after" instance="Magenest\AffiliateOpt\Observer\OrderSaveAfter"/>
+    </event>
+</config>

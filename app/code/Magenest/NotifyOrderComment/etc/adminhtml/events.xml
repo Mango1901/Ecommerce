@@ -1,0 +1,6 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="sales_order_status_history_save_commit_after">
+        <observer name="notify_order_comment_sales_order_status_history_save_commit_after"
+                  instance="Magenest\NotifyOrderComment\Observer\SalesOrderStatusHistory\Save" />
+    </event>
+</config>

@@ -1,0 +1,482 @@
+<?php if ($id = $this->getRequest()->getParam('id')) {
+    $bar = $this->getBarById($id);
+    $backgroundImage = $this->getBarImageUrl($bar);
+} else {
+    $backgroundImage = '';
+}
+?>
+<script>
+    require([
+        'jquery',
+        "jquery/colorpicker/js/colorpicker"
+    ], function ($) {
+        'use strict';
+
+        //get background image in page edit promo bar
+        var backgroundImage = '<?= $backgroundImage ?>';
+        if (backgroundImage !== '') {
+            var status_image = 1;
+            var background_bkgImage = "<div class='image item base-image' id='image-bkgImage' data-role='image'>" +
+                "<div class='product-image-wrapper'>" +
+                "<img alt='' id='image' src='" + backgroundImage + "' class='product-image' />" +
+                "<div class='actions'>" +
+                "<button id='deleteImage'  type='button' class='action-remove' data-role='delete-button' title='Delete image'>" +
+                "<span>Delete image</span>" +
+                "</button>" +
+                "<div class='draggable-handle'></div>" +
+                "</div>" +
+                "<div class='image-fade'><span>Hidden</span></div>" +
+                "</div>" +
+                "</div>";
+            $('#bkgImage-location').before(background_bkgImage);
+            $('#bkgImage-location').hide();
+        } else {
+            var status_image = 0;
+        }
+
+        //insert background image
+        $('#magenest-upload-image-bkgImage').on('change', function () {
+            var file = this.files[0];
+            var fileInput = document.getElementById('magenest-upload-image-bkgImage');
+            var formData = new FormData(fileInput.form);
+            formData.append('file', fileInput.files[0]);
+            var nameImage = '';
+            var table_html_bkgImage = "<div class='image item base-image' id='image-bkgImage' data-role='image'>" +
+                "<div class='product-image-wrapper'>" +
+                "<input id='magenest-upload-image-bkgImage'  type=\"file\" name=\"bkgImage\" style=\"display:none\" >" +
+                "<img alt='' id='image' value='" + nameImage + "' class='product-image' />" +
+                "<div class='actions'>" +
+                "<button id='deleteImage' value='" + nameImage + "' type='button' class='action-remove' data-role='delete-button' title='Delete image'>" +
+                "<span>Delete image</span>" +
+                "</button>" +
+                "<div class='draggable-handle'></div>" +
+                "</div>" +
+                "<div class='image-fade'><span>Hidden</span></div>" +
+                "</div>" +
+                "</div>";
+            $('#bkgImage-location').before(table_html_bkgImage);
+            $('#bkgImage-location').hide();
+            status_image = 1;
+            if (file) {
+                var reader = new FileReader();
+                var elId = "#image";
+                reader.onload = function (e) {
+                    jQuery(elId).attr('src', e.target.result);
+                    jQuery(".promobar-image img").attr('src', e.target.result);
+                    jQuery(".mobile-promobar-image img").attr('src', e.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+            $("#status_image").val(status_image);
+        });
+
+        //remove background image
+        $(document).on('click', '#deleteImage', function (i) {
+            $("#img").attr('src', '');
+            $('#image-bkgImage').remove();
+            $('#bkgImage-location').show();
+            $("#img_temp").attr('src', '');
+            $("#magenest-upload-image-bkgImage").val(null);
+            // document.getElementById("img_temp").value = null;
+            status_image = 0;
+        });
+
+
+        //change height when edit
+        var range_height = $('#desktop-input-range-height'),
+            value_height = $('.range-value-height');
+        value_height.html(range_height.attr('value') + '%');
+        range_height.on('input', function () {
+            value_height.html(this.value + '%');
+        });
+        $('#desktop-input-range-height').on('mouseup keyup', function () {
+            var range_height = $('#desktop-input-range-height');
+            $('.promobar-image').css('height', range_height.attr('value') + '%');
+            $('input-range-width').mouseup();
+            $('#desktop-input-range-left-right').mouseup();
+            $('#desktop-input-range-up-down').mouseup();
+        });
+
+        var mobile_range_height = $('#mobile-input-range-height'),
+            mobile_value_height = $('#mobile-range-value-height');
+        mobile_value_height.html(mobile_range_height.attr('value') + '%');
+        mobile_range_height.on('input', function () {
+            mobile_value_height.html(this.value + '%');
+        });
+
+        $('#mobile-input-range-height').on('mouseup keyup', function () {
+            var range_height = $('#mobile-input-range-height');
+            $('.mobile-promobar-image').css('height', range_height.attr('value') + '%');
+            $('input-range-width').mouseup();
+            $('#desktop-input-range-left-right').mouseup();
+            $('#desktop-input-range-up-down').mouseup();
+        });
+
+
+
+        //change width when edit
+        var range_width = $('#desktop-input-range-width'),
+            value_width = $('.range-value-width');
+        value_width.html(range_width.attr('value') + '%');
+        range_width.on('input', function () {
+            value_width.html(this.value + '%');
+        });
+        $('#desktop-input-range-width').on('mouseup keyup', function () {
+            var range_width = $('#desktop-input-range-width');
+            $('.promobar-image').css('width', range_width.attr('value') + '%');
+            $('input-range-height').mouseup();
+            $('#desktop-input-range-left-right').mouseup();
+            $('#desktop-input-range-up-down').mouseup();
+        });
+
+        var mobile_range_width = $('#mobile-input-range-width'),
+            mobile_value_width = $('#mobile-range-value-width');
+        mobile_value_width.html(mobile_range_width.attr('value') + '%');
+        mobile_range_width.on('input', function () {
+            mobile_value_width.html(this.value + '%');
+        });
+        $('#mobile-input-range-width').on('mouseup keyup', function () {
+            var range_width = $('#mobile-input-range-width');
+            $('.mobile-promobar-image').css('width', range_width.attr('value') + '%');
+            $('input-range-height').mouseup();
+            $('#desktop-input-range-left-right').mouseup();
+            $('#desktop-input-range-up-down').mouseup();
+        });
+
+        //change left and right when edit
+        var range_left_right = $('#desktop-input-range-left-right'),
+            value_left_right = $('.range-value-left-right');
+        value_left_right.html(range_left_right.attr('value') + '%');
+        range_left_right.on('input', function () {
+            value_left_right.html(this.value + '%');
+        });
+        $('#desktop-input-range-left-right').on('mouseup keyup', function () {
+            var range_left_right = $('#desktop-input-range-left-right');
+            var margin_left = (parseInt($('#desktop-input-range-width').attr('value')) - 100) * (-parseInt(range_left_right.attr('value')) / 100); //unit: %
+            $('.promobar-image').css('margin-left', margin_left + '%');
+        });
+
+        var mobile_range_left_right = $('#mobile-input-range-left-right'),
+            mobile_value_left_right = $('#mobile-range-value-left-right');
+        mobile_value_left_right.html(mobile_range_left_right.attr('value') + '%');
+        mobile_range_left_right.on('input', function () {
+            mobile_value_left_right.html(this.value + '%');
+        });
+        $('#mobile-input-range-left-right').on('mouseup keyup', function () {
+            var range_left_right = $('#mobile-input-range-left-right');
+            var margin_left = (parseInt($('#mobile-input-range-width').attr('value')) - 100) * (-parseInt(mobile_range_left_right.attr('value')) / 100); //unit: %
+            $('.mobile-promobar-image').css('margin-left', margin_left + '%');
+        });
+
+        //change up and down when edit
+        var range_up_down = $('#desktop-input-range-up-down'),
+            value_up_down = $('.range-value-up-down');
+        value_up_down.html(range_up_down.attr('value') + '%');
+        range_up_down.on('input', function () {
+            value_up_down.html(this.value + '%');
+        });
+        $('#desktop-input-range-up-down').on('mouseup keyup', function () {
+            var range_up_down = $('#desktop-input-range-up-down');
+            var margin_top = ((parseInt($('#desktop-input-range-height').attr('value')) - 100) / 100) * (-parseInt(range_up_down.attr('value')) / 100) * parseInt($('#desktop-input-range-height-bar').attr('value')); //unit: px
+            $('.promobar-image').css('margin-top', margin_top + 'px');
+            var imgTop = 50 + parseInt(range_up_down.attr('value'));
+            var imgTransform = -imgTop;
+            $('.promobar-image img').css('top', imgTop + '%');
+            $('.promobar-image img').css('transform', 'translate(-50%, ' + imgTransform + '%)');
+        });
+
+        var mobile_range_up_down = $('#mobile-input-range-up-down'),
+            mobile_value_up_down = $('#mobile-range-value-up-down');
+        mobile_value_up_down.html(mobile_range_up_down.attr('value') + '%');
+        mobile_range_up_down.on('input', function () {
+            mobile_value_up_down.html(this.value + '%');
+        });
+
+        $('#mobile-input-range-up-down').on('mouseup keyup', function () {
+            var range_up_down = $('#mobile-input-range-up-down');
+            var margin_top = ((parseInt($('#mobile-input-range-height').attr('value')) - 100) / 100) * (-parseInt(mobile_range_up_down.attr('value')) / 100) * parseInt($('#mobile-input-range-height-bar').attr('value')); //unit: px
+            $('.mobile-promobar-image').css('margin-top', margin_top + 'px');
+            var imgTop = 50 + parseInt(mobile_range_up_down.attr('value'));
+            var imgTransform = -imgTop;
+            $('.mobile-promobar-image img').css('top', imgTop + '%');
+            $('.mobile-promobar-image img').css('transform', 'translate(-50%, ' + imgTransform + '%)');
+        });
+
+        //change opacity when edit
+        var range_opacity = $('#desktop-input-range-opacity'),
+            value_opacity = $('.range-value-opacity');
+        value_opacity.html(range_opacity.attr('value'));
+        range_opacity.on('input', function () {
+            value_opacity.html(this.value);
+        });
+        $('#desktop-input-range-opacity').on('mouseup keyup', function () {
+            var range_opacity = $('#desktop-input-range-opacity');
+            $('.promobar-image').css('opacity', range_opacity.attr('value'));
+        });
+
+        var mobile_range_opacity = $('#mobile-input-range-opacity'),
+            mobile_value_opacity = $('#mobile-range-value-opacity');
+        mobile_value_opacity.html(mobile_range_opacity.attr('value'));
+        mobile_range_opacity.on('input', function () {
+                $('.promoItemContainer').css('direction', 'ltr');
+                // $('.promoItemContainer').css('margin-right', dataButton['button']['data']['displayRight']);
+                // $('.promoItemContainer').css('width', 'calc(100% - ' + dataButton['button']['data']['displayRight'] + ')');
+            mobile_value_opacity.html(this.value);
+        });
+
+        $('#mobile-input-range-opacity').on('mouseup keyup', function () {
+            var range_opacity = $('#mobile-input-range-opacity');
+            $('.mobile-promobar-image').css('opacity', mobile_range_opacity.attr('value'));
+        });
+
+        //change height of promo bar when edit
+        var range_height_bar = $('#desktop-input-range-height-bar'),
+            value_height_bar = $('.range-value-height-bar');
+        value_height_bar.html(range_height_bar.attr('value') + 'px');
+        range_height_bar.on('input', function () {
+            value_height_bar.html(this.value + 'px');
+        });
+        $('#desktop-input-range-height-bar').on('mouseup keyup', function () {
+            var range_height_bar = $('#desktop-input-range-height-bar'),
+                height = $('.section-promobar, .section-promobar > .promobar, .promoItem > div');
+            height.css('height', range_height_bar.attr('value') + 'px');
+            $('.promoItemContent > div, .promoItemButton > div').css('max-height', range_height_bar.attr('value') + 'px');
+
+        });
+        var mobile_range_height_bar = $('#mobile-input-range-height-bar'),
+            mobile_value_height_bar = $('#mobile-range-value-height-bar');
+        mobile_value_height_bar.html(mobile_range_height_bar.attr('value') + 'px');
+        mobile_range_height_bar.on('input', function () {
+            mobile_value_height_bar.html(this.value + 'px');
+        });
+
+        $('#mobile-input-range-height-bar').on('mouseup keyup', function () {
+            var mobile_range_height_bar = $('#mobile-input-range-height-bar'),
+            height = $('.mobile-section-promobar, .mobile-section-promobar > .mobile-promobar, .mobile-promoItem > div');
+            height.css('height', mobile_range_height_bar.attr('value') + 'px');
+            $('.mobile-promoItemContent > div, .mobile-promoItemButton > div').css('max-height', mobile_range_height_bar.attr('value') + 'px');
+        });
+
+        //change position button when edit
+        var range_position_left = $('#desktop-input-range-left'),
+            value_position_left = $('.range-value-left'),
+            range_position_right = $('#desktop-input-range-right'),
+            value_position_right = $('.range-value-right');
+        value_position_left.html(range_position_left.attr('value') + '%');
+        value_position_right.html(range_position_right.attr('value') + '%');
+        range_position_left.on('input', function () {
+            value_position_left.html(this.value + '%');
+        });
+        range_position_right.on('input', function () {
+            value_position_right.html(this.value + '%');
+        });
+        var mobile_range_position_left = $('#mobile-input-range-left'),
+            mobile_value_position_left = $('#mobile-range-value-left'),
+            mobile_range_position_right = $('#mobile-input-range-right'),
+            mobile_value_position_right = $('#mobile-range-value-right');
+        mobile_value_position_left.html(mobile_range_position_left.attr('value') + '%');
+        mobile_value_position_right.html(mobile_range_position_right.attr('value') + '%');
+        mobile_range_position_left.on('input', function () {
+            mobile_value_position_left.html(this.value + '%');
+        });
+        mobile_range_position_right.on('input', function () {
+            mobile_value_position_right.html(this.value + '%');
+        });
+
+
+        //if check row show in the left
+        $('#check-range-left').on('click', function () {
+            var margin_left = $('#desktop-input-range-left').val();
+            $('.promoItemContainer').css('direction', 'rtl');
+            $('.promoItemContainer').css('margin-left', margin_left + "%");
+            $('.promoItemContainer').css('margin-right', '0%');
+            $('.promoItemContainer').css('width', 'calc(100% - ' + margin_left + '% )');
+            $('#desktop-input-range-right').css('display', 'none');
+            $('.range-value-right').css('display', 'none');
+            $('#desktop-input-range-left').css('display', 'block');
+            $('.range-value-left').css('display', 'block');
+            $('#check-range-right').attr('checked', false);
+        });
+        $('#desktop-input-range-left').on('mouseup keyup', function () {
+            var range_left = $('#desktop-input-range-left');
+            $('.promoItemContainer').css('margin-left', range_left.attr('value')  + "%");
+            $('.promoItemContainer').css('width', 'calc(100% - ' + range_left.attr('value') + '% )');
+        });
+
+        //if check row show in the right
+        $('#check-range-right').on('click', function () {
+            var margin_right = $('#desktop-input-range-right').val();
+            $('.promoItemContainer').css('direction', 'ltr');
+            $('.promoItemContainer').css('margin-right', margin_right+'%');
+            $('.promoItemContainer').css('margin-left', '0%');
+            $('.promoItemContainer').css('width', 'calc(100% - ' + margin_right + '% )');
+            $('#desktop-input-range-left').css('display', 'none');
+            $('.range-value-left').css('display', 'none');
+            $('#desktop-input-range-right').css('display', 'block');
+            $('.range-value-right').css('display', 'block');
+            $('#check-range-left').attr('checked', false);
+        });
+        $('#desktop-input-range-right').on('mouseup keyup', function () {
+            var range_right = $('#desktop-input-range-right');
+            $('.promoItemContainer').css('margin-right', range_right.attr('value')+'%');
+            $('.promoItemContainer').css('width', 'calc(100% - ' + range_right.attr('value') + '% )');
+        });
+
+        $('#mobile-check-range-right').on('click', function () {
+            var margin_right = $('#mobile-input-range-right').val();
+            $('.mobile-promoItemContainer').css('direction', 'ltr');
+            $('.mobile-promoItemContainer').css('margin-right', margin_right+'%');
+            $('.mobile-promoItemContainer').css('margin-left', '0%');
+            $('.mobile-promoItemContainer').css('width', 'calc(100% - ' + margin_right + '% )');
+            $('#mobile-input-range-left').css('display', 'none');
+            $('#mobile-range-value-left').css('display', 'none');
+            $('#mobile-input-range-right').css('display', 'block');
+            $('#mobile-range-value-right').css('display', 'block');
+            $('#mobile-check-range-left').attr('checked', false);
+        });
+        $('#mobile-input-range-right').on('mouseup keyup', function () {
+            var range_right = $('#mobile-input-range-right');
+            $('.mobile-promoItemContainer').css('margin-right', range_right.attr('value')+'%');
+            $('.mobile-promoItemContainer').css('width', 'calc(100% - ' + range_right.attr('value') + '% )');
+        });
+
+        $('#mobile-check-range-left').on('click', function () {
+            var margin_left = $('#mobile-input-range-left').val();
+            $('.mobile-promoItemContainer').css('direction', 'rtl');
+            $('.mobile-promoItemContainer').css('margin-left', margin_left + "%");
+            $('.mobile-promoItemContainer').css('margin-right', '0%');
+            $('.mobile-promoItemContainer').css('width', 'calc(100% - ' + margin_left + '% )');
+            $('#mobile-input-range-right').css('display', 'none');
+            $('#mobile-range-value-right').css('display', 'none');
+            $('#mobile-input-range-left').css('display', 'block');
+            $('#mobile-range-value-left').css('display', 'block');
+            $('#mobile-check-range-right').attr('checked', false);
+        });
+        $('#mobile-input-range-left').on('mouseup keyup', function () {
+            var range_left = $('#mobile-input-range-left');
+            $('.mobile-promoItemContainer').css('margin-left', range_left.attr('value')+'%');
+            $('.mobile-promoItemContainer').css('width', 'calc(100% - ' + range_left.attr('value') + '% )');
+        });
+
+
+        //if uncheck
+        $("input:checkbox#check-range-right").click(function () {
+            if (!$(this).is(":checked")) {
+                $('#desktop-input-range-right').css('display', 'none');
+                $('.range-value-right').css('display', 'none');
+            }
+        });
+        $("input:checkbox#check-range-left").click(function () {
+            if (!$(this).is(":checked")) {
+                $('#desktop-input-range-left').css('display', 'none');
+                $('.range-value-left').css('display', 'none');
+            }
+        });
+
+        $("input:checkbox#mobile-check-range-right").click(function () {
+            if (!$(this).is(":checked")) {
+                $('#mobile-input-range-right').css('display', 'none');
+                $('#mobile-range-value-right').css('display', 'none');
+            }
+        });
+        $("input:checkbox#mobile-check-range-left").click(function () {
+            if (!$(this).is(":checked")) {
+                $('#mobile-input-range-left').css('display', 'none');
+                $('#mobile-range-value-left').css('display', 'none');
+            }
+        });
+
+
+
+        //change up and down text in promo bar
+        var range_text_up_down = $('#desktop-input-range-position-text'),
+            value_text_up_down = $('.range-value-position-text');
+        value_text_up_down.html(range_text_up_down.attr('value') + 'px');
+        range_text_up_down.on('input', function () {
+            value_text_up_down.html(this.value + 'px');
+        });
+        $('#desktop-input-range-position-text').on('mouseup keyup', function () {
+            var text = $('.promoItemContainer');
+            text.css('top', range_text_up_down.attr('value') + 'px');
+
+        });
+
+        var mobile_range_text_up_down = $('#mobile-input-range-position-text'),
+            mobile_value_text_up_down = $('#mobile-range-value-position-text');
+        mobile_value_text_up_down.html(mobile_range_text_up_down.attr('value') + 'px');
+        mobile_range_text_up_down.on('input', function () {
+            mobile_value_text_up_down.html(this.value + 'px');
+        });
+
+        $('#mobile-input-range-position-text').on('mouseup keyup', function () {
+            var text = $('.mobile-promoItemContainer');
+            text.css('top', mobile_range_text_up_down.attr('value') + 'px');
+        });
+
+        //change position button in promo bar preview
+        var range_button_up_down = $('#desktop-input-range-button-up-down'),
+            value_button_up_down = $('.range-value-button-up-down');
+        value_button_up_down.html(range_button_up_down.attr('value') + 'px');
+        range_button_up_down.on('input', function () {
+            value_button_up_down.html(this.value + 'px');
+        });
+        $('#desktop-input-range-button-up-down').on('mouseup keyup', function () {
+            var button = $('.promoItemButton a');
+            button.css('top', range_button_up_down.attr('value') + 'px');
+        });
+
+        var mobile_range_button_up_down = $('#mobile-input-range-button-up-down'),
+            mobile_value_button_up_down = $('#mobile-range-value-button-up-down');
+        mobile_value_button_up_down.html(mobile_range_button_up_down.attr('value') + 'px');
+        mobile_range_button_up_down.on('input', function () {
+            mobile_value_button_up_down.html(this.value + 'px');
+        });
+        $('#mobile-input-range-button-up-down').on('mouseup keyup', function () {
+            var button = $('.mobile-promoItemButton a');
+            button.css('top', mobile_range_button_up_down.attr('value') + 'px');
+        });
+
+        $('#edit_form').submit(function () {
+            $("#status_image").val(status_image);
+        });
+
+        $('#use_same_config').on('change',function(){
+            var optionText = $("#use_same_config option:selected").val();
+            if (optionText == 1) {
+                $('.field-mobile_height_pro_bar').hide();
+                $('.field-mobile_edit_image').hide();
+                $('.field-mobile_bar_text_size').hide();
+                $('.field-mobile_bar_position_text').hide();
+                $('.field-mobile_bar_position_button').hide();
+                $('.field-breakpoint').hide();
+            } else {
+                $('.field-mobile_height_pro_bar').show();
+                $('.field-mobile_edit_image').show();
+                $('.field-mobile_bar_text_size').show();
+                $('.field-mobile_bar_position_text').show();
+                $('.field-mobile_bar_position_button').show();
+                $('.field-breakpoint').show();
+            }
+        });
+
+        $(document).ready(function(){
+            var optionText = $("#use_same_config option:selected").val();
+            if (optionText == 1) {
+                $('.field-mobile_height_pro_bar').hide();
+                $('.field-mobile_edit_image').hide();
+                $('.field-mobile_bar_text_size').hide();
+                $('.field-mobile_bar_position_text').hide();
+                $('.field-mobile_bar_position_button').hide();
+                $('.field-breakpoint').hide();
+            } else {
+                $('.field-mobile_height_pro_bar').show();
+                $('.field-mobile_edit_image').show();
+                $('.field-mobile_bar_text_size').show();
+                $('.field-mobile_bar_position_text').show();
+                $('.field-mobile_bar_position_button').show();
+                $('.field-breakpoint').show();
+            }
+        });
+
+    });
+</script>

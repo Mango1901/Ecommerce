@@ -1,0 +1,62 @@
+/**
+* Copyright © 2019 Magenest. All rights reserved.
+* See COPYING.txt for license details.
+*
+* Magenest_Store
+* NOTICE OF LICENSE
+*
+* @category Magenest
+* @package Magenest_Store
+*/
+
+//
+//  Variables
+//  _____________________________________________
+
+//
+//  Common
+//  _____________________________________________
+
+& when (@media-common = true) {
+  .admin__field-value{
+    width: 100%;
+    .photo_review{
+      display: inline-block;
+      width: calc(~'100%/3 - 13px');
+      vertical-align: middle;
+      height: 200px;
+      position: relative;
+      border: 1px solid #c9c9c9;
+      margin: 5px;
+      img{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        -o-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        height: auto;
+        max-height: 200px;
+      }
+    }
+  }
+}
+@photoreview-icons-admin__font-name-path: 'Magenest_PhotoReview::fonts/Glyphter';
+@photoreview-icons-admin__font-name : 'Glyphter';
+.lib-font-face(
+  @family-name: @photoreview-icons-admin__font-name,
+  @font-path: @photoreview-icons-admin__font-name-path,
+  @font-weight: normal,
+  @font-style: normal
+);
+.admin__menu .item-photoreview.parent.level-0 > a:before,
+.admin__menu .item-photoreview.level-0 > a:before {
+  font-family: @photoreview-icons-admin__font-name;
+  font-size: 50px;
+  line-height: 2px;
+  content: "\0042";
+  padding: 5px 0;
+  margin: 0 auto 15px;
+}

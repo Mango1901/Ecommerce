@@ -1,0 +1,236 @@
+<?php
+
+
+/** @var \Magenest\Affiliate\Block\Dashboard $block */
+?>
+<?php
+
+use Magenest\Affiliate\Block\Adminhtml\Campaign\Edit\Tab\Commissions\Arraycommission;
+
+?>
+
+<div class="page-content">
+    <?php if ($blockId = $block->getAffiliateHelper()->getDefaultPage()) : ?>
+        <?= $block->loadCmsBlock($blockId) ?>
+    <?php endif; ?>
+</div>
+<?php
+$campaigns  = $block->getCampaigns();
+$codeLength = $block->getAffiliateHelper()->getCodeLength();
+?>
+<?php if ($campaigns->getSize()) : ?>
+    <div class="affiliate-campaigns-list">
+        <form id="campaign-coupon-form" method="post" action="<?= $block->escapeUrl($block->getSavePrefixUrl()) ?>">
+            <?php if ($campaignBlock = $block->getAffiliateHelper()->getCampaignDescriptionBlockId()) : ?>
+                <?= $block->loadCmsBlock($campaignBlock) ?>
+            <?php endif; ?>
+            <?php if ($block->isActiveAffiliateAccount() && $block->hasCouponCode()) : ?>
+                <div class="coupon" data-bind="scope: 'affiliate-coupon-prefix'">
+                    <label for="campaign_coupon_prefix">
+                        <h3><?= __('Coupon') ?></h3>
+                        <input type="text" name="campaign_coupon_prefix" id="campaign_coupon_prefix"
+                               value="<?= $block->escapeHtmlAttr(strtoupper($block->getCouponPrefix())) ?>"
+                               class="input-text"
+                               minlength="<?= $codeLength ?>"
+                               maxlength="<?= $codeLength ?>"
+                               pattern="[a-zA-Z0-9]+"
+                               required/>
+                    </label>
+                    <button class="action primary" type="submit" title="<?= __('Save') ?>">
+                        <span><?= __('Save') ?></span>
+                    </button>
+                </div>
+            <?php endif; ?>
+        </form>
+        <div class="message" id="message_commission"></div>
+        <?php foreach ($campaigns as $campaign) : ?>
+            <?php $commissionDiscount = $block->getCommissionDiscount($campaign->getId()) ?>
+            <table class="data-table" id="list-campaigns-table-<?= $campaign->getId() ?>">
+                <tbody>
+                <?php
+                //fixbug unserialize $config  = null for m2 v2.1 EE
+                if ($campaign->getCommission()) {
+                    $commission = $block->getAffiliateHelper()->unserialize($campaign->getCommission());
+                } else {
+                    $commission = null;
+                }
+                $rowSpan   = is_array($commission) ? count($commission) : 0;
+                $extraSpan = $block->getCampaignRowSpan($rowSpan, $campaign);
+                ?>
+                <form id="campaign-discount-form" method="post" action="<?= $block->escapeUrl($block->getSaveAffiliateDiscountUrl()) ?>" data-mage-init='{"validation":{}}'>
+                    <input readonly hidden name="customer_value" id="customer_value" value="<?= $commissionDiscount['customer_value'] ?? 0 ?>"/>
+                    <input readonly hidden name="customer_value_second" id="customer_value_second" value="<?= $commissionDiscount['customer_value_second'] ?? 0 ?>"/>
+                    <input readonly hidden name="campaign_id" id="campaign_id" value="<?= $campaign->getId() ?>"/>
+                    <?php if (is_array($commission) && count($commission)) : ?>
+                        <?php foreach ($commission as $tierId => $tierValue) : ?>
+                            <?php $isTierOne = $tierId === 'tier_1'; ?>
+                            <tr class="mobile-device">
+                                <?php if ($isTierOne) : ?>
+                                    <td class="title" rowspan="<?= $block->escapeHtmlAttr($extraSpan) ?>">
+                                        <strong><?= $campaign->getName() ?></strong>
+                                        <p>
+                                            <?= $block->escapeHtml($campaign->getDescription()) ?>
+                                        </p>
+                                    </td>
+                                <?php endif; ?>
+                            </tr>
+                            <tr class="content">
+                                <?php if ($isTierOne) : ?>
+                                    <td class="title desktop-device"
+                                        rowspan="<?= $block->escapeHtmlAttr($extraSpan) ?>">
+                                        <strong><?= $campaign->getName() ?></strong>
+                                        <p>
+                                            <?= $block->escapeHtml($campaign->getDescription()) ?>
+                                        </p>
+                                    </td>
+                                    <td rowspan="<?= $block->escapeHtmlAttr($rowSpan) ?>">
+                                        <strong><?= __('Pay Per Sale') ?></strong>
+                                    </td>
+                                <?php endif; ?>
+                                <td>
+                                    <?= $tierValue['name'] ?>
+                                </td>
+                                <td>
+                                    <?php if ($tierValue['value']) : ?>
+                                        <?php if ($isTierOne) : ?>
+                                            <?php $remainAffiliateCommission = $tierValue['value'] - $commissionDiscount['customer_value'] ?>
+                                            <?php $valueType = "<input type='text' name='value' required='true' class='required affiliate-discount-customer' id='value' value='{$remainAffiliateCommission}'/>" ?>
+                                            <script type="text/x-magento-init">
+                                                {
+                                                    "*": {
+                                                        "Magenest_Affiliate/js/commission": {
+                                                            "elementValue":  "#value",
+                                                            "elementValueSecond": "#value_second",
+                                                            "elementCustomerValue": "#customer_value",
+                                                            "elementCustomerValueSecond": "#customer_value_second",
+                                                            "elementTextCustomerValue": "#value_text_customer",
+                                                            "elementTextCustomerValueSecond": "#value_text_second_customer",
+                                                            "elementMessage": "#message_commission",
+                                                            "elementForm": "#campaign-discount-form",
+                                                            "elementButton": "#button-submit",
+                                                            "value": <?= $tierValue['value'] ?>,
+                                                            "valueSecond": <?= $tierValue['value_second'] ?>
+                                                        }
+                                                    }
+                                                }
+                                           </script>
+                                        <?php else: ?>
+                                            <?php $valueType = $tierValue['value']; ?>
+                                        <?php endif; ?>
+                                        <?php if ((int)$tierValue['type'] === Arraycommission::TYPE_FIXED) : ?>
+                                            <?= __('%1 for first order.', $valueType . $block->getCurrencySymbol()) ?>
+                                        <?php elseif ((int)$tierValue['type'] === Arraycommission::TYPE_SALE_PERCENT) : ?>
+                                            <?= __('%1 of Order Total for first order.', ($valueType . '%')) ?>
+                                        <?php else : ?>
+                                            <?= __('%1 of Order Profit for first order.', ($valueType . '%')) ?>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <?php if ($tierValue['value_second']) : ?>
+                                        <?php if ($isTierOne) : ?>
+                                            <?php $remainAffiliateCommission = $tierValue['value_second'] - $commissionDiscount['customer_value_second'] ?>
+                                            <?php $valueSecondType = "<input type='text' name='value_second' class='required affiliate-discount-customer' id='value_second' value='{$remainAffiliateCommission}'/>" ?>
+                                        <?php else: ?>
+                                            <?php $valueSecondType = $tierValue['value_second']; ?>
+                                        <?php endif; ?>
+                                        <?php if ((int)$tierValue['type_second'] === Arraycommission::TYPE_FIXED) : ?>
+                                            <?= __('%1 for next orders.', $valueSecondType . $block->getCurrencySymbol()) ?>
+                                        <?php elseif ((int)$tierValue['type_second'] === Arraycommission::TYPE_SALE_PERCENT) : ?>
+                                            <?= __('%1 of Order Total for next orders.', ($valueSecondType . '%')) ?>
+                                        <?php else : ?>
+                                            <?= __('%1 of Order Profit for next orders.', ($valueSecondType . '%')) ?>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                </td>
+                                <?php if ($isTierOne) : ?>
+                                    <td>
+                                        <button class="action primary" type="button" id="button-submit" title="<?= __('Update') ?>">
+                                            <span><?= __('Update') ?></span>
+                                        </button>
+                                    </td>
+                                <?php endif; ?>
+                            </tr>
+                        <?php endforeach; ?>
+                        <?= $block->getCommissionCampaignAddition('commission.campaign.addition', $campaign) ?>
+                    <?php else : ?>
+                    <tr class="content">
+                        <?php if (!$rowSpan) : ?>
+                            <td class="title" rowspan="<?= $block->escapeHtmlAttr($extraSpan + 1) ?>">
+                                <strong><?= $campaign->getName() ?></strong>
+                                <p>
+                                    <?= $block->escapeHtml($campaign->getDescription()) ?>
+                                </p>
+                            </td>
+                        <?php endif; ?>
+                        <?= $block->getCommissionCampaignAddition('commission.campaign.addition', $campaign) ?>
+                        <?php endif; ?>
+                    <tr class="content">
+                        <td class="box-title">
+                            <strong><?= __('Extra discount for customers') ?></strong>
+                        </td>
+                        <td></td>
+                        <td>
+                            <span class="customer_affiliate_amount">
+                                <span id="value_text_customer"><?= $commissionDiscount['customer_value'] ?? 0 ?></span>
+                                <span class="text_more"><?= __("%1 Extra Discount", '%') ?></span>
+                            </span>
+                        </td>
+                        <td>
+                            <span class="customer_affiliate_amount">
+                                <span id="value_text_second_customer"><?= $commissionDiscount['customer_value_second'] ?? 0 ?></span>
+                                <span class="text_more"><?= __("%1 Extra Discount", '%') ?></span>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr class="content">
+                        <td class="box-title">
+                            <strong><?= __('Discount policy') ?></strong>
+                        </td>
+                        <td colspan="3">
+                            <?= empty($campaign->getDiscountDescription()) ? __('None')
+                                : $campaign->getDiscountDescription() ?>
+                        </td>
+                    </tr>
+                    <tr class="content">
+                        <td class="box-title">
+                            <strong><?= __('Valid Date') ?></strong>
+                        </td>
+                        <td colspan="3">
+                            <?php
+                            $fromDate = $campaign->getFromDate();
+                            $toDate   = $campaign->getToDate();
+                            ?>
+                            <?php if (!$fromDate && !$toDate) : ?>
+                                <?= __('Always') ?>
+                            <?php else : ?>
+                                <?= $fromDate ? __('from') . ' <strong>' . $block->formatDate(
+                                        $fromDate,
+                                        \IntlDateFormatter::MEDIUM
+                                    ) . '</strong> ' : '' ?>
+                                <?= $toDate ? __('to') . ' <strong>' . $block->formatDate(
+                                        $toDate,
+                                        \IntlDateFormatter::MEDIUM
+                                    ) . '</strong>' : '' ?>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                    <?php if ($block->isActiveAffiliateAccount() && $campaign->getCouponCode()) : ?>
+                        <tr class="content">
+                            <td class="box-title">
+                                <strong><?= __('Coupon code') ?></strong>
+                            </td>
+                            <td colspan="3">
+                                <?= strtoupper($block->getCouponPrefix() . '-' . $campaign->getCouponCode()) ?>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                    <?= $block->getChildHtml('campaign_addition') ?>
+                </form>
+                </tbody>
+            </table>
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>
+
+<?= $block->getChildHtml('dashboard.extra') ?>

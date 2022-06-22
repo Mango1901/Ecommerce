@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="https://sandbox.megapay.vn:2810/pg_was/css/payment/layer/paymentClient.css" src_type="url"  />
+        <script src="https://sandbox.megapay.vn:2810/pg_was/js/payment/layer/paymentClient.js" src_type="url"/>
+    </head>
+    <body>
+        <referenceBlock name="checkout.root">
+            <arguments>
+                <argument name="jsLayout" xsi:type="array">
+                    <item name="components" xsi:type="array">
+                        <item name="checkout" xsi:type="array">
+                            <item name="children" xsi:type="array">
+                                <item name="steps" xsi:type="array">
+                                    <item name="children" xsi:type="array">
+                                        <item name="billing-step" xsi:type="array">
+                                            <item name="component" xsi:type="string">uiComponent</item>
+                                            <item name="children" xsi:type="array">
+                                                <item name="payment" xsi:type="array">
+                                                    <item name="children" xsi:type="array">
+                                                        <item name="renders" xsi:type="array">
+                                                            <!-- merge payment method renders here -->
+                                                            <item name="children" xsi:type="array">
+                                                                <item name="vnpt_epay" xsi:type="array">
+                                                                    <item name="component" xsi:type="string">Magenest_PaymentEPay/js/view/payment/method-renderer</item>
+                                                                    <item name="methods" xsi:type="array">
+                                                                        <item name="vnpt_epay" xsi:type="array">
+                                                                            <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
+                                                                        </item>
+                                                                    </item>
+                                                                </item>
+                                                                <item name="vnpt_epay_qrcode" xsi:type="array">
+                                                                    <item name="component" xsi:type="string">Magenest_PaymentEPay/js/view/payment/method-renderer-qr</item>
+                                                                    <item name="methods" xsi:type="array">
+                                                                        <item name="vnpt_epay_qrcode" xsi:type="array">
+                                                                            <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
+                                                                        </item>
+                                                                    </item>
+                                                                </item>
+                                                                <item name="vnpt_epay_is" xsi:type="array">
+                                                                    <item name="component" xsi:type="string">Magenest_PaymentEPay/js/view/payment/method-renderer-is</item>
+                                                                    <item name="methods" xsi:type="array">
+                                                                        <item name="vnpt_epay_is" xsi:type="array">
+                                                                            <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
+                                                                        </item>
+                                                                    </item>
+                                                                </item>
+                                                            </item>
+                                                        </item>
+                                                    </item>
+                                                </item>
+                                            </item>
+                                        </item>
+                                    </item>
+                                </item>
+                            </item>
+                        </item>
+                    </item>
+                </argument>
+            </arguments>
+        </referenceBlock>
+    </body>
+</page>

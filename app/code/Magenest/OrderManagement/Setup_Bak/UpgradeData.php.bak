@@ -1,0 +1,350 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+namespace Magenest\OrderManagement\Setup;
+
+use Magenest\OrderManagement\Model\Order;
+use Magento\Framework\App\ObjectManager;
+use Magento\Sales\Model\ResourceModel\Order\Collection;
+use Magento\Sales\Setup\SalesSetupFactory;
+use Magento\Sales\Model\Order\StatusFactory;
+use Magento\Framework\Setup\UpgradeDataInterface;
+use Magento\Framework\Setup\ModuleContextInterface;
+use Magento\Framework\Setup\ModuleDataSetupInterface;
+use Magento\Sales\Model\ResourceModel\Order\Status as StatusResource;
+use Magento\Framework\App\State;
+use Magento\Quote\Setup\QuoteSetupFactory;
+
+/**
+ * Class UpgradeData
+ * @package Magenest\OrderManagement\Setup
+ */
+class UpgradeData implements UpgradeDataInterface
+{
+    /**
+     * @var SalesSetupFactory
+     */
+    protected $_salesSetupFactory;
+
+    /**
+     * @var State
+     */
+    protected $_state;
+
+    /**
+     * @var StatusFactory
+     */
+    protected $_statusFactory;
+
+    /**
+     * @var StatusResource
+     */
+    protected $_statusResource;
+
+    /**
+     * @var QuoteSetupFactory
+     */
+    protected $_quoteSetupFactory;
+
+    /**
+     * Constructor.
+     *
+     * @param State $state
+     * @param SalesSetupFactory $salesSetupFactory
+     * @param StatusFactory $statusFactory
+     * @param StatusResource $statusResource
+     * @param QuoteSetupFactory $quoteSetupFactory
+     */
+    public function __construct(
+        State $state,
+        SalesSetupFactory $salesSetupFactory,
+        StatusFactory $statusFactory,
+        StatusResource $statusResource,
+        QuoteSetupFactory $quoteSetupFactory
+    ) {
+        $this->_quoteSetupFactory = $quoteSetupFactory;
+        $this->_statusFactory = $statusFactory;
+        $this->_statusResource = $statusResource;
+        $this->_state = $state;
+        $this->_salesSetupFactory = $salesSetupFactory;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function upgrade(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
+    {
+        $setup->startSetup();
+
+        /** @var \Magento\Sales\Setup\SalesSetup $salesInstaller */
+        $salesInstaller = $this->_salesSetupFactory->create(['resourceName' => 'sales_setup', 'setup' => $setup]);
+        if (version_compare($context->getVersion(), "1.0.1", "<")) {
+            $this->_state->emulateAreaCode(
+                'global', function ($salesInstaller) {
+                $this->_addHoldUnpaidOrderAttribute($salesInstaller);
+            }, [$salesInstaller]);
+        }
+
+        if (version_compare($context->getVersion(), "1.0.2", "<")) {
+            $this->_state->emulateAreaCode(
+                'global', function () {
+                $this->_addCompleteFinalStateForOrder();
+            }, [$salesInstaller]);
+        }
+
+        if (version_compare($context->getVersion(), "1.0.3", "<")) {
+            $this->_state->emulateAreaCode(
+                'global', function () {
+                $this->_updateVisibleOnFrontOrderStatus();
+            });
+        }
+
+        if (version_compare($context->getVersion(), "1.0.4", "<")) {
+            $this->_state->emulateAreaCode(
+                'global', function () {
+                foreach(['complete' => 'Shipping', 'complete_shipment' => 'Delivered', 'confirm_paid' => 'Confirmed Paid'] as $status => $label){
+                    $status = $this->_statusFactory->create()
+                        ->load($status)
+                        ->setLabel($label);
+                    $this->_statusResource->save($status);
+                }
+
+                /** @var \Magento\Sales\Model\Order\Status $status */
+                $status = $this->_statusFactory->create();
+                $status->setData(['status' => Order::CONFIRMED_COD_CODE, 'label' => Order::CONFIRMED_COD_LABEL]);
+                $this->_statusResource->save($status);
+                $status->assignState(\Magento\Sales\Model\Order::STATE_PROCESSING, false, false);
+            }, [$salesInstaller]);
+        }
+
+        if (version_compare($context->getVersion(), "1.0.5", "<")) {
+            $this->_state->emulateAreaCode(
+                'global', function () {
+                $this->_updateVisibleOnFrontCodStatus();
+            });
+        }
+
+        if (version_compare($context->getVersion(), "1.0.7", "<")) {
+            $this->_state->emulateAreaCode(
+                'global', function () {
+                $this->_updateDefaultCreditmemoState();
+            });
+        }
+
+        if (version_compare($context->getVersion(), "1.0.8", "<")) {
+            $this->_state->emulateAreaCode(
+                'global', function () {
+                $this->_updateFrontendLabelOrderStatus();
+            });
+        }
+
+        $quoteInstaller = $this->_quoteSetupFactory->create(['resourceName' => 'quote_setup', 'setup' => $setup]);
+        if (version_compare($context->getVersion(), "1.0.9", "<")) {
+            $this->_state->emulateAreaCode(
+                'global', function ($salesInstaller, $quoteInstaller) {
+                $this->addBackOrderQuoteOrder($salesInstaller, $quoteInstaller);
+            }, [$salesInstaller, $quoteInstaller]);
+        }
+
+        if (version_compare($context->getVersion(), "1.0.11", "<")) {
+            $this->_state->emulateAreaCode(
+                'global', function ($salesInstaller) {
+                $this->addPosOrderForOrder($salesInstaller);
+            }, [$salesInstaller]);
+        }
+
+        if (version_compare($context->getVersion(), "1.0.12", "<")) {
+            $this->refactorOrderGridData($setup);
+        }
+        if (version_compare($context->getVersion(), '1.0.13', '<')) {
+            $this->addProvinceColumn($setup);
+            $this->refactorOrderGridProvinceData($setup);
+        }
+        $setup->endSetup();
+    }
+
+    /**
+     * @param $installer
+     */
+    private function addProvinceColumn($installer)
+    {
+        $salesInstaller = $this->_salesSetupFactory->create(['resourceName' => 'sales_setup', 'setup' => $installer]);
+        $installer->startSetup();
+
+        $salesInstaller->addAttribute(
+            'order',
+            'province',
+            [
+                'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                'nullable' => true,
+                'grid' => true,
+            ]
+        );
+    }
+
+    /**
+     * @param $setup
+     */
+    private function refactorOrderGridProvinceData($setup)
+    {
+        /** @var Collection $orderCollection */
+        $orderCollection = ObjectManager::getInstance()->create(Collection::class);
+        /** @var \Magento\Sales\Model\Order $order */
+        foreach ($orderCollection as $order) {
+            try {
+                $address = $order->getShippingAddress();
+                if($address) {
+                    $bind['province'] = $order->getShippingAddress()->getCity();
+                    $where = ['entity_id = ?' => (int)$order->getId()];
+                    $setup->getConnection()->update($setup->getTable('sales_order'), $bind, $where);
+                    $setup->getConnection()->update($setup->getTable('sales_order_grid'), $bind, $where);
+                }
+            } catch (\Exception $e) {
+            }
+        }
+    }
+
+    /**
+     * @param \Magento\Sales\Setup\SalesSetup $salesInstaller
+     */
+    private function addPosOrderForOrder($salesInstaller)
+    {
+        $salesInstaller->addAttribute('order', 'is_pos_order', ['type' => 'boolean']);
+    }
+
+    /**
+     * @param \Magento\Sales\Setup\SalesSetup $salesInstaller
+     * @param \Magento\Quote\Setup\QuoteSetup $quoteInstaller
+     */
+    private function addBackOrderQuoteOrder($salesInstaller, $quoteInstaller)
+    {
+        $salesInstaller->addAttribute('order_item', Order::ORDER_ITEM_IS_BACKORDER, ['type' => 'decimal']);
+        $quoteInstaller->addAttribute('quote_item', Order::ORDER_ITEM_IS_BACKORDER, ['type' => 'decimal']);
+    }
+
+    private function _updateFrontendLabelOrderStatus()
+    {
+        $labeled = [
+            'confirmed' => "Finance Pending",
+            'confirmed_cod' => "Waiting for Packing - COD",
+            'confirm_paid' => "Waiting for Packing - Paid",
+        ];
+
+        foreach ($labeled as $status => $label) {
+            /** @var \Magento\Sales\Model\Order\Status $statusObj */
+            $statusObj = $this->_statusFactory->create();
+            $statusObj->load($status);
+            $statusObj->setLabel($label);
+            $statusObj->save();
+        }
+    }
+
+    private function _updateDefaultCreditmemoState()
+    {
+        $listUpdatedStatus = [
+            'closed' => ['closed']
+        ];
+
+        foreach ($listUpdatedStatus as $state => $listStatus) {
+            foreach ($listStatus as $status) {
+                /** @var \Magento\Sales\Model\Order\Status $statusObj */
+                $statusObj = $this->_statusFactory->create();
+                $statusObj->load($status);
+                $statusObj->assignState($state, true, true);
+            }
+        }
+    }
+
+    /**
+     * Update status
+     *
+     * @throws \Exception
+     */
+    private function _updateVisibleOnFrontCodStatus()
+    {
+        $listUpdatedStatus = [
+            'processing' => ['confirmed_cod']
+        ];
+
+        foreach ($listUpdatedStatus as $state => $listStatus) {
+            foreach ($listStatus as $status) {
+                /** @var \Magento\Sales\Model\Order\Status $statusObj */
+                $statusObj = $this->_statusFactory->create();
+                $statusObj->load($status);
+                $isDefault = $status == 'processing';
+                $statusObj->assignState($state, $isDefault, true);
+            }
+        }
+    }
+
+    /**
+     * Update status
+     *
+     * @throws \Exception
+     */
+    private function _updateVisibleOnFrontOrderStatus()
+    {
+        $listUpdatedStatus = [
+            'complete' => ['complete_shipment'],
+            'processing' => ['confirmed', 'confirm_paid', 'processing'],
+            'closed' => ['need_confirm_reimbursement', 'need_warehouse_confirm', 'reimbursed'],
+            'new' => ['supplier_confirmed', 'supplier_rejected', 'wait_supplier', 'received_goods'],
+        ];
+
+        foreach ($listUpdatedStatus as $state => $listStatus) {
+            foreach ($listStatus as $status) {
+                /** @var \Magento\Sales\Model\Order\Status $statusObj */
+                $statusObj = $this->_statusFactory->create();
+                $statusObj->load($status);
+                $isDefault = $status == 'processing';
+                $statusObj->assignState($state, $isDefault, true);
+            }
+        }
+    }
+
+    /**
+     * Add hold unpaid attribute
+     *
+     * @param \Magento\Sales\Setup\SalesSetup $salesInstaller
+     */
+    private function _addHoldUnpaidOrderAttribute($salesInstaller)
+    {
+        $salesInstaller->addAttribute('order', 'hold_unpaid_order_at', ['type' => 'datetime']);
+    }
+
+    /**
+     *
+     * Add complete order status
+     *
+     * @throws \Magento\Framework\Exception\AlreadyExistsException
+     * @throws \Exception
+     */
+    private function _addCompleteFinalStateForOrder()
+    {
+        /** @var \Magento\Sales\Model\Order\Status $status */
+        $status = $this->_statusFactory->create();
+        $status->setData(['status' => Order::ORDER_COMPLETE_SHIPMENT, 'label' => Order::ORDER_COMPLETE_SHIPMENT_LABEL]);
+        $this->_statusResource->save($status);
+        $status->assignState(\Magento\Sales\Model\Order::STATE_COMPLETE, false, false);
+    }
+
+    /**
+     * @param \Magento\Framework\Setup\SetupInterface $setup
+     */
+    private function refactorOrderGridData($setup)
+    {
+        /** @var Collection $orderCollection */
+        $orderCollection = ObjectManager::getInstance()->create(Collection::class);
+        /** @var \Magento\Sales\Model\Order $order */
+        foreach ($orderCollection as $order) {
+            try {
+                $bind['warehouse'] = $order->getData('warehouse');
+                $where = ['entity_id = ?' => (int)$order->getId()];
+                $setup->getConnection()->update($setup->getTable('sales_order_grid'), $bind, $where);
+            } catch (\Exception $e) {
+            }
+        }
+    }
+}

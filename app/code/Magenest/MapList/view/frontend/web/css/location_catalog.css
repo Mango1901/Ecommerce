@@ -1,0 +1,177 @@
+.prettylink {
+    cursor: pointer;
+    display: block;
+    font-size: 14px;
+    line-height: 1.2em;
+    margin: 10px 0;
+    padding: 10px 10px 10px 35px;
+    position: relative;
+    text-decoration: none;
+    zoom: 1;
+}
+
+ul.unstyled {
+    list-style-type: none;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.map_list-location h3{
+    color: #990000 !important;
+    font-weight: bold;
+    font-size: large;
+}
+
+#map {
+    width:60% !important;
+    height:500px;
+    padding-top: 10px;
+    float: left;
+}
+#right-panel {
+    width:35%;
+    font-family: 'Roboto','sans-serif';
+    line-height: 30px;
+    padding-left: 10px;
+    height:550px;
+    float: right;
+    overflow: auto;
+}
+
+.prettyListItems {
+    min-height: 150px;
+}
+
+.infoWindowContainer .infoWindow h3, .prettyMapList .corePrettyStyle {
+    border-radius: 5px;
+    text-shadow: 0px 2px 0px #fff;
+    border: solid 1px #ccc;
+    color: #565353;
+}
+
+.prettyMapList .corePrettyStyle {
+    border-radius: 5px;
+    text-shadow: 0px 2px 0px #fff;
+    border: solid 1px #ccc;
+    color: #565353;
+}
+
+.prettyMapList .corePrettyStyle a {
+    color: #555555;
+    font-weight: bold;
+}
+#popup-modal{
+    height: 500px;
+}
+
+#popup-modal a {
+    color : #848086;
+}
+
+#popup-modal > .tabs{
+    width:auto;
+    margin:0 auto 50px;
+    position:relative;
+    font-family: "Times New Roman", Times, serif;
+}
+
+#popup-modal > .tabs input{
+    position:absolute;
+    top:0;
+    left:0;
+    display:none;
+}
+
+#popup-modal > .tabs label {
+    display: block;
+    float: left;
+    margin-top: -2px;
+    padding: 10px 50px 10px 45px;
+    line-height: 1.5em;
+    min-width: 55px;
+    text-align: center;
+    color: #22403f;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    background: #f4f4f4;
+    border-bottom: #e0e0e0 solid 1.5px;
+    border-right: #e0e0e0 solid 1.5px;
+}
+#popup-modal > .tabs label.tab-label-1{
+    margin-left:-32px;
+}
+
+
+#popup-modal > .tabs label:hover{
+    background: #eeeeee;
+}
+
+#popup-modal > .tabs label:after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    background: #ffffff;
+    left: 0;
+    bottom: -5px;
+}
+
+
+
+.clear-shadow{
+    clear:both;
+}
+
+#popup-modal > .content{
+    position:relative;
+    width:100%;
+    z-index:5 !important;
+}
+
+#popup-modal > .content div{
+    position:absolute;
+    overflow:hidden;
+    top:0;
+    left:0px;
+    opacity:0;
+    background:#fff;
+    padding:10px 40px 30px;
+    border-radius:0 5px 5px 5px;
+    transition:opacity .4s;
+}
+
+#popup-modal > .content div h2{
+    color:#4F8E8E;
+    font-size:22px;
+}
+#popup-modal > .content div h3{
+    color:#4F8E8E;
+    font-size:17px;
+}
+#popup-modal >.content div > p {
+    font-style:italic;
+    color:#777;
+    font-size:14px;
+    line-height:1.5em;
+    margin:0;
+    padding-left:20px;
+}
+#popup-modal > .tabs input:checked + label{
+    background: #ffffff;
+    z-index:6;
+    border-bottom: white;
+    font-weight: bold;
+}
+
+
+.tabs input.tab-selector-1:checked ~ .content .content-1,
+.tabs input.tab-selector-2:checked ~ .content .content-2,
+.tabs input.tab-selector-3:checked ~ .content .content-3,
+.tabs input.tab-selector-4:checked ~ .content .content-4{
+    opacity:1;
+    z-index:100 !important;
+}
+

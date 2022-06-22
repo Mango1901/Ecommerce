@@ -1,0 +1,86 @@
+/**
+ * Copyright © 2020 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ *
+ * Magenest_ProductLabel extension
+ * NOTICE OF LICENSE
+ *
+ * @category Magenest
+ * @package  Magenest_ProductLabel
+ */
+& when (@media-common = true) {
+    .mgn-product-label {
+        display: block;
+        margin: 0;
+        position: absolute;
+        z-index: 1;
+        text-decoration: none;
+
+        .label-product-detail,
+        .label-category-page {
+            display: block !important;
+
+            .hidden {
+                display: none !important;
+            }
+        }
+
+        &[class*='top-'] {
+            top: 0;
+        }
+
+        &[class*='bot-'] {
+            bottom: 0;
+        }
+
+        &[class*='-left'] {
+            left: 0;
+        }
+
+        &[class*='-right'] {
+            right: 0;
+        }
+
+        &.mid-left, &.mid-right {
+            top: 50%;
+            transform: translateY(-50%) translateX(0);
+        }
+
+        &.top-mid {
+            left: 50%;
+            transform: translateY(0) translateX(-50%);
+        }
+
+        &.mid-mid {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        &.bot-mid {
+            left: 50%;
+            transform: translateY(0) translateX(-50%);
+        }
+    }
+
+    #text-style {
+        z-index: 1;
+    }
+
+    //== [ Gallery Product Detail ]
+    .catalog-product-view {
+        .product.media {
+            position: relative;
+
+            .mgn-product-label {
+                &[class*='-left'] {
+                    margin-left: var(--space-x);
+                }
+
+                &[class*='bot-'] {
+                    margin-bottom: var(--space-y);
+                }
+            }
+        }
+    }
+}

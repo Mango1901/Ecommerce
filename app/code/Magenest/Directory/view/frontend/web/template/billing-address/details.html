@@ -1,0 +1,38 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<div if="isAddressDetailsVisible() && currentBillingAddress()" class="billing-address-details">
+    <text args="currentBillingAddress().prefix"/>
+    <text args="currentBillingAddress().firstname"/>
+    <text args="currentBillingAddress().middlename"/>
+    <text args="currentBillingAddress().lastname"/>
+    <text args="currentBillingAddress().suffix"/>
+    <br/>
+    <text args="_.values(currentBillingAddress().street).join(', ')"/>
+    <br>
+    <!-- ko if: currentBillingAddress().customAttributes.ward-->
+    <!-- ko text: currentBillingAddress().customAttributes.ward.value --><!-- /ko -->,
+    <!-- /ko -->
+    <!-- ko if: currentBillingAddress().customAttributes.district-->
+    <!-- ko text: currentBillingAddress().customAttributes.district.value --><!-- /ko --><br>
+    <!-- /ko -->
+    <text args="currentBillingAddress().city"/>
+    ,
+    <text args="currentBillingAddress().postcode"/>
+    <br/>
+    <a if="currentBillingAddress().telephone" attr="'href': 'tel:' + currentBillingAddress().telephone" text="currentBillingAddress().telephone"></a><br/>
+    <text args="getCountryName(currentBillingAddress().countryId)"/>
+    <br/>
+    <br/>
+
+    <button visible="!isAddressSameAsShipping()"
+            type="button"
+            class="action action-edit-address secondary"
+            click="editAddress">
+        <span translate="'Edit'"></span>
+    </button>
+</div>
+

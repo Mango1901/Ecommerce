@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <group id="default">
+        <job name="erp_sync_stock" instance="Magenest\FastErp\Cron\SyncStock" method="execute">
+            <schedule>0 3,10,12,15 * * *</schedule>
+        </job>
+        <job name="erp_sync_stock_manually_in_configuration" instance="Magenest\FastErp\Cron\SyncStockManually" method="execute">
+            <schedule>*/5 * * * *</schedule>
+        </job>
+        <job name="erp_sync_warehouse" instance="Magenest\FastErp\Cron\SyncWarehouse" method="execute">
+            <schedule>0 0 * * *</schedule>
+        </job>
+        <job name="erp_sync_warehouse_manually_in_configuration" instance="Magenest\FastErp\Cron\SyncWarehouseManually" method="execute">
+            <schedule>*/5 * * * *</schedule>
+        </job>
+        <job name="erp_sync_product" instance="Magenest\FastErp\Cron\SyncProduct" method="execute">
+            <schedule>*/5 * * * *</schedule>
+        </job>
+    </group>
+</config>

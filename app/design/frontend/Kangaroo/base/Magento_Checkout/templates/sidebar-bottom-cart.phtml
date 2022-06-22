@@ -1,0 +1,53 @@
+<?php
+/** @var \Magento\Checkout\Block\Cart\Totals */
+$totals = $block->getTotals();
+$checkoutHelper = $this->helper(Magento\Checkout\Helper\Data::class);
+?>
+<div class="sidebar-bottom-cart-list">
+    <div id="buttonClickBottom" class="cart-item top">
+        <div class="title-bottom"><?= __('Kangaroo voucher') ?></div>
+        <div class="caption-discount"><?= __('Enter code') ?></div>
+    </div>
+    <div class="cart-item bottom">
+        <div class="totals-amount">
+            <div class="totals"><?= __('total amount of money') ?></div>
+            <div class="amount">
+                <?= /* @noEscape */ $checkoutHelper->formatPrice($totals['subtotal']->getValue()) ?>
+            </div>
+        </div>
+        <div class="checkout-methods-items-bottom">
+            <button type="button" data-role="" title="" class="place-order"><?= __('place-order') ?></button>
+        </div>
+    </div>
+</div>
+
+<?php
+/** @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer */
+
+    $scriptString = <<<script
+        require(["jquery"] , function($) {
+            $('#buttonClickBottom').click(function () {
+                $("#buttonClick").trigger("click");
+            });
+            $(document).ready(function() {
+                var sidebar_bottom = $('.sidebar-bottom-cart-wrapper');
+                var cart_discount = $('.cart-discount-wrapper');
+                if (!cart_discount.length) {
+                    return;
+                }
+                sidebar_bottom.removeClass('hidden');
+                var cart_discount_top = cart_discount.offset().top;
+                var cart_discount_height = cart_discount.height();
+                var cart_discount_bottom = cart_discount_top + cart_discount_height;
+                $(window).on('scroll', function() {
+                    var scrollTop = $(window).scrollTop();
+                    var viewport_height = $(window).height();
+                    var scrollTop_bottom = scrollTop + viewport_height;
+                    sidebar_bottom.toggleClass('fade-out', scrollTop_bottom > cart_discount_bottom);
+                });
+            });
+        });
+    script;
+
+echo /* @noEscape */ $secureRenderer->renderTag('script', [], $scriptString, false);
+?>

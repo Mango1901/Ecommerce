@@ -1,0 +1,7 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="standard">
+        <route id="sell_instagram" frontName="sell_instagram">
+            <module name="Magenest_SellOnInstagram"/>
+        </route>
+    </router>
+</config>

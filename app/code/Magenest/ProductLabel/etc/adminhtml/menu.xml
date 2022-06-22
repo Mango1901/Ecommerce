@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Magenest_ProductLabel::product_label"
+             title="Magenest Product Labels"
+             module="Magenest_ProductLabel"
+             resource="Magenest_ProductLabel::product_label"
+             parent="Magento_Catalog::catalog"
+             sortOrder="100"/>
+        <add id="Magenest_ProductLabel::manage"
+             title="Product Labels Manage"
+             module="Magenest_ProductLabel"
+             resource="Magenest_ProductLabel::manage"
+             parent="Magenest_ProductLabel::product_label"
+             action="catalog/label/index"/>
+        <add id="Magenest_ProductLabel::configuration"
+             title="Configuration"
+             module="Magenest_ProductLabel"
+             resource="Magenest_ProductLabel::config_productLabel"
+             parent="Magenest_ProductLabel::product_label"
+             action="adminhtml/system_config/edit/section/magenest_product_label/"/>
+    </menu>
+</config>

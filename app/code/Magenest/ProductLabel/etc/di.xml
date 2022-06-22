@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="label_listing_data_source" xsi:type="string">Magenest\ProductLabel\Model\ResourceModel\Label\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="Magenest\ProductLabel\Model\ResourceModel\Label\Grid\Collection"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">magenest_product_label</argument>
+            <argument name="resourceModel" xsi:type="string">Magenest\ProductLabel\Model\ResourceModel\Label</argument>
+        </arguments>
+    </virtualType>
+
+    <preference for="Magenest\ProductLabel\Api\Data\LabelInterface" type="Magenest\ProductLabel\Model\Label" />
+    <preference for="Magenest\ProductLabel\Api\LabelRepositoryInterface" type="Magenest\ProductLabel\Model\LabelRepository" />
+    <preference for="Magenest\ProductLabel\Api\Data\LabelSearchResultsInterface" type="Magenest\ProductLabel\Model\LabelSearchResults" />
+
+    <virtualType name="Magenest\ProductLabel\ImageUploader" type="Magento\Catalog\Model\ImageUploader">
+        <arguments>
+            <argument name="baseTmpPath" xsi:type="string">label/tmp/image</argument>
+            <argument name="basePath" xsi:type="string">label/image</argument>
+            <argument name="allowedExtensions" xsi:type="array">
+                <item name="jpg" xsi:type="string">jpg</item>
+                <item name="jpeg" xsi:type="string">jpeg</item>
+                <item name="gif" xsi:type="string">gif</item>
+                <item name="png" xsi:type="string">png</item>
+            </argument>
+            <argument name="allowedMimeTypes" xsi:type="array">
+                <item name="jpg" xsi:type="string">image/jpg</item>
+                <item name="jpeg" xsi:type="string">image/jpeg</item>
+                <item name="gif" xsi:type="string">image/gif</item>
+                <item name="png" xsi:type="string">image/png</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Magenest\ProductLabel\Controller\Adminhtml\Label\Upload">
+        <arguments>
+            <argument name="imageUploader" xsi:type="object">Magenest\ProductLabel\ImageUploader</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Catalog\Block\Product\View\Gallery">
+        <plugin name="add_label_html" type="Magenest\ProductLabel\Plugin\Catalog\Product\View\RenderLabel" disabled="false"/>
+    </type>
+    <type name="Magento\Catalog\Block\Product\ImageFactory">
+        <plugin name="add_product_label_after_create_image" type="Magenest\ProductLabel\Plugin\Catalog\Block\Product\ImageFactory"/>
+    </type>
+    <type name="Magento\Catalog\Ui\DataProvider\Product\Listing\Collector\Image">
+        <plugin name="add_product_label_html" type="Magenest\ProductLabel\Plugin\Catalog\Ui\DataProvider\Product\Listing\Collector\Image"/>
+    </type>
+
+</config>

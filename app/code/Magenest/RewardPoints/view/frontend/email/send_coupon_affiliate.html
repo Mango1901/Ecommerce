@@ -1,0 +1,28 @@
+<!--@subject You might like this  @-->
+<!--@vars {
+} @-->
+
+{{template config_path="design/email/header_template"}}
+<table style="float:left; margin-right: 10px">
+    <tr>
+        <td>
+            <div class="greeting">{{trans "Dear %name," name=$name}},</div>
+            <div>
+                {{trans "I’m from %store_name." store_name=$store.getFrontendName()}},
+                {{trans "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"}}
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <p style="text-align: center;font-weight: 600;font-size: medium;">Your Affiliate Discount For Cart Code</p>
+            <p style="text-align: center;font-weight: 600;font-size: medium;border: 3px dotted red;border-radius: 20px;width: 50%;margin: 10px auto;padding: 10px;background-color: #fcead7;color: red;">{{var coupon.code}}</p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            {{trans "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"}}
+        </td>
+    </tr>
+</table>
+{{template config_path="design/email/footer_template"}}

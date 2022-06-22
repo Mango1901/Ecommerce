@@ -1,0 +1,31 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<div class="data-grid-cell-content">
+    <ul data-bind="foreach: { data: $col.getSalableQuantityData($row()), as: '$salableQuantityData' }">
+        <br>
+            <!-- ko if: !$salableQuantityData.manage_stock -->
+            <span data-bind="i18n: 'No manage stock'"></span>
+            <!-- /ko -->
+            <!-- ko if: $salableQuantityData.manage_stock -->
+            <strong data-bind="text: $salableQuantityData.stock_name"></strong>:
+            <ul data-bind="foreach: { data: $salableQuantityData.qty, as: '$qty' }">
+                <!-- ko if: $qty.key -->
+                <span data-bind="text: $qty.key"></span>:<span data-bind="text: $qty.qty"></span>
+                <!-- /ko -->
+                <!-- ko if: !$qty.key -->
+                <span data-bind="text: $qty.qty"></span>
+                <!-- /ko -->
+            </ul>
+        <br>
+            <strong data-bind="text: $salableQuantityData.reservation_name"></strong>:
+        <ul data-bind="foreach: { data: $salableQuantityData.reservation_qty, as: '$reservation_qty' }">
+            <span data-bind="text: $reservation_qty.key"></span>:<span data-bind="text: $reservation_qty.qty"></span>
+        </ul>
+            <!-- /ko -->
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,43 @@
+<?php
+// @codingStandardsIgnoreFile
+/** @var \Magenest\PhotoReview\Block\Product\View\CustomDetail $block */
+$data = $block->getCustomReviewDetail();
+$photos = $data['photo'];
+//
+if(is_array($data)):
+?>
+<div class="pros-cons">
+    <div class="pros-container">
+        <div class="pros-icon left-icon">
+            <i class="fa fa-check-circle"></i>
+        </div>
+        <div class="pros-content pros-cons-content">
+            <?= $data['photo_review_pros']; ?>
+        </div>
+    </div>
+    <div class="cons-container">
+        <div class="cons-icon left-icon">
+            <i class="fa fa-times-circle"></i>
+        </div>
+        <div class="cons-content pros-cons-content">
+            <?= $data['photo_review_cons'] ?>
+        </div>
+    </div>
+</div>
+<div class="photo-review photo-items owl-carousel">
+    <?php
+    $images = [];
+    foreach($photos as $photo){
+        $path = $photo->getData('path');
+        $images[] = $block->getMediaUrl($path);
+    } ?>
+    <?php foreach($images as $image): ?>
+    <div class="photo-item">
+        <img src="<?= $image ?>" alt="Customer photo review"/>
+    </div>
+    <?php endforeach; ?>
+</div>
+
+<?php
+endif;
+?>

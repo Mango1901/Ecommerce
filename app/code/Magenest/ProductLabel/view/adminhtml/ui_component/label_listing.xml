@@ -1,0 +1,155 @@
+<?xml version="1.0"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">label_listing.label_listing_data_source</item>
+        </item>
+    </argument>
+
+    <settings>
+        <spinner>columns</spinner>
+        <buttons>
+            <button name="add">
+                <label translate="true">Add Label</label>
+                <url path="*/*/new"/>
+                <class>primary</class>
+            </button>
+        </buttons>
+        <deps>
+            <dep>label_listing.label_listing_data_source</dep>
+        </deps>
+    </settings>
+
+    <dataSource name="label_listing_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <updateUrl path="mui/index/render"/>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">label_id</param>
+            </storageConfig>
+        </settings>
+        <dataProvider name="label_listing_data_source" class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+            <settings>
+                <primaryFieldName>label_id</primaryFieldName>
+                <requestFieldName>label_id</requestFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+
+    <listingToolbar name="listing_top">
+        <bookmark name="bookmarks"/>
+        <filters name="listing_filters">
+            <argument name="data" xsi:type="array">
+                <item name="observers" xsi:type="array">
+                    <item name="column" xsi:type="string">column</item>
+                </item>
+            </argument>
+            <settings>
+                <templates>
+                    <filters>
+                        <select>
+                            <param name="template" xsi:type="string">ui/grid/filters/elements/ui-select</param>
+                            <param name="component" xsi:type="string">Magento_Ui/js/form/element/ui-select</param>
+                        </select>
+                    </filters>
+                </templates>
+            </settings>
+        </filters>
+        <columnsControls name="columns_controls"/>
+        <massaction name="listing_massaction" component="Magento_Ui/js/grid/tree-massactions">
+            <action name="delete">
+                <settings>
+                    <confirm>
+                        <message translate="true">Are you sure you want delete items?</message>
+                    </confirm>
+                    <url path="*/*/massDelete"/>
+                    <type>delete</type>
+                    <label translate="true">Delete</label>
+                </settings>
+            </action>
+            <action name="status">
+                <settings>
+                    <type>status</type>
+                    <label translate="true">Change status</label>
+                    <actions>
+                        <action name="0">
+                            <type>enable</type>
+                            <label translate="true">Disable</label>
+                            <url path="*/*/massStatus">
+                                <param name="status">0</param>
+                            </url>
+                        </action>
+                        <action name="1">
+                            <type>disable</type>
+                            <label translate="true">Enable</label>
+                            <url path="*/*/massStatus">
+                                <param name="status">1</param>
+                            </url>
+                        </action>
+                    </actions>
+                </settings>
+            </action>
+        </massaction>
+        <paging name="listing_paging">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="provider" xsi:type="string">label_listing.label_listing.listing_top.bookmarks</item>
+                        <item name="namespace" xsi:type="string">current.paging</item>
+                    </item>
+                    <item name="selectProvider" xsi:type="string">label_listing.label_listing.columns.ids</item>
+                </item>
+            </argument>
+        </paging>
+    </listingToolbar>
+
+    <columns name="columns">
+        <selectionsColumn name="ids">
+            <settings>
+                <indexField>label_id</indexField>
+            </settings>
+        </selectionsColumn>
+        <column name="label_id">
+            <settings>
+                <label translate="true">ID</label>
+                <filter>text</filter>
+                <sorting>asc</sorting>
+            </settings>
+        </column>
+        <column name="name">
+            <settings>
+                <label translate="true">Name</label>
+                <filter>text</filter>
+            </settings>
+        </column>
+        <column name="status" class="Magenest\ProductLabel\Ui\Component\Listing\Column\LabelStatus">
+            <settings>
+                <label translate="true">Status</label>
+                <filter>select</filter>
+                <options class="Magenest\ProductLabel\Model\Config\Source\LabelStatus"/>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+                <dataType>select</dataType>
+            </settings>
+        </column>
+        <column name="category_data" class="Magenest\ProductLabel\Ui\Component\Listing\Column\PreviewLabel">
+            <settings>
+                <label translate="true">Category Page Label</label>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+                <sortable>false</sortable>
+            </settings>
+        </column>
+        <column name="product_data" class="Magenest\ProductLabel\Ui\Component\Listing\Column\PreviewLabel">
+            <settings>
+                <label translate="true">Product Page Label</label>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+                <sortable>false</sortable>
+            </settings>
+        </column>
+        <actionsColumn name="actions" class="Magenest\ProductLabel\Ui\Component\Listing\Column\Actions">
+            <settings>
+                <label translate="true">Actions</label>
+                <indexField>label_id</indexField>
+            </settings>
+        </actionsColumn>
+    </columns>
+</listing>

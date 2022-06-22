@@ -1,0 +1,61 @@
+<?php
+
+
+/** @var  Magenest\Affiliate\Block\Js\Hash $block */
+if ($block->checkCookie()): ?>
+    <script type="text/javascript">
+        //<![CDATA[
+        require([
+            'jquery',
+            'mage/cookies'
+        ], function ($) {
+            "use strict";
+
+            var affPrefix = '<?= $block->getPrefix() ?>';
+            if (affPrefix === '') {
+                affPrefix = 'u';
+            }
+            var hash = window.location.hash;
+
+            var url_loading = location.href;
+            var url_standard = new URL(url_loading);
+            var parameter = url_standard.searchParams.get(affPrefix);
+
+            if (parameter != null) {
+                $.mage.cookies.set(
+                        '<?= $block->getCookieName() ?>',
+                        parameter,
+                        {lifetime: <?= $this->getExpire() ?>}
+                    );
+                $.mage.cookies.set(
+                        '<?= $block->getCookieNameRewardPoint() ?>',
+                        parameter,
+                        {lifetime: <?= $this->getExpire() ?>}
+                    );
+                window.location.pathname.split('?')[0];
+            }
+
+            if (hash.indexOf(affPrefix) !== -1) {
+                $.mage.cookies.set(
+                        '<?= $block->getCookieName() ?>',
+                        hash.substr(affPrefix.length + 1),
+                        {lifetime: <?= $this->getExpire() ?>}
+                    );
+
+                $.mage.cookies.set(
+                    '<?= $block->getCookieNameRewardPoint() ?>',
+                    hash.substr(affPrefix.length + 1),
+                    {lifetime: <?= $this->getExpire() ?>}
+                );
+                window.location.href;
+            }
+
+        });
+        //]]>
+    </script>
+<?php endif; ?>
+<style>
+    /*--add custom css for affiliate--*/
+    <?= $block->getConfigCustomAffiliate(); ?>
+
+</style>

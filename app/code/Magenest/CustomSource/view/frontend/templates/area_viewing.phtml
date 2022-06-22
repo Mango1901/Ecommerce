@@ -1,0 +1,19 @@
+<?php
+/** @var \Magenest\CustomSource\Block\Product\AreaViewing $block */
+?>
+
+<div class="area-viewing">
+    <?php if ($areaLabel = $block->getCurrentArea()): ?>
+        <h5>
+            <?= __("You are viewing products in your area: ") ?>
+            <span id="change-area-shipping"><?= $areaLabel ?></span>
+        </h5>
+    <?php endif; ?>
+    <script>
+        require(['jquery'], function($) {
+            $("#change-area-shipping").on('click',function(){
+                $('.header-store-menu').modal('openModal');
+            });
+        });
+    </script>
+</div>

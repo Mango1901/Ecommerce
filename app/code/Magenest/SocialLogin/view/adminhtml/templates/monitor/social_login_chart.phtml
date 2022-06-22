@@ -1,0 +1,46 @@
+<?php
+/**
+ * @var \Magenest\SocialLogin\Block\Adminhtml\SocialAccount\Monitor\SocialLoginChart $block
+ */
+
+$chartData = json_encode($block->getChartData());
+$chartColor =  json_encode($block->getChartColor($chartData));
+?>
+<section class="admin__page-section social-login-chart">
+    <div class="admin__page-section-title">
+        <span class="title"><?= isset($escaper) ? $escaper->escapeHtml(__('Social Login Chart')) : $block->escapeHtml(__('Social Login Chart')) ?></span>
+    </div>
+    <div id="social-login-chart"></div>
+</section>
+<?php $scriptString = <<<script
+    google.charts.load("current", {packages:["corechart"]});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+        var socialData = {$chartData};
+        var chartData = [];
+        chartData.push(['Social Login Type', '(%)']);
+
+        socialData.forEach(function (element) {
+            element.total_account = parseInt(element.total_account);
+            element.social_login_type = element.social_login_type[0].toUpperCase() + element.social_login_type.slice(1);
+            chartData.push(Object.values(element));
+        });
+        var data = google.visualization.arrayToDataTable(chartData);
+        var options = {
+            pieSliceText: 'none',
+            legend: { position: 'labeled'},
+            height: 300,
+            chartArea: {
+                height: "100%",
+                width: "35%",
+            },
+            slices: {$chartColor}
+
+        };
+        var chart = new google.visualization.PieChart(document.getElementById('social-login-chart'));
+        chart.draw(data, options);
+    }
+script;
+?>
+
+<?= isset($secureRenderer) ? $secureRenderer->renderTag('script', [], $scriptString, false) : '<script>' . $scriptString . '</script>' ?>

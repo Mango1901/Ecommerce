@@ -1,0 +1,653 @@
+<?php if ($id = $this->getRequest()->getParam('id')): ?>
+    <?php $button = $this->getButtonById($id);
+    $style = " ";
+    $editButton = $this->getInfoEditButton($button);
+    $fontSize = $button->getData('size') . 'px';
+    $backgroundColor = $button->getData('background_color');
+    $height = $editButton['height'];
+    $width = $editButton['width'];
+    $border = $editButton['border'];
+    $borderTopLeft = $editButton['top_left'];
+    $borderTopRight = $editButton['top_right'];
+    $borderBottomLeft = $editButton['bottom_left'];
+    $borderBottomRight = $editButton['bottom_right'];
+    $border_style = $button->getData('border_style');
+    $border_width = $button->getData('border_width') . 'px';
+    $border_color = $button->getData('background_color_border');
+    $content = $button->getData('content');
+    $colorText = $button->getData('text_color');
+    $colorHoverText = $button->getData('hover_color_text');
+    $colorHoverButton = $button->getData('hover_color_button');
+    $colorHoverBorder = $button->getData('hover_color_border');
+    if (isset($editButton['padding_top'])) {
+        $paddingTop = $editButton['padding_top'];
+        $style .= " top:0; padding-top: " . $paddingTop . "px;";
+    };
+    if (isset($editButton['padding_bottom'])) {
+        $paddingBottom = $editButton['padding_bottom'];
+        $style .= " bottom:0; padding-bottom: " . $paddingBottom . "px;";
+    };
+    if (isset($editButton['padding_right'])) {
+        $paddingRight = $editButton['padding_right'];
+        $style .= " right:0; padding-right: " . $paddingRight . "px;";
+    };
+    if (isset($editButton['padding_left'])) {
+        $paddingLeft = $editButton['padding_left'];
+        $style .= " left:0; padding-left: " . $paddingLeft . "px;";
+    };
+    if (($borderTopLeft + $borderTopRight + $borderBottomRight + $borderBottomLeft) > 0) {
+        $borderRadius = $borderTopLeft . 'px' . ' ' . $borderTopRight . 'px' . ' ' . $borderBottomRight . 'px' . ' ' . $borderBottomLeft . 'px';
+    } else {
+        $borderRadius = $border . 'px';
+    }
+    ?>
+    <div class="area-button-preview" id="area-button-preview">
+        <a id="button-preview" href="" style="
+        <?=('height: ' . $height . 'px;');
+        echo('width: ' . $width . 'px;');
+        echo('border-radius: ' . $borderRadius . ';');
+        echo('font-size: ' . $fontSize . ';');
+        echo('background-color: ' . $backgroundColor . ';');
+        echo('border-width: ' . $border_width . ';');
+        echo('border-style: ' . $border_style . ';');
+        echo('border-color: ' . $border_color . ';'); ?>    ">
+            <div class="dv-content-button" style="<?= $style ?>">
+                <?= $content; ?>
+            </div>
+        </a>
+    </div>
+    <div id="error_submit" class="modal">
+        <div class="modal-content-error">
+            <span class="close_error_submit">&times;</span>
+            <p>Not correct value some field</p>
+        </div>
+    </div>
+<?php else: $backgroundColor = null;
+    $border_color = '#007bdb';
+    $border_width = '';
+    $border_style = '';
+    $colorText = '#007bdb';
+    $colorHoverBorder = '';
+    $colorHoverButton = '';
+    $colorHoverText = ''; ?>
+    <div class="area-button-preview" id="area-button-preview">
+        <a id="button-preview" href="" style="height: 100px; width: 300px;">
+            <div class="dv-content-button">
+            </div>
+        </a>
+    </div>
+    <div id="error_submit" class="modal">
+        <div class="modal-content-error">
+            <span class="close_error_submit">&times;</span>
+            <p>Not correct value some field</p>
+        </div>
+    </div>
+<?php endif ?>
+<script type="text/javascript">
+    require([
+        'jquery',
+        'jquery/validate',
+        'mage/validation',
+        'mage/translate'
+    ], function ($) {
+        $(".admin__control-wysiwig .action-add-image").remove();
+        $("#content").addClass(" validate-content-button");
+        var textColor = '<?= $colorText ?>';
+        var borderColor = '<?= $border_color ?>';
+        if (textColor === '#007bdb'){
+            $("#text_color").css("backgroundColor", "#007bdb").val("#007bdb");
+        }
+        if(borderColor === '#007bdb'){
+            $("#background_color_border").css("backgroundColor", "#007bdb").val("#007bdb");
+        }
+        $(window).load(function () {
+            $("#content").change(function () {
+                updateContent();
+            });
+
+            $("#size").change(function () {
+                updateSize();
+            });
+
+            $("#border_style").change(function (i) {
+                updateBorderStyle(i);
+            });
+
+
+            $("#text_color").change(function () {
+                updateTextColorButton();
+            });
+
+            $("#hover_color_text").change(function () {
+                updateTextColorHoverButton();
+            });
+
+            $("#background_color").change(function () {
+                updateBackgroundColorButton();
+            });
+
+            $("#hover_color_button").change(function () {
+                updateBackgroundColorHoverButton();
+            });
+
+            $("#background_color_border").change(function () {
+                updateBackgroundColorBorder();
+            });
+
+            $("#hover_color_border").change(function () {
+                updateBackgroundColorHoverBorder();
+            });
+
+
+            <?php if($this->getRequest()->getParam('id')): ?>
+            updateContent();
+            updateSize();
+            updateTextColorButton();
+            updateTextColorHoverButton();
+            updateBackgroundColorButton();
+            updateBackgroundColorHoverButton();
+            updateBackgroundColorBorder();
+            updateBackgroundColorHoverBorder();
+            <?php endif ?>
+
+            var previewOffset = $('#area-button-preview').offset();
+            var topOffset = previewOffset.top - 57.58522033691406;
+            $(window).scroll(function () {
+                $('.mce-btn-group .mce-i-image').parent('button').remove();
+
+                if ($(this).scrollTop() >= topOffset) {
+                    $('#container').addClass('preview-move');
+                } else {
+                    $('#container').removeClass('preview-move');
+                }
+            });
+        });
+
+        $.validator.addMethod(
+            'range',
+            function (value, element, param) {
+                param = $(element).attr('range').split(',');
+                return parseInt(value) >= parseInt(param[0]) && value <= parseInt(param[1]);
+            },
+            $.mage.__($.validator.format("Please enter a value between {0} and {1}."))
+        );
+    });
+
+    function updateContent() {
+        require([
+                'jquery',
+            ], function ($) {
+                $('div.dv-content-button').html($("#content").val());
+                $('div.mobile-dv-content-button').html($("#content").val());
+            }
+        );
+    }
+
+    function updateBorderStyle(i) {
+        require([
+            'jquery',
+        ], function ($) {
+            var borderStyle = i.target.value;
+            var range_border_width = $('.input-range-border-width'),
+                border = $('a#button-preview');
+            border.css('border-style', borderStyle);
+            border.css('border-width', range_border_width.attr('value') + 'px');
+        });
+    }
+
+    function updateSize() {
+        require([
+            'jquery',
+        ], function ($) {
+            var size = $("#size").val() + 'px';
+            var textSize = $("#content").val();
+            $('div.dv-content-button').html(textSize);
+            $('div.dv-content-button').css('font-size', size);
+            $('div.mobile-dv-content-button').html(textSize);
+            $('div.mobile-dv-content-button').css('font-size', size);
+        });
+    }
+
+    function updateTextColorButton() {
+        require([
+            'jquery',
+        ], function ($) {
+            var color = $("#text_color").val();
+            //$("a#button-preview").css("color", color);
+            //$("#text_color").css("background-color", color);
+            // $("#background_color_border").css("background-color", color);
+            // $("#background_color_border").val(color)
+        });
+    }
+
+    function updateTextColorHoverButton() {
+        require([
+            'jquery',
+        ], function ($) {
+            var color = $("#text_color").val();
+            var colorHover = $("#hover_color_text").val();
+            $("#hover_color_text").css("background-color", colorHover);
+            // $("#hover_color_border").css("background-color", borderColorHover);
+            // $("#hover_color_border").val(borderColorHover);
+            $("a#button-preview").hover(function () {
+                if (colorHover === "") {
+                    $(this).css("color", color).val(color);
+                } else {
+                    $(this).css("color", colorHover).val(colorHover);
+                }
+            }, function () {
+                $(this).css("color", color).val(color);
+            });
+        });
+    }
+
+    function updateBackgroundColorButton() {
+        require([
+            'jquery',
+        ], function ($) {
+            var color = $("#background_color").val();
+            $("a#button-preview").css("background-color", color);
+            $("#background_color").css("background-color", color);
+        });
+    }
+
+    function updateBackgroundColorHoverButton() {
+        require([
+            'jquery',
+        ], function ($) {
+            var color = $("#background_color").val();
+            var colorHover = $("#hover_color_button").val();
+            $("#hover_color_button").css("background-color", colorHover);
+            $("a#button-preview").hover(function () {
+                if (colorHover === "") {
+                    $(this).css("background-color", color).val(color);
+                } else {
+                    $(this).css("background-color", colorHover).val(colorHover);
+                }
+            }, function () {
+                $(this).css("background-color", color).val(color);
+            });
+        });
+    }
+
+    function updateBackgroundColorBorder() {
+        require([
+            'jquery',
+        ], function ($) {
+            var color = $("#background_color_border").val();
+            $("a#button-preview").css("border-color", color);
+            $("#background_color_border").css("background-color", color);
+        });
+    }
+
+    function updateBackgroundColorHoverBorder() {
+        require([
+            'jquery',
+        ], function ($) {
+            var color = $("#background_color_border").val();
+            var colorHover = $("#hover_color_border").val();
+            $("#hover_color_border").css("background-color", colorHover);
+            $("a#button-preview").hover(function () {
+                if (colorHover === "") {
+                    $(this).css("border-color", color).val(color);
+                } else {
+                    $(this).css("border-color", colorHover).val(colorHover);
+                }
+            }, function () {
+                $(this).css("border-color", color).val(color);
+            });
+        });
+    }
+
+
+</script>
+<script>
+    require([
+        'jquery',
+        "jquery/colorpicker/js/colorpicker"
+    ], function ($) {
+        'use strict';
+        //set block pick color for text
+        var color = '<?= $backgroundColor ?>';
+        var colorBorder = '<?= $border_color ?>',
+            colorText = '<?= $colorText ?>',
+            hoverText = '<?= $colorHoverText ?>',
+            hoverButton = '<?= $colorHoverButton ?>',
+            hoverBorder = '<?= $colorHoverBorder ?>';
+
+
+        var $el = $("#background_color"),
+            $elBorder = $("#background_color_border"),
+            $elText = $("#text_color"),
+            $hoverText = $('#hover_color_text'),
+            $hoverButton = $('#hover_color_button'),
+            $hoverBorder = $('#hover_color_border');
+
+        //set color if have data after load page
+        $el.css("backgroundColor", color).val(color);
+        $("a#button-preview").css("background-color", color).val(color);
+        $elBorder.css("backgroundColor", colorBorder).val(colorBorder);
+        $("a#button-preview").css("border-color", colorBorder).val(colorBorder);
+        $elText.css("backgroundColor", colorText).val(colorText);
+        $("a#button-preview").css("color", colorText).val(colorText);
+        $hoverText.css("backgroundColor", hoverText).val(hoverText);
+        $hoverButton.css("backgroundColor", hoverButton).val(hoverButton);
+        $hoverBorder.css("backgroundColor", hoverBorder).val(hoverBorder);
+        if (hoverText !== '') {
+            $("a#button-preview").hover(function () {
+                $(this).css("color", hoverText).val(hoverText);
+            }, function () {
+                $(this).css("color", colorText).val(colorText);
+            });
+        }
+        if (hoverButton !== '') {
+            $("a#button-preview").hover(function () {
+                $(this).css("background-color", hoverButton).val(hoverButton);
+            }, function () {
+                $(this).css("background-color", color).val(color);
+            });
+        }
+        if (hoverBorder !== '') {
+            $("a#button-preview").hover(function () {
+                $(this).css("border-color", hoverBorder).val(hoverBorder);
+            }, function () {
+                $(this).css("border-color", colorBorder).val(colorBorder);
+            });
+        }
+
+        // Attach the color picker
+        //color background button
+        $el.ColorPicker({
+            color: '',
+            onChange: function (hsb, hex, rgb) {
+                $el.css("backgroundColor", "#" + hex).val("#" + hex);
+                $("a#button-preview").css("background-color", "#" + hex).val("#" + hex);
+                color = hex;
+            }
+        });
+
+        //color border button
+        $elBorder.ColorPicker({
+            color: '',
+            onChange: function (hsb, hex, rgb) {
+                $elBorder.css("backgroundColor", "#" + hex).val("#" + hex);
+                $("a#button-preview").css("border-color", "#" + hex).val("#" + hex);
+                colorBorder = hex;
+            }
+        });
+
+        //color text button
+        $elText.ColorPicker({
+            color: '',
+            onChange: function (hsb, hex, rgb) {
+                $elText.css("backgroundColor", "#" + hex).val("#" + hex);
+                //$elBorder.css("backgroundColor", "#" + hex).val("#" + hex);
+                $("a#button-preview").css("color", "#" + hex).val("#" + hex);
+                colorText = hex;
+            }
+        });
+
+        //color hover text button
+        $hoverText.ColorPicker({
+            color: '',
+            onChange: function (hsb, hex, rgb) {
+                $hoverText.css("backgroundColor", "#" + hex).val("#" + hex);
+                // $hoverBorder.css("backgroundColor", "#" + hex).val("#" + hex);
+                $("a#button-preview").hover(function () {
+                    $(this).css("color", "#" + hex).val("#" + hex);
+                }, function () {
+                    $(this).css("color", "#" + colorText).val("#" + colorText);
+                });
+            }
+        });
+
+        //color hover button
+        $hoverButton.ColorPicker({
+            color: '',
+            onChange: function (hsb, hex, rgb) {
+                $hoverButton.css("backgroundColor", "#" + hex).val("#" + hex);
+                $("a#button-preview").hover(function () {
+                    $(this).css("background-color", "#" + hex).val("#" + hex);
+                }, function () {
+                    $(this).css("background-color", "#" + color).val("#" + colorBorder);
+                });
+            }
+        });
+
+        //color hover border
+        $hoverBorder.ColorPicker({
+            color: '',
+            onChange: function (hsb, hex, rgb) {
+                $hoverBorder.css("backgroundColor", "#" + hex).val("#" + hex);
+                $("a#button-preview").hover(function () {
+                    $(this).css("border-color", "#" + hex).val("#" + hex);
+                }, function () {
+                    $(this).css("border-color", "#" + colorBorder).val("#" + colorBorder);
+                });
+            }
+        });
+
+    });
+</script>
+<script>
+    require([
+        'jquery'
+    ], function ($) {
+        'use strict';
+
+        //event select style border button
+        $('#border_style').on('change', function () {
+            var optionSelected = $("option:selected", this);
+            var valueSelected = this.value;
+            // if(valueSelected === "none"){
+            //     $('#hover_color_border').css("backgroundColor", "").val("");
+            //     $("#background_color_border").css("backgroundColor", "").val("");
+            // }
+        });
+
+
+        var button = $('a#button-preview');
+        //field change height of button
+        var range_height_button = $('.input-range-height-button'),
+            value_height_button = $('.range-value-height-button');
+        value_height_button.html(range_height_button.attr('value') + 'px');
+        range_height_button.on('input', function () {
+            value_height_button.html(this.value + 'px');
+        });
+        $('.input-range-height-button').on('mouseup keyup', function () {
+            button.css('height', range_height_button.attr('value') + 'px');
+        });
+
+        //change border width when edit
+        var range_border_width = $('.input-range-border-width'),
+            value_border_width = $('.range-value-border-width');
+        value_border_width.html(range_border_width.attr('value') + 'px');
+        range_border_width.on('input', function () {
+            value_border_width.html(this.value + 'px');
+        });
+        $('.input-range-border-width').on('mouseup keyup', function () {
+            button.css('border-width', range_border_width.attr('value') + 'px');
+        });
+
+
+        //field change width of button
+        var range_width_button = $('.input-range-width-button'),
+            value_width_button = $('.range-value-width-button');
+        value_width_button.html(range_width_button.attr('value') + 'px');
+        range_width_button.on('input', function () {
+            value_width_button.html(this.value + 'px');
+        });
+        $('.input-range-width-button').on('mouseup keyup', function () {
+            button.css('width', range_width_button.attr('value') + 'px');
+        });
+
+
+        //field text align of button
+        var range_text_align = $('.input-range-text-align'),
+            value_text_align = $('.range-value-text-align');
+        value_text_align.html(range_text_align.attr('value') + 'px');
+        range_text_align.on('input', function () {
+            value_text_align.html(this.value + 'px');
+        });
+        $('.input-range-text-align').on('mouseup keyup', function () {
+            var range_text_align = $('.input-range-text-align'),
+                text_align = $('a#button-preview');
+            text_align.css('padding-top', range_text_align.attr('value') + 'px');
+        });
+
+
+        //field change padding top
+        var range_padding_top = $('.input-range-padding-top'),
+            value_padding_top = $('.range-value-padding-top');
+        value_padding_top.html(range_padding_top.attr('value') + 'px');
+        range_padding_top.on('input', function () {
+            value_padding_top.html(this.value + 'px');
+        });
+        $('.input-range-padding-top').on('mouseup keyup', function () {
+            value_padding_bottom.html('0px');
+            range_padding_bottom.attr("value", "0");
+            $('div.dv-content-button').css('padding-bottom', '');
+            $('div.dv-content-button').css('bottom', '');
+            $('.input-range-padding-bottom').css("padding-bottom", "0px");
+            var range_padding_top = $('.input-range-padding-top'),
+                padding_top = $('div.dv-content-button');
+            padding_top.css('top', '0px');
+            padding_top.css('padding-top', range_padding_top.attr('value') + 'px');
+        });
+
+
+        //field change padding bottom
+        var range_padding_bottom = $('.input-range-padding-bottom'),
+            value_padding_bottom = $('.range-value-padding-bottom');
+        value_padding_bottom.html(range_padding_bottom.attr('value') + 'px');
+        range_padding_bottom.on('input', function () {
+            value_padding_bottom.html(this.value + 'px');
+        });
+        $('.input-range-padding-bottom').on('mouseup keyup', function () {
+            value_padding_top.html('0px');
+            range_padding_top.attr("value", "0");
+            $('div.dv-content-button').css('padding-top', '');
+            $('div.dv-content-button').css('top', '');
+            var range_padding_bottom = $('.input-range-padding-bottom'),
+                padding_bottom = $('div.dv-content-button');
+            padding_bottom.css('bottom', '0');
+            padding_bottom.css('padding-bottom', (range_padding_bottom.attr('value')) + 'px');
+        });
+
+        //field change padding right
+        var range_padding_right = $('.input-range-padding-right'),
+            value_padding_right = $('.range-value-padding-right');
+        value_padding_right.html(range_padding_right.attr('value') + 'px');
+        range_padding_right.on('input', function () {
+            value_padding_right.html(this.value + 'px');
+        });
+        $('.input-range-padding-right').on('mouseup keyup', function () {
+            value_padding_left.html('0px');
+            range_padding_left.attr("value", "0");
+            $('div.dv-content-button').css('left', '');
+            $('div.dv-content-button').css('right', '0');
+            $('div.dv-content-button').css('padding-left', '');
+            $('.input-range-padding-left').css("padding-left", "0px");
+            var range_padding_right = $('.input-range-padding-right'),
+                padding_right = $('div.dv-content-button');
+            padding_right.css('padding-right', range_padding_right.attr('value') + 'px');
+        });
+
+
+        //field change padding left
+        var range_padding_left = $('.input-range-padding-left'),
+            value_padding_left = $('.range-value-padding-left');
+        value_padding_left.html(range_padding_left.attr('value') + 'px');
+        range_padding_left.on('input', function () {
+            value_padding_left.html(this.value + 'px');
+        });
+        $('.input-range-padding-left').on('mouseup keyup', function () {
+            value_padding_right.html('0px');
+            range_padding_right.attr("value", "0");
+            $('div.dv-content-button').css('left', '0');
+            $('div.dv-content-button').css('right', '');
+            $('div.dv-content-button').css('padding-right', '');
+            $('.input-range-padding-right').css("padding-right", "0px");
+            var range_padding_left = $('.input-range-padding-left'),
+                padding_left = $('div.dv-content-button');
+            padding_left.css('padding-left', range_padding_left.attr('value') + 'px');
+        });
+
+        //field border radius of button
+        var range_border_radius = $('.input-range-border-radius'),
+            value_border_radius = $('.range-value-border-radius');
+        value_border_radius.html(range_border_radius.attr('value') + 'px');
+        range_border_radius.on('input', function () {
+            value_border_radius.html(this.value + 'px');
+        });
+        $('.input-range-border-radius').on('mouseup keyup', function () {
+            $('.input-range-border-top-left').attr('value', range_border_radius.attr('value'));
+            $('.input-range-border-bottom-left').attr('value', range_border_radius.attr('value'));
+            $('.input-range-border-top-right').attr('value', range_border_radius.attr('value'));
+            $('.input-range-border-bottom-right').attr('value', range_border_radius.attr('value'));
+            $('.range-value-border-top-left').html(range_border_radius.attr('value') + 'px');
+            $('.range-value-border-bottom-left').html(range_border_radius.attr('value') + 'px');
+            $('.range-value-border-top-right').html(range_border_radius.attr('value') + 'px');
+            $('.range-value-border-bottom-right').html(range_border_radius.attr('value') + 'px');
+            button.css('border-radius', range_border_radius.attr('value') + 'px');
+        });
+
+
+        //change border top-left
+        var top_left = $('.input-range-border-top-left'),
+            value_top_left = $('.range-value-border-top-left');
+        value_top_left.html(top_left.attr('value') + 'px');
+        top_left.on('input', function () {
+            value_top_left.html(this.value + 'px');
+        });
+        //change border bottom-left
+        var bottom_left = $('.input-range-border-bottom-left'),
+            value_bottom_left = $('.range-value-border-bottom-left');
+        value_bottom_left.html(bottom_left.attr('value') + 'px');
+        bottom_left.on('input', function () {
+            value_bottom_left.html(this.value + 'px');
+        });
+        //change border top-right
+        var top_right = $('.input-range-border-top-right'),
+            value_top_right = $('.range-value-border-top-right');
+        value_top_right.html(top_right.attr('value') + 'px');
+        top_right.on('input', function () {
+            value_top_right.html(this.value + 'px');
+        });
+        //change border bottom-right
+        var bottom_right = $('.input-range-border-bottom-right'),
+            value_bottom_right = $('.range-value-border-bottom-right');
+        value_bottom_right.html(bottom_right.attr('value') + 'px');
+        bottom_right.on('input', function () {
+            value_bottom_right.html(this.value + 'px');
+        });
+
+
+        $('.input-range-border-top-left').on('mouseup keyup', function () {
+            button.css('border-radius', top_left.attr('value') + 'px' + ' ' + top_right.attr('value') + 'px' + ' ' + bottom_right.attr('value') + 'px' + ' ' + bottom_left.attr('value') + 'px' + ' ');
+        });
+        $('.input-range-border-bottom-left').on('mouseup keyup', function () {
+            button.css('border-radius', top_left.attr('value') + 'px' + ' ' + top_right.attr('value') + 'px' + ' ' + bottom_right.attr('value') + 'px' + ' ' + bottom_left.attr('value') + 'px' + ' ');
+        });
+        $('.input-range-border-top-right').on('mouseup keyup', function () {
+            button.css('border-radius', top_left.attr('value') + 'px' + ' ' + top_right.attr('value') + 'px' + ' ' + bottom_right.attr('value') + 'px' + ' ' + bottom_left.attr('value') + 'px' + ' ');
+        });
+        $('.input-range-border-bottom-right').on('mouseup keyup', function () {
+            button.css('border-radius', top_left.attr('value') + 'px' + ' ' + top_right.attr('value') + 'px' + ' ' + bottom_right.attr('value') + 'px' + ' ' + bottom_left.attr('value') + 'px' + ' ');
+        });
+
+        $('#edit_form').submit(function () {
+            if ($("div.dv-content-button").css("top") == "0px") {
+                $('.input-range-padding-bottom').prop('disabled', true);
+            } else {
+                $('.input-range-padding-top').prop('disabled', true);
+            }
+            if ($("div.dv-content-button").css("left") == "0px") {
+                $('.input-range-padding-right').prop('disabled', true);
+            } else {
+                $('.input-range-padding-left').prop('disabled', true);
+            }
+        });
+
+    });
+</script>

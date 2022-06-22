@@ -1,0 +1,283 @@
+<?php if ($id = $this->getRequest()->getParam('id')): ?>
+    <?php $button = $this->getButtonById($id);
+    $editButton = $this->getInfoEditButton($button);
+    $fontSize = $button->getData('size').'px';
+    $backgroundColor = $button->getData('background_color');
+    $height = $editButton['height'];
+    $width = $editButton['width'];
+    $text = $editButton['text'];
+    $border = $editButton['border'];
+    $borderTopLeft = $editButton['top-left'];
+    $borderTopRight = $editButton['top-right'];
+    $borderBottomLeft = $editButton['bottom-left'];
+    $borderBottomRight = $editButton['bottom-right'];
+    $border_style = $button->getData('border_style');
+    $border_width = $button->getData('border_width').'px';
+    $border_color = $button->getData('background_color_border');
+    if($border == 0 ){
+        $borderRadius = $borderTopLeft.'px'.' '.$borderTopRight.'px'.' '.$borderBottomRight.'px'.' '.$borderBottomLeft.'px';
+    }else{
+        $borderRadius = $border.'px';
+    }
+    ?>
+    <div class="area-button-preview" id="area-button-preview">
+        <div class="button-preview" id="button-preview" style="border:<?= $border_style.' '.$border_width.' '.$border_color ?> ;border-radius:<?= $borderRadius ?>; height: <?= $height.'px' ?>; width:<?= $width.'px' ?>; ">
+            <div class="promobutton" id="promobutton-container">
+                <div class="text" id="text-container" style="font-size: <?= $fontSize ?>; padding-top: <?= $text.'px'?>;"></div>
+            </div>
+        </div>
+    </div>
+<?php else: $backgroundColor = null;
+    $border_color='';
+    $border_width= '';
+    $border_style='';?>
+    <div class="area-button-preview" id="area-button-preview">
+        <div class="button-preview" id="button-preview">
+            <div class="promobutton" id="promobutton-container">
+                <div class="text" id="text-container"></div>
+            </div>
+        </div>
+    </div>
+<?php endif ?>
+<script type="text/javascript">
+    require([
+        'jquery',
+    ], function ($) {
+            $(window).load(function () {
+
+                $("#content").change(function () {
+                    updateContent();
+                });
+
+                $("#size").change(function () {
+                    updateSize();
+                });
+
+                $("#border_style").change(function (i) {
+                    updateBorderStyle(i);
+                });
+
+
+                <?php if($this->getRequest()->getParam('id')): ?>
+                updateContent();
+                updateSize();
+                <?php endif ?>
+
+                var previewOffset = $('#area-button-preview').offset();
+                var topOffset = previewOffset.top - 57.58522033691406;
+
+                $(window).scroll(function () {
+                    if ($(this).scrollTop() >= topOffset) {
+                        $('#container').addClass('preview-move');
+                    } else {
+                        $('#container').removeClass('preview-move');
+                    }
+                });
+            });
+    });
+
+    function updateContent() {
+        require([
+            'jquery',
+        ], function ($) {
+                $('#text-container').html($("#content").val());
+        });
+    }
+
+    function updateBorderStyle(i) {
+        require([
+            'jquery',
+        ], function ($) {
+            var borderStyle = i.target.value;
+            var range_border_width = $('.input-range-border-width'),
+                border = $('.button-preview');
+
+            border.css('border-style',borderStyle);
+            border.css('border-width', range_border_width.attr('value') + 'px');
+        });
+    }
+
+    function updateSize() {
+        require([
+            'jquery',
+        ], function ($) {
+            var size = $("#size").val() + 'px';
+            var textSize = $("#content").val();
+            textSize = textSize.replace("xx-small", "small");
+            textSize = textSize.replace("x-small", "small");
+            textSize = textSize.replace("small", size);
+            textSize = textSize.replace("medium", size);
+            textSize = textSize.replace("xx-large", "large");
+            textSize = textSize.replace("x-large", "large");
+            textSize = textSize.replace("large", size);
+            $('#text-container').html(textSize);
+            $('#text-container').css('font-size', size)
+        });
+    }
+
+</script>
+<script>
+    require([
+        'jquery',
+        "jquery/colorpicker/js/colorpicker"
+    ], function ($) {
+        'use strict';
+
+        //set block pick color for text
+        var color = '<?= $backgroundColor ?>';
+        var colorBorder = '<?= $border_color ?>';
+
+        var $el = $("#background_color");
+        var $elBorder = $("#background_color_border");
+
+        $el.css("backgroundColor", color).val(color);
+        $(".button-preview").css("backgroundColor",color).val(color);
+        $elBorder.css("backgroundColor", colorBorder).val(colorBorder);
+
+
+
+        // Attach the color picker
+        $el.ColorPicker({
+            color: '',
+            onChange: function (hsb, hex, rgb) {
+                $el.css("backgroundColor", "#" + hex).val("#" + hex);
+                $(".button-preview").css("background-color", "#" + hex).val("#" + hex);
+            }
+        });
+
+        $elBorder.ColorPicker({
+            color: '',
+            onChange: function (hsb, hex, rgb) {
+                $elBorder.css("backgroundColor", "#" + hex).val("#" + hex);
+                $(".button-preview").css("border-color", "#" + hex).val("#" + hex);
+            }
+        });
+
+        $('.colorpicker').css('z-index', '999');
+    });
+</script>
+<script>
+    require([
+        'jquery'
+    ], function ($) {
+        'use strict';
+
+        var button = $('.button-preview');
+
+        //field change height of button
+        var range_height_button = $('.input-range-height-button'),
+            value_height_button = $('.range-value-height-button');
+        value_height_button.html(range_height_button.attr('value') + 'px');
+        range_height_button.on('input', function () {
+            value_height_button.html(this.value + 'px');
+        });
+        $('.input-range-height-button').on('mouseup keyup', function () {
+            button.css('height', range_height_button.attr('value') + 'px');
+        });
+
+        //change border width when edit
+        var range_border_width = $('.input-range-border-width'),
+            value_border_width = $('.range-value-border-width');
+        value_border_width.html(range_border_width.attr('value') + 'px');
+        range_border_width.on('input', function () {
+            value_border_width.html(this.value + 'px');
+        });
+        $('.input-range-border-width').on('mouseup keyup', function () {
+            button.css('border-width', range_border_width.attr('value') + 'px');
+        });
+
+
+        //field change width of button
+        var range_width_button = $('.input-range-width-button'),
+            value_width_button = $('.range-value-width-button');
+        value_width_button.html(range_width_button.attr('value') + 'px');
+        range_width_button.on('input', function () {
+            value_width_button.html(this.value + 'px');
+        });
+        $('.input-range-width-button').on('mouseup keyup', function () {
+            button.css('width', range_width_button.attr('value') + 'px');
+        });
+
+
+        //field text align of button
+        var range_text_align = $('.input-range-text-align'),
+            value_text_align= $('.range-value-text-align');
+        value_text_align.html(range_text_align.attr('value') + 'px');
+        range_text_align.on('input', function () {
+            value_text_align.html(this.value + 'px');
+        });
+        $('.input-range-text-align').on('mouseup keyup', function () {
+            var range_text_align = $('.input-range-text-align'),
+                text_align = $('#text-container');
+            text_align.css('padding-top', range_text_align.attr('value') + 'px');
+        });
+
+
+        //field border radius of button
+        var range_border_radius = $('.input-range-border-radius'),
+            value_border_radius = $('.range-value-border-radius');
+        value_border_radius.html(range_border_radius.attr('value') + 'px');
+        range_border_radius.on('input', function () {
+            value_border_radius.html(this.value + 'px');
+        });
+        $('.input-range-border-radius').on('mouseup keyup', function () {
+            button.css('border-radius', range_border_radius.attr('value') + 'px');
+        });
+
+
+        //change border top-left
+        var top_left = $('.input-range-border-top-left'),
+            value_top_left = $('.range-value-border-top-left');
+        value_top_left.html(top_left.attr('value') + 'px');
+        top_left.on('input', function () {
+            value_top_left.html(this.value + 'px');
+        });
+        //change border bottom-left
+        var bottom_left = $('.input-range-border-bottom-left'),
+            value_bottom_left = $('.range-value-border-bottom-left');
+        value_bottom_left.html(bottom_left.attr('value') + 'px');
+        bottom_left.on('input', function () {
+            value_bottom_left.html(this.value + 'px');
+        });
+        //change border top-right
+        var top_right = $('.input-range-border-top-right'),
+            value_top_right = $('.range-value-border-top-right');
+        value_top_right.html(top_right.attr('value') + 'px');
+        top_right.on('input', function () {
+            value_top_right.html(this.value + 'px');
+        });
+        //change border bottom-right
+        var bottom_right = $('.input-range-border-bottom-right'),
+            value_bottom_right = $('.range-value-border-bottom-right');
+        value_bottom_right.html(bottom_right.attr('value') + 'px');
+        bottom_right.on('input', function () {
+            value_bottom_right.html(this.value + 'px');
+        });
+
+
+        $('.input-range-border-top-left').on('mouseup keyup', function () {
+            button.css('border-radius',top_left.attr('value')+'px'+' '+top_right.attr('value')+'px'+' '+bottom_right.attr('value')+'px'+' '+bottom_left.attr('value')+'px'+' ');
+        });
+        $('.input-range-border-bottom-left').on('mouseup keyup', function () {
+            button.css('border-radius',top_left.attr('value')+'px'+' '+top_right.attr('value')+'px'+' '+bottom_right.attr('value')+'px'+' '+bottom_left.attr('value')+'px'+' ');
+        });
+        $('.input-range-border-top-right').on('mouseup keyup', function () {
+            button.css('border-radius',top_left.attr('value')+'px'+' '+top_right.attr('value')+'px'+' '+bottom_right.attr('value')+'px'+' '+bottom_left.attr('value')+'px'+' ');
+        });
+        $('.input-range-border-bottom-right').on('mouseup keyup', function () {
+            button.css('border-radius',top_left.attr('value')+'px'+' '+top_right.attr('value')+'px'+' '+bottom_right.attr('value')+'px'+' '+bottom_left.attr('value')+'px'+' ');
+        });
+
+        $('#edit_form').submit(function () {
+            $('.input-range-border-width').attr('type', 'number');
+            $('.input-range-height-button').attr('type', 'number');
+            $('.input-range-width-button').attr('type', 'number');
+            $('.input-range-text-align').attr('type', 'number');
+            $('.input-range-border-radius').attr('type', 'number');
+            $('.input-range-border-top-left').attr('type', 'number');
+            $('.input-range-border-bottom-left').attr('type', 'number');
+            $('.input-range-border-top-right').attr('type', 'number');
+            $('.input-range-border-bottom-right').attr('type', 'number');
+        })
+    });
+</script>

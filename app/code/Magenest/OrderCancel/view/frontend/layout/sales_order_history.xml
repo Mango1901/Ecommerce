@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="sales.order.history" class="Magenest\OrderCancel\Block\Order\History" template="Magenest_OrderCancel::order/history.phtml">
+            <arguments>
+                <argument name="order_cancel" xsi:type="object">Magenest\OrderCancel\ViewModel\FrontendCancel</argument>
+            </arguments>
+        </referenceBlock>
+        <referenceBlock name="page.main.title">
+            <action method="setPageTitle">
+                <argument translate="true" name="title" xsi:type="string">My order</argument>
+            </action>
+        </referenceBlock>
+        <referenceBlock name="page.main.title.mobile">
+            <action method="setPageTitle">
+                <argument translate="true" name="title" xsi:type="string">My order</argument>
+            </action>
+        </referenceBlock>
+        <referenceBlock name="page_description" remove="true" />
+    </body>
+</page>

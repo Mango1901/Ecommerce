@@ -1,0 +1,15 @@
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+/**
+ * @var \Magenest\RewardPoints\Helper\Data $helper
+ */
+$helper = $objectManager->create('Magenest\RewardPoints\Helper\Data');
+
+$session = $objectManager->create('Magento\Customer\Model\Session');
+
+$customerId = $session->getId();
+$point      = $helper->getCurrentPoints();
+?>
+<li>
+    <a href="<?php echo $block->getUrl('customer/account') ?>">My Account <?php echo $helper->getEnableModule() ? $point : '' ?> </a>
+</li>

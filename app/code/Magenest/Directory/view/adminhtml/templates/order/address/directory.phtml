@@ -1,0 +1,107 @@
+<?php
+/** @var \Magenest\Directory\Block\Adminhtml\Plugin\Edit\Renderer\Directory $block */
+
+$formValues = $block->getFormValues();
+$htmlIdPrefix = $block->getHtmlIdPrefix();
+//edit billing, shipping address
+$addressData = $formValues;
+// if form value is null, get address from customer address
+if (empty($formValues['city_id']) || $formValues['city_id'] == 'null') {
+    $addressObject = $this->helper(\Magenest\Directory\Helper\Data::class)->getAddressById(isset($formValues['customer_address_id']) ? $formValues['customer_address_id'] : null);
+    if (!empty($addressObject)) {
+        $addressData = $addressObject->getData();
+        // reorder of guest, get address from quote address
+    } else {
+        $addressData = $this->helper(\Magenest\Directory\Helper\Data::class)->getQuoteAddressById($formValues['quote_id'] ?? null);
+    }
+}
+
+$baseUrl = $block->getBaseUrl();
+?>
+<div class="<?= $htmlIdPrefix ?>directory-fields directory-fields">
+    <div class="field field-city admin__field _required">
+        <label class="label admin__field-label" for="<?= $block->getFieldName('city') ?>">
+            <span><?= __('City') ?></span>
+        </label>
+        <div class="control admin__field-control">
+            <input id="<?= $block->getFieldId('city') ?>" name="<?= $block->getFieldName('city') ?>" value="<?= isset($formValues['city']) ? $formValues['city'] : "" ?>" class="input-text admin__control-text" type="text" style="display: none">
+            <select id="<?= $block->getFieldId('city_id') ?>" name="<?= $block->getFieldName('city_id') ?>" class="select admin__control-select required-entry _required">
+<!--                <option value="">--><?//= __('Please select city') ?><!--</option>-->
+            </select>
+        </div>
+    </div>
+    <div class="field field-district admin__field _required">
+        <label class="label admin__field-label" for="<?= $block->getFieldName('district') ?>">
+            <span><?= __('District') ?></span>
+        </label>
+        <div class="control admin__field-control">
+            <input id="<?= $block->getFieldId('district') ?>" name="<?= $block->getFieldName('district') ?>" value="<?= isset($formValues['district']) ? $formValues['district'] : "" ?>" class="input-text admin__control-text" type="text" style="display: none">
+            <select id="<?= $block->getFieldId('district_id') ?>" name="<?= $block->getFieldName('district_id') ?>" class="select admin__control-select required-entry _required">
+                <option value=""><?= __('Please select district') ?></option>
+            </select>
+        </div>
+    </div>
+    <div class="field field-ward admin__field _required">
+        <label class="label admin__field-label" for="<?= $block->getFieldName('ward') ?>">
+            <span><?= __('Ward') ?></span>
+        </label>
+        <div class="control admin__field-control">
+            <input id="<?= $block->getFieldId('ward') ?>" name="<?= $block->getFieldName('ward') ?>" value="<?= isset($formValues['ward']) ? $formValues['ward'] : "" ?>" class="input-text admin__control-text" type="text" style="display: none">
+
+            <select id="<?= $block->getFieldId('ward_id') ?>" name="<?= $block->getFieldName('ward_id') ?>" class="select admin__control-select required-entry _required">
+                <option value=""><?= __('Please select ward') ?></option>
+            </select>
+        </div>
+    </div>
+    <div class="field field-country">
+        <div class="control admin__field-control">
+            <input name="<?= $block->getFieldName('country_id') ?>" value="VN" class="input-text admin__control-text" type="hidden">
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+require([
+    'Magenest_Directory/js/field-updater',
+    'jquery'
+], function (fieldUpdater, jQuery) {
+    window.backendBaseUrl = '<?=$baseUrl?>';
+    fieldUpdater({
+        "form": "#form-validate",
+        "defaultCity": "<?= isset($addressData['city_id']) ? (int) $addressData['city_id'] : '' ?>",
+        "defaultDistrict": "<?= isset($addressData['district_id']) ? (int)$addressData['district_id'] : '' ?>",
+        "defaultWard": "<?= isset($addressData['ward_id']) ? (int)$addressData['ward_id'] : '' ?>",
+        "htmlIdPrefix": "<?= $htmlIdPrefix ?>",
+        "dataJson": <?= /* @noEscape */ $this->helper(\Magenest\Directory\Helper\Data::class)->getDataJson() ?>
+    }, jQuery('.<?= $htmlIdPrefix ?>directory-fields'))
+});
+</script>
+<?php if(strlen($block->getHtmlNamePrefix())): ?>
+<script type="text/javascript">
+    require([
+        'jquery',
+        'Magento_Sales/order/create/form'
+    ], function () {
+        /**
+         * Sync address field
+         *
+         * @param container
+         * @param fieldName
+         * @param fieldValue
+         */
+        order.syncAddressField = function (container, fieldName, fieldValue) {
+            var syncName;
+
+            if (this.isBillingField(fieldName)) {
+                syncName = fieldName.replace('billing', 'shipping');
+            }
+
+            $(container).select('[name="' + syncName + '"]').each(function (element) {
+                if (~['input', 'textarea', 'select'].indexOf(element.tagName.toLowerCase())) {
+                    element.value = fieldValue.value;
+                    element.dispatchEvent(new Event('change'));
+                }
+            });
+        };
+    });
+</script>
+<?php endif; ?>

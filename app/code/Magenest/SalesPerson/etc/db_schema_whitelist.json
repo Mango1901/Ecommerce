@@ -1,0 +1,13 @@
+{
+    "admin_user": {
+        "column": {
+            "is_salesperson": true,
+            "no_order": true
+        }
+    },
+    "sales_order": {
+        "column": {
+            "assigned_to": true
+        }
+    }
+}

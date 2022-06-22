@@ -1,0 +1,137 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+use Magento\LayeredNavigation\Block\Navigation;
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+/**
+ * Category layered navigation
+ *
+ * @var $block Navigation
+ */
+$layer           = $block->getLayer();
+$currentCategory = $layer->getCurrentCategory();
+/* @var \Magenest\LayeredNavigation\Helper\Data $layerNavigationHelper */
+$layerNavigationHelper = $this->helper(\Magenest\LayeredNavigation\Helper\Data::class);
+$maxCategoryPrice      = $layerNavigationHelper->getMaxPriceByCategory($currentCategory);
+$filters               = $block->getFilters();
+$currUrl               = $this->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true])
+?>
+    <div class="block filter mgs-filter" id="layered-filter-block">
+        <div class="block-content filter-content">
+            <div class="product-filter">
+                <h3 class="product-filter-title"><?= __('Search filters') ?></h3>
+                <p class="close-filter mobile-device"><?= __('Close') ?></p>
+            </div>
+            <?= $block->getChildHtml('state') ?>
+
+            <?php if ($block->getLayer()->getState()->getFilters()): ?>
+                <div class="block-actions filter-actions">
+                    <a href="<?= /* @escapeNotVerified */ $block->getClearUrl() ?>" class="action clear filter-clear"><span><?= /* @escapeNotVerified */ __('Clear All') ?></span></a>
+                </div>
+            <?php endif; ?>
+            <?php $wrapOptions = false; ?>
+            <?php foreach ($block->getFilters() as $filter): ?>
+        <?php if (!$wrapOptions): ?>
+            <dl class="filter-options" id="narrow-by-list">
+                <?php $wrapOptions = true;
+                endif; ?>
+                <?php if ($filter->getRequestVar() == 'cat'): ?>
+                    <div class="c-sidebar c-sidebar--categories">
+                        <dt role="heading" aria-level="3" class="filter-options-title"><?= $block->escapeHtml(__($filter->getName())) ?></dt>
+                        <dd class="filter-options-content"><?= /* @escapeNotVerified */ $block->getChildBlock('renderer')->render($filter) ?></dd>
+                </div>
+                <?php continue; endif; ?>
+                <?php if ($filter->getRequestVar() == 'price'): ?>
+                    <?php
+                    $getParamValue = $block->getRequest()->getParam($filter->getRequestVar());
+                    $url           = $currUrl;
+                    $priceFilter   = explode("-", $getParamValue);
+                    $minPrice      = @(float)$priceFilter[0] ?: 0;
+                    $maxPrice      = @(float)$priceFilter[1] ?: $maxCategoryPrice;
+                    ?>
+                    <dt role="heading" aria-level="4" class="filter-options-title price-filter-title">
+                        <span class="h7-le-des-bk"><?= __('Price Range') ?></span>
+                    </dt>
+                    <dd class="filter-options-content">
+                        <p class="price-inputs">
+                            <span><input type="text" readonly id="amount-min"></span>
+                            <span><input type="text" readonly id="amount-max"></span>
+                        </p>
+
+                        <div id="slider-range"></div>
+                    </dd>
+
+                    <?php continue; ?>
+                <?php endif; ?>
+
+                <?php if ($filter->getItemsCount()): ?>
+                    <?php
+                    if ($filter->getFilterItemsCount()) {
+                        $itemIds                      = $filter->getFilterItemsCount();
+                        $attributeId                  = $filter->getAttributeModel()->getAttributeId();
+                        $itemProductIds[$attributeId] = $itemIds[$attributeId];
+                    }
+                    $class = 'inactive';
+                    if (method_exists($filter, "isActive") && $filter->isActive()) {
+                        $class = 'active';
+                    }
+                    ?>
+                    <div class="filter-list <?php if ($filter->getData('attribute_model')) {
+                        echo $filter->getData('attribute_model')['attribute_code'];
+                    } ?>">
+                        <dt role="heading" aria-level="3"
+                            class="filter-options-title <?= $class ?>">
+                            <span class="h7-le-des-bk"><?= $block->escapeHtml(__($filter->getName())) ?></span></dt>
+                        <dd class="filter-options-content <?= $class ?>">
+                            <?php /* @escapeNotVerified */
+                            echo $block->getChildBlock('renderer')->setData('is_rating_option', $filter->getRequestVar() == "rating_option")->render($filter); ?>
+
+                        </dd>
+                    </div>
+                <?php endif; ?>
+                <?php endforeach; ?>
+                <?php if ($wrapOptions): ?>
+            </dl>
+        <?php endif; ?>
+        </div>
+    </div>
+<script>
+    require([
+        "jquery",
+        'jquery/ui',
+        "mage/mage"
+    ], function ($) {
+        $(document).ready(function () {
+            let slider = $("#slider-range");
+            <?php if (@$maxPrice): ?>
+            var urlPrice = "<?=$currUrl?>";
+            var _urlPrice = new URL(urlPrice + (urlPrice.split('?')[1] ? '&' : '?') + 'price=0-1');
+            slider.slider({
+                range: true,
+                min: 0,
+                max: <?= $maxCategoryPrice ?>,
+                values: [<?= $minPrice ?>,<?= $maxPrice ?>],
+                slide: function (event, ui) {
+                    $("#amount-min").val(ui.values[0].toLocaleString('en-US'));
+                    $("#amount-max").val(ui.values[1].toLocaleString('en-US'));
+                },
+                stop: function (event, ui) {
+                    // var str = $("#amount").val().replace(/\s/g, '');
+                    _urlPrice.searchParams.set('price', ui.values[0] + '-' + ui.values[1]);
+                    window.location.href = _urlPrice;
+                }
+            });
+            $("#amount-min").val(slider.slider("values", 0).toLocaleString('en-US'));
+            $("#amount-max").val(slider.slider("values", 1).toLocaleString('en-US'));
+            <?php endif; ?>
+        })
+    });
+
+</script>

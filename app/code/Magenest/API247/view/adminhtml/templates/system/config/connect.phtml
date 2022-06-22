@@ -1,0 +1,9 @@
+<?php
+/** @var \Magenest\API247\Block\Adminhtml\System\Config\Connect $block */
+$buttonHtmlId = $block->getHtmlId();
+?>
+<a href="<?= $block->getConnectUrl() ?>"
+   class="action-default scalable action-save action-secondary"
+   style="cursor: pointer;">
+    <?= $block->escapeHtml(__("Connect & Refresh Data")) ?>
+</a>

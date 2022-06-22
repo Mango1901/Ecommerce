@@ -1,0 +1,31 @@
+<!--
+/**
+ * Copyright © 2020 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ *
+ * Magenest_ProductLabel extension
+ * NOTICE OF LICENSE
+ *
+ * @category Magenest
+ * @package  Magenest_ProductLabel
+ */
+ -->
+<table id="label-table-prod_pos" class="label-table-position">
+    <tbody>
+    <tr>
+        <td click="tdClick.bind($data, 0)" css="selected: chosenPosition() === 'top-left'"></td>
+        <td data-bind="click: tdClick.bind($data, 1), css: {selected: chosenPosition() === 'top-mid'}"></td>
+        <td data-bind="click: tdClick.bind($data, 2), css: {selected: chosenPosition() === 'top-right'}"></td>
+    </tr>
+    <tr>
+        <td data-bind="click: tdClick.bind($data, 3), css: {selected: chosenPosition() === 'mid-left'}"></td>
+        <td data-bind="click: tdClick.bind($data, 4), css: {selected: chosenPosition() === 'mid-mid'}"></td>
+        <td data-bind="click: tdClick.bind($data, 5), css: {selected: chosenPosition() === 'mid-right'}"></td>
+    </tr>
+    <tr>
+        <td data-bind="click: tdClick.bind($data, 6), css: {selected: chosenPosition() === 'bot-left'}"></td>
+        <td data-bind="click: tdClick.bind($data, 7), css: {selected: chosenPosition() === 'bot-mid'}"></td>
+        <td data-bind="click: tdClick.bind($data, 8), css: {selected: chosenPosition() === 'bot-right'}"></td>
+    </tr>
+    </tbody>
+</table>

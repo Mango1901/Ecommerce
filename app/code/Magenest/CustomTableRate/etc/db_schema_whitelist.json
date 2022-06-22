@@ -1,0 +1,20 @@
+{
+    "kangaroo_shipping_tablerate": {
+        "column": {
+            "pk": true,
+            "website_id": true,
+            "city_id": true,
+            "district_id": true,
+            "country_code": true,
+            "city_code": true,
+            "district_code": true,
+            "source_code": true,
+            "weight": true,
+            "fee": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "UNQ_19B729C3218A8B4DB6FAF1238D8C0803": true
+        }
+    }
+}

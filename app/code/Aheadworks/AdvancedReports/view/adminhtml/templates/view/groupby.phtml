@@ -1,0 +1,21 @@
+<?php
+/**
+* Copyright 2016 aheadWorks. All rights reserved.
+* See LICENSE.txt for license details.
+*/
+
+// @codingStandardsIgnoreFile
+
+/** @var \Aheadworks\AdvancedReports\Block\Adminhtml\View\Groupby $block */
+?>
+<div class="aw-arep-report_period_box">
+    <div id="aw-arep-report_periods_list">
+        <?php foreach ($block->getOptions() as $item): ?>
+            <?php $buttonClass = $block->getCurrentGroupByKey() == $item['value'] ? 'disabled active' : '' ?>
+            <button class="aw-arep-report_period_item <?php /* @noEscape */ echo $buttonClass ?>"
+                    onclick="setLocation('<?php /* @noEscape */ echo $block->escapeXssInUrl($block->getGroupbyUrl($item['value'])) ?>')">
+                <?= $block->escapeHtml($item['label']) ?>
+            </button>
+        <?php endforeach ?>
+    </div>
+</div>

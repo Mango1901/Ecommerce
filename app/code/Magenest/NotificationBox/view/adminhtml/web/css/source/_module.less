@@ -1,0 +1,28 @@
+& when (@media-common = true) {
+    .table-report-subscribe{
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 45px;
+    }
+}
+
+@notificationbox-icons-admin__font-name-path: 'Magenest_NotificationBox::fonts/notification';
+@notificationbox-icons-admin__font-name : 'NotificationBox';
+
+.lib-font-face(
+    @family-name: @notificationbox-icons-admin__font-name,
+    @font-path: @notificationbox-icons-admin__font-name-path,
+    @font-weight: normal,
+    @font-style: normal
+);
+
+.admin__menu .item-notificationbox.parent.level-0 > a:before,
+.admin__menu .item-notificationbox .level-0 > a:before {
+    font-family: @notificationbox-icons-admin__font-name;
+    font-size: 2.3rem;
+    line-height: 2px;
+    content: "\e900";
+    padding-top: 5px;
+}
+
+

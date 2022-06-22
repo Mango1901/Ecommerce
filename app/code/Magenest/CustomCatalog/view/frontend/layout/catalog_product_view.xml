@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="product.info.options">
+            <block class="Magenest\CustomCatalog\Block\Product\View\Options\Type\Swatch" name="product.info.options.swatch" as="swatch" template="Magento_Catalog::product/view/options/type/select.phtml"/>
+        </referenceBlock>
+        <referenceContainer name="product.info.price">
+            <block class="Magenest\CustomCatalog\Block\Catalog\Product\View\OutOfStockArea" name="out-of-stock-area" before="product.price.final" template="Magenest_CustomCatalog::out_of_stock_area.phtml" />
+        </referenceContainer>
+    </body>
+</page>

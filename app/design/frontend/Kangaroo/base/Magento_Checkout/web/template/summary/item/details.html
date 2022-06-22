@@ -1,0 +1,36 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+
+<div class="product-item-detail">
+    <!-- ko foreach: getRegion('before_details') -->
+    <!-- ko template: getTemplate() --><!-- /ko -->
+    <!-- /ko -->
+    <div class="product-item-inner">
+        <span class="product-item-name" data-bind="html: getNameUnsanitizedHtml($parent)"></span>
+        <div class="product-item-name-block">
+            <!-- ko if: (JSON.parse($parent.options).length > 0)-->
+            <div class="product-item-options">
+                <!--ko foreach: JSON.parse($parent.options)-->
+                <!-- ko if: ($data.full_view)-->
+                <!-- ko with: {full_viewUnsanitizedHtml: $data.full_view}-->
+                <span class="values" data-bind="html: full_viewUnsanitizedHtml"></span>
+                <!-- /ko -->
+                <!-- /ko -->
+                <!-- ko ifnot: ($data.full_view)-->
+                <!-- ko with: {valueUnsanitizedHtml: $data.value}-->
+                <span class="values" data-bind="html: valueUnsanitizedHtml"></span>
+                <!-- /ko -->
+                <!-- /ko -->
+                <!-- /ko -->
+            </div>
+            <!-- /ko -->
+        </div>
+    </div>
+</div>
+<!-- ko foreach: getRegion('item_message') -->
+<!-- ko template: getTemplate() --><!-- /ko -->
+<!-- /ko -->

@@ -1,0 +1,57 @@
+<?php
+/**
+* Copyright 2016 aheadWorks. All rights reserved.
+* See LICENSE.txt for license details.
+*/
+ /** @var \Aheadworks\AdvancedReports\Block\View\Chart $this */ ?>
+<?php if ($this->isCanShow()):?>
+<script type='text/javascript' src='https://www.google.com/jsapi'></script>
+<script type="text/javascript">
+    google.load('visualization', '1', {'packages': ['corechart']});
+</script>
+
+<script type="text/javascript">
+    require(['prototype'], function(){
+        var drawFn = function() {
+            var options = {
+                title: <?= \Zend_Json::encode($this->getChartTitle()) ?>,
+                pointSize: 8,
+                vAxis:{
+                    minValue:0, maxValue:5, gridlines:{count:6},
+                    textStyle: {
+                        fontSize: 12
+                    },
+                    format: <?= \Zend_Json::encode($this->getVAxisFormat());?> + '#'
+                },
+                hAxis: {
+                    textStyle: {
+                        fontSize: 12
+                    }
+                },
+                tooltip: {
+                    textStyle: {
+                        fontSize: 12
+                    }
+                },
+                legend: {
+                    position: 'none'
+                },
+                lineWidth: 4
+            };
+            var data = new google.visualization.DataTable();
+            <?php foreach ($this->getChartColumnList() as $column) : ?>
+            data.addColumn(<?= Zend_Json::encode($column) ?>);
+            <?php endforeach;?>
+            data.addRows(<?= Zend_Json::encode($this->getChartRows()) ?>);
+
+            var chart = new google.visualization.AreaChart($('aw-arep-chart-container'));
+            chart.draw(data, options);
+        };
+        drawFn();
+        jQuery(window).resize(function(){
+            drawFn();
+        });
+    });
+</script>
+<?php endif;?>
+<div id="aw-arep-chart-container"></div>

@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="checkout.cart.shipping">
+            <arguments>
+                <argument name="jsLayout" xsi:type="array">
+                    <item name="components" xsi:type="array">
+                        <item name="block-summary" xsi:type="array">
+                            <item name="children" xsi:type="array">
+                                <item name="block-shipping" xsi:type="array">
+                                    <item name="children" xsi:type="array">
+                                        <item name="address-fieldsets" xsi:type="array">
+                                            <item name="children" xsi:type="array">
+                                                <item name="country_id" xsi:type="array">
+                                                    <item name="visible" xsi:type="string">false</item>
+                                                </item>
+                                                <item name="city_id" xsi:type="array">
+                                                    <item name="component" xsi:type="string">Magenest_Directory/js/form/element/city</item>
+                                                    <item name="sortOrder" xsi:type="string">120</item>
+                                                    <item name="config" xsi:type="array">
+                                                        <item name="template" xsi:type="string">ui/form/field</item>
+                                                        <item name="elementTmpl" xsi:type="string">ui/form/element/select</item>
+                                                        <item name="customEntry" xsi:type="string">shippingAddress.city</item>
+                                                        <item name="captionValue" xsi:type="string">tn</item>
+                                                        <item name="imports" xsi:type="array">
+                                                            <item name="initialOptions" xsi:type="string">index = checkoutProvider:dictionaries.city_id</item>
+                                                            <item name="setOptions" xsi:type="string">index = checkoutProvider:dictionaries.city_id</item>
+                                                        </item>
+                                                    </item>
+                                                    <item name="filterBy" xsi:type="array">
+                                                        <item name="target" xsi:type="string"><![CDATA[${ $.provider }:${ $.parentScope }.country_id]]></item>
+                                                        <item name="field" xsi:type="string">country_id</item>
+                                                    </item>
+                                                </item>
+                                                <item name="city" xsi:type="array">
+                                                    <item name="visible" xsi:type="boolean">false</item>
+                                                    <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
+                                                    <item name="sortOrder" xsi:type="string">121</item>
+                                                    <item name="dataScope" xsi:type="string">shippingAddress.city</item>
+                                                </item>
+                                                <item name="district_id" xsi:type="array">
+                                                    <item name="component" xsi:type="string">Magenest_Directory/js/form/element/district</item>
+                                                    <item name="sortOrder" xsi:type="string">130</item>
+                                                    <item name="config" xsi:type="array">
+                                                        <item name="template" xsi:type="string">ui/form/field</item>
+                                                        <item name="elementTmpl" xsi:type="string">ui/form/element/select</item>
+                                                        <item name="customEntry" xsi:type="string">shippingAddress.district</item>
+                                                        <item name="captionValue" xsi:type="string">tn</item>
+                                                        <item name="imports" xsi:type="array">
+                                                            <item name="initialOptions" xsi:type="string">index = checkoutProvider:dictionaries.district_id</item>
+                                                            <item name="setOptions" xsi:type="string">index = checkoutProvider:dictionaries.district_id</item>
+                                                        </item>
+                                                    </item>
+                                                    <item name="filterBy" xsi:type="array">
+                                                        <item name="target" xsi:type="string"><![CDATA[${ $.provider }:${ $.parentScope }.city_id]]></item>
+                                                        <item name="field" xsi:type="string">city_id</item>
+                                                    </item>
+                                                </item>
+                                                <item name="district" xsi:type="array">
+                                                    <item name="visible" xsi:type="boolean">false</item>
+                                                    <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
+                                                    <item name="sortOrder" xsi:type="string">131</item>
+                                                    <item name="dataScope" xsi:type="string">shippingAddress.district</item>
+                                                </item>
+                                                <item name="ward_id" xsi:type="array">
+                                                    <item name="component" xsi:type="string">Magenest_Directory/js/form/element/ward</item>
+                                                    <item name="sortOrder" xsi:type="string">140</item>
+                                                    <item name="config" xsi:type="array">
+                                                        <item name="template" xsi:type="string">ui/form/field</item>
+                                                        <item name="elementTmpl" xsi:type="string">ui/form/element/select</item>
+                                                        <item name="customEntry" xsi:type="string">shippingAddress.ward</item>
+                                                        <item name="captionValue" xsi:type="string">tn</item>
+                                                        <item name="imports" xsi:type="array">
+                                                            <item name="initialOptions" xsi:type="string">index = checkoutProvider:dictionaries.ward_id</item>
+                                                            <item name="setOptions" xsi:type="string">index = checkoutProvider:dictionaries.ward_id</item>
+                                                        </item>
+                                                    </item>
+                                                    <item name="filterBy" xsi:type="array">
+                                                        <item name="target" xsi:type="string"><![CDATA[${ $.provider }:${ $.parentScope }.district_id]]></item>
+                                                        <item name="field" xsi:type="string">district_id</item>
+                                                    </item>
+                                                </item>
+                                                <item name="ward" xsi:type="array">
+                                                    <item name="visible" xsi:type="boolean">false</item>
+                                                    <item name="component" xsi:type="string">Magento_Ui/js/form/element/abstract</item>
+                                                    <item name="sortOrder" xsi:type="string">141</item>
+                                                    <item name="dataScope" xsi:type="string">shippingAddress.ward</item>
+                                                </item>
+                                            </item>
+                                        </item>
+                                    </item>
+                                </item>
+                            </item>
+                        </item>
+                    </item>
+                </argument>
+            </arguments>
+        </referenceBlock>
+    </body>
+</page>

@@ -1,0 +1,250 @@
+.social-account-list {
+    display: inline-block;
+}
+
+.social-account-item:first-child {
+    border-top: none;
+}
+
+.social-account-item {
+    position: relative;
+    margin-bottom: 15px;
+    background-color: #efefef;
+    border-radius: 25px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px 0 7px;
+}
+.social-account-item .social-account-wrapper, .social-account-item .social-link-avatar {
+    line-height: 0;
+}
+
+.social-account-item .item-cell {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.social-account-wrapper .social-account-icon {
+    border-radius: 0;
+}
+
+.social-account-icon {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.social-account-google {
+    background-image: url(../images/google_share.png);
+}
+
+.social-account-facebook {
+    background-image: url(../images/facebook_share.png);
+}
+
+.social-account-twitter {
+    background-image: url(../images/twitter_share.png);
+}
+
+.social-account-amazon {
+    background-image: url(../images/amazon_share.png);
+}
+
+.social-account-instagram {
+    background-image: url(../images/instagram_share.png);
+}
+
+.social-account-pinterest {
+    background-image: url(../images/pinterest_share.png);
+}
+
+.social-account-line {
+    background-image: url(../images/line_share.png);
+}
+
+.social-account-linkedin {
+    background-image: url(../images/linkedin_share.png);
+}
+
+.social-account-reddit {
+    background-image: url(../images/reddit_share.png);
+}
+
+.social-account-apple {
+    background-image: url(../images/apple_share.png);
+}
+
+.social-account-zalo {
+    background-image: url(../images/zalo_share.png);
+}
+
+.block-social-account .box-newsletter .modal-socialogin {
+    display: none;
+}
+
+.block-social-account .box-newsletter .action {
+    border: none;
+    color: #fff;
+    width: 70%;
+}
+
+.block-social-account .box-newsletter .social-account-item {
+    width: 280px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.account .column.main .block.block-social-account:not(.widget) .block-content .box {
+    width: unset;
+}
+
+.block-social-account .box-newsletter .amazon_button_connect {
+    background-color: #d85a1e;
+}
+
+.block-social-account .box-newsletter .apple_button_connect {
+    background-color: #000;
+}
+
+.block-social-account .box-newsletter .facebook_button_connect {
+    background-color: #4e71a8;
+}
+
+.block-social-account .box-newsletter .google_button_connect {
+    background-color: #e34120;
+}
+
+.block-social-account .box-newsletter .line_button_connect {
+    background-color: #4cb234;
+}
+
+.block-social-account .box-newsletter .linkedin_button_connect {
+    background-color: #1973b2;
+}
+
+.block-social-account .box-newsletter .pinterest_button_connect {
+    background-color: #cb2027;
+}
+
+.block-social-account .box-newsletter .reddit_button_connect {
+    background-color: #28a3e9;
+}
+
+.block-social-account .box-newsletter .twitter_button_connect {
+    background-color: #2eb7eb;
+}
+
+.block-social-account .box-newsletter .zalo_button_connect {
+    background-color: #176eab;
+}
+
+.social-account-icon {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 3px;
+}
+
+.social-account-item .social-account-wrapper, .social-account-item .social-link-avatar {
+    line-height: 0;
+}
+
+.social-account-item .item-cell {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.social-link-avatar {
+    width: 173px;
+    white-space: nowrap;
+    padding: 0 40px;
+    overflow: hidden;
+}
+
+.social-link-avatar-img {
+    max-width: 40px;
+    border-radius: 50%;
+    -ms-border-radius: 50%;
+}
+
+.social-link-avatar-img, .social-link-avatar-name {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.social-link-avatar-name {
+    line-height: normal;
+    margin-left: 10px;
+}
+
+.social-link-avatar-img, .social-link-avatar-name {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.social-link-avatar-name {
+    max-width: 180px;
+    min-width: 180px;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+}
+
+.social-account-unlink .action.primary {
+    line-height: 38px;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-radius: 4px;
+}
+
+.action.primary {
+    background-image: none;
+    background: #1979c3;
+    border: 1px solid #1979c3;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-family: 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+    font-weight: 600;
+    padding: 7px 15px;
+    font-size: 1.4rem;
+    box-sizing: border-box;
+    vertical-align: middle;
+}
+
+.confirmDelete,.noItemDelete{
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.confirmDelete-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 700px;
+    max-width: 85vw;
+}
+
+.message.info {
+    margin: 0 0 10px;
+    padding: 12px 20px 12px 25px;
+    display: block;
+    font-size: 1.3rem;
+    background: #fdf0d5;
+    color: #6f4400;
+    padding-left: 45px;
+    position: relative;
+}
+

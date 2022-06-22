@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Magenest_SocialLogin::css/style.css" />
+        <css src="Magenest_SocialLogin::css/magnific-popup.css" />
+
+    </head>
+    <body>
+        <referenceContainer name="customer.login.container">
+            <block class="Magenest\SocialLogin\Block\Social" name="social_wrapper" template="wrapper/social.phtml">
+                <block class="Magenest\SocialLogin\Block\SocialNetwork\Facebook" name="magenest_facebook_login_button"
+                       template="socialnetwork/facebook.phtml" cacheable="false">
+                </block>
+                <block class="Magenest\SocialLogin\Block\SocialNetwork\Google" name="magenest_google_login_button"
+                       template="socialnetwork/google.phtml" cacheable="false">
+                </block>
+                <block class="Magenest\SocialLogin\Block\SocialNetwork\Apple" name="magenest_apple_login_button"
+                       template="socialnetwork/apple.phtml" cacheable="false">
+                </block>
+            </block>
+        </referenceContainer>
+        <referenceContainer name="content">
+            <block class="Magento\Framework\View\Element\Template" name="login.logo" template="Magento_Customer::login-logo.phtml" before="-" />
+        </referenceContainer>
+        <referenceBlock name="customer.new" remove="true" />
+        <referenceBlock name="page.main.title" remove="true" />
+    </body>
+</page>

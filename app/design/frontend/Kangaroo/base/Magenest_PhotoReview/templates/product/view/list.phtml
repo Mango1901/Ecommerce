@@ -1,0 +1,169 @@
+<?php
+/** @var Magento\Review\Block\Product\View\ListView $block */
+/** @var \Magento\Framework\Escaper $escaper */
+/** @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer */
+$_items = $block->getReviewsCollection()->getItems();
+$format = $block->getDateFormat() ?: \IntlDateFormatter::SHORT;
+/** @var \Magenest\PhotoReview\Helper\Review $helper */
+$helper =  $this->helper(\Magenest\PhotoReview\Helper\Review::class);
+$helper->removeSessionFilter();
+$appId = $helper->getAppId();
+if(empty($appId)){
+    $appId = '420724915308275';
+}
+$imageUrl = '';
+?>
+<?php if (count($_items)):?>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v5.0&appId=<?= $block->escapeHtml($appId) ?>&autoLogAppEvents=1"></script>
+    <div id="magenest-photoreview-popup"></div>
+    <div class="block review-list magenest" id="customer-reviews">
+        <div class="block-content">
+            <ol class="items review-items">
+                <?php foreach ($_items as $_review):?>
+                    <li class="item review-item" itemscope itemprop="review" itemtype="http://schema.org/Review">
+                        <?php
+                        $data = $helper->getCustomReviewDetail($_review);
+                        if (is_array($data)): ?>
+
+                            <div class="review-item-left">
+                                <div class="review-avata">
+                                    <img class="image-item" src="<?php echo $this->getViewFileUrl('') ?>/images/avata.svg" alt=""/>
+                                </div>
+                                <div class="review-author">
+                                    <strong class="review-details-value" itemprop="author"><?= $block->escapeHtml($_review->getNickname()) ?></strong>
+                                </div>
+                                <div class="review-date">
+                                    <time class="review-details-value" itemprop="datePublished" datetime="<?= $block->escapeHtmlAttr($block->formatDate($_review->getCreatedAt(), $format)) ?>"><?= $block->escapeHtml($block->formatDate($_review->getCreatedAt(), $format)) ?></time>
+                                </div>
+
+                            </div>
+                            <div class="review-item-right">
+                                <div class="review-top">
+                                    <?php if (count($_review->getRatingVotes())): ?>
+                                        <div class="review-ratings">
+                                            <?php foreach ($_review->getRatingVotes() as $_vote): ?>
+                                                <div class="rating-summary item" itemprop="reviewRating" itemscope
+                                                     itemtype="http://schema.org/Rating">
+                                                    <span class="label rating-label"><span><?= $block->escapeHtml($_vote->getRatingCode()) ?></span></span>
+                                                    <div class="rating-result"
+                                                         title="<?= $block->escapeHtmlAttr($_vote->getPercent()) ?>%">
+                                                        <meta itemprop="worstRating" content="1"/>
+                                                        <meta itemprop="bestRating" content="100"/>
+                                                        <span style="right:<?= $block->escapeHtmlAttr(100 - $_vote->getPercent()) ?>%">
+                                                            <span itemprop="ratingValue"><?= $block->escapeHtml($_vote->getPercent()) ?>%</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            <?php endforeach; ?>
+                                        </div>
+                                    <?php endif; ?>
+                                    <div class="review-title-list">
+                                        <?php if ($titleArray = $helper->getLabelSummary($_review->getTitle())): ?>
+                                            <?php foreach ($titleArray as $title): ?>
+                                                <div class="review-title" itemprop="name"><?= $block->escapeHtml($title) ?></div>
+                                            <?php endforeach; ?>
+                                        <?php else: ?>
+                                            <div class="review-title" itemprop="name"><?= $block->escapeHtml($_review->getTitle()) ?></div>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                                <div class="review-content" itemprop="description">
+                                    <?= /* @noEscape */ nl2br($escaper->escapeHtml($_review->getDetail())) ?>
+                                </div>
+                                <div class="photoreview-container">
+                                    <?php if(!empty($data['photo']) > 0): ?>
+
+                                        <div class="photo-review photo-items">
+                                            <?php
+                                            foreach($data['photo'] as $photo){
+                                                $type = $photo->getData('type');
+                                                 if ($type == \Magenest\PhotoReview\Observer\Review\Detail::TYPE_VIDEO) {
+                                                     if ($photo->getData('path') != '') {
+                                                         $photoId = $photo->getPhotoId();
+                                                         $reviewId = $photo->getReviewId();
+                                                         $path = $photo->getData('path');
+                                                         $url = $helper->getMediaUrl($path,$type);
+                                                         if ($imageUrl == '') $imageUrl = $url;
+                                                         ?>
+                                                         <div class="photo-item"
+                                                              data-photo-id="<?= $block->escapeHtml($photoId) ?>"
+                                                              data-review-id="<?= $block->escapeHtml($reviewId) ?>">
+                                                             <video class="video-item" width="100%" height="100%" src="<?= $url ?>" controls></video>
+                                                         </div>
+                                                         <?php
+                                                     }
+                                                 }
+                                                 else{
+                                                     if($photo->getData('path') != ''){
+                                                         $photoId = $photo->getPhotoId();
+                                                         $reviewId = $photo->getReviewId();
+                                                         $path = $photo->getData('path');
+                                                         $url = $helper->getMediaUrl($path);
+                                                         if($imageUrl == '') $imageUrl = $url;
+                                                         ?>
+                                                         <div class="photo-item" data-photo-id="<?= $block->escapeHtml($photoId) ?>" data-review-id="<?= $block->escapeHtml($reviewId) ?>">
+                                                             <img class="image-item" src="<?= $url ?>"/>
+                                                         </div>
+                                                         <?php
+                                                     }
+                                                 }
+                                            } ?>
+                                        </div>
+
+                                    <?php
+                                    endif;
+                                    ?>
+                                </div>
+
+                            </div>
+                        <?php endif; ?>
+                    </li>
+                <?php endforeach; ?>
+            </ol>
+            <div class="toolbar review-toolbar">
+                <?= $block->getChildHtml('toolbar') ?>
+                <?php if ($block->getReviewsCollection()->getLastPageNumber() > 1): ?>
+                    <div class="load-more">
+                        <button class="btn-load-more" id="load-more-review"><?= __('See more') ?></button>
+                        <?php
+                            $block->setData('page', ($block->getData('page') ?? 1) + 1);
+                            $url = $block->getUrl('review/product/listAjax/id/' . $block->getProductId());
+                            $scriptString =  <<<script
+                                require([
+                                    'jquery'
+                                ], function ($) {
+                                    let pageNumberNext = 2;
+                                    let maxNumberPage = {$block->getReviewsCollection()->getLastPageNumber()}
+                                    $('#load-more-review').on('click', function () {
+                                        var self = $(this);
+                                        $.ajax({
+                                            url: '{$url}' + '?p=' + pageNumberNext,
+                                            type: 'get',
+                                            showLoader: true,
+                                        }).done(function (data) {
+                                            $(data).find('li.item.review-item').appendTo("ol.items.review-items");
+                                            ++pageNumberNext;
+                                            if (pageNumberNext > maxNumberPage) {
+                                                $('#load-more-review').remove()
+                                            }
+                                        }.bind(this));
+                                    });
+                                })
+                            script;
+                        ?>
+                        <?= /* @noEscape */ $secureRenderer->renderTag('script', [], $scriptString, false) ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+    <script>
+        require([
+            'jquery',
+            'Magenest_PhotoReview/js/popup'
+        ], function ($) {
+            'use strict';
+        });
+    </script>
+
+<?php endif;?>

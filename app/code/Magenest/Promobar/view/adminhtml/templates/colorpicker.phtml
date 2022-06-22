@@ -1,0 +1,37 @@
+<script>
+    require([
+        'jquery',
+        "jquery/colorpicker/js/colorpicker"
+    ], function ($) {
+        'use strict';
+
+        var color = '';
+        //set block pick color for text
+        var $el = $("#background_color");
+        var $text = $("#background_text");
+
+        $el.css("backgroundColor", color).val(color);
+        $text.css("backgroundColor", color).val(color);
+
+        // Attach the color picker
+        $el.ColorPicker({
+            color: '',
+            onChange: function (hsb, hex, rgb) {
+                $el.css("backgroundColor", "#" + hex).val("#" + hex);
+                $(".promoItem > div").css("background-color", "#" + hex).val("#" + hex);
+                $(".mobile-promoItem > div").css("background-color", "#" + hex).val("#" + hex);
+            }
+        });
+
+
+        $text.ColorPicker({
+            color: '',
+            onChange: function (hsb, hex, rgb) {
+                $text.css("backgroundColor", "#" + hex).val("#" + hex);
+                $(".promoItemContent > div").css("color", "#" + hex).val("#" + hex);
+                $(".mobile-promoItemContent > div").css("color", "#" + hex).val("#" + hex);
+            }
+        });
+        $('.colorpicker').css('z-index', '999');
+    });
+</script>

@@ -1,0 +1,103 @@
+<?php
+/** @var  $block \Magenest\NotificationBox\Block\Customer\Tab\Notification */
+
+$block->redirectIfNotLoggedIn();
+$unread = $block->getUnreadNotification();
+$allCustomerNotification = $block->getNotificationByCondition(null);
+$allNotificationType = $block->getAllNotificationType();
+?>
+
+    <form action="">
+        <div class="table-wrapper mgn-notification-wrapper">
+            <div class="notification-controller">
+                <div class="select_notification">
+                    <select id="select_notification">
+                        <option value="select-none"><?=__('None')?></option>
+                        <option value="select-all" id="selectAll"><?=__('All')?></option>
+                        <option value="select-read"><?=__('Read')?></option>
+                        <option value="select-unread"><?=__('Unread')?></option>
+                        <option value="select-important"><?=__('Important')?></option>
+                        <option value="select-unimportant"><?=__('Unimportant')?></option>
+                    </select>
+                </div>
+
+                <div class="reload-notification">
+                    <a href=""><span class="mgn-noti-icon icon-refresh"></span></a>
+                </div>
+                <div class="delete-notification"><span class="mgn-noti-icon icon-remove"></span></div>
+
+                <div class="mark-as-read-notification">
+                    <a href="/" onclick="return false;"><?=__('Mark as read')?></a>
+                </div>
+            </div>
+
+            <div class="listCategory">
+                <?php foreach ($allNotificationType as $key=>$value){?>
+                    <label>
+                        <input type="button" value="<?= $value ?>" class="category-notification-btn <?=($block->getFilteredNotificationTypes() == $key)?'is_filter':''?>" id='filter-<?=$key?>'>
+                        <span class="category-notification-label"><?= $value ?></span>
+                    </label>
+                <?php }?>
+            </div>
+            <div class="notification-selected">
+                <p>All <span id="notification-selected">0</span> <?=__('notification on this page are selected. ')?><span id="select-all-notification" hidden><a href="/" onclick="return false;"><?= __('select all '.count($allCustomerNotification) .' notification on this page') ?> </a></span></p>
+            </div>
+
+            <table class="data table mgn-notification-table" id="my-notification-table">
+                <caption class="table-caption"><?php echo __('Grid Record') ?></caption>
+
+                <tbody>
+                <?php if ($allCustomerNotification && count($allCustomerNotification)): ?>
+                <?php foreach ($allCustomerNotification as $notification):?>
+                    <tr style="background-color: <?= $notification['status'] ? 'transparent' : $unread ?>" id="<?= $notification['entity_id'] ?>">
+                        <td class="col check-box-notification">
+                            <label>
+                                <input type="checkbox" class="checkbox-notification-input <?= $notification['entity_id'] ?>" id= "<?= $notification['status'] ? null : $unread ?>"/>
+                                <span class="checkbox-notification-label is_select"></span>
+                            </label>
+                        </td>
+                        <td class="col marking-notification">
+                            <?php if($notification['star'] == \Magenest\NotificationBox\Model\CustomerNotification::STAR):
+                                $markingClass = 'active';
+                            else:
+                                $markingClass = '';
+                            endif; ?>
+                            <span id="<?=$notification['star']?>" class="marking-important <?= $markingClass ?>"></span>
+                        </td>
+
+                        <td class="col notification-image">
+                            <span class="notification-type-img" style="background-image: url('<?= $notification['icon'] ?>')"></span></td>
+
+                        <td class="col notification-type">
+                            <?php echo $notification['notification_type'] ?></td>
+
+                        <td class="col description"><?=$notification['full_description'] ?></td>
+
+                        <td class="col created-at"><?php echo date('Y-m-d', strtotime($notification['created_at'])); ?></td>
+                    </tr>
+                <?php endforeach; ?>
+                <?php else: ?>
+                    <div class="message info empty"><span><?php echo __('No any notification.'); ?></span></div>
+                <?php endif ?>
+                </tbody>
+            </table>
+        </div>
+    </form>
+    <?php if ($block->getPagerHtml()): ?>
+        <div class="order-products-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); ?></div>
+    <?php endif ?>
+
+<script type="text/x-magento-init">
+        {
+            "*": {
+                "Magenest_NotificationBox/js/customer/tab/notification": {
+                    "urlDelete":"<?= $block->getUrl('notibox/handleNotification/Delete')?>",
+                    "urlMarkAsRead":"<?= $block->getUrl('notibox/handleNotification/MarkAllAsRead')?>",
+                    "urlMarkImportant":"<?=$block->getUrl("notibox/handleNotification/MarkImportant")?>",
+                    "urlViewNotification":"<?=$block->getUrl('notibox/handleNotification/viewNotification')?>",
+                    "totalNotification": <?=count($allCustomerNotification)?>,
+                    "baseUrl":"<?=$block->getUrl()?>"
+                }
+            }
+        }
+</script>

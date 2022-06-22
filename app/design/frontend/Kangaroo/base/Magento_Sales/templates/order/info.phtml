@@ -1,0 +1,71 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<?php /** @var $block \Magento\Sales\Block\Order\Info */ ?>
+<?php
+$_order = $block->getOrder();
+$_shippingAddress = $_order->getShippingAddress();
+$helperTelephone = $this->helper(\Magenest\Customer\Helper\FormatHelper::class)
+?>
+<div class="block block-order-details-view">
+    <div class="block-title">
+        <strong><?= $block->escapeHtml(__('Delivery address')) ?></strong>
+    </div>
+    <div class="block-content">
+        <?php if (!$_order->getIsVirtual()) : ?>
+            <div class="box box-order-shipping-address">
+                <div class="box-content">
+                    <p class="box-content-text">
+                        <span class="title"><?= __('Name') ?></span>
+                        <span class="content"><?= $_shippingAddress->getName() ?></span>
+                    </p>
+                    <p class="box-content-text phone-number">
+                        <span class="title"><?= __('Phone Number') ?></span>
+                        <span class="content"><?= $helperTelephone->formatTelephoneVietnamese($_shippingAddress->getTelephone()) ?></span>
+                    </p>
+                    <p class="box-content-text">
+                        <span class="title"><?= __('Street Address') ?></span>
+                        <span class="content"><?= implode(", ", array_merge($_shippingAddress->getStreet(), [
+                                $_shippingAddress->getWard(),
+                                $_shippingAddress->getDistrict(),
+                                $_shippingAddress->getCity()
+                            ]))?></span>
+                    </p>
+
+                    <?php if ($_order->getTelephoneCustomerConsign()): ?>
+                    <p class="box-content-text">
+                        <span class="title"><?= __('Telephone Of Customer Consign') ?></span>
+                        <span class="content"><?= $_order->getTelephoneCustomerConsign() ?></span>
+                    </p>
+                    <?php endif; ?>
+                </div>
+            </div>
+
+            <div class="box box-order-shipping-method box-double-method">
+                <div class="box-content-block">
+                    <strong class="box-title">
+                        <span><?= $block->escapeHtml(__('Shipping Method')) ?></span>
+                    </strong>
+                    <div class="box-content">
+                        <?php if ($_order->getShippingDescription()) : ?>
+                            <?= $block->escapeHtml($_order->getShippingDescription()) ?>
+                        <?php else : ?>
+                            <?= $block->escapeHtml(__('No shipping information available')) ?>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <div class="box-content-block">
+                    <strong class="box-title">
+                        <span><?= $block->escapeHtml(__('Delivery Time')) ?></span>
+                    </strong>
+                    <p class="box-content-text">
+                        <?= !$_order->getDeliveryTime() ? __('In office hours') : __('Outside office hours') ?>
+                    </p>
+                </div>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>

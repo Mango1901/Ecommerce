@@ -1,0 +1,106 @@
+<?php
+// @codingStandardsIgnoreFile
+$columnsLimit = $block->getColumnsLimit() ?: 0;
+$_menu = $block->getHtml('level-top', 'submenu', $columnsLimit);
+?>
+
+<nav class="navigation" data-action="navigation" style="display: none">
+    <ul data-mage-init='{"menu":{"responsive":true, "expanded":true, "position":{"my":"left top","at":"left bottom"}}}'>
+        <?= /* @escapeNotVerified */ $_menu ?>
+        <?= /* @escapeNotVerified */ $block->getChildHtml() ?>
+    </ul>
+</nav>
+
+<?php
+/** @var \Magenest\MegaMenu\Block\Menu $block */
+/** @var \Magenest\MegaMenu\Helper\Data $helper */
+$helper = $this->helper(\Magenest\MegaMenu\Helper\Data::class);
+/** @var \Magenest\MegaMenu\Helper\ViewHelper $viewHelper */
+$viewHelper = $this->helper(\Magenest\MegaMenu\Helper\ViewHelper::class);
+
+$assignedMenu = $block->getData('mega_menu_alias');
+$storeId = $viewHelper->getStoreId('menu');
+$menu = $block->getActiveMegaMenu($assignedMenu);
+$effect = $helper->getEffectConfig();
+$color = $helper->getColorConfig();
+
+/*
+ * Check MENU Array (means that there are >= 2 menus) => Get the First menu ( >= 2 menu )
+ */
+$items = false;
+if (is_array($menu)) {
+    $items = $menu['items'];
+    $menu = $menu['menu'];
+    $menu->setId(true);
+}
+?>
+<?php if (!$menu->getId()): ?>
+    <nav class="navigation" role="navigation">
+        <div class="magemenu-menu" style="padding: 15px 20px;">
+            <ul class="nav-exploded explodedmenu"><?= __("Menu not found (Please setup mega menu in Stores/Configuration)") ?></ul>
+        </div>
+    </nav>
+<?php endif; ?>
+<?php
+$classes = $viewHelper->getClassesObject();
+/** Get the menu item associated with the menu */
+$result = $viewHelper->getMenuResultStructure($menu->getId(), $items);
+$fixedMenuClass = "";
+if($menu->getData('scroll_to_fixed')){
+    $fixedMenuClass = "fixed-menu";
+}
+$disableIblocks = "";
+if($menu->getData('disable_iblocks')){
+    $disableIblocks = "disable-blocks";
+}
+?>
+
+    <!--  HORIZONTAL MENU -->
+<?php $divId = "megamenu_{$menu->getId()}" ?>
+<?php if ($menu->getData('menu_template') == 'horizontal'): ?>
+    <nav class="navigation nav-magemenu-menu <?= $disableIblocks; ?> <?= $menu->getData('menu_template'); ?> <?= $fixedMenuClass ?> <?= $menu->getData('event')?>-menu" role="navigation" id="<?= $divId; ?>">
+        <div class="container">
+            <div class="magemenu-menu horizontal-menu">
+                <ul class="nav-exploded explodedmenu">
+                    <?php if (isset($result['menu_item_nest'])): ?>
+                        <?php foreach ($result['menu_item_nest'] as $top): ?>
+                            <?= $helper->getHtmlMenu($top, $effect, $helper, $classes); ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </ul>
+            </div>
+        </div>
+    </nav>
+<?php else: ?>
+    <!-- VERTICAL MENU -->
+    <nav class="navigation nav-magemenu-menu <?= $disableIblocks; ?> vertical <?= $menu->getData('menu_template'); ?> <?= $fixedMenuClass ?> <?= $menu->getData('event')?>-menu <?= $menu->getData('menu_top') == 'top' ? 'vertical-top' : '' ?>" role="navigation" id="<?= $divId ?>">
+        <div class="container">
+            <span class="btn-menu-vertical"><?= __('Product Category') ?></span>
+            <div class="magemenu-menu vertical-menu">
+                <ul class="nav-exploded explodedmenu">
+                    <?php if (isset($result['menu_item_nest']) && is_array($result['menu_item_nest'])): ?>
+                        <?php foreach ($result['menu_item_nest'] as $top): ?>
+                            <?= $helper->getHtmlMenu($top, $effect, $helper, $classes); ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <?php if ($menu->getData('menu_top') == 'top'): ?>
+        <script>
+            require([
+                'jquery',
+                'domReady!'
+            ], function ($) {
+                var heightVerTop = $("<?= '#' . $divId ?> .magemenu-menu").outerHeight();
+                $("<?= '#' . $divId ?> .magemenu-menu .menu > div > .menu-box").css('min-height', heightVerTop);
+                $("<?= '#' . $divId ?> .magemenu-menu .menu.original .default-list ul.itemsubmenu").css('min-height', heightVerTop - 3);
+            });
+        </script>
+    <?php endif; ?>
+<?php endif; ?>
+
+<?php if ($menu->getData('custom_css')): ?>
+    <style type="text/css"><?= $menu->getData('custom_css'); ?></style>
+<?php endif; ?>

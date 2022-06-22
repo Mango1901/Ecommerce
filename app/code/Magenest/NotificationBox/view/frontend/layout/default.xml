@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <link src="Magenest_NotificationBox::js/register_notification.js"/>
+    </head>
+    <body>
+        <referenceContainer name="header-wrapper">
+            <block ifconfig="magenest_notification_box/general/enable" class="Magenest\NotificationBox\Block\Notification\Notification" name="magenest-notification" template="Magenest_NotificationBox::notification.phtml" after="header-content-hotline"/>
+        </referenceContainer>
+        <referenceContainer name="after.body.start">
+            <block ifconfig="magenest_notification_box/general/enable" class="Magenest\NotificationBox\Block\Notification\Notification" name="afterbody"  template="Magenest_NotificationBox::notificationPopup.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,50 @@
+<?xml version="1.0" ?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <!--SAVE TOKEN-->
+    <route url="/V1/notificationbox/customer/register" method="POST">
+        <service class="Magenest\NotificationBox\Api\SaveTokenInterface" method="registerForCustomer"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+    </route>
+    <route url="/V1/notificationbox/guest/register" method="POST">
+        <service class="Magenest\NotificationBox\Api\SaveTokenInterface" method="registerForGuest"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <!--GET ALL NOTIFICATION BY CUSTOMER ID-->
+    <route url="/V1/notificationbox/getCustomerNotification/:customerId/list" method="GET">
+        <service class="Magenest\NotificationBox\Api\GetNotificationInterface" method="getCustomerNotification"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+    </route>
+
+    <!--DELETE NOTIFICATION(S) -->
+    <route url="/V1/notificationbox/delete" method="POST">
+        <service class="Magenest\NotificationBox\Api\HandleNotificationInterface" method="deleteNotifications"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+    </route>
+
+    <!--MARK AS READ NOTIFICATION(S) -->
+    <route url="/V1/notificationbox/mark-read" method="POST">
+        <service class="Magenest\NotificationBox\Api\HandleNotificationInterface" method="markAsRead"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+    </route>
+
+    <!--MARK IMPORTANT NOTIFICATION(S) -->
+    <route url="/V1/notificationbox/mark-important" method="POST">
+        <service class="Magenest\NotificationBox\Api\HandleNotificationInterface" method="markImportant"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+    </route>
+
+</routes>

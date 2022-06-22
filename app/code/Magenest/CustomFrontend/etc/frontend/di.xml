@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * Copyright © 2019 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ *
+ * Magenest_Kangaroo extension
+ * NOTICE OF LICENSE
+ *
+ * @category Magenest
+ * @package Magenest_Kangaroo
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!--<preference for="Magento\Wishlist\Controller\Index\Add" type="Magenest\CustomFrontend\Controller\Index\Add" />-->
+    <preference for="Magento\Wishlist\CustomerData\Wishlist" type="Magenest\CustomFrontend\CustomerData\Wishlist"/>
+
+    <type name="Magento\Checkout\Controller\Cart\Add">
+        <plugin name="buy_now_button_navigation_checkout" type="Magenest\CustomFrontend\Plugin\Controller\Cart\Add"
+                sortOrder="10" disabled="false"/>
+    </type>
+
+    <type name="Magento\Customer\Block\Address\Renderer\RendererInterface">
+        <plugin name="add_telephone_formatted_render_template_customer"
+                type="Magenest\CustomFrontend\Plugin\Block\Address\Renderer\RendererInterface" sortOrder="10"
+                disabled="false"/>
+    </type>
+</config>

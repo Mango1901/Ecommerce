@@ -1,0 +1,35 @@
+.lib-font-face(
+    @family-name: 'mgn-noti-icon',
+    @font-path: '@{baseDir}Magenest_NotificationBox/fonts/mgn-noti-icon',
+    @font-weight: normal,
+    @font-style: normal,
+    @font-display: swap
+);
+& when (@media-common = true) {
+    .mgn-noti-icon {
+        font-family: 'mgn-noti-icon' !important;
+        speak: none;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        &.icon-noti:before {
+            content: "\e900";
+        }
+        &.icon-refresh:before {
+            content: "\e901";
+        }
+        &.icon-remove:before {
+            content: "\e902";
+        }
+        &.icon-star:before {
+            content: "\e903";
+        }
+        &.icon-star-bold:before {
+            content: "\e904";
+        }
+    }
+}

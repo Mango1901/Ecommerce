@@ -1,0 +1,158 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="product.info.stock.sku">
+            <block class="Magento\Framework\View\Element\Template" name="product.copy.link" template="Magento_Catalog::product/view/copy-link.phtml" />
+        </referenceContainer>
+
+        <referenceContainer name="product.info.main">
+            <container name="product.info.main.bottom" htmlTag="div" htmlClass="product-shop-infos" after="-">
+                <block class="Magento\Cms\Block\Block" name="product-shop-infos" before="-">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">product-shop-infos</argument>
+                    </arguments>
+                </block>
+
+            </container>
+
+            <block class="Magento\Cms\Block\Block" name="block-discount-code" after="product.info.price">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">discount-code-product-detail</argument>
+                </arguments>
+            </block>
+
+            <block class="Magento\Cms\Block\Block" name="block-shipping" after="block-discount-code">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">block-shipping-product-detail</argument>
+                </arguments>
+            </block>
+
+            <block class="Magenest\CustomizePdf\Block\DownloadPdf" name="download.document" template="Magenest_CustomizePdf::download-document.phtml" after="-">
+                <arguments>
+                    <argument translate="true" name="title" xsi:type="string">Download document</argument>
+                    <argument name="sort_order" xsi:type="string">100</argument>
+                </arguments>
+            </block>
+
+        </referenceContainer>
+
+        <referenceContainer name="product.info.media">
+            <container name="product.shippingInfos" htmlTag="div" htmlClass="product-shipping-method-infos" after="product.info.media">
+                <block class="Magento\Cms\Block\Block" name="product-shipping-method-infos">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">product-shipping-method-infos</argument>
+                    </arguments>
+                </block>
+            </container>
+            <container name="product.info.main.share" htmlTag="div" htmlClass="product-info-main product-info-main-share" after="-" >
+                <block class="Magento\Catalog\Block\Product\View" name="download.image" template="Magento_Catalog::product/download-images.phtml">
+                    <arguments>
+                        <argument name="affiliate" xsi:type="object">Magenest\SocialLogin\ViewModel\AffiliateContext</argument>
+                    </arguments>
+                </block>
+            </container>
+        </referenceContainer>
+
+        <referenceContainer name="content.top">
+            <container name="product.page.top"  htmlTag="div" htmlClass="product-page-top"/>
+        </referenceContainer>
+
+        <referenceContainer name="content">
+            <container name="product.page.mind"  htmlTag="div" htmlClass="product-page-mind">
+                <container name="product.shippingInfos.mobile" htmlTag="div" htmlClass="product-shipping-method-infos" after="product.info.main">
+                    <block class="Magento\Cms\Block\Block" name="product-shipping-method-infos-mobile">
+                        <arguments>
+                            <argument name="block_id" xsi:type="string">product-shipping-method-infos</argument>
+                        </arguments>
+                    </block>
+                </container>
+
+                <container name="product.page.mind.left"  htmlTag="div" htmlClass="product-page-mind-left">
+                    <block class="Magento\Catalog\Block\Product\View\Details" name="product.info.details.custom" template="Magento_Catalog::product/view/details.phtml" >
+                        <block class="Magento\Catalog\Block\Product\View\Attributes" name="product.attributes.custom" template="Magento_Catalog::product/view/attributes.phtml" group="detailed_info">
+                            <arguments>
+                                <argument translate="true" name="title" xsi:type="string">More Information</argument>
+                                <argument name="sort_order" xsi:type="string">20</argument>
+                            </arguments>
+                        </block>
+                        <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.technical_description" as="technical_description" template="Magento_Catalog::product/view/attribute.phtml" group="detailed_info">
+                            <arguments>
+                                <argument name="at_call" xsi:type="string">getTechnicalDescription</argument>
+                                <argument name="at_code" xsi:type="string">technical_description</argument>
+                                <argument name="css_class" xsi:type="string">technical_description</argument>
+                                <argument name="at_label" xsi:type="string">none</argument>
+                                <argument name="title" translate="true" xsi:type="string">Technical Specification</argument>
+                                <argument name="sort_order" xsi:type="string">15</argument>
+                            </arguments>
+                        </block>
+                        <block class="Magenest\CustomizePdf\Block\DownloadPdf" name="video.tab" template="Magenest_CustomizePdf::video.phtml" group="detailed_info" >
+                            <arguments>
+                                <argument translate="true" name="title" xsi:type="string">Actual video</argument>
+                                <argument name="sort_order" xsi:type="string">20</argument>
+                            </arguments>
+                        </block>
+                    </block>
+                </container>
+
+                <container name="product.page.mind.right"  htmlTag="div" htmlClass="product-page-mind-right">
+                    <block class="Magento\Cms\Block\Block" name="selling-products">
+                        <arguments>
+                            <argument name="block_id" xsi:type="string">selling-products</argument>
+                        </arguments>
+                    </block>
+                </container>
+            </container>
+        </referenceContainer>
+
+        <referenceContainer name="content.bottom">
+
+            <container name="product.page.bottom"  htmlTag="div" htmlClass="product-page-bottom" after="-">
+                <container name="product.page.policy"  htmlTag="div" htmlClass="product-page-policy" after="-">
+                    <block class="Magento\Cms\Block\Block" name="products-policy">
+                        <arguments>
+                            <argument name="block_id" xsi:type="string">products-policy</argument>
+                        </arguments>
+                    </block>
+                </container>
+            </container>
+        </referenceContainer>
+
+        <referenceContainer name="before.body.end">
+            <block class="Magento\Framework\View\Element\Template" name="product.custom.js" template="Magento_Catalog::product/view/custom-js.phtml" after="-"/>
+        </referenceContainer>
+
+        <referenceBlock name="product.info.description">
+            <arguments>
+                <argument name="title" translate="true" xsi:type="string">Product Details</argument>
+            </arguments>
+        </referenceBlock>
+
+        <move element="page.main.title" destination="product.info.main" before="-"/>
+        <move element="product.info.review" destination="product.info.stock.sku" />
+        <move element="magenest_sociallogin_share" destination="product.info.main.share" after="-"/>
+
+
+
+        <move element="breadcrumbs" destination="product.page.top" before="-"/>
+        <move element="product.info.media" destination="product.page.top" after="breadcrumbs"/>
+        <move element="product.info.main" destination="product.page.top" after="product.info.media"/>
+
+        <move element="reviews.tab" destination="product.info.details.custom"/>
+        <move element="product.info.description" destination="product.info.details.custom"/>
+
+        <move element="content.aside" destination="product.page.bottom" before="-"/>
+        <referenceBlock name="product.info.details" remove="true" />
+
+        <referenceBlock name="product.attributes.wrapper" remove="true" />
+        <referenceBlock name="product.info.product_additional_data.wrapper" remove="true" />
+        <referenceBlock name="product.reviews.wrapper" remove="true" />
+        <referenceBlock name="product.info.upsell" remove="true" />
+
+    </body>
+</page>

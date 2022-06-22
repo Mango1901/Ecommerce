@@ -1,0 +1,50 @@
+<?php
+/**
+ * Copyright (c) Magenest, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var \Magenest\FacebookSupportLive\Block\Chatbox\FacebookSupport $block */
+if ($block->isEnabledChatBox()) : ?>
+    <!-- Messenger Plugin chat Code -->
+    <div id="fb-root"></div>
+
+    <!-- Your Plugin chat code -->
+    <div id="fb-customer-chat" class="fb-customerchat"></div>
+
+    <?php if ($block->isUseCode()) : ?>
+        <?= $block->getCode() ?>
+    <?php else: ?>
+        <script>
+            document.getElementById("nav-toggle").style.display = "none";
+
+            var chatbox = document.getElementById('fb-customer-chat');
+            chatbox.setAttribute("page_id", "<?= $block->getPageId() ?>");
+            chatbox.setAttribute("attribution", "biz_inbox");
+        </script>
+
+        <!-- Your SDK code -->
+        <script>
+            window.fbAsyncInit = function () {
+                FB.init({
+                    xfbml: true,
+                    version: 'v12.0'
+                });
+
+                FB.Event.subscribe('customerchat.load', function () {
+                    document.getElementById("nav-toggle").style.display = "block";
+                });
+            };
+
+            const attachSdkScript = function (document, tag, elementId) {
+                var js, fjs = document.getElementsByTagName(tag)[0];
+                if (document.getElementById(elementId)) return;
+                js = document.createElement(tag);
+                js.id = elementId;
+                js.src = 'https://connect.facebook.net/<?= $block->getLocale() ?>/sdk/xfbml.customerchat.js';
+                fjs.parentNode.insertBefore(js, fjs);
+            }
+            setTimeout(() => attachSdkScript(document, 'script', 'facebook-jssdk'), <?= $block->getDisplayTimeout() ?>);
+        </script>
+    <?php endif; ?>
+<?php endif ?>

@@ -1,0 +1,34 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/**  @var $block \Magento\Checkout\Block\Cart
+ *   @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
+ */
+?>
+<?php
+$styles = <<<STYLE
+    @media (min-width: 768px) {
+        .page-title-wrapper {
+            display: none;
+        }
+    }
+STYLE;
+?>
+<?= /* @noEscape */ $secureRenderer->renderTag('style', [], $styles, false) ?>
+<div class="cart-empty">
+    <?= $block->getChildHtml('checkout_cart_empty_widget') ?>
+    <img src="<?= $block->getViewFileUrl('images/cart-empty.png'); ?>" alt="">
+    <p><?= $block->escapeHtml(__('Your shopping cart is empty')) ?></p>
+    <a class="buy-now primary action" href="<?= $block->escapeUrl($block->getContinueShoppingUrl()) ?>"><?= __('Buy now') ?></a>
+    <?= $block->getChildHtml('shopping.cart.table.after') ?>
+</div>
+<script type="text/x-magento-init">
+{
+    "*": {
+        "Magento_Checkout/js/empty-cart": {}
+    }
+}
+</script>

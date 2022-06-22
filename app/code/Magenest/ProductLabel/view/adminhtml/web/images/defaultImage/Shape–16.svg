@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="180" height="60" viewBox="0 0 180 60">
+  <defs>
+    <clipPath id="clip-Shape_16">
+      <rect width="180" height="60"/>
+    </clipPath>
+  </defs>
+  <g id="Shape_16" data-name="Shape – 16" clip-path="url(#clip-Shape_16)">
+    <g id="Shape_6" data-name="Shape – 6" transform="translate(-47.06 -58.723)">
+      <g id="Group_2" data-name="Group 2" transform="translate(47.06 58.723)">
+        <g id="Group_1" data-name="Group 1" transform="translate(0 0)">
+          <path id="Path_4" data-name="Path 4" d="M52.19,58.723v8.293c-3.629,0-5.13,6.636-5.13-5.626C47.06,60.529,49.1,59.436,52.19,58.723Z" transform="translate(-47.06 -58.723)" fill="#f9c100"/>
+          <path id="Path_5" data-name="Path 5" d="M52.19,166.451v8.292c-3.092-.713-5.13-1.811-5.13-2.67C47.06,159.815,48.561,166.451,52.19,166.451Z" transform="translate(-47.06 -114.744)" fill="#f9c100"/>
+        </g>
+        <path id="Path_6" data-name="Path 6" d="M47.06,68.054c0,1.152,2.883,2.035,9.85,2.035H227.06l-13.846,25.3,13.846,25.3H56.91c-6.968,0-9.85.883-9.85,2.029Z" transform="translate(-47.06 -65.385)" fill="#f9c100"/>
+      </g>
+    </g>
+  </g>
+</svg>

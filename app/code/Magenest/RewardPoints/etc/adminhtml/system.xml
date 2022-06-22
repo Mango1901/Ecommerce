@@ -1,0 +1,403 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2018 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ *
+ * Magenest_RewardPoints extension
+ * NOTICE OF LICENSE
+ *
+ * @category Magenest
+ * @package Magenest_RewardPoints
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="magenest" translate="label" sortOrder="90">
+            <label>Magenest</label>
+        </tab>
+        <section id="rewardpoints" translate="label" type="text" sortOrder="68" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <class>separator-top</class>
+            <label>Reward Points (Kpoint)</label>
+            <tab>magenest</tab>
+            <resource>Magenest_RewardPoints::config_rewardpoints</resource>
+            <group id="point_config" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <label>Point Settings</label>
+                <field id="points_money" translate="label comment" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Point redemption rate</label>
+                    <validate>validate-greater-than-zero validate-number required-entry integer</validate>
+                    <comment><![CDATA[This defines how many points are worth a single currency unit (e.g $1).
+                             <br><b>For example:</b> Point redemption rate = 10, customer gets a $1 discount for every 10 points spent.]]></comment>
+                </field>
+                <field id="subtract_in_discount" translate="label comment" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Deduct receivable points when customers use discounts</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="reward_points_enable">1</field>
+                    </depends>
+                    <comment><![CDATA[If Yes, when customer uses reward points for discount or applies coupon on an order, the amount of points earned will be reduced accordingly.]]></comment>
+                </field>
+                <field id="deduct_automatically" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Deduct reward points earned when order is refunded</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="earn_apply_point" translate="label comment" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enable point earning for orders with applied points</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="reward_points_enable">1</field>
+                    </depends>
+                    <comment><![CDATA[If No, when customer uses reward points for discount on an order, customer will not receive points for this order.]]></comment>
+                </field>
+                <field id="earn_apply_discount" translate="label comment" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enable point earning for orders with applied coupon</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="reward_points_enable">1</field>
+                    </depends>
+                    <comment><![CDATA[If No, when customer applies coupon on an order, customer will not receive points for this order.]]></comment>
+                </field>
+                <field id="up_or_down" translate="label comment" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Point rounding rule</label>
+                    <source_model>Magenest\RewardPoints\Model\Source\UpOrDown</source_model>
+                    <comment><![CDATA[E.g: 2.1 -> 3 (Round Up) / 2.1 -> 2 (Round Down)]]></comment>
+                </field>
+                <field id="points_time_expired" translate="label comment" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Point expiration time</label>
+                    <validate>validate-number required-entry validate-number-range number-range-0-1000 integer</validate>
+                    <comment><![CDATA[The duration before reward points expires after they're earned: 1 - 1000 (days). Choose 0 if you want to turn off this feature.]]></comment>
+                </field>
+                <field id="valid_used_statuses" translate="label" type="multiselect" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Points are rewarded when an order is</label>
+                    <source_model>Magenest\RewardPoints\Model\Source\OrderStatus</source_model>
+                    <can_be_empty>0</can_be_empty>
+                    <validate>required-entry</validate>
+                    <comment><![CDATA[Order statuses used to validate used points (modify this only if you know what you are doing)<br>
+                             <b>Default values: </b> <font color=#FF0000>Processing</font> and <font color=#FF0000>Complete</font>.]]></comment>
+                </field>
+                <field id="reward_points_description" translate="label" type="editor" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>My Reward Points tab description</label>
+                    <frontend_model>Magenest\RewardPoints\Block\Adminhtml\System\Config\Editor</frontend_model>
+                    <comment><![CDATA[Write a short description for your customer's My Reward Point tab. You should specifies the Earning and Spending Rules of your store.]]></comment>
+                </field>
+                <field id="landing_page" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Reward Points program landing page</label>
+                    <source_model>Magento\Cms\Model\Config\Source\Page</source_model>
+                </field>
+                <field id="landing_page_in_footer" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Display landing page link in footer</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="reward_points_noti" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enable reward points notification</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Notify customers about reward points when they place orders (for customers who have not yet registered an account)</comment>
+                </field>
+                <field id="apply_coupon_for_affiliate" translate="label comment" type="select" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Send Coupon for affiliate program</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="coupon_for_affiliate" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Apply Shopping Cart Rule To Affiliate</label>
+                    <source_model>Magenest\RewardPoints\Model\Source\ShopingCartRule</source_model>
+                    <depends>
+                        <field id="apply_coupon_for_affiliate">1</field>
+                    </depends>
+                    <validate>required-entry</validate>
+                    <comment><![CDATA[ The Promotion Rule must meet the requirements (If you can't see your promotion rule, please re-configure the promotion rule as below): <br/>
+                    - Is Active.<br/>
+                    - Coupon: Specific Coupon.<br/>
+                    - Coupon: Use Auto Generation<br/>
+                    ]]></comment>
+                </field>
+                <field id="send_coupon_for_affiliate" translate="label comment" type="select" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Send Coupon To Affiliate Email Template</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                    <depends>
+                        <field id="apply_coupon_for_affiliate">1</field>
+                    </depends>
+                </field>
+
+                <field id="apply_coupon_for_birthday" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Send Coupon For Customer Birthday</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="coupon_for_birthday" translate="label comment" type="select" sortOrder="45" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Apply Shopping Cart Rule To Birthday</label>
+                    <source_model>Magenest\RewardPoints\Model\Source\ShopingCartRule</source_model>
+                    <depends>
+                        <field id="apply_coupon_for_birthday">1</field>
+                    </depends>
+                    <validate>required-entry</validate>
+                    <comment><![CDATA[ The Promotion Rule must meet the requirements (If you can't see your promotion rule, please re-configure the promotion rule as below): <br/>
+                    - Is Active.<br/>
+                    - Coupon: Specific Coupon.<br/>
+                    - Coupon: Use Auto Generation<br/>
+                    ]]></comment>
+                </field>
+                <field id="send_coupon_for_birthday" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Send Coupon To Birthday Email Template</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                    <depends>
+                        <field id="apply_coupon_for_birthday">1</field>
+                    </depends>
+                </field>
+            </group>
+
+            <group id="reward_points_display" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <label>General</label>
+                <field id="reward_points_enable" translate="label comment" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enable module</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="view_setting" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <label>View Settings</label>
+                <field id="home_page_product_list_enable" translate="label comment" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Show number of points earned for each product on Home page</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="reward_points_enable">1</field>
+                    </depends>
+                    <backend_model>Magenest\RewardPoints\Model\System\Config\Backend\ShowInHomePage</backend_model>
+                </field>
+                <field id="product_list_enable" translate="label comment" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Show number of points earned on Product Listing page</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="reward_points_enable">1</field>
+                    </depends>
+                </field>
+                <field id="product_detail_enable" translate="label comment" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Show number of points earned on Product Detail page</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="reward_points_enable">1</field>
+                    </depends>
+                </field>
+                <field id="show_point_for_guest" translate="label comment" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show number of points earned for Guest</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="reward_points_enable">1</field>
+                    </depends>
+                </field>
+            </group>
+
+            <group id="label_display_setting" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <label>Label Display Settings</label>
+                <field id="suffix" translate="label comment" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Point unit (default: P)</label>
+                    <comment><![CDATA[E.g: if set as P, the label with be displayed as + 10 P.]]></comment>
+                </field>
+                <field id="text_size" translate="label comment" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Text size (px)</label>
+                    <comment><![CDATA[E.g: Default values: 14.]]></comment>
+                    <validate>no-whitespace validate-number validate-greater-than-zero</validate>
+                </field>
+                <field id="text_color" translate="label comment" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Text color</label>
+                    <frontend_model>Magenest\RewardPoints\Block\Adminhtml\Form\Field\TextColor</frontend_model>
+                </field>
+            </group>
+
+            <group id="spending_configuration" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <label>Point Redemption Rules</label>
+                <field id="spending_configuration_enable" translate="label" type="select" sortOrder="2  " showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="spending_point" translate="label comment" type="select" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Redeemable points</label>
+                    <validate>required-entry</validate>
+                    <source_model>Magenest\RewardPoints\Model\Source\ConsumerSpending</source_model>
+                    <depends>
+                        <field id="spending_configuration_enable">1</field>
+                    </depends>
+                </field>
+                <field id="maximum_point" translate="label comment" type="text" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Maximum number of redeemable points</label>
+                    <validate>validate-number required-entry validate-greater-than-zero validate-number-range number-range-0-1000 integer</validate>
+                    <comment><![CDATA[Unit: point(s). Enter the maximum number of points can be redeemed for an order. If it is 0, there is no limitation.]]></comment>
+                    <depends>
+                        <field id="spending_point">1</field>
+                        <field id="spending_configuration_enable">1</field>
+                    </depends>
+                </field>
+                <field id="percent_max_order" translate="label comment" type="text" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Percent of redeemable points</label>
+                    <validate>validate-number required-entry validate-greater-than-zero validate-number-range number-range-0-100 integer</validate>
+                    <comment><![CDATA[Unit: %. The number of redeemable points for an order is calculated as percent of total order value.]]></comment>
+                    <depends>
+                        <field id="spending_point">2</field>
+                        <field id="spending_configuration_enable">1</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="email_configuration" translate="label" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <label>Email Configuration</label>
+                <group id="point_expiration_notification" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Point Expiration Notification</label>
+                    <field id="notity_customers_when_they_login" translate="label" type="select" sortOrder="2  " showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Notify Customers When They Login</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="point_expiration_email_enable" translate="label comment" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Send Email To Notify Point Expiration</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="points_expiration_template" translate="label comment" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Email Template</label>
+                        <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                        <comment><![CDATA[Select an email template used to send customers before a transaction expires.]]></comment>
+                        <depends>
+                            <field id="point_expiration_email_enable">1</field>
+                        </depends>
+                    </field>
+                    <field id="send_before_notify" translate="label comment" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Send Before</label>
+                        <validate>validate-number required-entry validate-number-range number-range-0-1000 integer</validate>
+                        <comment><![CDATA[Day(s). If it is 0, no reminder notification will be sent.]]></comment>
+                    </field>
+                </group>
+                <group id="update_point_balance_email" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Point Balance Update Email</label>
+                    <field id="email_balance_enable" translate="label" type="select" sortOrder="2  " showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Enabled</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="update_balance_template" translate="label comment" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Email Template</label>
+                        <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                        <comment><![CDATA[Select an email template used to send customers when their point balance is updated.]]></comment>
+                    </field>
+                </group>
+            </group>
+
+            <group id="referafriend" translate="label" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <label>Refer A Friend</label>
+                <group id="referral_code" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>General</label>
+                    <field id="refer_by_link" translate="label comment" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Refer By Link</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="refer_path" translate="label comment" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Path of Referral Link</label>
+                        <comment>For example, customer/account/create (Referer link will look like: https://yoursite.com/customer/account/create?referralcode=XXXXXXXXXXXX)</comment>
+                        <depends>
+                            <field id="refer_by_link">1</field>
+                        </depends>
+                    </field>
+                    <field id="code_pattern" translate="label comment" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Referral Code Pattern</label>
+                        <validate>required-entry</validate>
+                        <comment>A1 means 1 alphabetical characters, N1 means 1 numeric character, ... For example: [A1][N1][A1][N1][A1][N1]</comment>
+                    </field>
+                </group>
+                <group id="referral_setting" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Setting For Reward Point</label>
+                    <field id="referral_person_earner" translate="label comment" type="select" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Referral Points Are Awarded To</label>
+                        <source_model>Magenest\RewardPoints\Model\Source\ReferralPoint</source_model>
+                    </field>
+                    <field id="referral_coupon_person_earner" translate="label comment" type="select" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Referral Coupon Are Awarded To</label>
+                        <source_model>Magenest\RewardPoints\Model\Source\ReferralCoupon</source_model>
+                    </field>
+                    <field id="when_send_coupon_refered" translate="label comment" type="select" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>When coupon is sent to the Referee</label>
+                        <source_model>Magenest\RewardPoints\Model\Source\CouponRefered</source_model>
+                    </field>
+                    <field id="when_send_coupon_referrer" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>When coupon is sent to the Referrer</label>
+                        <source_model>Magenest\RewardPoints\Model\Source\CouponReferrer</source_model>
+                    </field>
+                    <field id="refer_via_email" translate="label comment" type="select" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Send Referral Link To Friend Email Template</label>
+                        <comment>%name - Name of receiver/the referred, %sender_name - Name of sender/referrer, message - Message, referral_url - Referral Url</comment>
+                        <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                        <depends>
+                            <field id="refer_by_link">1</field>
+                        </depends>
+                    </field>
+                    <field id="send_coupon_for_refered" translate="label comment" type="select" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Send Coupon To Referee Email Template</label>
+                        <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                        <depends>
+                            <field id="refer_by_link">1</field>
+                        </depends>
+                    </field>
+                    <field id="send_coupon_for_referrer" translate="label comment" type="select" sortOrder="13" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Send Coupon To Referrer Email Template</label>
+                        <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                        <depends>
+                            <field id="refer_by_link">1</field>
+                        </depends>
+                    </field>
+                    <field id="coupon_for_refered" translate="label comment" type="select" sortOrder="14" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Apply Shopping Cart Rule To Referee</label>
+                        <source_model>Magenest\RewardPoints\Model\Source\ShopingCartRule</source_model>
+                        <comment><![CDATA[ The Promotion Rule must meet the requirements (If you can't see your promotion rule, please re-configure the promotion rule as below): <br/>
+                    - Is Active.<br/>
+                    - Coupon: Specific Coupon.<br/>
+                    - Coupon: Use Auto Generation<br/>
+                    ]]></comment>
+                    </field>
+                    <field id="coupon_for_referrer" translate="label comment" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Apply Shoping Cart Rule To Referrer</label>
+                        <source_model>Magenest\RewardPoints\Model\Source\ShopingCartRule</source_model>
+                        <comment><![CDATA[ The Promotion Rule must meet the requirements (If you can't see your promotion rule, please re-configure the promotion rule as below): <br/>
+                    - Is Active.<br/>
+                    - Coupon: Specific Coupon.<br/>
+                    - Coupon: Use Auto Generation<br/>
+                    ]]></comment>
+                    </field>
+                </group>
+            </group>
+
+            <group id="membership" translate="label" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Membership</label>
+                <field id="membership_status" translate="label comment" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Membership</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+                <field id="reward_points_membership_description" translate="label" type="editor" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Membership description</label>
+                    <frontend_model>MembershipDescriptionEditor</frontend_model>
+                    <comment><![CDATA[Write a short description for your customer's Reward program(s) tab.]]></comment>
+                    <depends>
+                        <field id="membership_status">1</field>
+                    </depends>
+                </field>
+
+                <field id="reward_points_membership_email" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Email notification</label>
+                    <comment><![CDATA[Send email to customer when they level up.]]></comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="membership_status">1</field>
+                    </depends>
+                </field>
+            </group>
+
+            <group id="convert" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Convert Configuration</label>
+                <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enable Convert</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Select <b>Yes</b> to enable this function.]]></comment>
+                </field>
+                <field id="rate" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Conversion rate from Kpoint to Kcoin</label>
+                    <validate>required-entry validate-number validate-greater-than-zero</validate>
+                    <comment>Example: Rate with value = 2 then 1 Kpoint will convert to 2 Kcoint</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

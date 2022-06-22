@@ -1,0 +1,44 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<div class="subtotal">
+    <!-- ko if: isPriceInclTaxDisplayed() && !getRegion('row_incl_tax') -->
+    <span class="price-including-tax"
+          data-bind ="text: getValueInclTax($parents[1]), attr:{'data-label': $t('Incl. Tax')}">
+    </span>
+    <!-- /ko -->
+
+    <!-- ko if: isPriceInclTaxDisplayed() && getRegion('row_incl_tax') -->
+    <span class="price-including-tax" data-bind ="attr:{'data-label': $t('Incl. Tax')}">
+            <!-- ko foreach: getRegion('row_incl_tax') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!-- /ko -->
+    </span>
+    <!-- /ko -->
+
+    <!-- ko if: isPriceExclTaxDisplayed() && !getRegion('row_excl_tax') -->
+    <span class="price-excluding-tax"
+          data-bind ="text: getValueExclTax($parents[1]), attr:{'data-label': $t('Excl. Tax')}">
+    </span>
+    <!-- /ko -->
+    <!-- ko if: isPriceExclTaxDisplayed() && getRegion('row_excl_tax') -->
+    <span class="price-excluding-tax" data-bind ="attr:{'data-label': $t('Excl. Tax')}">
+            <!-- ko foreach: getRegion('row_excl_tax') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!-- /ko -->
+    </span>
+    <!-- /ko -->
+    <!-- ko if: $parents[1].extension_attributes.product_price > 0 -->
+    <div class="old-price">
+        <span class="price-container price-final_price tax weee">
+            <span class="price-wrapper ">
+                <span class="price" data-bind="text: getFormattedPrice($parents[1].extension_attributes.product_price)"></span>
+            </span>
+        </span>
+    </div>
+    <!-- /ko -->
+</div>
+

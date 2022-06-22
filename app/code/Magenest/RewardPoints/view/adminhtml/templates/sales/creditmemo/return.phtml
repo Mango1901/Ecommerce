@@ -1,0 +1,43 @@
+<?php
+// @codingStandardsIgnoreFile
+/**
+ * @var Magenest\RewardPoints\Block\Adminhtml\Order\Creditmemo\Controls $block
+ */
+?>
+
+<?php if ($block->canRefundToMgnRewardPoints() && $block->orderUseRewardPoints()): ?>
+    <div class="admin__field admin__field-option field-refund-mgn-reward-returns">
+        <input type="hidden" name="creditmemo[refund_mgn_reward_returns_return_enable]" value="0">
+        <input type="checkbox"
+               class="admin__control-checkbox"
+               name="creditmemo[refund_mgn_reward_returns_return_enable]"
+               value="1" id="creditmemo_mgn_reward_returns_return_enable"
+        />
+        <label for="creditmemo_mgn_reward_returns_return_enable" class="admin__field-label">
+            <span><?= /* @escapeNotVerified */ __('Return Applied Reward Points') ?></span>
+        </label>
+        <span><?= "(" . $block->getReturnAppliedPoints() . " points)" ?></span>
+        <input type="hidden"
+               name="creditmemo[refund_mgn_reward_returns_return]"
+               value="<?= /* @escapeNotVerified */ $block->getReturnAppliedPoints() ?>"
+               id="creditmemo_mgn_reward_returns_return"
+               class="input-text admin__control-text not-negative-amount" />
+        <script>
+        require(['jquery'], function($) {
+            $(function ($) {
+                var toggleMgnRewardPointsRefundAmount = function (e) {
+                    var refundReturn = $('#creditmemo_mgn_reward_returns_return');
+                    if ($(e.target).prop('checked')) {
+                        refundReturn.prop('disabled', false);
+                    } else {
+                        refundReturn.prop('disabled', true);
+                    }
+                };
+                var refundMgnRewardPointsEnable = $('#creditmemo_mgn_reward_returns_return_enable');
+                refundMgnRewardPointsEnable.change(toggleMgnRewardPointsRefundAmount);
+                toggleMgnRewardPointsRefundAmount({target:refundMgnRewardPointsEnable});
+            });
+        });
+        </script>
+    </div>
+<?php endif; ?>

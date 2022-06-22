@@ -1,0 +1,14 @@
+<?php
+
+?>
+<?php
+/** @var Magenest\Affiliate\Block\Account\Withdraw $block */
+?>
+<div class="field payment-method withdraw-payment-method-detail" id="withdraw-payment-method-banktranfer">
+    <label for="withdraw-banktranfer-address"
+           class="label"><span><?= __('Bank account number, Bank name.') ?></span></label>
+    <div class="control">
+        <textarea name="banktranfer" id="withdraw-banktranfer-address"
+                  class="withdraw-banktranfer-address"><?= $block->getFormData('banktranfer') ?></textarea>
+    </div>
+</div>

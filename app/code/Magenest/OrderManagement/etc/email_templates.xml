@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="email_communication_warehouse_new_returned_order_email_template" label="New Returned Order Email" file="om_new_returned_order_email_template.html" type="html" module="Magenest_OrderManagement" area="frontend"/>
+    <template id="email_communication_supplier_warehouse_received_goods_email_template" label="Received Goods Email" file="om_received_goods_email_template.html" type="html" module="Magenest_OrderManagement" area="frontend"/>
+    <template id="email_communication_customer_service_warehouse_received_goods_email_template" label="Received Goods Email for CS" file="om_customer_service_received_goods_email_template.html" type="html" module="Magenest_OrderManagement" area="frontend"/>
+    <template id="email_communication_customer_service_confirm_paid_template" label="Confirm Paid Email" file="om_confirm_paid_email_template.html" type="html" module="Magenest_OrderManagement" area="frontend"/>
+    <template id="email_communication_customer_service_supplier_reject_delivery_email_template" label="Supplier Reject Delivery Email" file="om_supplier_reject_deliver_goods_email_template.html" type="html" module="Magenest_OrderManagement" area="frontend"/>
+    <template id="email_communication_accountant_customer_service_confirm_email_template" label="Confirm COD Notification Email" file="om_confirm_cod_email_template.html" type="html" module="Magenest_OrderManagement" area="frontend"/>
+    <template id="sales_email_order_confirm_paid_customer_template" label="Customer Confirm Paid Email" file="om_customer_confirm_paid_email_template.html" type="html" module="Magenest_OrderManagement" area="frontend"/>
+    <template id="om_confirmed_email_template" label="Confirmed Email" file="om_confirmed_email_template.html" type="html" module="Magenest_OrderManagement" area="frontend"/>
+    <template id="om_confirm_receipt_email_template" label="Confirm Receipt Email" file="om_confirm_receipt_email_template.html" type="html" module="Magenest_OrderManagement" area="frontend"/>
+    <template id="om_closed_email_template" label="Closed Email" file="om_closed_email_template.html" type="html" module="Magenest_OrderManagement" area="frontend"/>
+    <template id="om_canceled_email_template" label="Canceled Email" file="om_canceled_email_template.html" type="html" module="Magenest_OrderManagement" area="frontend"/>
+    <template id="email_communication_customer_service_notifier_email_template" label="Notice Confirm Email" file="om_notice_confirm_email_template.html" type="html" module="Magenest_OrderManagement" area="frontend"/>
+    <template id="email_communication_customer_service_notifier_warehouse_email_template" label="Notice Received Goods Email" file="om_notice_received_goods_email_template.html" type="html" module="Magenest_OrderManagement" area="frontend"/>
+    <template id="sales_email_order_complete_shipment_customer_template" label="Complete Shipment Email" file="om_complete_shipment_email_template.html" type="html" module="Magenest_OrderManagement" area="frontend"/>
+    <template id="email_communication_warehouse_need_packaging_email_template" label="Need Packaging" file="om_wh_need_packaging_email_template.html" type="html" module="Magenest_OrderManagement" area="frontend"/>
+</config>

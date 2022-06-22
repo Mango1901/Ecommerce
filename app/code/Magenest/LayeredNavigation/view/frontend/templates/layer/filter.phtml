@@ -1,0 +1,82 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+/**
+ * Template for filter items block
+ *
+ * @var $block \Magento\LayeredNavigation\Block\Navigation\FilterRenderer
+ * @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
+ */
+?>
+<ol class="items">
+<?php if ($block->getData('is_rating_option')): ?>
+    <?php foreach ($filterItems as $key => $filterItem): ?>
+        <?php
+        $checked = '';
+        if (!$filterItem->getActive()) {
+            $url = $filterItem->getUrl();
+        } else {
+            $checked = 'checked';
+            $url = $filterItem->getRemoveUrl();
+        }
+        ?>
+        <li class="item rating-option">
+            <div class="mgn-filter-item-checkbox-rating">
+                <input type="checkbox" id="mgn-layered-checkbox-rating-<?= $filterItem->getValue() ?>" class="mgn-layered-checkbox input-text checkbox-custom"<?= $checked ?>>
+                <label class="mgn-layered-checkbox-<?= $filterItem->getValue() ?>" for="mgn-layered-checkbox-rating-<?= $filterItem->getValue() ?>">
+                    <a href="<?= $block->escapeUrl($url) ?>" id="href-mgn-layered-checkbox-rating-<?= $filterItem->getValue() ?>">
+                        <?= /* @escapeNotVerified */ $filterItem->getLabel() ?>
+                    </a>
+                    <?php if ($this->helper('\Magento\Catalog\Helper\Data')->shouldDisplayProductCountOnLayer()): ?>
+                        <span class="count"><?= /* @escapeNotVerified */ $filterItem->getCount() ?><span class="filter-count-label">
+                        <?php if ($filterItem->getCount() == 1):?><?= /* @escapeNotVerified */ __('item') ?><?php else:?><?= /* @escapeNotVerified */ __('items') ?><?php endif;?></span></span>
+                    <?php endif; ?>
+                </label>
+            </div>
+        </li>
+    <?php endforeach ?>
+<?php else: ?>
+    <?php foreach ($filterItems as $key => $filterItem): ?>
+        <?php
+        $checked = '';
+        if (!$filterItem->getActive()) {
+            $url = $filterItem->getUrl();
+        } else {
+            $checked = 'checked';
+            $url = $filterItem->getRemoveUrl();
+        }
+        ?>
+		<li class="item">
+			<div class="mgn-filter-item-checkbox">
+				<input type="checkbox" id="mgn-layered-checkbox-<?= $filterItem->getValue() ?>" class="mgn-layered-checkbox input-text checkbox-custom"<?= $checked ?>>
+				<label class="mgn-layered-checkbox-<?= $filterItem->getValue() ?>" for="mgn-layered-checkbox-<?= $filterItem->getValue() ?>">
+					<a href="<?= $block->escapeUrl($url) ?>" id="href-mgn-layered-checkbox-<?= $filterItem->getValue() ?>">
+                        <?= /* @escapeNotVerified */ $filterItem->getLabel() ?>
+					</a>
+                    <?php if ($this->helper('\Magento\Catalog\Helper\Data')->shouldDisplayProductCountOnLayer()): ?>
+                        <span class="count"><?= /* @escapeNotVerified */ $filterItem->getCount() ?><span class="filter-count-label">
+                        <?php if ($filterItem->getCount() == 1):?><?= /* @escapeNotVerified */ __('item') ?><?php else:?><?= /* @escapeNotVerified */ __('items') ?><?php endif;?></span></span>
+                    <?php endif; ?>
+				</label>
+			</div>
+		</li>
+    <?php endforeach ?>
+</ol>
+<?php endif; ?>
+<?php $scriptString = <<<script
+	require(['jquery'], function ($) {
+		$('.mgn-layered-checkbox').on('click', function () {
+	        var selectorId = $(this).attr('id');
+            window.location.href = $('a#href-' + selectorId).attr('href');
+        });
+    });
+script;
+?>
+<?= /* @noEscape */ $secureRenderer->renderTag('script', [], $scriptString, false) ?>

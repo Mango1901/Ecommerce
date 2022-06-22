@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="product.info.options.wrapper.bottom">
+            <block name="salable.qty.block"
+                   class="Magenest\ViewStock\Block\Product\SalableQty"
+                   template="Magenest_ViewStock::salable_qty.phtml"
+                   before="product.info.addtocart.additional"/>
+        </referenceBlock>
+        <referenceContainer name="product.info.form.content">
+            <block name="salable.qty.container"
+                   class="Magenest\ViewStock\Block\Product\SalableQty"
+                   template="Magenest_ViewStock::salable_qty.phtml"
+                   before="product.info.addtocart"/>
+        </referenceContainer>
+    </body>
+</page>

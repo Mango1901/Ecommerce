@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="styles"/>
+    <head>
+        <css src="Magenest_NotificationBox/css/report.css"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Magenest\NotificationBox\Block\Adminhtml\Report\Report" name="report_notificaton" template="Magenest_NotificationBox::notification.phtml"/>
+            <uiComponent name="magenest_register_listing"/>
+            <block name="report_firebase" template="Magenest_NotificationBox::firebaseReportTitle.phtml"/>
+            <uiComponent name="magenest_report_listing"/>
+        </referenceContainer>
+    </body>
+</page>

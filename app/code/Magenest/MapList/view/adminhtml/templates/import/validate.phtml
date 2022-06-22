@@ -1,0 +1,60 @@
+<?php
+$maxSize = floatval(ini_get('post_max_size'));
+?>
+<script>
+    require([
+        'jquery',
+        'Magento_Ui/js/modal/alert',
+    ], function ($, modalAlert) {
+        $(document).ready(function () {
+            var maxSize = <?= $maxSize ?>;
+            $('input[type=file]').change(function () {
+                var ext = $('#map_import_map').val().split('.').pop().toLowerCase();
+                if ($.inArray(ext, ['csv', 'xml']) == -1) {
+                    modalAlert({
+                        title: 'File Error',
+                        content: 'The File Type Is Invalid! Must Import CSV or XML File',
+                        actions: {
+                            always: function () {
+                            }
+                        }
+                    });
+
+                    $('#map_import_map').val("");
+                    return false;
+                }
+                //Tested in Firefox and Google Chorme
+                sizee = $("#map_import_map")[0].files[0].size; //file size in bytes
+                sizee = sizee / 1024; //file size in Kb
+                sizee = sizee / 1024; //file size in Mb
+
+                if (sizee > maxSize) {
+                    modalAlert({
+                        title: 'File Error',
+                        content: 'Maximum File Size Is Less Than ' + maxSize + 'MB',
+                        actions: {
+                            always: function () {
+                            }
+                        }
+                    });
+                    $('#map_import_map').val("");
+                }
+            });
+        });
+        $('#save').on("click", function () {
+            sizee = $("#map_import_map")[0].files[0].size;
+            if (sizee === 0){
+                $('#map_import_map').val("");
+                modalAlert({
+                    title: 'File Error',
+                    content: 'Your file was not found',
+                    actions: {
+                        always: function () {
+                        }
+                    }
+                });
+            }
+        });
+    });
+
+</script>

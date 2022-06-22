@@ -1,0 +1,563 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">label_form.label_form_data_source</item>
+            <item name="deps" xsi:type="string">label_form.label_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Label Information</item>
+        <item name="config" xsi:type="array">
+            <item name="dataScope" xsi:type="string">data</item>
+            <item name="namespace" xsi:type="string">label_form</item>
+        </item>
+        <item name="layout" xsi:type="array">
+            <item name="type" xsi:type="string">tabs</item>
+            <item name="navContainerName" xsi:type="string">left</item>
+        </item>
+        <item name="buttons" xsi:type="array">
+            <item name="save" xsi:type="array">
+                <item name="name" xsi:type="string">save</item>
+                <item name="label" xsi:type="string" translate="true">Save</item>
+                <item name="class" xsi:type="string">primary</item>
+                <item name="url" xsi:type="string">*/*/save</item>
+            </item>
+            <item name="save_and_continue" xsi:type="string">Magenest\ProductLabel\Block\Adminhtml\Label\Edit\SaveAndContinueButton</item>
+        </item>
+    </argument>
+
+    <dataSource name="label_form_data_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+        <settings>
+            <submitUrl path="*/*/save"/>
+        </settings>
+        <dataProvider name="label_form_data_source" class="Magenest\ProductLabel\Model\Label\Source\DataProvider">
+            <settings>
+                <primaryFieldName>label_id</primaryFieldName>
+                <requestFieldName>label_id</requestFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+
+    <!--General Tab-->
+    <fieldset name="general">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string" translate="true">General</item>
+                <item name="sortOrder" xsi:type="number">10</item>
+            </item>
+        </argument>
+        <field name="label_id" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">int</item>
+                    <item name="formElement" xsi:type="string">hidden</item>
+                    <item name="source" xsi:type="string">product_label</item>
+                </item>
+            </argument>
+        </field>
+        <field name="name" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">product_label</item>
+                </item>
+            </argument>
+            <settings>
+                <label translate="true">Name</label>
+                <dataType>text</dataType>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+        </field>
+        <field name="description" formElement="textarea">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">product_label</item>
+                </item>
+            </argument>
+            <settings>
+                <label translate="true">Description</label>
+                <dataType>text</dataType>
+            </settings>
+        </field>
+        <field name="status" formElement="checkbox">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">product_label</item>
+                    <item name="default" xsi:type="number">1</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>boolean</dataType>
+                <label translate="true">Active</label>
+            </settings>
+            <formElements>
+                <checkbox>
+                    <settings>
+                        <valueMap>
+                            <map name="false" xsi:type="number">0</map>
+                            <map name="true" xsi:type="number">1</map>
+                        </valueMap>
+                        <prefer>toggle</prefer>
+                    </settings>
+                </checkbox>
+            </formElements>
+        </field>
+        <field name="priority" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">product_label</item>
+                </item>
+            </argument>
+            <settings>
+                <label translate="true">Priority</label>
+                <dataType>number</dataType>
+                <validation>
+                    <rule name="validate-zero-or-greater" xsi:type="number">0</rule>
+                </validation>
+            </settings>
+        </field>
+        <field name="store_id" formElement="multiselect">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">product_label</item>
+                </item>
+            </argument>
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>number</dataType>
+                <label translate="true">Store View</label>
+            </settings>
+            <formElements>
+                <multiselect>
+                    <settings>
+                        <options class="Magento\Cms\Ui\Component\Listing\Column\Cms\Options"/>
+                    </settings>
+                </multiselect>
+            </formElements>
+        </field>
+        <field name="customer_groups_ids" formElement="multiselect">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">product_label</item>
+                </item>
+            </argument>
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>number</dataType>
+                <label translate="true">Customer Groups</label>
+            </settings>
+            <formElements>
+                <multiselect>
+                    <settings>
+                        <options class="Magento\CatalogRule\Model\Rule\CustomerGroupsOptionsProvider"/>
+                    </settings>
+                </multiselect>
+            </formElements>
+        </field>
+    </fieldset>
+
+    <fieldset name="conditions">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string">Conditions</item>
+            </item>
+        </argument>
+        <container name="conditions">
+            <htmlContent name="block_conditions">
+                <argument name="block" xsi:type="object">Magenest\ProductLabel\Block\Adminhtml\Label\Edit\Conditions</argument>
+            </htmlContent>
+        </container>
+        <field name="date_range">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Magento\Config\Model\Config\Source\Yesno</item>
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Set Specific Active Time</item>
+                    <item name="component" xsi:type="string">Magenest_ProductLabel/js/form/element/options</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="source" xsi:type="string">product_label</item>
+                    <item name="dataScope" xsi:type="string">date_range</item>
+                    <item name="default" xsi:type="string">0</item>
+                </item>
+            </argument>
+        </field>
+        <field name="from_date" formElement="date">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">product_label</item>
+                </item>
+            </argument>
+            <settings>
+                <validation>
+                    <rule name="validate-date" xsi:type="boolean">true</rule>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">From</label>
+            </settings>
+        </field>
+        <field name="to_date" formElement="date">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">product_label</item>
+                </item>
+            </argument>
+            <settings>
+                <validation>
+                    <rule name="validate-date" xsi:type="boolean">true</rule>
+                    <rule name="validate-date-range" xsi:type="string">from_date</rule>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">To</label>
+            </settings>
+        </field>
+        <field name="label_type">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Magenest\ProductLabel\Model\Config\Source\ProductState</item>
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Apply For Product</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">select</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="source" xsi:type="string">contact</item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+
+    <!--Category Page View Tab-->
+    <fieldset name="category">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string" translate="true">Category Page View</item>
+                <item name="sortOrder" xsi:type="number">20</item>
+            </item>
+        </argument>
+        <field name="display" formElement="checkbox">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">product_label</item>
+                    <item name="default" xsi:type="number">1</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>boolean</dataType>
+                <label translate="true">Display</label>
+            </settings>
+            <formElements>
+                <checkbox>
+                    <settings>
+                        <valueMap>
+                            <map name="false" xsi:type="number">0</map>
+                            <map name="true" xsi:type="number">1</map>
+                        </valueMap>
+                        <prefer>toggle</prefer>
+                    </settings>
+                </checkbox>
+            </formElements>
+        </field>
+        <radioset name="type">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">product_label</item>
+                    <item name="component" xsi:type="string">Magenest_ProductLabel/js/form/element/type_options</item>
+                    <item name="value" xsi:type="number">1</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>number</dataType>
+                <label translate="true">Label Type</label>
+                <options>
+                    <option name="0" xsi:type="array">
+                        <item name="value" xsi:type="number">1</item>
+                        <item name="label" xsi:type="string" translate="true">Text Only</item>
+                    </option>
+                    <option name="1" xsi:type="array">
+                        <item name="value" xsi:type="number">2</item>
+                        <item name="label" xsi:type="string" translate="true">Shape</item>
+                    </option>
+                    <option name="2" xsi:type="array">
+                        <item name="value" xsi:type="number">3</item>
+                        <item name="label" xsi:type="string" translate="true">Image</item>
+                    </option>
+                </options>
+            </settings>
+        </radioset>
+        <field name="shape_type">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Magenest\ProductLabel\Model\Config\Source\ShapeType</item>
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Shape Type</item>
+                    <item name="component" xsi:type="string">Magenest_ProductLabel/js/form/element/select_shape</item>
+                    <item name="template" xsi:type="string">ui/form/field</item>
+                    <item name="elementTmpl" xsi:type="string">Magenest_ProductLabel/form/element/select_shape</item>
+                    <item name="formElement" xsi:type="string">radioset</item>
+                    <item name="source" xsi:type="string">product_label</item>
+                </item>
+            </argument>
+        </field>
+        <colorPicker name="shape_color" class="Magento\Ui\Component\Form\Element\ColorPicker" component="Magento_Ui/js/form/element/color-picker">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">product_label</item>
+                    <item name="default" xsi:type="number">000000</item>
+                </item>
+            </argument>
+            <settings>
+                <label translate="true">Shape Color</label>
+                <elementTmpl>ui/form/element/color-picker</elementTmpl>
+                <colorFormat>hex</colorFormat>
+                <colorPickerMode>full</colorPickerMode>
+            </settings>
+        </colorPicker>
+        <field name="image">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Image</item>
+                    <item name="formElement" xsi:type="string">fileUploader</item>
+                    <item name="componentType" xsi:type="string">fileUploader</item>
+                    <item name="notice" xsi:type="string" translate="true">Allowed file types: jpeg, gif, png</item>
+                    <item name="maxFileSize" xsi:type="number">2097152</item>
+                    <item name="allowedExtensions" xsi:type="string">jpg jpeg gif png</item>
+                    <item name="previewTmpl" xsi:type="string">Magento_Catalog/image-preview</item>
+                    <item name="source" xsi:type="string">product_label</item>
+                    <item name="visibleValue" xsi:type="string">2</item>
+                    <item name="uploaderConfig" xsi:type="array">
+                        <item name="url" xsi:type="url" path="catalog/label/upload"/>
+                    </item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="text">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">product_label</item>
+                    <item name="notice" xsi:type="string" translate="true">
+                        If it's fix price of product, allowed text: sale {{percent}} off, or: - {{amount}}
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <colorPicker name="text_color" class="Magento\Ui\Component\Form\Element\ColorPicker" component="Magento_Ui/js/form/element/color-picker">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">product_label</item>
+                    <item name="default" xsi:type="number">000000</item>
+                </item>
+            </argument>
+            <settings>
+                <label translate="true">Text Color</label>
+                <elementTmpl>ui/form/element/color-picker</elementTmpl>
+                <colorFormat>hex</colorFormat>
+                <colorPickerMode>full</colorPickerMode>
+            </settings>
+        </colorPicker>
+        <field name="text_size" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">product_label</item>
+                    <item name="default" xsi:type="number">16</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>number</dataType>
+                <label translate="true">Text Size</label>
+                <validation>
+                    <rule name="validate-greater-than-zero" xsi:type="number">0</rule>
+                </validation>
+                <addAfter>px</addAfter>
+                <notice translate="true">Default: 16px</notice>
+            </settings>
+        </field>
+    </fieldset>
+
+    <!--Product Page View Tab-->
+    <fieldset name="product">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="source" xsi:type="string">product_label</item>
+                <item name="label" xsi:type="string" translate="true">Product Page View</item>
+                <item name="sortOrder" xsi:type="number">30</item>
+            </item>
+        </argument>
+        <field name="use_default">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">boolean</item>
+                    <item name="formElement" xsi:type="string">checkbox</item>
+                    <item name="component" xsi:type="string">Magenest_ProductLabel/js/form/element/use_default</item>
+                    <item name="label" xsi:type="string" translate="true">Same as Category Page</item>
+                    <item name="source" xsi:type="string">product_label</item>
+                    <item name="dataScope" xsi:type="string">use_default</item>
+                    <item name="prefer" xsi:type="string">toggle</item>
+                    <item name="valueMap" xsi:type="array">
+                        <item name="true" xsi:type="string">1</item>
+                        <item name="false" xsi:type="string">0</item>
+                    </item>
+                    <!--<item name="default" xsi:type="number">1</item>-->
+                </item>
+            </argument>
+        </field>
+        <field name="display" formElement="checkbox">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">product_label</item>
+                    <item name="default" xsi:type="number">1</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>boolean</dataType>
+                <label translate="true">Display</label>
+            </settings>
+            <formElements>
+                <checkbox>
+                    <settings>
+                        <valueMap>
+                            <map name="false" xsi:type="number">0</map>
+                            <map name="true" xsi:type="number">1</map>
+                        </valueMap>
+                        <prefer>toggle</prefer>
+                    </settings>
+                </checkbox>
+            </formElements>
+        </field>
+        <radioset name="type">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">product_label</item>
+                    <item name="value" xsi:type="number">1</item>
+                    <item name="component" xsi:type="string">Magenest_ProductLabel/js/form/element/type_options</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>number</dataType>
+                <label translate="true">Label Type</label>
+                <options>
+                    <option name="0" xsi:type="array">
+                        <item name="value" xsi:type="number">1</item>
+                        <item name="label" xsi:type="string" translate="true">Text Only</item>
+                    </option>
+                    <option name="1" xsi:type="array">
+                        <item name="value" xsi:type="number">2</item>
+                        <item name="label" xsi:type="string" translate="true">Shape</item>
+                    </option>
+                    <option name="2" xsi:type="array">
+                        <item name="value" xsi:type="number">3</item>
+                        <item name="label" xsi:type="string" translate="true">Image</item>
+                    </option>
+                </options>
+            </settings>
+        </radioset>
+        <field name="shape_type">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Magenest\ProductLabel\Model\Config\Source\ShapeType</item>
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Shape Type</item>
+                    <item name="component" xsi:type="string">Magenest_ProductLabel/js/form/element/select_shape</item>
+                    <item name="template" xsi:type="string">ui/form/field</item>
+                    <item name="elementTmpl" xsi:type="string">Magenest_ProductLabel/form/element/select_shape</item>
+                    <item name="formElement" xsi:type="string">radioset</item>
+                    <item name="source" xsi:type="string">product_label</item>
+                </item>
+            </argument>
+        </field>
+        <colorPicker name="shape_color" class="Magento\Ui\Component\Form\Element\ColorPicker" component="Magento_Ui/js/form/element/color-picker">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">product_label</item>
+                    <item name="default" xsi:type="number">000000</item>
+                </item>
+            </argument>
+            <settings>
+                <label translate="true">Shape Color</label>
+                <elementTmpl>ui/form/element/color-picker</elementTmpl>
+                <colorFormat>hex</colorFormat>
+                <colorPickerMode>full</colorPickerMode>
+            </settings>
+        </colorPicker>
+        <field name="image">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Image</item>
+                    <item name="formElement" xsi:type="string">fileUploader</item>
+                    <item name="componentType" xsi:type="string">fileUploader</item>
+                    <item name="notice" xsi:type="string" translate="true">Allowed file types: jpeg, gif, png</item>
+                    <item name="maxFileSize" xsi:type="number">2097152</item>
+                    <item name="allowedExtensions" xsi:type="string">jpg jpeg gif png</item>
+                    <item name="previewTmpl" xsi:type="string">Magento_Catalog/image-preview</item>
+                    <item name="source" xsi:type="string">product_label</item>
+                    <item name="visibleValue" xsi:type="string">2</item>
+                    <item name="uploaderConfig" xsi:type="array">
+                        <item name="url" xsi:type="url" path="catalog/label/upload"/>
+                    </item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="text">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">product_label</item>
+                    <item name="notice" xsi:type="string" translate="true">
+                        If it's fix price of product, allowed text: sale {{percent}} off, or: - {{amount}}
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <colorPicker name="text_color" class="Magento\Ui\Component\Form\Element\ColorPicker" component="Magento_Ui/js/form/element/color-picker">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">product_label</item>
+                    <item name="default" xsi:type="number">000000</item>
+                </item>
+            </argument>
+            <settings>
+                <label translate="true">Text Color</label>
+                <elementTmpl>ui/form/element/color-picker</elementTmpl>
+                <colorFormat>hex</colorFormat>
+                <colorPickerMode>full</colorPickerMode>
+            </settings>
+        </colorPicker>
+        <field name="text_size" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">product_label</item>
+                    <item name="default" xsi:type="number">16</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>number</dataType>
+                <label translate="true">Text Size</label>
+                <validation>
+                    <rule name="validate-greater-than-zero" xsi:type="number">0</rule>
+                </validation>
+                <addAfter>px</addAfter>
+                <notice translate="true">Default: 16px</notice>
+            </settings>
+        </field>
+    </fieldset>
+</form>

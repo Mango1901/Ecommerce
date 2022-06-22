@@ -1,0 +1,77 @@
+& when (@media-common = true) {
+    .account.rewardpoints-customer-rewardprogram {
+        .table-scroll{
+            overflow-x: auto;
+        }
+        .program {
+            &-rank {
+                border-bottom: 1px solid @border-color__base;
+                .rank {
+                    &-award {
+                        width: 65px;
+                        height: 120px;
+                        img{
+                            width: 100%;
+                            height: 100%;
+                            object-fit: contain;
+                        }
+                    }
+                    > h4{
+                        text-transform: capitalize;
+                    }
+                    > span {
+                        font-size: 27px;
+                        font-weight: @font-weight__bold;
+                        position: absolute;
+                        top: 23px;
+                        left: 35px;
+                    }
+                }
+            }
+            &-benefit {
+                border-bottom: 1px solid @border-color__base;
+                &-title {
+                    h4 {
+                        margin: 0;
+                    }
+                }
+                p:before {
+                    content: '\f00c';
+                    color: #4bc046;
+                    font-family: 'FontAwesome';
+                    font-size: 16px;
+                    margin-right: 5px;
+                }
+            }
+            &-requirement {
+                &-title {
+                    h4 {
+                        margin: 0;
+                    }
+                }
+            }
+            tbody{
+                tr{
+                    td{
+                        p{
+                            width: 250px;
+                        }
+                    }
+                }
+            }
+        }
+        .rules {
+            &-id {
+                width: 5%;
+            }
+            &-description {
+                width: 50%;
+            }
+            tbody{
+                tr {
+                    border-top: 1px solid @border-color__base;
+                }
+            }
+        }
+    }
+}

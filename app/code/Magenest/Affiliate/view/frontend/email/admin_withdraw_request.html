@@ -1,0 +1,11 @@
+<!--@subject {{trans "Withdraw Request"}} @-->
+<!--@vars {
+"var customer.email":"Customer Email",
+"var customer.name":"Account Name"
+} @-->
+
+{{template config_path="design/email/header_template"}}
+
+<p>{{trans "The Affiliate %name with the account %email requests a withdrawal." name=$customer.name email=$customer.email}}</p>
+
+{{template config_path="design/email/footer_template"}}

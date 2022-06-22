@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="quote" resource="checkout" comment="Sales Flat Quote">
+        <column xsi:type="boolean" name="delivery_time" nullable="false" default="0" comment="Delivery Time"/>
+        <column xsi:type="varchar" name="company_email" nullable="true" length="255" comment="Company Email"/>
+        <column xsi:type="varchar" name="telephone_customer_consign" nullable="true" length="255" comment="Telephone Number Of Customer Consign"/>
+    </table>
+    <table name="sales_order" resource="sales" comment="Sales Flat Order">
+        <column xsi:type="boolean" name="delivery_time" nullable="false" default="0" comment="Delivery Time"/>
+        <column xsi:type="varchar" name="company_email" nullable="true" length="255" comment="Company Email"/>
+        <column xsi:type="varchar" name="telephone_customer_consign" nullable="true" length="255" comment="Telephone Number Of Customer Consign"/>
+    </table>
+    <table name="quote_address">
+        <column xsi:type="varchar" name="telephone_customer_consign" disabled="true"/>
+    </table>
+    <table name="sales_order_address">
+        <column xsi:type="varchar" name="telephone_customer_consign" disabled="true"/>
+    </table>
+</schema>

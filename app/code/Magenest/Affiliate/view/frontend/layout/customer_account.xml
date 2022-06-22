@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<!--
+
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Magenest_Affiliate::css/style.css"/>
+        <css src="Magenest_Affiliate::css/banner.css"/>
+    </head>
+    <body>
+        <referenceBlock name="customer_account_navigation">
+            <block class="Magenest\Affiliate\Block\AffiliateNavigation" name="affiliate_navigation" before="-">
+                <arguments>
+                    <argument name="css_class" xsi:type="string">nav child</argument>
+                    <argument name="path" xsi:type="string">affiliate/</argument>
+                    <argument name="label" xsi:type="string">Sale with KangarooShopping</argument>
+                </arguments>
+                <block class="Magento\Framework\View\Element\Html\Link\Current" name="affiliate-navigation-home-link">
+                    <arguments>
+                        <argument name="label" xsi:type="string" translate="true">Affiliate Program</argument>
+                        <argument name="path" xsi:type="string">affiliate/</argument>
+                        <argument name="sort_order" xsi:type="string">1000</argument>
+                        <argument name="code" xsi:type="string">welcome</argument>
+                        <argument name="active" xsi:type="const">Magenest\Affiliate\Block\AffiliateNavigation::ALLOW_BOTH</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Framework\View\Element\Html\Link\Current" name="affiliate-navigation-signup-link">
+                    <arguments>
+                        <argument name="label" xsi:type="string" translate="true">Signup Affiliate</argument>
+                        <argument name="path" xsi:type="string">affiliate/account/signup/</argument>
+                        <argument name="sort_order" xsi:type="string">900</argument>
+                        <argument name="code" xsi:type="string">signup</argument>
+                        <argument name="active" xsi:type="const">Magenest\Affiliate\Block\AffiliateNavigation::ALLOW_GUEST</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Framework\View\Element\Html\Link\Current" name="affiliate-navigation-referfriend-link" ifconfig="affiliate/refer/enable">
+                    <arguments>
+                        <argument name="label" xsi:type="string" translate="true">Refer Friend</argument>
+                        <argument name="path" xsi:type="string">affiliate/account/refer</argument>
+                        <argument name="sort_order" xsi:type="string">800</argument>
+                        <argument name="code" xsi:type="string">refer</argument>
+                        <argument name="active" xsi:type="const">Magenest\Affiliate\Block\AffiliateNavigation::ALLOW_LOGIN</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Framework\View\Element\Html\Link\Current" name="affiliate-navigation-credit-link">
+                    <arguments>
+                        <argument name="label" xsi:type="string" translate="true">Kcoin Wallet</argument>
+                        <argument name="path" xsi:type="string">affiliate/account/</argument>
+                        <argument name="sort_order" xsi:type="string">700</argument>
+                        <argument name="code" xsi:type="string">wallet</argument>
+                        <argument name="active" xsi:type="const">Magenest\Affiliate\Block\AffiliateNavigation::ALLOW_LOGIN</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Framework\View\Element\Html\Link\Current" name="affiliate-navigation-withdraw-link">
+                    <arguments>
+                        <argument name="label" xsi:type="string" translate="true">My Withdrawal</argument>
+                        <argument name="path" xsi:type="string">affiliate/account/withdraw</argument>
+                        <argument name="sort_order" xsi:type="string">600</argument>
+                        <argument name="code" xsi:type="string">withdraw</argument>
+                        <argument name="active" xsi:type="const">Magenest\Affiliate\Block\AffiliateNavigation::ALLOW_LOGIN</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Framework\View\Element\Html\Link\Current" name="affiliate-navigation-setting-link">
+                    <arguments>
+                        <argument name="label" xsi:type="string" translate="true">Setting</argument>
+                        <argument name="path" xsi:type="string">affiliate/account/setting</argument>
+                        <argument name="sort_order" xsi:type="string">500</argument>
+                        <argument name="code" xsi:type="string">setting</argument>
+                        <argument name="active" xsi:type="const">Magenest\Affiliate\Block\AffiliateNavigation::ALLOW_LOGIN</argument>
+                    </arguments>
+                </block>
+<!--                <block class="Magento\Framework\View\Element\Html\Link\Current" name="affiliate-navigation-banner-link" ifconfig="affiliate/general/enable_banner">-->
+<!--                    <arguments>-->
+<!--                        <argument name="label" xsi:type="string" translate="true">Banners</argument>-->
+<!--                        <argument name="path" xsi:type="string">affiliate/account/banner</argument>-->
+<!--                        <argument name="sort_order" xsi:type="string">400</argument>-->
+<!--                        <argument name="code" xsi:type="string">banner</argument>-->
+<!--                        <argument name="active" xsi:type="const">Magenest\Affiliate\Block\AffiliateNavigation::ALLOW_LOGIN</argument>-->
+<!--                    </arguments>-->
+<!--                </block>-->
+            </block>
+        </referenceBlock>
+        <referenceBlock name="customer-account-navigation-account-edit-link" remove="true"/>
+        <move element="page.main.title" destination="content.top" before="-"/>
+    </body>
+</page>

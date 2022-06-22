@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!--
+
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="checkout.cart.totals">
+            <arguments>
+                <argument name="jsLayout" xsi:type="array">
+                    <item name="components" xsi:type="array">
+                        <item name="block-totals" xsi:type="array">
+                            <item name="children" xsi:type="array">
+                                <item name="before_grandtotal" xsi:type="array">
+                                    <item name="children" xsi:type="array">
+                                        <item name="affiliate_discount" xsi:type="array">
+                                            <item name="component" xsi:type="string">
+                                                Magenest_Affiliate/js/view/totals/discount
+                                            </item>
+                                            <item name="config" xsi:type="array">
+                                                <item name="title" xsi:type="string" translate="true">
+                                                    Affiliate Discount
+                                                </item>
+                                                <item name="template" xsi:type="string">
+                                                    Magenest_Affiliate/totals/discount
+                                                </item>
+                                            </item>
+                                        </item>
+                                    </item>
+                                </item>
+                            </item>
+                        </item>
+                    </item>
+                </argument>
+            </arguments>
+        </referenceBlock>
+        <!--
+        <referenceContainer name="checkout.cart.container">
+            <container name="affiliate.cart.discount" label="Affiliate Cart Discount Container" htmlTag="div" htmlClass="cart-discount" after="-">
+                <block class="Magento\Framework\View\Element\Template" name="affiliate.checkout.cart.coupon" as="affiliate.coupon" template="Magenest_Affiliate::cart/coupon.phtml"
+                       ifconfig="affiliate/general/use_code_as_coupon" after="cart.discount"/>
+            </container>
+        </referenceContainer>-->
+    </body>
+</page>

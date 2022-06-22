@@ -1,0 +1,93 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/**
+ * @var $block \Magento\Backend\Block\Template
+ * @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
+ */
+$defaultVATInvoice = $block->getDefaultVATInvoice();
+$titleHeader = $block->getTitleHeader();
+?>
+
+<fieldset class="admin__fieldset">
+    <legend class="admin__legend head-billing-address" style="margin-top: 1em">
+        <span><?= $titleHeader ?></span>
+    </legend>
+	<div class="admin__field admin__field-option admin__field-shipping-same-as-billing">
+		<input type="checkbox" value="1" id="order-is-wholesale" name="order[is_wholesale_order]" class="admin__control-checkbox">
+		<label for="order-is-wholesale" class="admin__field-label"><?= /* @escapeNotVerified */ __('Wholesale Order') ?></label>
+	</div>
+    <div class="admin__field admin__field-option admin__field-shipping-same-as-billing">
+        <input <?= isset($defaultVATInvoice['checked']) && $defaultVATInvoice['checked'] ? "checked" : "" ?> type="checkbox" value="1" id="order-save-vat-invoice" name="order[save_vat_invoice]" class="admin__control-checkbox">
+        <label for="order-save-vat-invoice" class="admin__field-label"><?= /* @escapeNotVerified */ __('VAT invoice information') ?></label>
+    </div>
+    <div class="admin__field field required _required depend-field">
+        <label class="label admin__field-label" for="order-company-name"><span><?= /* @escapeNotVerified */ __('Company Name') ?></span></label>
+        <div class="admin__field-control control">
+            <input id="order-company-name" name="order[company_name]" value="<?= $defaultVATInvoice['company_name'] ?? "" ?>" class="required-entry _required input-text admin__control-text" type="text">
+        </div>
+    </div>
+    <div class="admin__field field required _required  depend-field">
+        <label class="label admin__field-label" for="order-tax-code"><span><?= /* @escapeNotVerified */ __('Tax Code') ?></span></label>
+        <div class="admin__field-control control">
+            <input id="order-tax-code" name="order[tax_code]" value="<?= $defaultVATInvoice['tax_code'] ?? "" ?>" class="required-entry _required input-text admin__control-text" type="text">
+        </div>
+    </div>
+    <div class="admin__field field required _required  depend-field">
+        <label class="label admin__field-label" for="order-company-address"><span><?= /* @escapeNotVerified */ __('Company Address') ?></span></label>
+        <div class="admin__field-control control">
+            <input id="order-company-address" name="order[company_address]" value="<?= $defaultVATInvoice['company_address'] ?? "" ?>" class="required-entry _required input-text admin__control-text" type="text">
+        </div>
+    </div>
+    <div class="admin__field field required _required  depend-field">
+        <label class="label admin__field-label" for="order-company-email"><span><?= /* @escapeNotVerified */ __('Company Email') ?></span></label>
+        <div class="admin__field-control control">
+            <input id="order-company-email" name="order[company_email]" value="<?= $defaultVATInvoice['company_email'] ?? "" ?>" class="required-entry _required input-text admin__control-text validate-email" type="email">
+        </div>
+    </div>
+    <div class="admin__field admin__field-option admin__field-shipping-same-as-billing">
+        <input type="checkbox" value="1" id="order-save-customer-consign" name="order[save_customer_consign]" class="admin__control-checkbox" <?= isset($defaultVATInvoice['telephone_customer_consign']) && $defaultVATInvoice['telephone_customer_consign'] ? "checked" : "" ?>>
+        <label for="order-save-customer-consign" class="admin__field-label"><?= /* @escapeNotVerified */ __('Customer Consign') ?></label>
+    </div>
+    <div class="admin__field field required _required  depend-field-save-customer-consign">
+        <label class="label admin__field-label" for="order-telephone-customer-consign"><span><?= /* @escapeNotVerified */ __('Telephone Number Of Customer Consign') ?></span></label>
+        <div class="admin__field-control control">
+            <input id="order-telephone-customer-consign" name="order[telephone_customer_consign]" value="<?= $defaultVATInvoice['telephone_customer_consign'] ?? "" ?>" class="required-entry _required input-text admin__control-text validate-telephone-require" type="text">
+        </div>
+    </div>
+</fieldset>
+<script>
+    require([
+        'jquery'
+    ], function ($) {
+        $('#order-save-vat-invoice').change(function() {
+            var dependFields = $('.depend-field');
+
+            if($(this).is(":checked")) {
+                dependFields.show();
+                dependFields.find('input').addClass('required-entry');
+                dependFields.find('input').prop('disabled', '');
+            }else {
+                dependFields.hide();
+                dependFields.find('input').removeClass('required-entry');
+                dependFields.find('input').prop('disabled', true);
+            }
+        }).trigger('change');
+        $('#order-save-customer-consign').change(function() {
+            var dependFields = $('.depend-field-save-customer-consign');
+
+            if($(this).is(":checked")) {
+                dependFields.show();
+                dependFields.find('input').addClass('required-entry');
+                dependFields.find('input').prop('disabled', '');
+            }else {
+                dependFields.hide();
+                dependFields.find('input').removeClass('required-entry');
+                dependFields.find('input').prop('disabled', true);
+            }
+        }).trigger('change');
+    });
+</script>

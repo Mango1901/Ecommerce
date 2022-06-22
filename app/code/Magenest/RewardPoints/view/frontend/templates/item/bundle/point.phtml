@@ -1,0 +1,28 @@
+<?php
+/** @var \Magenest\RewardPoints\Block\PointInfo $block */
+if ($block->isShowPointInProductList()):
+    $productType = $block->getCurrentProductType();
+    if ($productType !== 'bundle') return;
+    $range = $block->getBundleProductPointsRange();
+    if (!$range['min']) return;
+?>
+    <script>
+        require([
+            "jquery",
+            "jquery/ui"
+        ], function ($) {
+            'use strict';
+
+            $(document).ready(function(){
+                $('.price-box.price-final_price').append('' +
+                    '<span id="point-show1">' +
+                    '<strong>' +
+                    '<p style="color: <?=$block->getPointColor()?>; font-size: <?= $block->getPointSize()?>px">+<?= $range['min'] . htmlspecialchars($block->getPointUnit(), ENT_QUOTES) ?> to +<?= $range['max'] . htmlspecialchars($block->getPointUnit(), ENT_QUOTES) ?>' +
+                    '</p>' +
+                    '</strong>' +
+                    '</span>');
+            });
+
+        });
+    </script>
+<?php endif; ?>

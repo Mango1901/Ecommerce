@@ -1,0 +1,11 @@
+<?php
+/** @var Magenest\MapList\Block\Map\Js $block $config */
+// @codingStandardsIgnoreFile
+$config  = $block->getDataView();
+$api_key = $config['mapApi'];
+?>
+<script>
+    window.ApiKey = '<?= $block->escapeJs($api_key) ?>';
+    window.img_marker = '<?= $block->getImageMarker() ?>';
+    require(['Magenest_MapList/js/google_map']);
+</script>

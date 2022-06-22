@@ -1,0 +1,20 @@
+{
+    "inventory_source": {
+        "column": {
+            "is_online": true,
+            "is_salable": true,
+            "shipping_address": true,
+            "area_code": true
+        }
+    },
+    "quote": {
+        "column": {
+            "area_code": true
+        }
+    },
+    "sales_order": {
+        "column": {
+            "area_code": true
+        }
+    }
+}

@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Manager Cron Log -->
+    <virtualType name="Magento\Cron\Model\ResourceModel\Schedule\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">cron_schedule</argument>
+            <argument name="resourceModel" xsi:type="string">Magento\Cron\Model\ResourceModel\Schedule</argument>
+        </arguments>
+    </virtualType>
+    <!-- Manager Reminder Email -->
+    <virtualType name="Magenest\PhotoReview\Model\ResourceModel\ReminderEmail\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">magenest_photoreview_reminder_email</argument>
+            <argument name="resourceModel" xsi:type="string">Magenest\PhotoReview\Model\ResourceModel\ReminderEmail</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="magenest_photoreview_cron_listing_data_source" xsi:type="string">Magento\Cron\Model\ResourceModel\Schedule\Grid\Collection</item>
+                <item name="magenest_photoreview_reminder_listing_data_source" xsi:type="string">Magenest\PhotoReview\Model\ResourceModel\ReminderEmail\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!-- -->
+    <type name="Magento\Theme\Block\Html\Topmenu">
+        <plugin name="topmenu.review" type="Magenest\PhotoReview\Plugin\Topmenu" sortOrder="1" disabled="false"/>
+    </type>
+</config>

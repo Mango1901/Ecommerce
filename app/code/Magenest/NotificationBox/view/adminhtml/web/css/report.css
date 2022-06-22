@@ -1,0 +1,31 @@
+#from-date, #to-date, #date-used-control, #submit, #reset{
+    display: inline-block;
+}
+
+#report-request {
+    display: inline;
+}
+
+.report-detail-section {
+    display: block;
+    padding-top: 20px;
+    position: relative;
+    min-height: 200px;
+}
+.total-subscribers {
+    border-left: 1px solid black;
+}
+tr{
+    text-align: center;
+}
+.table-report-subscribe  tr  th,td{
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
+#container-register{
+    min-width: auto;
+    height: 400px;
+    margin: 0 auto;
+    overflow: scroll;
+}

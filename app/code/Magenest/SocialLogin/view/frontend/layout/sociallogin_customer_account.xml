@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2019 Magenest. All rights reserved.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="customer_account"/>
+    <head>
+        <css src="Magenest_SocialLogin/css/account.css"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Magenest\SocialLogin\Block\Customer\Account" name="sociallogin_customer_account" template="Magenest_SocialLogin::customer/account.phtml" cacheable="false">
+                <block class="Magenest\SocialLogin\Block\SocialNetwork\Facebook" name="magenest_facebook_login_button"
+                       template="socialnetwork/facebook.phtml" cacheable="false">
+                </block>
+                <block class="Magenest\SocialLogin\Block\SocialNetwork\Google" name="magenest_google_login_button"
+                       template="socialnetwork/google.phtml" cacheable="false">
+                </block>
+                <block class="Magenest\SocialLogin\Block\SocialNetwork\Apple" name="magenest_apple_login_button"
+                       template="socialnetwork/apple.phtml" cacheable="false">
+                </block>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="controller_action_inventory_populate_source_with_data">
+        <observer name="add_shipping_address_data" instance="Magenest\CustomSource\Observer\AddShippingAddressData" />
+    </event>
+</config>

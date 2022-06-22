@@ -1,0 +1,106 @@
+<!-- ko ifnot: isCustomerLoggedIn -->
+
+<!-- ko foreach: getRegion('before-login-form') -->
+<!-- ko template: getTemplate() --><!-- /ko -->
+<!-- /ko -->
+
+<form class="form form-login" data-role="email-with-possible-login"
+      data-bind="submit:login, css: {'password-visible': isPasswordVisible() == true}"
+      method="post">
+    <fieldset id="customer-email-fieldset" class="fieldset fieldset-login-phone" data-bind="blockLoader: isLoading">
+        <!-- ko if: isEnabledLoginWithTelephone -->
+        <div class="field required">
+            <label class="label" for="customer-email">
+                <span data-bind="i18n: 'Email address'"></span>
+            </label>
+            <div class="control _with-tooltip">
+                <input class="input-text"
+                       type="text"
+                       data-bind="
+                            textInput: email,
+                            hasFocus: emailFocused"
+                       name="username"
+                       data-validate="{required:true, 'validate-custom-mob-checkout-email-rule':true}"
+                       id="customer-email-telephone" />
+            </div>
+        </div>
+        <!-- /ko -->
+        <!-- ko ifnot: isEnabledLoginWithTelephone -->
+            <div class="field required">
+                <label class="label" for="customer-email">
+                    <span data-bind="i18n: 'Email Address'"></span>
+                </label>
+                <div class="control _with-tooltip">
+                    <input class="input-text"
+                           type="email"
+                           data-bind="
+                                textInput: email,
+                                hasFocus: emailFocused"
+                           name="username"
+                           data-validate="{required:true, 'validate-email':true}"
+                           id="customer-email" />
+                    <!-- ko template: 'ui/form/element/helper/tooltip' --><!-- /ko -->
+                    <span class="note" data-bind="visible: isPasswordVisible() == false"><!-- ko i18n: 'You can create an account after completing the payment'--><!-- /ko --></span>
+                </div>
+            </div>
+        <!-- /ko -->
+        <!-- ko template: 'ui/form/element/helper/tooltip' --><!-- /ko -->
+
+        <!--Hidden fields -->
+        <fieldset class="fieldset hidden-fields" data-bind="fadeVisible: isPasswordVisible">
+            <div class="field required">
+                <label class="label" for="customer-password">
+                    <span data-bind="i18n: 'Password'"></span>
+                </label>
+                <div class="control">
+                    <input class="input-text"
+                           type="password"
+                           name="password"
+                           id="customer-password"
+                           data-validate="{required:true}"
+                           autocomplete="off"/>
+                </div>
+
+            </div>
+            <!-- ko foreach: getRegion('additional-login-form-fields') -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!-- /ko -->
+            <div class="actions-toolbar">
+                <input name="context" type="hidden" value="checkout" />
+                <div class="primary">
+                    <button type="submit" class="action login primary" data-action="checkout-method-login"><span data-bind="i18n: 'Login'"></span></button>
+                </div>
+                <div class="secondary">
+                    <a class="action remind" data-bind="attr: { href: forgotPasswordUrl }">
+                        <span data-bind="i18n: 'Forgot Your Password?'"></span>
+                    </a>
+                </div>
+            </div>
+            <span class="note below-action-toolbar">
+                <span data-bind="i18n: 'Do you already have an account?'"></span>
+                <span><a data-bind="i18n: 'Register new account', attr: { href: registerUrl }"></a></span>
+                <span data-bind="i18n: ' or continue shopping by entering shipping information below'"></span>
+            </span>
+
+        </fieldset>
+        <fieldset class="fieldset hidden-fields-button" data-bind="fadeVisible : isSocialNetworkUsed">
+            <div class="s-network">
+                <span>OR</span>
+            </div>
+            <!-- ko if: isFacebookEnabled -->
+            <div class="modal-socialogin-email modal-facebook"  data-bind="fadeVisible: isFacebookUsed,click : getFacebookUrl">
+            </div>
+            <!-- /ko -->
+            <!-- ko if: isGoogleEnabled -->
+            <div class="modal-socialogin-email modal-google"  data-bind="fadeVisible: isGoogleUsed,click : getGoogleUrl">
+            </div>
+            <!-- /ko -->
+            <!-- ko if: isAppleEnabled -->
+            <div class="modal-socialogin-email modal-apple"  data-bind="fadeVisible: isAppleUsed,click : getAppleUrl">
+            </div>
+            <!-- /ko -->
+        </fieldset>
+        <!--Hidden fields -->
+    </fieldset>
+</form>
+<!-- /ko -->

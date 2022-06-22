@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) Magenest, Inc. All rights reserved.
+  ~ See COPYING.txt for license details.
+  -->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="zalo_support" translate="label" sortOrder="130" showInDefault="0" showInWebsite="1" showInStore="0">
+            <label>Zalo Support Live Configuration</label>
+            <tab>magenest</tab>
+            <resource>Magenest_ZaloSupportLive::zalo_support</resource>
+            <group id="general_setting" translate="label" type="text" sortOrder="20" showInDefault="0" showInWebsite="1" showInStore="0">
+                <label>Zalo Support Live Settings</label>
+                <field id="enable_zalo" translate="label" type="select" sortOrder="0" showInDefault="0" showInWebsite="1" showInStore="0" >
+                    <label>Enable ZaloSupportLive</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Enable/Disable module block on frontend. Default: Yes]]></comment>
+                </field>
+                <field id="oaid" translate="label" type="text" sortOrder="5" showInDefault="0" showInWebsite="1" showInStore="0" >
+                    <label>Official Account ID</label>
+                    <validate>required-entry</validate>
+                    <depends>
+                        <field id="enable_zalo">1</field>
+                    </depends>
+                </field>
+                <field id="welcome_message" translate="label" type="text" sortOrder="15" showInDefault="0" showInWebsite="1" showInStore="0" >
+                    <label>Welcome Message</label>
+                    <comment><![CDATA[Welcome message when a visitor comes to your site.<br/>Each visitor receives only one greeting message per day.]]></comment>
+                    <depends>
+                        <field id="enable_zalo">1</field>
+                    </depends>
+                </field>
+                <field id="auto_popup" translate="label" type="text" sortOrder="15" showInDefault="0" showInWebsite="1" showInStore="0" >
+                    <label>Auto popup delay</label>
+                    <comment><![CDATA[Time delay to open the chat window automatically]]></comment>
+                    <validate>validate-number</validate>
+                    <depends>
+                        <field id="enable_zalo">1</field>
+                    </depends>
+                </field>
+                <field id="width" translate="label" type="text" sortOrder="15" showInDefault="0" showInWebsite="1" showInStore="0" >
+                    <label>Popup Width</label>
+                    <comment><![CDATA[Set the widget for the popup windows (min 300 to max 500). Default: 350px]]></comment>
+                    <validate>validate-zalo-window-size</validate>
+                    <depends>
+                        <field id="enable_zalo">1</field>
+                    </depends>
+                </field>
+                <field id="height" translate="label" type="text" sortOrder="15" showInDefault="0" showInWebsite="1" showInStore="0" >
+                    <label>Popup Height</label>
+                    <comment><![CDATA[Set the height for the popup windows (min 300 to max 500). Default: 420px]]></comment>
+                    <validate>validate-zalo-window-size</validate>
+                    <depends>
+                        <field id="enable_zalo">1</field>
+                    </depends>
+                </field>
+                <field id="display_timeout" translate="label" type="text" sortOrder="20" showInDefault="0" showInWebsite="1" showInStore="0" >
+                    <label>Timeout</label>
+                    <comment>
+                        <![CDATA[
+                            Display chat icon after <b>X</b> second(s).<br>
+                            Not factor in script loading time. Actual display time might be longer.
+                        ]]>
+                    </comment>
+                    <validate>required-entry validate-number validate-zero-or-greater</validate>
+                    <depends>
+                        <field id="enable_zalo">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

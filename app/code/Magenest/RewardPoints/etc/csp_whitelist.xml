@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<csp_whitelist xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 	xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Csp:etc/csp_whitelist.xsd">
+    <policies>
+        <policy id="font-src">
+            <values>
+                <value id="gstatic" type="host">fonts.gstatic.com</value>
+            </values>
+        </policy>
+        <policy id="script-src">
+            <values>
+                <value id="google_js" type="host">*.googleadservices.com</value>
+                <value id="gstatic" type="host">*.gstatic.com</value>
+                <value id="google" type="host">*.google.com</value>
+            </values>
+        </policy>
+        <policy id="script-src">
+            <values>
+                <value id="fa" type="host">https://connect.facebook.net/en_US/sdk.js</value>
+            </values>
+        </policy>
+        <policy id="script-src">
+            <values>
+                <value id="face" type="host">https://connect.facebook.net/en_US/sdk.js?hash=d4b409d9b569e046a9d879f334c9e9a4</value>
+            </values>
+        </policy>
+    </policies>
+</csp_whitelist>

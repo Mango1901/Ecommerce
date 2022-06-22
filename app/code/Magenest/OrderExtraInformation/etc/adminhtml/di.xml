@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!--Plugin-->
+    <type name="Magento\Sales\Block\Adminhtml\Order\Create\Billing\Address">
+        <plugin name="magenest_oei" type="Magenest\OrderExtraInformation\Block\Adminhtml\Plugin\Order\Create\Billing\Address" />
+    </type>
+    <type name="Magento\Sales\Block\Adminhtml\Items\Column\Name">
+        <plugin name="magenest_oei" type="Magenest\OrderExtraInformation\Block\Adminhtml\Plugin\Items\Column\Name" />
+    </type>
+    <type name="Magento\Quote\Model\Quote\Address">
+        <plugin name="change_shipping_fee_quote" type="Magenest\OrderExtraInformation\Plugin\Magento\Quote\Model\Quote\Address" />
+    </type>
+</config>

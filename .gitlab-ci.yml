@@ -1,0 +1,8 @@
+magento2-standard:
+  script:
+    - phpcs --standard=Magento2 --extensions=php,phtml --severity=10 app/code/Magenest
+  only:
+    - develop
+    - master
+    - std_develop
+

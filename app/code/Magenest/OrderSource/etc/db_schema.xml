@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="sales_order">
+        <column xsi:type="varchar" name="order_source" nullable="true" length="30" comment="Order Source"/>
+    </table>
+    <table name="sales_order_grid">
+        <column xsi:type="varchar" name="order_source" nullable="true" length="30" comment="Order Source"/>
+    </table>
+</schema>

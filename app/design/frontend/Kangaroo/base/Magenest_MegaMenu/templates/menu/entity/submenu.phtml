@@ -1,0 +1,321 @@
+<?php
+// @codingStandardsIgnoreFile
+/** @var \Magenest\MegaMenu\Block\Menu\Entity $block */
+/** @var \Magenest\MegaMenu\Helper\Data $helper */
+list($top, $effect, $helper, $classes) = $block->getMenuData();
+
+$style = '';
+$customAttr = '';
+$mouseOut = '';
+$mouseOver = '';
+$iconHover = '';
+
+if (isset($top['textColor']) && $top['textColor'] != '') {
+    $style .= "color: {$top['textColor']};";
+}
+if (isset($top['cssInline']) && $top['cssInline'] != '') {
+    $style .= "{$top['cssInline']}";
+}
+if (!isset($top['textColor']) || $top['textColor'] == '') {
+    $top['textColor'] = '';
+}
+
+if (isset($top['hoverTextColor']) && $top['hoverTextColor'] != '') {
+    $customAttr .= " data-color='{$top['textColor']}' data-color-hover='{$top['hoverTextColor']}' ";
+    $mouseOut .= "if(jQuery(window).width() >= 768){jQuery(this).children('a').css('color','{$top['textColor']}')}";
+    $mouseOver .= "if(jQuery(window).width() >= 768){jQuery(this).children('a').css('color','{$top['hoverTextColor']}')}";
+}
+if (!isset($top['hoverIconColor']) || $top['hoverIconColor'] == '') {
+    $top['hoverIconColor'] = '#ffffff';
+    $iconHover .= 'color: ' . $top['hoverIconColor'] . ';';
+}
+if (isset($top['color']) && $top['color'] != '') {
+    $customAttr .= " data-background='' data-background-hover='{$top['color']}' ";
+    $mouseOut .= "if(jQuery(window).width() >= 768){jQuery(this).children('a').css('background','')}; ";
+    $mouseOver .= "if(jQuery(window).width() >= 768){jQuery(this).children('a').css('background','{$top['color']}')}; ";
+}
+$cssClass = "";
+$subParentClass = "";
+if(isset($top['cssClass'])){
+   $cssClass = $top['cssClass'];
+}
+if(isset($top['mainContentType']) || isset($top['childrenraw'])){
+    $subParentClass = "subparent";
+}
+$hideText = false;
+if(isset($top['hideText']) && $top['hideText']){
+    $hideText = true;
+}
+$animateClass = "";
+$dataAnimate = "";
+if(isset($top['animationIn'])){
+    $dataAnimate = $top['animationIn'];
+    $animateClass .= "animated";
+    if(isset($top['animationDelayTime'])){
+        $animateClass .= " " . $top['animationDelayTime'];
+    }
+    if(isset($top['animationSpeed'])){
+        $animateClass .= " " . $top['animationSpeed'];
+    }
+}
+$styleBackground = "";
+$classBackground = "";
+if(isset($top['backgroundImage'])){
+    $classBackground = "have-background";
+    $styleBackground .= "background-image: url(" . $top['backgroundImage']['url'] . ");";
+    if(isset($top['backgroundRepeat'])){
+        $styleBackground .= "background-repeat: " . $top['backgroundRepeat'] . ";";
+    }
+    if(isset($top['backgroundSize'])){
+        $styleBackground .= "background-size: " . $top['backgroundSize'] . ";";
+    }
+    if(isset($top['backgroundPositionX'])){
+        $styleBackground .= "background-position-x: " . $top['backgroundPositionX'] . ";";
+    }
+    if(isset($top['backgroundPositionY'])){
+        $styleBackground .= "background-position-y: " . $top['backgroundPositionY'] . ";";
+    }
+    if(isset($top['backgroundOpacity'])){
+        $styleBackgroundOpacity = "opacity:" . $top['backgroundOpacity'] . ";";
+    }
+}
+?>
+<?php if ($block->isParentTab()): ?>
+    <li class="itemMenu <?= $subParentClass . ' ' . $cssClass; ?>" <?= $customAttr; ?>>
+        <a href="<?= $top['link'] ?>" style="<?= $style ?>" target= <?= @$top['linkTarget'] ?: ''?>>
+            <span style=" position: relative; display: inline-block; hover: <?= @$iconHover ?>;">
+                <?= $block->getIconBlock()->toHtml() ?>
+                <?php if($hideText == false): ?>
+                    <span><?= $top['title'] ?></span>
+                <?php endif; ?>
+                <?= $block->getLabelBlock()->toHtml(); ?>
+            </span>
+        </a>
+        <div class="tab-menu-content">
+            <?php
+            echo $block->getBackgroundBlock()->toHtml();
+            echo $block->getSideBlock('header')->toHtml();
+            echo $block->getSideBlock('left')->toHtml();
+            if (isset($top['mainEnable']) && $top['mainEnable'] == '1'): ?>
+                <?php
+	                if (!isset($top['mainColumn']) || $top['mainColumn'] == '') {
+	                    $top['mainColumn'] = 12;
+	                }
+	                if (!isset($top['leftWidth'])) {
+	                    $top['leftWidth'] = 0;
+	                }
+	                if (!isset($top['rightWidth'])) {
+	                    $top['rightWidth'] = 0;
+	                }
+	                $colMd = 12;
+	                if (!isset($top['leftEnable'])) {
+	                    $top['leftEnable'] = 0;
+	                }
+	                if (!isset($top['rightEnable'])) {
+	                    $top['rightEnable'] = 0;
+	                }
+	                if (isset($top['leftEnable']) && $top['leftEnable'] == '1' && isset($top['rightEnable']) && $top['leftEnable'] == '1') {
+	                    $colMd -= ($top['leftWidth'] + $top['rightWidth']);
+	                } elseif ($top['leftEnable'] == '1' && $top['rightEnable'] != '1') {
+	                    $colMd -= $top['leftWidth'];
+	                } elseif ($top['leftEnable'] != '1' && $top['rightEnable'] == '1') {
+	                    $colMd -= $top['rightWidth'];
+	                }
+                ?>
+                <div class="block-main <?= isset($top['mainContentType']) ? $top['mainContentType'] : '' ?> col-md-<?= $colMd ?>">
+                    <?php if (isset($top['mainContentType']) && $top['mainContentType'] == "sub-category" && isset($top['mainParentCategory'])): ?>
+                        <?php $allChildren = $block->emulateSubCategory($top['mainParentCategory']) ?>
+		                <ul class="item-sub-category">
+                            <?php foreach ($allChildren as $child): ?>
+                                <?php $childHtml = null; ?>
+                                <?php if (isset($child['hasChild']) && $child['hasChild'] == 'yes' && isset($child['childrens']) && is_array($child['childrens'])): ?>
+                                    <?php $childHtml = $child['childrens']; ?>
+                                <?php endif; ?>
+                                <?= $helper->getHtmlMenu($child, $effect, $helper, $classes, $block, $childHtml) ?>
+                            <?php endforeach; ?>
+		                </ul>
+                    <?php endif; ?>
+	                <?php if (isset($top['childrenraw'])): ?>
+                        <?php if (@$top['mainContentType'] === 'grid'): ?>
+                            <?php foreach ($top['childrenraw'] as $child): ?>
+			                    <div class="grid-child col-md-<?= 12 / (int)$top['mainColumn'] ?>">
+				                    <ul class="itemsubmenu">
+                                        <?= $helper->getHtmlMenu($child, $effect, $helper, $classes, $block); ?>
+				                    </ul>
+			                    </div>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+		                    <ul class="itemsubmenu <?= @$top['mainContentType'] === 'tabs' ? 'subtabs' : '' ?>">
+                                <?php foreach ($top['childrenraw'] as $child): ?>
+                                    <?= $helper->getHtmlMenu($child, $effect, $helper, $classes, $block) ?>
+                                <?php endforeach; ?>
+		                    </ul>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                    <?php if ($top['mainContentType'] === 'content' && isset($top['mainContentHtml'])): ?>
+                        <?= $helper->renderHTMLContent($top['mainContentHtml']) ?>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
+            <?= $block->getSideBlock('right')->toHtml() ?>
+            <?= $block->getSideBlock('footer')->toHtml() ?>
+        </div>
+        <?php if ($childMenu = $block->getChildMenuHtml()): ?>
+		    <ul class="item-sub-category-level-2">
+                <?php foreach ($childMenu as $children): ?>
+                    <?= $helper->getHtmlMenu($children, $effect, $helper, $classes, $block); ?>
+                <?php endforeach; ?>
+		    </ul>
+        <?php endif; ?>
+    </li>
+<?php else: ?>
+    <li class="itemMenu <?= $subParentClass . ' ' . $cssClass; ?>">
+        <a href="<?= $top['link'] ?>" style="<?= $style ?>" target= <?= @$top['linkTarget'] ?: ''?>>
+            <span style="position: relative; display: inline-block; hover: <?= @$iconHover ?>;">
+                <?= $block->getIconBlock()->toHtml() ?>
+                <?php if($hideText == false): ?>
+                    <span><?= $top['title'] ?></span>
+                <?php endif; ?>
+                <?= $block->getLabelBlock()->toHtml() ?>
+            </span>
+            <?php if(
+            isset($top['childrenraw'])
+            || (isset($top['mainEnable']) && $top['mainEnable'] == "1")
+            || (isset($top['headerEnable']) && isset($top['headerContentHtml']))
+            || (isset($top['leftEnable']) && isset($top['leftContentHtml']))
+            || (isset($top['footerEnable']) && isset($top['footerContentHtml']))
+            || (isset($top['rightEnable']) && isset($top['rightContentHtml']))
+            ): ?>
+            <span class="menu-collapse"></span>
+            <?php endif; ?>
+        </a>
+
+        <span class="menu-collapse"></span>
+        
+        <?php if(
+            isset($top['childrenraw'])
+            || (isset($top['mainEnable']) && $top['mainEnable'] == "1")
+            || (isset($top['headerEnable']) && isset($top['headerContentHtml']))
+            || (isset($top['leftEnable']) && isset($top['leftContentHtml']))
+            || (isset($top['footerEnable']) && isset($top['footerContentHtml']))
+            || (isset($top['rightEnable']) && isset($top['rightContentHtml']))
+        ): ?>
+            <div class="<?= "itemSubMenu submenu ";
+                if(isset($top['childrenraw'])){ echo ' children-submenu';}
+                echo $classBackground;
+                if(isset($top['mainColumn'])){ echo ' menu' . $top['mainColumn'] . 'column'; }
+                echo $animateClass;
+                if(isset($top['mainEnable']) && $top['mainEnable'] == "1"){
+                    echo ' have-main-content-block';
+                }
+                if(isset($top['headerEnable']) &&  isset($top['headerContentHtml'])){
+                    echo ' have-header-block';
+                }
+                if(isset($top['leftEnable']) &&  isset($top['leftContentHtml'])){
+                    echo ' have-left-block';
+                }
+                if(isset($top['footerEnable']) &&  isset($top['footerContentHtml'])){
+                    echo ' have-footer-block';
+                }
+                if(isset($top['rightEnable']) &&  isset($top['rightContentHtml'])){
+                    echo ' have-right-block';
+                }
+                ?>"
+                 data-animate="<?= $dataAnimate ?>"
+                style="<?= $styleBackground; ?>">
+                <?php if(isset($top['backgroundOpacity'])): ?>
+                <div class="background-opacity" style="<?= $styleBackgroundOpacity; ?>"></div>
+                <?php endif;?>
+
+                <?php if(isset($top['headerEnable']) && isset($top['headerContentHtml'])): ?>
+                    <div class="header-menu-block <?php if(isset($top['headerClass'])){ echo $top['headerClass']; } ?>">
+                        <?php
+                        if(isset($top['headerContentHtml'])):
+                            echo $block->getSideBlock('header')->toHtml();
+                        endif;
+                        ?>
+                    </div>
+                <?php endif; ?>
+
+                <?php if(isset($top['leftEnable']) && isset($top['leftContentHtml'])): ?>
+                    <div class="left-menu-block <?php if(isset($top['leftClass'])){ echo $top['leftClass']; } ?>"
+                         <?php if(isset($top['leftWidth'])): ?>style="width: <?= $top['leftWidth']?>"<?php endif; ?>>
+                        <?php
+                        if(isset($top['leftContentHtml'])):
+                            echo $block->getSideBlock('left')->toHtml();
+                        endif;
+                        ?>
+                    </div>
+                <?php endif; ?>
+
+                <?php if (isset($top['mainContentType']) && $top['mainContentType'] == "sub-category" && isset($top['mainParentCategory'])): ?>
+                    <?php $allChildren = $block->emulateSubCategory($top['mainParentCategory']) ?>
+                    <?php
+                    $categoryId =  $top['mainParentCategory'];
+                    $_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                    $category = $_objectManager->create('Magento\Catalog\Model\Category')
+                        ->load($categoryId);
+                    ?>
+                    <div class="sub-category-block">
+                        <div class="title-sub-category">
+                            <span class="h6-le-des-bk"><?= $category->getName(); ?></span>
+                        </div>
+                        <ul class="item-sub-category">
+                            <?php foreach ($allChildren as $child): ?>
+                                <?php $childHtml = null; ?>
+                                <?php if (isset($child['hasChild']) && $child['hasChild'] == 'yes' && isset($child['childrens']) && is_array($child['childrens'])): ?>
+                                    <?php $childHtml = $child['childrens']; ?>
+                                <?php endif; ?>
+                                <?= $helper->getHtmlMenu($child, $effect, $helper, $classes, $block, $childHtml) ?>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                <?php endif; ?>
+
+                <?php if(isset($top['mainContentType']) && $top['mainContentType'] == "content" && isset($top['mainContentHtml'])): ?>
+                    <div class="submenu-container <?= isset($top['mainContentType']) ? $top['mainContentType'] : '' ?>">
+                        <?= $top['mainContentHtml'] ?>
+                    </div>
+                <?php endif; ?>
+
+                <?php if (isset($top['childrenraw'])): ?>
+                    <div class="submenu-container children-raw <?= isset($top['mainContentType']) ? $top['mainContentType'] : '' ?>">
+                        <ul class="itemsubmenu">
+                            <?php foreach ($top['childrenraw'] as $child): ?>
+                                <?= $helper->getHtmlMenu($child, $effect, $helper, $classes, $block) ?>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                <?php endif; ?>
+
+                <?php if(isset($top['rightEnable']) && isset($top['rightContentHtml'])): ?>
+                    <div class="right-menu-block <?php if(isset($top['rightClass'])){ echo $top['rightClass']; } ?>"
+                         <?php if(isset($top['rightWidth'])): ?>style="width: <?= $top['rightWidth']?>"<?php endif; ?>>
+                        <?php
+                        if(isset($top['rightContentHtml'])):
+                            echo $block->getSideBlock('right')->toHtml();
+                        endif;
+                        ?>
+                    </div>
+                <?php endif; ?>
+
+                <?php if(isset($top['footerEnable']) && isset($top['footerContentHtml'])): ?>
+                    <div class="footer-menu-block <?php if(isset($top['footerClass'])){ echo $top['footerClass']; } ?>">
+                        <?php
+                        if(isset($top['footerContentHtml'])):
+                            echo $block->getSideBlock('footer')->toHtml();
+                        endif;
+                        ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
+	    <?php if ($childMenu = $block->getChildMenuHtml()): ?>
+		    <ul class="item-sub-category-level-2">
+                <?php foreach ($childMenu as $children): ?>
+                    <?= $helper->getHtmlMenu($children, $effect, $helper, $classes, $block); ?>
+                <?php endforeach; ?>
+		    </ul>
+	    <?php endif; ?>
+    </li>
+<?php endif; ?>

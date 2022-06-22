@@ -1,0 +1,134 @@
+/**
+ * Copyright © 2020 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ *
+ * Magenest_ProductLabel extension
+ * NOTICE OF LICENSE
+ *
+ * @category Magenest
+ * @package  Magenest_ProductLabel
+ */
+.mgn-template-label {
+    .product-label-container {
+        display: block;
+        margin: 0;
+        position: absolute;
+        z-index: 1;
+        text-decoration: none;
+
+        .label-product-detail,
+        .label-category-page {
+            display: block !important;
+
+            .hidden {
+                display: none !important;
+            }
+        }
+    }
+
+    #text-style {
+        z-index: 1;
+        position: relative;
+    }
+
+    .twelve-point-star {
+        &:before {
+            left: 0;
+        }
+    }
+
+    .preview-wrapper {
+        display: block;
+        position: absolute;
+        z-index: 1;
+        text-decoration: none;
+
+        &[class*='-left'] {
+            left: 0;
+        }
+
+        &[class*='-right'] {
+            right: 0;
+        }
+
+        &[class*='top-'] {
+            top: 0;
+        }
+
+        &[class*='bot-'] {
+            bottom: 0;
+        }
+
+        &.mid-left,
+        &.mid-right {
+            top: 50%;
+            transform: translateY(-50%) translateX(0);
+        }
+
+        &.top-mid,
+        &.bot-mid {
+            left: 50%;
+            transform: translateY(0) translateX(-50%);
+        }
+
+        &.mid-mid {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        &[class*='mid-'] {
+            .align-rectangle {
+                margin-top: 25%;
+            }
+        }
+
+        &[class*='bot-'] {
+            .align-rectangle {
+                margin-top: 50%;
+            }
+        }
+
+        .align-rectangle {
+            height: 50% !important;
+        }
+    }
+
+    .top-left, .mid-left, .bot-left {
+        left: 0;
+    }
+
+    .top-right, .mid-right, .bot-right {
+        right: 0;
+    }
+
+    .mid-left, .mid-right {
+        top: 50%;
+        transform: translateY(-50%) translateX(0);
+    }
+
+    .mid-mid {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .top-left, .top-mid, .top-right {
+        top: 0;
+    }
+
+    .bot-left, .bot-mid, .bot-right {
+        bottom: 0;
+    }
+
+    .top-mid, .bot-mid {
+        left: 50%;
+        transform: translate(-50%, 0);
+    }
+}
+
+.product_label {
+    position: absolute;
+    margin-top: 305px;
+    width: 100%;
+}

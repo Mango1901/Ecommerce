@@ -1,0 +1,173 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/**
+ * Grouped product data template
+ *
+ * @var $block \Magento\Catalog\Block\Product\View\BaseImage
+ * @var $block \Magento\GroupedProduct\Block\Product\View\Type\Grouped
+ */
+/** @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer */
+?>
+<?php $block->setPreconfiguredValue(); ?>
+<?php $_product = $block->getProduct(); ?>
+<?php $_associatedProducts = $block->getAssociatedProducts(); ?>
+<?php $_hasAssociatedProducts = count($_associatedProducts) > 0; ?>
+<?php $helperImage = $this->helper('\Magento\Catalog\Helper\Image'); ?>
+<?php $productOptions = [] ?>
+
+<div class="table-wrapper grouped">
+    <div class="table-data-grouped"
+           id="super-product-table"
+           data-mage-init='{ "Magento_GroupedProduct/js/product-ids-resolver": {} }'>
+
+        <div class="table-wrapper-heading"><?= $block->escapeHtml(__('Contain')) ?></div>
+
+        <?php if ($_hasAssociatedProducts) : ?>
+        <div class="grouped-product-items">
+            <?php foreach ($_associatedProducts as $_item) : ?>
+                <?php
+                $productOptions["super_group[" . $_item->getId() . "]"] = $_item->getFinalPrice();
+                ?>
+                <div class="grouped-product-item" id="grouped-product-<?= $_item->getId() ?>">
+                    <div class="grouped-product-item-photo">
+
+                        <?php
+
+                            $imageUrl = $helperImage->init($_item, 'product_base_image')
+                                ->setImageFile($_item->getImage())
+                                ->getUrl();
+                        ?>
+
+                        <img src="<?php echo $imageUrl; ?>">
+                    </div>
+                    <div class="grouped-product-item-detail">
+                        <div class="grouped-product-item-top">
+                            <strong class="grouped-product-item-name"><?= $block->escapeHtml($_item->getName()) ?></strong>
+
+                            <div class="grouped-product-item-actions">
+                                <a class="grouped-product-item-remove" data-product-id="grouped-product-<?= $_item->getId() ?>" data-super-group="super_group[<?= $_item->getId() ?>]"><span><?= $block->escapeHtml(__('Delete list from the list')) ?></span></a>
+                            </div>
+                        </div>
+                        <div class="grouped-product-item-bottom">
+                            <div class="grouped-product-item-qty">
+                                <?php if ($_product->isSaleable()) : ?>
+
+                                    <?php if ($_item->isSaleable()) : ?>
+                                        <div class="control qty">
+                                            <label><?= $block->escapeHtml(__('Qty')) ?></label>
+
+                                            <div class="control-mobile">
+                                                <button data-type="minus" data-field="super_group[<?= $block->escapeHtmlAttr($_item->getId()) ?>]" class="btn-number btn-minus"><span>-</span></button>
+                                                <input type="number"
+                                               name="super_group[<?= $block->escapeHtmlAttr($_item->getId()) ?>]"
+                                               data-selector="super_group[<?= $block->escapeHtmlAttr($_item->getId()) ?>]"
+                                               value="<?= $block->escapeHtmlAttr($_item->getQty() * 1) ?>"
+                                               title="<?= $block->escapeHtmlAttr(__('Qty')) ?>"
+                                               class="input-text qty"
+                                               minlength= "1"
+                                               data-validate="{'validate-grouped-qty':'#super-product-table'}"
+                                               data-errors-message-box="#validation-message-box"/>
+                                               <button data-type="plus" data-field="super_group[<?= $block->escapeHtmlAttr($_item->getId()) ?>]" class="btn-number btn-plus"><span>+</span></button>
+                                            </div>
+
+                                            <select
+                                                id="super_group[<?= $block->escapeHtmlAttr($_item->getId()) ?>]"
+                                                name="super_group[<?= $block->escapeHtmlAttr($_item->getId()) ?>]"
+                                                   data-selector="super_group[<?= $block->escapeHtmlAttr($_item->getId()) ?>]"
+
+                                                   title="<?= $block->escapeHtmlAttr(__('Qty')) ?>"
+                                                   class="input-text qty product-custom-option"
+                                                   data-validate="{'validate-grouped-qty':'#super-product-table'}"
+                                                   data-errors-message-box="#validation-message-box"
+                                                >
+
+                                                <?php for($i=1; $i<=100; $i++){?>
+                                                  <option <?php if($_item->getQty()==$i){echo "selected";}?> value="<?php echo $i;?>">
+                                                    <?php echo $i;?>
+
+                                                    </option>
+                                                <?php }?>
+                                            </select>
+
+
+                                        </div>
+                                    <?php else : ?>
+                                        <div class="stock unavailable" title="<?= $block->escapeHtmlAttr(__('Availability')) ?>">
+                                            <span><?= $block->escapeHtml(__('Out of stock')) ?></span>
+                                        </div>
+                                    <?php endif; ?>
+
+                                <?php endif; ?>
+                            </div>
+                            <div class="grouped-product-item-price">
+                                <?php if ($block->getCanShowProductPrice($_product)) : ?>
+                                    <?php if ($block->getCanShowProductPrice($_item)) : ?>
+                                        <?= /* @noEscape */ $block->getProductPrice($_item) ?>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+
+                        <?php if ($block->getCanShowProductPrice($_product)
+                        && $block->getCanShowProductPrice($_item)
+                        && trim($block->getProductPriceHtml(
+                            $_item,
+                            \Magento\Catalog\Pricing\Price\TierPrice::PRICE_CODE
+                        ))) : ?>
+                        <div class="row-tier-price grouped-product-item-tier-price">
+
+                                <?= $block->getProductPriceHtml(
+                                    $_item,
+                                    \Magento\Catalog\Pricing\Price\TierPrice::PRICE_CODE
+                                ) ?>
+
+                        </div>
+                    <?php endif; ?>
+
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+        <?php else : ?>
+
+        <div class="unavailable"
+            colspan="<?php if ($_product->isSaleable()) : ?>4<?php else : ?>3<?php endif; ?>">
+            <?= $block->escapeHtml(__('No options of this product are available.')) ?>
+        </div>
+
+
+        <?php endif; ?>
+    </div>
+</div>
+<div id="validation-message-box"></div>
+<?php
+$url = $block->getUrl('cms/widget/render');
+$scriptString =  <<<script
+    require([
+        'jquery'
+    ], function ($) {
+        $('.grouped-product-item-remove').on('click', function () {
+            var self = $(this);
+            $('[name="'+self.data('super-group') + '"]').val(0).trigger('change');
+            $('#' + self.data('product-id')).hide();
+            return false;
+        });
+    })
+script;
+?>
+<?= /* @noEscape */ $secureRenderer->renderTag('script', [], $scriptString, false) ?>
+<script type="text/x-magento-init">
+    {
+        "#product_addtocart_form": {
+            "priceGrouped": {
+                "optionConfig": <?= /* @noEscape */ json_encode($productOptions) ?>,
+                "controlContainer": ".field",
+                "priceHolderSelector": "[data-product-id='<?= $block->escapeHtml($_product->getId()) ?>'][data-role=priceBox]"
+            }
+        }
+    }
+</script>

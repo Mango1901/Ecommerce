@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Magenest_MapList::css/map.css"/>
+        <css src="Magenest_MapList::css/all.css"/>
+        <link src="https://cdn.jsdelivr.net/npm/@goongmaps/goong-js@1.0.6/dist/goong-js.css" rel="stylesheet" src_type="url" type="text/css"/>
+        <script src="Magenest_MapList::js/map.js"/>
+        <css src="Magenest_MapList::select2/select2.min.css"/>
+        <script src="Magenest_MapList::js/markerclusterer.js"/>
+        <css src="Magenest_MapList::css/material-design-iconic-font.css"/>
+    </head>
+    <body>
+        <referenceBlock name="page.main.title" remove="true" />
+        <referenceContainer name="content">
+            <block class="Magenest\MapList\Block\Map" name="map.list" template="Magenest_MapList::view_map.phtml"/>
+            <block class="Magenest\MapList\Block\Map\Js" template="Magenest_MapList::map/js.phtml"/>
+        </referenceContainer>
+        <referenceBlock name="breadcrumbs">
+            <action method="addCrumb">
+                <argument name="crumbName" xsi:type="string">Home</argument>
+                <argument name="crumbInfo" xsi:type="array">
+                    <item name="title" xsi:type="string">Home</item>
+                    <item name="label" translate="true" xsi:type="string">Home</item>
+                    <item name="link" xsi:type="string">{{baseUrl}}</item>
+                </argument>
+            </action>
+            <action method="addCrumb">
+                <argument name="crumbName" xsi:type="string">Map List</argument>
+                <argument name="crumbInfo" xsi:type="array">
+                    <item name="title" xsi:type="string">Map List</item>
+                    <item name="label" translate="true" xsi:type="string">Map List</item>
+                </argument>
+            </action>
+        </referenceBlock>
+    </body>
+</page>

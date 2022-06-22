@@ -1,0 +1,12 @@
+<!--@subject {{trans "Affiliate Account Change Status"}} @-->
+<!--@vars {
+"var accountStatus":"Account Status",
+"var customer.name":"Account Name"
+} @-->
+
+{{template config_path="design/email/header_template"}}
+
+<p class="greeting">Dear {{trans "%name," name=$customer.name}}</p>
+<p>{{trans "Thank you for your attention. From now on, your account is %status." status=$accountStatus}}</p>
+
+{{template config_path="design/email/footer_template"}}

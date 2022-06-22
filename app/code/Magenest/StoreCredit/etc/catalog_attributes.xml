@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magenest
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magenest.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.magenest.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Magenest
+ * @package     Magenest_StoreCredit
+ * @copyright   Copyright (c) Magenest (https://www.magenest.com/)
+ * @license     https://www.magenest.com/LICENSE.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Catalog:etc/catalog_attributes.xsd">
+    <group name="quote_item">
+        <attribute name="allow_credit_range"/>
+        <attribute name="credit_amount"/>
+        <attribute name="min_credit"/>
+        <attribute name="max_credit"/>
+        <attribute name="price_rate"/>
+    </group>
+    <group name="catalog_product">
+        <attribute name="allow_credit_range"/>
+        <attribute name="credit_amount"/>
+        <attribute name="min_credit"/>
+        <attribute name="max_credit"/>
+        <attribute name="price_rate"/>
+    </group>
+    <group name="unassignable">
+        <attribute name="allow_credit_range"/>
+        <attribute name="credit_amount"/>
+    </group>
+</config>

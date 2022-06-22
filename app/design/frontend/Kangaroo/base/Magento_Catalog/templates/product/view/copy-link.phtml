@@ -1,0 +1,15 @@
+<div class="product-copy-share">
+	<div class="product-copy-link"><span><?= __('Copy product link') ?></span></div>
+	<div class="share-mobile">
+		<span class="share-social-network share" <?= isset($secureRenderer) ? '' : 'style="font-weight: bold; font-size: 15px"' ?> >
+		    <?= __('Share'); ?>
+		</span>
+	</div>
+</div>
+<script type="text/x-magento-init">
+    {
+        "*" : {
+            "Magento_Catalog/js/copy-product-link": {}
+        }
+    }
+</script>

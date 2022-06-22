@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Magenest_CouponCode::menu"
+             title="Coupon Code"
+             translate="title"
+             module="Magenest_CouponCode"
+             sortOrder="1100"
+             resource="Magenest_CouponCode::module"
+             parent="Magenest_Backend::Magenest"/>
+
+        <add id="Magenest_CouponCode::new"
+             title="New Coupon Code"
+             translate="title"
+             module="Magenest_CouponCode"
+             sortOrder="1000"
+             parent="Magenest_CouponCode::menu"
+             action="sales_rule/promo_quote/new"
+             dependsOnModule="Magento_SalesRule"
+             resource="Magento_SalesRule::quote"/>
+
+        <add id="Magenest_CouponCode::configuration"
+             title="Configuration"
+             translate="title"
+             module="Magenest_CouponCode"
+             sortOrder="1010"
+             parent="Magenest_CouponCode::menu"
+             action="adminhtml/system_config/edit/section/magenest_coupon"
+             resource="Magenest_CouponCode::configuration"/>
+    </menu>
+</config>

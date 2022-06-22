@@ -1,0 +1,136 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/**
+ * @var \Magento\Framework\View\Element\AbstractBlock $block
+ */
+
+// We should use strlen function because coupon code could be "0", converted to bool will lead to false
+$hasCouponCode = (bool) strlen($block->getCouponCode());
+?>
+<?php
+/** @var \Magenest\RewardPoints\Block\Cart\MultiShipping $block */
+$currentPoint = $block->currentPoint();
+$configPoint = $block->getConfigPoint();
+$currency = $block->getCurrency();
+$maxAppliedPoint = $block->getMaxAppliedPoint();
+$rewardPoint = $block->getRewardPoint();
+?>
+<div class="block discount"
+     id="block-discount"
+     data-mage-init='{"collapsible":{"active": <?= $hasCouponCode ? 'true' : 'false' ?>, "openedState": "active", "saveState": false}}'
+>
+    <div class="title" data-role="title">
+        <strong id="block-discount-heading" role="heading" aria-level="2"><?= $block->escapeHtml(__('Apply Discount Code')) ?></strong>
+    </div>
+    <div class="content" data-role="content" aria-labelledby="block-discount-heading">
+        <form id="discount-coupon-form"
+              action="<?= $block->escapeUrl($block->getUrl('checkout/cart/couponPost')) ?>"
+              method="post"
+              data-mage-init='{"discountCode":{"couponCodeSelector": "#coupon_code",
+                                               "removeCouponSelector": "#remove-coupon",
+                                               "applyButton": "button.action.apply",
+                                               "cancelButton": "button.action.cancel"}}'>
+            <div class="fieldset coupon<?= $hasCouponCode ? ' applied' : '' ?>">
+                <input type="hidden" name="remove" id="remove-coupon" value="0" />
+                <div class="field">
+                    <label for="coupon_code" class="label"><span><?= $block->escapeHtml(__('Enter discount code')) ?></span></label>
+                    <div class="control">
+                        <input type="text"
+                               class="input-text"
+                               id="coupon_code"
+                               name="coupon_code"
+                               value="<?= $block->escapeHtmlAttr($block->getCouponCode()) ?>"
+                               placeholder="<?= $block->escapeHtmlAttr(__('Enter discount code')) ?>"
+                            <?php if ($hasCouponCode) :?>
+                                disabled="disabled"
+                            <?php endif; ?>
+                        />
+                    </div>
+                </div>
+                <div class="actions-toolbar">
+                    <?php if (!$hasCouponCode) :?>
+                        <div class="primary">
+                            <button class="action apply primary" type="button" value="<?= $block->escapeHtmlAttr(__('Apply Discount')) ?>">
+                                <span><?= $block->escapeHtml(__('Apply Discount')) ?></span>
+                            </button>
+                        </div>
+                    <?php else :?>
+                        <div class="primary">
+                            <button  type="button" class="action cancel primary" value="<?= $block->escapeHtmlAttr(__('Cancel Coupon')) ?>"><span><?= $block->escapeHtml(__('Cancel Coupon')) ?></span></button>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <?php if (!$hasCouponCode) : ?>
+                <?= /* @noEscape */ $block->getChildHtml('captcha') ?>
+            <?php endif; ?>
+        </form>
+    </div>
+
+    <div class="payment-option _collapsible opc-payment-additional rewardpoints"
+         data-bind="mageInit: {'collapsible':{'openedState': '_active'}}">
+        <div class="payment-option-title field choice" data-role="title">
+        <span class="action action-toggle" id="block-rewardpoints-heading" role="heading" aria-level="2" style="color: #006bb4;font-weight: 400;font-size: 1.6rem;">
+            Redeem Reward Points
+        </span>
+        </div>
+        <div class="payment-option-content" data-role="content">
+            <div>
+                <span>You have</span>
+                <span><?php echo $currentPoint; ?></span>
+                <span>points.</span>
+            </div>
+            <div>
+                <span>You can apply maximum</span>
+                <span><?= $maxAppliedPoint ?></span>
+                <span>points for this order</span>
+            </div>
+            <div>
+                <span>Every</span>
+                <span class="configPoint"><?php echo $configPoint;?></span>
+                <span>point(s) can be redeemed for 1</span>
+                <span><?php echo $currency;?></span>
+            </div>
+            <div class="payment-option-inner rewardpoints-inner">
+                <div class="field">
+                    <div class="control">
+                        <input class="input-text"
+                               type="text"
+                               id="rewardpoints-quantity"
+                               name="rewardpoints_quantity"
+                               placeholder="Enter point quantity" value="<?= $rewardPoint ?>"/>
+                    </div>
+                </div>
+            </div>
+            <input value="<?= $rewardPoint ?>" id="point" hidden>
+            <input value="<?= $maxAppliedPoint ?>" id="pointMax" hidden>
+
+            <div class="actions-toolbar">
+                <div class="primary">
+                    <button class="action action-apply-all" type="button" id="apply-all" data-point-max="<?= $maxAppliedPoint ?>" data-current="<?= $currentPoint ?>">
+                        <span>Apply All</span>
+                    </button>
+                    <button class="action action-apply" type="button" id="apply" data-current="<?= $currentPoint ?>">
+                        <span>Apply</span>
+                    </button>
+                    <br>
+                    <button class="action action-cancel" type="button" id="cancel" hidden>
+                        <span>Cancel</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magenest_RewardPoints/js/view/checkout/rewards/multishipping":{}
+        }
+    }
+</script>

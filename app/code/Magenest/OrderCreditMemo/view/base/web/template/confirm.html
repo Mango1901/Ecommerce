@@ -1,0 +1,22 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<div class="admin__scope-old">
+    <form id="om-confirm-form">
+        <div class="form-inline">
+            <div class="admin__field field required _required">
+                <label class="label admin__field-label" for="refund_option"><span><%= _.i18n('Refund Option') %></span></label>
+                <div class="admin__field-control control">
+                    <select name="refund_option" id="refund_option" class="input-select admin__control-select required-entry _required">
+                        <% _.each(refundOption, function(option) { %>
+                            <option value="<%- option.value %>"><%- option.label %></option>
+                        <% }); %>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

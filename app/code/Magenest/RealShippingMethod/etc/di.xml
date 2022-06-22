@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magenest\RealShippingMethod\Api\OrderStatusUpdateInterface"
+                type="Magenest\RealShippingMethod\Model\OrderStatusUpdate"/>
+    <type name="Magenest\RealShippingMethod\Model\OrderStatusUpdate">
+        <arguments>
+            <argument name="metadata" xsi:type="object">orderMetadata</argument>
+        </arguments>
+    </type>
+    <preference for="Magento\Sales\Model\ResourceModel\Order\Handler\State" type="Magenest\RealShippingMethod\Model\OrderState"/>
+
+    <virtualType name="Magenest\RealShippingMethod\Logger\Handler" type="Magento\Framework\Logger\Handler\Debug">
+        <arguments>
+            <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
+            <argument name="fileName" xsi:type="string">/var/log/shipment.log</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magenest\RealShippingMethod\Logger\Logger" type="Monolog\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">Shipment Logging</argument>
+            <argument name="handlers" xsi:type="array">
+                <item name="system" xsi:type="object">Magenest\RealShippingMethod\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Magenest\GiaoHangTietKiem\Model\Carrier\GiaoHangTietKiem">
+        <arguments>
+            <argument name="logger" xsi:type="object">Magenest\RealShippingMethod\Logger\Logger</argument>
+        </arguments>
+    </type>
+    <type name="Magenest\ViettelPostCarrier\Model\Carrier\ViettelPost">
+        <arguments>
+            <argument name="logger" xsi:type="object">Magenest\RealShippingMethod\Logger\Logger</argument>
+        </arguments>
+    </type>
+    <type name="Magenest\API247\Model\Carrier\API247">
+        <arguments>
+            <argument name="logger" xsi:type="object">Magenest\RealShippingMethod\Logger\Logger</argument>
+        </arguments>
+    </type>
+    <type name="Magenest\ViettelPost\Controller\Shipment\Response">
+        <arguments>
+            <argument name="logger" xsi:type="object">Magenest\RealShippingMethod\Logger\Logger</argument>
+        </arguments>
+    </type>
+</config>

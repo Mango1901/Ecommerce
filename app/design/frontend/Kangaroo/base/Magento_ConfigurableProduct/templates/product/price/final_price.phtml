@@ -1,0 +1,93 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var \Magenest\Affiliate\Pricing\Render\ConfigurablePriceBox $block */
+/** @var \Magento\Framework\Pricing\Price\PriceInterface $priceModel */
+$priceModel = $block->getPriceType('regular_price');
+
+/** @var \Magento\Framework\Pricing\Price\PriceInterface $finalPriceModel */
+$finalPriceModel = $block->getPriceType('final_price');
+$idSuffix = $block->getIdSuffix() ? $block->getIdSuffix() : '';
+$schema = $block->getZone() == 'item_view';
+
+/** @var \Magenest\AffiliateCatalogRule\Helper\Context $contextHelper */
+$contextHelper = $this->helper(\Magenest\AffiliateCatalogRule\Helper\Context::class);
+$affiliatePriceModel = $contextHelper->isAffiliate() ? $block->getPriceType('origin_rule_price') : false;
+$displayAffiliate = $contextHelper->isAffiliate() && $block->isAffiliateRuleApplied() && $affiliatePriceModel;
+?>
+
+<?php if ($block->hasSpecialPrice()): ?>
+    <?php if ($priceModel->getAmount()->getValue() != 0) : ?>
+        <span class="old-price">
+            <?= $block->renderAmount($priceModel->getAmount(), [
+                'display_label'     => __('Regular Price'),
+                'price_id'          => $block->getPriceId('old-price-' . $idSuffix),
+                'price_type'        => 'oldPrice',
+                'include_container' => true,
+                'skip_adjustments'  => true
+            ]); ?>
+            <?= $contextHelper->getDiscountBlockHtml($finalPriceModel->getAmount()->getValue(), $priceModel->getAmount()->getValue()) ?>
+        </span>
+    <?php endif; ?>
+    <?php if ($displayAffiliate
+        && $affiliatePriceModel->getAmount()->getValue() < $priceModel->getAmount()->getValue()
+        && $affiliatePriceModel->getAmount()->getValue() > $finalPriceModel->getAmount()->getValue()): ?>
+            <span class="special-price">
+                <?= $block->renderAmount($affiliatePriceModel->getAmount(), [
+                    'display_label'     => __('Special Price'),
+                    'price_id'          => $block->getPriceId('product-origin-price-' . $idSuffix),
+                    'price_type'        => 'originFinalPrice',
+                    'include_container' => true,
+                    'schema' => $schema
+                ]); ?>
+            </span>
+    <?php endif; ?>
+    <?php if ($displayAffiliate): ?>
+        <span class="special-price-affiliate">
+            <span><?= __('Affiliate Price') ?></span>
+    <?php else: ?>
+        <span class="special-price">
+    <?php endif; ?>
+        <?= $block->renderAmount($finalPriceModel->getAmount(), [
+            'display_label'     => __('Special Price'),
+            'price_id'          => $block->getPriceId('product-price-' . $idSuffix),
+            'price_type'        => 'finalPrice',
+            'include_container' => true,
+            'schema' => $schema
+        ]); ?>
+    </span>
+<?php else: ?>
+    <?php if ($displayAffiliate && $affiliatePriceModel->getAmount()->getValue() != 0): ?>
+        <?= $block->renderAmount($affiliatePriceModel->getAmount(), [
+            'display_label'     => __('Special Price'),
+            'price_id'          => $block->getPriceId('product-origin-price-' . $idSuffix),
+            'price_type'        => 'originFinalPrice',
+            'include_container' => true,
+            'schema' => $schema
+        ]); ?>
+    <?php endif; ?>
+    <?php if ($displayAffiliate): ?>
+        <span class="affiliate-price-title"><?= __('Affiliate Price') ?></span>
+    <?php endif; ?>
+    <?= $block->renderAmount($finalPriceModel->getAmount(), [
+        'price_id'          => $block->getPriceId('product-price-' . $idSuffix),
+        'price_type'        => 'finalPrice',
+        'include_container' => true,
+        'schema' => $schema
+    ]); ?>
+<?php endif; ?>
+
+<?php if ($block->showMinimalPrice()) : ?>
+    <?php if ($block->getUseLinkForAsLowAs()) :?>
+        <a href="<?= $block->escapeUrl($block->getSaleableItem()->getProductUrl()) ?>" class="minimal-price-link">
+            <?= $block->renderAmountMinimal() ?>
+        </a>
+    <?php else :?>
+        <span class="minimal-price-link">
+            <?= $block->renderAmountMinimal() ?>
+        </span>
+    <?php endif?>
+<?php endif; ?>

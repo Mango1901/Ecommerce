@@ -1,0 +1,21 @@
+{
+    "name": "syncit/module-apirestlog",
+    "description": "SyncIt Api Rest Logging Module",
+    "type": "magento2-module",
+    "authors": [
+        {
+            "email": "vladimir@syncitgroup.com",
+            "name": "Vladimir Djurovic"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "SyncIt\\ApiRestLog\\": ""
+        }
+    }
+}

@@ -1,0 +1,25 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<?php
+/**
+ * Product list toolbar
+ *
+ * @var $block \Magento\Catalog\Block\Product\ProductList\Toolbar
+ */
+?>
+<div class="toolbar-sorter sorter">
+    <label class="sorter-title" for="sorter"><?= $block->escapeHtml(__('Sort by')) ?></label>
+    <div class="sorter-list">
+        <?php foreach ($block->getAvailableOrders() as $_key => $_order) :?>
+            <label class="sorter-label sorter-<?= $block->escapeHtmlAttr($_key) ?> <?php if ($block->isOrderCurrent($_key)) :?>checked<?php endif; ?>" for="sorter-<?= $block->escapeHtmlAttr($_key) ?>">
+                <?= $block->escapeHtml(__($_order)) ?>
+                <input type="radio" name="sorter" id="sorter-<?= $block->escapeHtmlAttr($_key) ?>" data-role="sorter" class="sorter-radio"
+                       data-value="<?= $block->escapeHtmlAttr($_key) ?>" <?php if ($block->isOrderCurrent($_key)) :?>checked disabled<?php endif; ?>>
+            </label>
+        <?php endforeach; ?>
+    </div>
+</div>

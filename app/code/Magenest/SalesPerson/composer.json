@@ -1,0 +1,22 @@
+{
+    "name": "magenest/module-salesperson",
+    "description": "SalesPerson",
+    "type": "magento2-module",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "hieuth",
+            "email": "hieuth@magenest.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Magenest\\SalesPerson\\": ""
+        }
+    }
+}

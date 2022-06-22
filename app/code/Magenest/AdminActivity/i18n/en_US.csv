@@ -1,0 +1,104 @@
+"Admin Activity","Admin Activity"
+"Login Activity","Login Activity"
+actions,actions
+"Something went wrong, please try again","Something went wrong, please try again"
+"Activity data has already been reverted","Activity data has already been reverted"
+"Activity data has been reverted successfully","Activity data has been reverted successfully"
+"All Store Views","All Store Views"
+View,View
+"Activity Log","Activity Log"
+"Admin Activity (ver.","Admin Activity (ver."
+") - Developed by",") - Developed by"
+"For technical support ","For technical support "
+"Contact Us","Contact Us"
+"or email us at","or email us at"
+support@magenest.com,support@magenest.com
+Back,Back
+Revert,Revert
+"See more","See more"
+New,New
+Edit,Edit
+Delete,Delete
+"Mass Delete","Mass Delete"
+"Mass Status","Mass Status"
+"Mass Edit","Mass Edit"
+"Mass Subscribe","Mass Subscribe"
+"Mass Unsubscribe","Mass Unsubscribe"
+"Mass Assign Group","Mass Assign Group"
+"Mass Disable","Mass Disable"
+"Mass Enable","Mass Enable"
+Reorder,Reorder
+Hold,Hold
+Unhold,Unhold
+Cancel,Cancel
+"Add Comment","Add Comment"
+"Mass Cancel","Mass Cancel"
+"Mass Hold","Mass Hold"
+"Mass Unhold","Mass Unhold"
+Assign,Assign
+Unassign,Unassign
+"Catalog Product","Catalog Product"
+"Catalog Categories","Catalog Categories"
+Customer,Customer
+"Customer Group","Customer Group"
+"Catalog Promotion","Catalog Promotion"
+"Cart Promotion","Cart Promotion"
+"Email Newsletter","Email Newsletter"
+"Cms Pages","Cms Pages"
+"Cms Blocks","Cms Blocks"
+"Cms Widget","Cms Widget"
+Themes,Themes
+"Themes Schedule","Themes Schedule"
+"System Configuration","System Configuration"
+"Store and Website","Store and Website"
+"Product Attributes","Product Attributes"
+"Product Attributes Set","Product Attributes Set"
+"Product Review Rating","Product Review Rating"
+"Product Review","Product Review"
+"Admin User","Admin User"
+"Admin User Role","Admin User Role"
+"Sales Order","Sales Order"
+Taxes,Taxes
+"Tax Rate","Tax Rate"
+"SEO URL Rewrites","SEO URL Rewrites"
+"SEO Search Term","SEO Search Term"
+"SEO Search Synonyms","SEO Search Synonyms"
+"SEO Sitemap","SEO Sitemap"
+"Terms and Conditions","Terms and Conditions"
+"Order Status","Order Status"
+"API Integration","API Integration"
+"Magenest Extensions","Magenest Extensions"
+"General Configuration","General Configuration"
+Enable,Enable
+"Enable Login Activity","Enable Login Activity"
+"Enable Page Visit History","Enable Page Visit History"
+"Clear Admin Activity Logs After","Clear Admin Activity Logs After"
+"Clear all admin activity logs after this days","Clear all admin activity logs after this days"
+"Allow Module","Allow Module"
+Order,Order
+Product,Product
+Category,Category
+Promotion,Promotion
+"Email Templates","Email Templates"
+Page,Page
+Block,Block
+Widget,Widget
+Theme,Theme
+"Admin user","Admin user"
+SEO,SEO
+"Store View","Store View"
+All,All
+"Action Type","Action Type"
+Date,Date
+Username,Username
+Name,Name
+"Activity Type","Activity Type"
+Module,Module
+"Full Action","Full Action"
+IP,IP
+"Request Data","Request Data"
+Item,Item
+Type,Type
+"IP Address","IP Address"
+"User Agent","User Agent"
+Status,Status

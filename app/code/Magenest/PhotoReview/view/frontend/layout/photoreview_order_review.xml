@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="customer_account"/>
+    <update handle="sales_order_info_links"/>
+    <body>
+        <referenceContainer name="content">
+            <block class="Magenest\PhotoReview\Block\Order\Items\Review" name="order_items" template="Magenest_PhotoReview::order/items/review.phtml">
+                <arguments>
+                    <argument name="items_order" xsi:type="object">Magenest\PhotoReview\ViewModel\GetReview</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+        <referenceBlock name="page_description" remove="true"/>
+        <referenceBlock name="order.date" remove="true" />
+        <referenceBlock name="sales.order.info.buttons.cancel" remove="true" />
+    </body>
+</page>

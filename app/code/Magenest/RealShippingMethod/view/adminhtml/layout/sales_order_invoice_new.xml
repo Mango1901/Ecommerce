@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="form" template="Magenest_RealShippingMethod::order/invoice_form.phtml">
+            <block class="Magento\Shipping\Block\Adminhtml\Order\Tracking\Invoice" name="real.shipping.method" template="Magenest_RealShippingMethod::order/shipping.phtml">
+                <arguments>
+                    <argument name="online_carriers" xsi:type="object">Magenest\RealShippingMethod\ViewModel\Carriers</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

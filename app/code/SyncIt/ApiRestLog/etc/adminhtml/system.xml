@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="syncit_api_rest_logger" translate="label" type="text" sortOrder="10" showInDefault="1" showInStore="1" showInWebsite="1" >
+            <label>API Rest Logger</label>
+            <tab>magenest</tab>
+            <class>syncit-settings</class>
+            <resource>Magento_Backend::content</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInStore="1" showInWebsite="1" >
+                <label>General</label>
+                <field id="enabled" translate="label" type="select" sortOrder="11" showInDefault="1" showInStore="1" showInWebsite="1" >
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="allowed_log_headers" translate="label" type="select" sortOrder="12" showInDefault="1" showInStore="1" showInWebsite="1" >
+                    <label>Allowed Log Headers</label>
+                    <comment/>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

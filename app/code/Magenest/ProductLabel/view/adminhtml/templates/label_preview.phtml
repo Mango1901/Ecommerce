@@ -1,0 +1,29 @@
+<?php
+/**
+ * @var \Magenest\ProductLabel\Block\Adminhtml\Label\Edit\Tab\Preview $block
+ */
+?>
+<div data-bind="scope:'labelPreview'" class="label">
+    <!-- ko if: isDisplay() -->
+    <div class="template mgn-template-label">
+        <!-- ko template: getTemplate() --><!-- /ko -->
+    </div>
+    <!-- /ko -->
+    <script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Ui/js/core/app": {
+                "components": {
+                    "labelPreview": {
+                        "component": "Magenest_ProductLabel/js/form/label_preview",
+                        "template": "Magenest_ProductLabel/form/label_preview",
+                        "data": <?= json_encode($block->getLabelData());?>
+                    }
+                }
+            }
+        }
+    }
+
+    </script>
+</div>
+

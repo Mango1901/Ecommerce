@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="magenest" translate="label" sortOrder="999" class="magenest-tab">
+            <label>Magenest</label>
+        </tab>
+        <section id="magenest_mobiledetect" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>MobileDetect Redirects</label>
+            <tab>magenest</tab>
+            <resource>Magenest_MobileDetect::config_system</resource>
+            <group id="general" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Redirect To Url</label>
+                <field id="enabled" translate="label comment" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enabled</label>
+                    <comment>Enables or disables extension. If this is set to yes and you get the default template from Magento then you did something wrong.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="magenest_is_mobile" translate="label comment" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Redirect to Mobile URL</label>
+                    <comment>If the user comes from mobile</comment>
+                </field>
+                <field id="magenest_is_tablet" translate="label comment" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Redirect to Tablet URL</label>
+                    <comment>If the user comes from tablet</comment>
+                </field>
+                <field id="magenest_is_desktop" translate="label comment" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Redirect to Desktop URL</label>
+                    <comment>If the user comes from desktop</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Magenest_MegaMenu::css/font-awesome.css"/>
+        <css src="Magenest_MegaMenu::js/lib/css/colorpicker.css"/>
+        <css src="Magenest_MegaMenu::css/menu.css"/>
+        <link src="Magenest_MegaMenu::js/view/input-type-number.js"/>
+        <link src="Magenest_MegaMenu::js/switch.js"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Magenest\MegaMenu\Block\Adminhtml\Menu\Edit\Tabs" name="magenest_mega_menu_tabs">
+                <!--add tab-->
+                <block class="Magenest\MegaMenu\Block\Adminhtml\Menu\Edit\Tab\General" name="magenest_mega_menu_tab_general"/>
+                <block class="Magenest\MegaMenu\Block\Adminhtml\Menu\Edit\Tab\Menu" name="magenest_mega_menu_tab_menu"/>
+                <!--add tab-->
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">magenest_mega_menu_tab_general</argument>
+                    <argument name="block" xsi:type="string">magenest_mega_menu_tab_general</argument>
+                </action>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">magenest_mega_menu_tab_menu</argument>
+                    <argument name="block" xsi:type="string">magenest_mega_menu_tab_menu</argument>
+                </action>
+            </block>
+        </referenceContainer>
+        <referenceContainer name="content">
+            <block class="Magenest\MegaMenu\Block\Adminhtml\Menu\Edit" name="megamenu_edit"/>
+        </referenceContainer>
+        <referenceBlock name="before.body.end">
+            <block class="Magenest\MegaMenu\Block\Adminhtml\Menu\Edit\SwitchPopup" name="switch-version-popup-data" />
+        </referenceBlock>
+    </body>
+</page>

@@ -1,0 +1,23 @@
+
+<?php if ($block->isGoogleEnabled()) : ?>
+    <div class=" modal-socialogin modal-google google_button_connect">
+        <span><?= __('Google') ?></span>
+    </div>
+    <?php $scriptString = <<<script
+        require(['jquery','magenestSocialLogin'],
+            function($,sociallogin){
+                $(document).ready(function () {
+                    $('.google_button_connect').bind('click',function(){
+                        var url = '{$block->getButtonUrl()}';
+                        if (url.length) {
+                            sociallogin.display(url, 'Google', 600, 600);
+                        }
+                    });
+                })
+            })
+
+   script;
+    ?>
+    <?= isset($secureRenderer) ? $secureRenderer->renderTag('script', [], $scriptString, false) : '<script>' . $scriptString . '</script>' ?>
+<?php endif; ?>
+

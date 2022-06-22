@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magenest
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magenest.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.magenest.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Magenest
+ * @package     Magenest_StoreCredit
+ * @copyright   Copyright (c) Magenest (https://www.magenest.com/)
+ * @license     https://www.magenest.com/LICENSE.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <mpstorecredit>
+            <general>
+                <enabled>1</enabled>
+                <customer_groups>1,2,3</customer_groups>
+                <top_link>1</top_link>
+                <allow_refund_exchange>1</allow_refund_exchange>
+                <allow_refund_product>1</allow_refund_product>
+            </general>
+            <spending>
+                <enabled>1,2</enabled>
+                <apply_for_product>simple,virtual,bundle,downloadable,grouped,grouped,configurable</apply_for_product>
+                <allow_refund_spending>1</allow_refund_spending>
+            </spending>
+            <email>
+                <enabled>1</enabled>
+                <subscribe_by_default>1</subscribe_by_default>
+                <sender>general</sender>
+                <balance_template>mpstorecredit_email_balance_template</balance_template>
+            </email>
+        </mpstorecredit>
+    </default>
+</config>

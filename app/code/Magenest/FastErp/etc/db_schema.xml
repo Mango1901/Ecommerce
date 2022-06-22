@@ -1,0 +1,53 @@
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="magenest_erp_history_log" resource="default" engine="innodb" comment="This is ERP - History Log table of Fast ERP extension">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true" comment="Primary key for the Table"/>
+        <column xsi:type="varchar" name="erp_id" length="100" nullable="true" default="" comment="ERP ID"/>
+        <column xsi:type="int" name="order_id" nullable="true" comment="Order ID"/>
+        <column xsi:type="int" name="type_erp" unsigned="true" nullable="false" comment="ERP Type Sync"/>
+        <column xsi:type="smallint" name="status" unsigned="true" nullable="false" default="1" comment="Status of ERP"/>
+        <column xsi:type="text" name="note" comment="Note Of ERP Sync"/>
+        <column xsi:type="datetime" name="created_at" nullable="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+
+    <table name="magenest_erp_order_queue" resource="default" engine="innodb" comment="Order Queue Table">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true" comment="Primary key for the Table"/>
+        <column xsi:type="int" name="order_id" nullable="false" comment="ERP ID"/>
+        <column xsi:type="varchar" name="increment_id" nullable="false" length="32" comment="Increment ID"/>
+        <column xsi:type="smallint" name="status" unsigned="true" nullable="false" default="1" comment="Status of ERP"/>
+        <column xsi:type="varchar" name="erp_id" length="100" nullable="true" default="" comment="ERP ID"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Created At"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Updated At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+    <table name="sales_order">
+        <column xsi:type="varchar" name="erp_id" length="100" nullable="true" default="" comment="ERP ID"/>
+    </table>
+
+    <table name="inventory_source">
+        <column xsi:type="varchar" name="erp_source_code" nullable="true" comment="ERP Source Code"/>
+    </table>
+
+    <table name="quote_item" resource="checkout" comment="Sales Flat Quote Item">
+        <column xsi:type="decimal" name="length" scale="4" precision="12" unsigned="false"
+                nullable="true" comment="Length Of Product"/>
+        <column xsi:type="decimal" name="width" scale="4" precision="12" unsigned="false"
+                nullable="true" comment="Width Of Product"/>
+        <column xsi:type="decimal" name="height" scale="4" precision="12" unsigned="false"
+                nullable="true" comment="Height Of Product"/>
+    </table>
+    <table name="sales_order_item" resource="sales" comment="Sales Flat Order Item">
+        <column xsi:type="decimal" name="length" scale="4" precision="12" unsigned="false"
+                nullable="true" comment="Length Of Product"/>
+        <column xsi:type="decimal" name="width" scale="4" precision="12" unsigned="false"
+                nullable="true" comment="Width Of Product"/>
+        <column xsi:type="decimal" name="height" scale="4" precision="12" unsigned="false"
+                nullable="true" comment="Height Of Product"/>
+    </table>
+</schema>

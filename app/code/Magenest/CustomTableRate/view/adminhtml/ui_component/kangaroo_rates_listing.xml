@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">kangaroo_rates_listing.kangaroo_rates_listing_data_source</item>
+        </item>
+    </argument>
+    <settings>
+        <spinner>kangaroo_rates_columns</spinner>
+        <deps>
+            <dep>kangaroo_rates_listing.kangaroo_rates_listing_data_source</dep>
+        </deps>
+        <buttons>
+            <button name="add">
+                <url path="*/*/new"/>
+                <class>primary</class>
+                <label translate="true">Add new</label>
+            </button>
+        </buttons>
+    </settings>
+    <listingToolbar name="listing_top">
+        <settings>
+            <sticky>true</sticky>
+        </settings>
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls"/>
+        <filters name="listing_filters" />
+        <paging name="listing_paging"/>
+    </listingToolbar>
+    <dataSource name="kangaroo_rates_listing_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <updateUrl path="mui/index/render"/>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">pk</param>
+            </storageConfig>
+        </settings>
+        <aclResource>Magenest_CustomTableRate::manage</aclResource>
+        <dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider" name="kangaroo_rates_listing_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>pk</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <!-- columns -->
+    <columns name="kangaroo_rates_columns">
+        <settings>
+            <editorConfig>
+                <param name="clientConfig" xsi:type="array">
+                    <item name="saveUrl" xsi:type="url" path="adminhtml/rates/inlineEdit"/>
+                    <item name="validateBeforeSave" xsi:type="boolean">false</item>
+                </param>
+                <param name="indexField" xsi:type="string">pk</param>
+                <param name="enabled" xsi:type="boolean">true</param>
+                <param name="selectProvider" xsi:type="string">kangaroo_rates_listing.kangaroo_rates_listing.kangaroo_rates_columns.ids</param>
+            </editorConfig>
+            <childDefaults>
+                <param name="fieldAction" xsi:type="array">
+                    <item name="provider" xsi:type="string">kangaroo_rates_listing.kangaroo_rates_listing.kangaroo_rates_columns_editor</item>
+                    <item name="target" xsi:type="string">startEdit</item>
+                    <item name="params" xsi:type="array">
+                        <item name="0" xsi:type="string">${ $.$data.rowIndex }</item>
+                        <item name="1" xsi:type="boolean">true</item>
+                    </item>
+                </param>
+            </childDefaults>
+        </settings>
+
+        <selectionsColumn name="ids">
+            <settings>
+                <indexField>pk</indexField>
+            </settings>
+        </selectionsColumn>
+
+        <!-- Column id -->
+        <column name="pk" sortOrder="10">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">ID</label>
+            </settings>
+        </column>
+
+        <!-- Column Country Code -->
+        <column name="country_code" sortOrder="20">
+            <settings>
+                <filter>select</filter>
+                <dataType>select</dataType>
+                <label translate="true">Country Code</label>
+                <options class="Magento\Directory\Model\Config\Source\Country"/>
+            </settings>
+        </column>
+
+        <!-- Column City Code -->
+        <column name="city_code" sortOrder="30">
+            <settings>
+                <filter>select</filter>
+                <dataType>select</dataType>
+                <label translate="true">City Code</label>
+                <options class="Magenest\CustomTableRate\Ui\Component\Listing\Columns\CityCode"/>
+            </settings>
+        </column>
+
+        <!-- Column District Code -->
+        <column name="district_code" sortOrder="40">
+            <settings>
+                <filter>select</filter>
+                <dataType>select</dataType>
+                <options class="Magenest\CustomTableRate\Ui\Component\Listing\Columns\DistrictCode"/>
+                <label translate="true">District Code</label>
+            </settings>
+        </column>
+
+        <!-- Column District Code -->
+        <column name="source_code" sortOrder="50">
+            <settings>
+                <filter>select</filter>
+                <dataType>select</dataType>
+                <options class="Magenest\CustomTableRate\Ui\Component\Listing\Columns\SourceCode"/>
+                <label translate="true">Source Code</label>
+            </settings>
+        </column>
+
+        <!-- Column weight -->
+        <column name="weight" sortOrder="60">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Weight</label>
+                <editor>
+                    <validation>
+                        <rule name="required-entry" xsi:type="boolean">true</rule>
+                    </validation>
+                    <editorType>text</editorType>
+                </editor>
+            </settings>
+        </column>
+
+        <!-- Column fee -->
+        <column name="fee" sortOrder="70">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Fee</label>
+                <editor>
+                    <validation>
+                        <rule name="required-entry" xsi:type="boolean">true</rule>
+                    </validation>
+                    <editorType>text</editorType>
+                </editor>
+            </settings>
+        </column>
+    </columns>
+</listing>

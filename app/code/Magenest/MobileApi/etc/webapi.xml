@@ -1,0 +1,594 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <!--Store-->
+    <route url="/V1/mobileapi/stores/home" method="GET">
+        <service class="Magenest\MobileApi\Api\StoreManagementInterface" method="getHome"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/mobileapi/stores/home-widget-bestseller/:limit/p/:page" method="GET">
+        <service class="Magenest\MobileApi\Api\StoreManagementInterface" method="getHomeWidgetBestseller"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/mobileapi/stores/home-widget-new/:limit/p/:page" method="GET">
+        <service class="Magenest\MobileApi\Api\StoreManagementInterface" method="getHomeWidgetNew"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/mobileapi/stores/locations" method="POST">
+        <service class="Magenest\MobileApi\Api\StoreManagementInterface" method="locations"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/mobileapi/stores/contact" method="POST">
+        <service class="Magenest\MobileApi\Api\StoreManagementInterface" method="contact"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <!--Order-->
+    <route url="/V1/mobileapi/orders" method="GET">
+        <service class="Magenest\MobileApi\Api\SaleManagementInterface" method="getOrders"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/mobileapi/orders/getList" method="GET">
+        <service class="Magenest\MobileApi\Api\SaleManagementInterface" method="getList"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+    </route>
+    <route url="/V1/mobileapi/orders/:id" method="GET">
+        <service class="Magento\Sales\Api\OrderRepositoryInterface" method="get"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+    </route>
+    <route url="/V1/mobileapi/orders/:orderId/shipments" method="GET">
+        <service class="Magenest\MobileApi\Api\SaleManagementInterface" method="getOrderShipments"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+    </route>
+    <route url="/V1/mobileapi/orders/:orderId/invoices" method="GET">
+        <service class="Magenest\MobileApi\Api\SaleManagementInterface" method="getOrderInvoices"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+    </route>
+
+    <!--Customer-->
+    <route url="/V1/mobileapi/customers/newsletter" method="POST">
+        <service class="Magenest\MobileApi\Api\AccountManagementInterface" method="saveNewsletter"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/mobileapi/customers/reviews" method="GET">
+        <service class="Magenest\MobileApi\Api\AccountManagementInterface" method="reviews"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/mobileapi/customers/resetPassword" method="POST">
+        <service class="Magenest\MobileApi\Api\AccountManagementInterface" method="resetPassword"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <route url="/V1/mobileapi/customers/signup" method="POST">
+        <service class="Magenest\MobileApi\Api\AccountManagementInterface" method="signUp"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <route url="/V1/mobileapi/customers/signin" method="POST">
+        <service class="Magenest\MobileApi\Api\AccountManagementInterface" method="signIn"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <route url="/V1/mobileapi/customers/update-profile" method="POST">
+        <service class="Magenest\MobileApi\Api\AccountManagementInterface" method="updateProfile"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/mobileapi/customers/update-email" method="POST">
+        <service class="Magenest\MobileApi\Api\AccountManagementInterface" method="updateEmail"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/mobileapi/customers/update-password" method="POST">
+        <service class="Magenest\MobileApi\Api\AccountManagementInterface" method="updatePassword"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/mobileapi/customers/facebookSignIn" method="POST">
+        <service class="Magenest\MobileApi\Api\AccountManagementInterface" method="facebookSignIn"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <route url="/V1/mobileapi/customers/googleSignIn" method="POST">
+        <service class="Magenest\MobileApi\Api\AccountManagementInterface" method="googleSignIn"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <route url="/V1/mobileapi/customers/appleSignIn" method="POST">
+        <service class="Magenest\MobileApi\Api\AccountManagementInterface" method="appleSignIn"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <route url="/V1/mobileapi/customers/addresses" method="POST">
+        <service class="Magento\Customer\Api\AddressRepositoryInterface" method="save"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+    </route>
+    <route url="/V1/mobileapi/customers/vatInvoice" method="POST">
+        <service class="Magenest\MobileApi\Api\AccountManagementInterface" method="saveVatInvoice"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/mobileapi/customers/vatInvoice" method="GET">
+        <service class="Magenest\MobileApi\Api\AccountManagementInterface" method="vatInvoice"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/mobileapi/customers/subscriptions/p/:page" method="GET">
+        <service class="Magenest\MobileApi\Api\AccountManagementInterface" method="recurringSubscriptions"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/mobileapi/customers/bannerslider" method="GET">
+        <service class="Magenest\MobileApi\Api\BannerSliderInterface" method="getBannerSlider"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+    </route>
+
+    <!--Cart-->
+    <route url="/V1/mobileapi/carts/promotion-gift" method="GET">
+        <service class="Magenest\MobileApi\Api\PromotionManagementInterface" method="getFreeGiftOptions"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="cartId" force="true">%cart_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/mobileapi/guest-carts/:cartId/promotion-gift" method="GET">
+        <service class="Magenest\MobileApi\Api\PromotionManagementInterface" method="getGuestFreeGiftOptions"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/mobileapi/carts/promotion-gift/add" method="POST">
+        <service class="Magenest\MobileApi\Api\PromotionManagementInterface" method="addGifts"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="cartId" force="true">%cart_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/mobileapi/guest-carts/:cartId/promotion-gift/add" method="POST">
+        <service class="Magenest\MobileApi\Api\PromotionManagementInterface" method="addGuestGifts"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <route url="/V1/mobileapi/carts/mine/payment-methods" method="GET">
+        <service class="Magenest\MobileApi\Api\CartManagementInterface" method="getPaymentMethodList"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="cartId" force="true">%cart_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/mobileapi/guest-carts/:cartId/payment-methods" method="GET">
+        <service class="Magenest\MobileApi\Api\CartManagementInterface" method="getGuestPaymentMethodList"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <route url="/V1/mobileapi/carts/merge-guest-cart" method="PUT">
+        <service class="Magenest\MobileApi\Api\CartManagementInterface" method="mergeGuestCart"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/mobileapi/guest-carts/:cartId/payment-information" method="POST">
+        <service class="Magenest\MobileApi\Api\CartManagementInterface" method="savePaymentInformationAndPlaceGuestOrder"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <route url="/V1/mobileapi/carts/mine/payment-information" method="POST">
+        <service class="Magenest\MobileApi\Api\CartManagementInterface" method="savePaymentInformationAndPlaceOrder"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="cartId" force="true">%cart_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/mobileapi/guest-carts/:cartId/item/:itemId" method="GET">
+        <service class="Magenest\MobileApi\Api\CartManagementInterface" method="guestItemProduct"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <route url="/V1/mobileapi/carts/mine/item/:itemId" method="GET">
+        <service class="Magenest\MobileApi\Api\CartManagementInterface" method="itemProduct"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="cartId" force="true">%cart_id%</parameter>
+        </data>
+    </route>
+
+    <!--Catalog-->
+    <route url="/V1/mobileapi/product/viewed" method="GET">
+        <service class="Magenest\MobileApi\Api\ProductManagementInterface" method="viewed"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <route url="/V1/mobileapi/product/review" method="POST">
+        <service class="Magenest\MobileApi\Api\ProductManagementInterface" method="saveReview"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <route url="/V1/mobileapi/products" method="GET">
+        <service class="Magenest\MobileApi\Api\ProductManagementInterface" method="getList"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/store/:storeId/products/:productId/reviews" method="GET">
+        <service class="Magenest\MobileApi\Api\ProductReviewsInterface" method="getProductReviewsById"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/mobileapi/products/search/:searchTerm" method="GET">
+        <service class="Magenest\MobileApi\Api\ProductManagementInterface" method="search"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/mobileapi/products/salableqty" method="POST">
+        <service class="Magenest\MobileApi\Api\ProductGetSalableQtyInterface" method="getQty"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/mobileapi/products/links" method="GET">
+        <service class="Magenest\MobileApi\Api\ProductManagementInterface" method="getLinks"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/mobileapi/products/upsell" method="GET">
+        <service class="Magenest\MobileApi\Api\ProductManagementInterface" method="getUpsell"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <!--Search-->
+    <route url="/V1/mobileapi/search/suggest/:searchTerm" method="GET">
+        <service class="Magenest\MobileApi\Api\ProductManagementInterface" method="searchSuggest"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/mobileapi/search/popular/:storeId" method="GET">
+        <service class="Magenest\MobileApi\Api\ProductManagementInterface" method="searchPopular"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/mobileapi/products/:sku" method="GET">
+        <service class="Magento\Catalog\Api\ProductRepositoryInterface" method="get"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/mobileapi/products/id/:productId" method="GET">
+        <service class="Magento\Catalog\Api\ProductRepositoryInterface" method="getById"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/mobileapi/configurable-products/:sku/children" method="GET">
+        <service class="Magento\ConfigurableProduct\Api\LinkManagementInterface" method="getChildren"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/mobileapi/products/stock/:productId" method="GET">
+        <service class="Magento\CatalogInventory\Api\StockRegistryInterface" method="getStockItem"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/mobileapi/categories/:categoryId/products" method="GET">
+        <service class="Magenest\MobileApi\Api\CategoryManagementInterface" method="getAssignedProducts"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <!--Affiliate-->
+    <route url="/V1/affiliate/programs" method="GET">
+        <service class="Magenest\MobileApi\Api\AffiliateManagementInterface" method="programs"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/affiliate/account" method="GET">
+        <service class="Magenest\MobileApi\Api\AffiliateManagementInterface" method="account"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/affiliate/promo" method="GET">
+        <service class="Magenest\MobileApi\Api\AffiliateManagementInterface" method="promo"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/affiliate/widget" method="POST">
+        <service class="Magenest\MobileApi\Api\AffiliateManagementInterface" method="saveWidget"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/affiliate/traffic" method="GET">
+        <service class="Magenest\MobileApi\Api\AffiliateManagementInterface" method="traffic"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/affiliate/withdrawals" method="GET">
+        <service class="Magenest\MobileApi\Api\AffiliateManagementInterface" method="withdrawals"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/affiliate/withdrawals/request/:amount" method="POST">
+        <service class="Magenest\MobileApi\Api\AffiliateManagementInterface" method="requestWithdrawals"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/affiliate/withdrawals/repeat/:withdrawalId" method="POST">
+        <service class="Magenest\MobileApi\Api\AffiliateManagementInterface" method="repeatWithdrawals"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/affiliate/withdrawals/cancel/:withdrawalId" method="POST">
+        <service class="Magenest\MobileApi\Api\AffiliateManagementInterface" method="cancelWithdrawals"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/affiliate/saveSettings" method="POST">
+        <service class="Magenest\MobileApi\Api\AffiliateManagementInterface" method="saveSettings"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <!--=====================================================================-->
+    <!-- filter -->
+    <route url="/V1/mobileapi/filter/category/:categoryId" method="GET">
+        <service class="Magenest\MobileApi\Api\Filter\FilterManagementInterface" method="getCategoryFilters"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/mobileapi/filter/search/:searchTerm" method="GET">
+        <service class="Magenest\MobileApi\Api\Filter\FilterManagementInterface" method="getSearchFilters"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <route url="/V1/mobileapi/wishlist/items" method="GET">
+        <service class="Magenest\MobileApi\Api\Wishlist\WishlistManagementInterface" method="getWishlistForCustomer"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/mobileapi/wishlist/info" method="GET">
+        <service class="Magenest\MobileApi\Api\Wishlist\WishlistManagementInterface" method="getWishlistInfo"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/mobileapi/wishlist/add/" method="POST">
+        <service class="Magenest\MobileApi\Api\Wishlist\WishlistManagementInterface" method="addWishlistForCustomer"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/mobileapi/wishlist/delete/:wishlistItemId" method="DELETE">
+        <service class="Magenest\MobileApi\Api\Wishlist\WishlistManagementInterface" method="deleteWishlistForCustomer"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <!--  Customer Address  -->
+    <route url="/V1/mobileapi/customers/addDeliveryAddress" method="POST">
+        <service class="Magenest\MobileApi\Api\UserManagementInterface" method="addDeliveryAddress"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/mobileapi/getVNAvailableLocations" method="GET">
+        <service class="Magenest\MobileApi\Api\UserManagementInterface" method="getVNAvailableLocations"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+    </route>
+    <route url="/V1/mobileapi/getVNDistrictsByCity" method="GET">
+        <service class="Magenest\MobileApi\Api\UserManagementInterface" method="getVNDistrictsByCity"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+    </route>
+    <route url="/V1/mobileapi/getVNWardsByDistrict" method="GET">
+        <service class="Magenest\MobileApi\Api\UserManagementInterface" method="getVNWardsByDistrict"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+    </route>
+    <!--  Product Review  -->
+    <route url="/V1/mobileapi/reviews" method="POST">
+        <service class="Magenest\MobileApi\Api\ReviewRepositoryInterface" method="save"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <route url="/V1/mobileapi/customers/me" method="PUT" soapOperation="saveSelf">
+        <service class="Magenest\MobileApi\Api\AccountManagementInterface" method="saveCustomerInformation"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customer.id" force="true">%customer_id%</parameter>
+            <parameter name="customer.group_id" force="true">%customer_group_id%</parameter>
+            <parameter name="customer.website_id" force="true">%customer_website_id%</parameter>
+            <parameter name="customer.store_id" force="true">%customer_store_id%</parameter>
+        </data>
+    </route>
+</routes>

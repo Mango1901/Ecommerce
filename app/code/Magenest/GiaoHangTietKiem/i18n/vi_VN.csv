@@ -1,0 +1,6 @@
+"Submit GHTK","Tạo vận đơn GHTK"
+"Unable to submit Giao Hang Tiet Kiem for order: %1. Error: %2","Không thể tạo vận đơn GHTK cho đơn hàng: %1. Lỗi: %2"
+"Create Giao Hang Tiet Kiem Order Fail: %1","Lỗi xảy ra khi tạo vận đơn GiaoHangTietKiem: %1"
+"Create Giao Hang Tiet Kiem Order %1 Fail: %2","Lỗi tạo vận đơn GiaoHangTietKiem cho đơn hang %1: %2"
+"Cannot find GiaoHangTietKiem hamlet details for this order","Không tìm thấy địa chỉ GiaoHangTietKiem cấp 4 cho đơn hàng này"
+"Create Giao Hang Tiet Kiem Order %1 Success","Tạo vận đơn GiaoHangTietKiem cho đơn hàng %1 thành công"

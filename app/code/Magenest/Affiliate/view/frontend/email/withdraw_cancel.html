@@ -1,0 +1,11 @@
+<!--@subject {{trans "Withdraw Cancel"}} @-->
+<!--@vars {
+"var customer.name":"Account Name"
+} @-->
+
+{{template config_path="design/email/header_template"}}
+
+<p class="greeting">Dear {{trans "%name," name=$customer.name}}</p>
+<p>{{trans "Your withdrawal request is called off"}}</p>
+
+{{template config_path="design/email/footer_template"}}

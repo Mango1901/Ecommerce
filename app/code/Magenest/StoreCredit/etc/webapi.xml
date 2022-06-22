@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magenest
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magenest.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.magenest.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Magenest
+ * @package     Magenest_StoreCredit
+ * @copyright   Copyright (c) Magenest (https://www.magenest.com/)
+ * @license     https://www.magenest.com/LICENSE.txt
+ */
+-->
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <route url="/V1/mpStoreCredit/mine/spending" method="POST">
+        <service class="Magenest\StoreCredit\Api\SpendingManagementInterface" method="spend"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="cartId" force="true">%cart_id%</parameter>
+        </data>
+    </route>
+
+    <!--=========================================== STORE CREDIT CUSTOMER =================================================-->
+    <route url="/V1/mpStoreCredit/customers" method="GET">
+        <service class="Magenest\StoreCredit\Api\StoreCreditCustomerRepositoryInterface" method="getList"/>
+        <resources>
+            <resource ref="Magenest_StoreCredit::storecredit"/>
+        </resources>
+    </route>
+    <route url="/V1/mpStoreCredit/mine/customer" method="GET">
+        <service class="Magenest\StoreCredit\Api\StoreCreditCustomerRepositoryInterface" method="getAccountByCustomerId"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/mpStoreCredit/mine/notification" method="POST">
+        <service class="Magenest\StoreCredit\Api\StoreCreditCustomerRepositoryInterface" method="updateNotification"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+
+    <!--=========================================== TRANSACTIONS =================================================-->
+    <route url="/V1/mpStoreCredit/transactions" method="GET">
+        <service class="Magenest\StoreCredit\Api\TransactionRepositoryInterface" method="getList"/>
+        <resources>
+            <resource ref="Magenest_StoreCredit::transaction"/>
+        </resources>
+    </route>
+    <route url="/V1/mpStoreCredit/mine/transaction" method="GET">
+        <service class="Magenest\StoreCredit\Api\TransactionRepositoryInterface" method="getTransactionByCustomerId"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+        <data>
+            <parameter name="customerId" force="true">%customer_id%</parameter>
+        </data>
+    </route>
+    <route url="/V1/mpStoreCredit/transactions" method="POST">
+        <service class="Magenest\StoreCredit\Api\TransactionRepositoryInterface" method="create"/>
+        <resources>
+            <resource ref="Magenest_StoreCredit::transaction"/>
+        </resources>
+    </route>
+</routes>

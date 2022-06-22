@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Copyright 2016 aheadWorks. All rights reserved.
+* See LICENSE.txt for license details.
+*/
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magento_Reports::report">
+                    <resource id="Aheadworks_AdvancedReports::main" title="Advanced Reports by aheadWorks" sortOrder="999">
+                        <resource id="Aheadworks_AdvancedReports::reports_salesoverview" title="Sales Overview" sortOrder="10" />
+                        <resource id="Aheadworks_AdvancedReports::reports_productperformance" title="Product Performance" sortOrder="20" />
+                        <resource id="Aheadworks_AdvancedReports::reports_productvariantperformance" title="Product Variant Performance" sortOrder="30" />
+                        <resource id="Aheadworks_AdvancedReports::reports_salesdetailed" title="Sales Detailed" sortOrder="40" />
+                        <resource id="Aheadworks_AdvancedReports::reports_category" title="Sales by Category" sortOrder="50" />
+                        <resource id="Aheadworks_AdvancedReports::reports_couponcode" title="Sales by Coupon Code" sortOrder="60" />
+                        <resource id="Aheadworks_AdvancedReports::reports_paymenttype" title="Sales by Payment Type" sortOrder="70" />
+                        <resource id="Aheadworks_AdvancedReports::reports_manufacturer" title="Sales by Manufacturer" sortOrder="80" />
+                    </resource>
+                </resource>
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Aheadworks_AdvancedReports::settings" title="Advanced Reports" />
+                        </resource>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

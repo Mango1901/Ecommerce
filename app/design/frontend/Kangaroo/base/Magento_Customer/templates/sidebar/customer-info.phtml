@@ -1,0 +1,33 @@
+<?php
+/** @var \Magenest\Customer\Block\AccountInfo $block */
+/** @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer */
+/** @var \Magento\Framework\Escaper $escaper */
+?>
+
+<?php ?>
+<div class="customer-inner">
+    <img class="customer-avt" src="<?= $escaper->escapeUrl($block->getCustomerAvatarUrl()) ?>" alt="default">
+    <div class="customer-info">
+        <span class="customer-name"><?= $block->getCustomerFullName() ?></span>
+        <a href="<?= $block->getUrlCustomerEdit() ?>" class="customer-edit"><?= __('Edit profile') ?></a>
+    </div>
+</div>
+
+<?php
+$scriptString = <<<script
+
+    require(['jquery'], function($){
+        let blockSidebarTitle = $('.block-collapsible-nav-content .nav.items > .nav.item > a');
+        let blockSidebarContent = $('.block-collapsible-nav-content .nav.child');
+
+        blockSidebarTitle.on('click', function () {
+            $(this).siblings('.nav.child').slideToggle();
+        })
+
+        $('.nav.item.current').children('.nav.child').slideToggle();
+    });
+
+script;
+?>
+<?= /* @noEscape */ $secureRenderer->renderTag('script', [], $scriptString, false) ?>
+

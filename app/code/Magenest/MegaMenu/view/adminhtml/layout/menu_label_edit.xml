@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <!--<update handle="editor"/>-->
+    <head>
+        <css src="Magenest_MegaMenu::css/font-awesome.css"/>
+        <css src="Magenest_MegaMenu::js/lib/css/colorpicker.css"/>
+        <css src="Magenest_MegaMenu::css/menu.css"/>
+        <link src="Magenest_MegaMenu::js/view/label_preview.js"/>
+        <link src="Magenest_MegaMenu::js/view/input-type-number.js"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Magenest\MegaMenu\Block\Label" name="menu_label" template="Magenest_MegaMenu::label/label.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

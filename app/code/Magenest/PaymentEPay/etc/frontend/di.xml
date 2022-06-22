@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Checkout\Model\CompositeConfigProvider">
+        <arguments>
+            <argument name="configProviders" xsi:type="array">
+                <item name="magenest_epay_config_provider" xsi:type="object">Magenest\PaymentEPay\Model\Ui\DomesticConfigProvider</item>
+                <item name="magenest_epay_qr_config_provider" xsi:type="object">Magenest\PaymentEPay\Model\Ui\QRPaymentConfigProvider</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magenest\PaymentEPay\Model\Ui\DomesticConfigProvider">
+        <arguments>
+            <argument name="config" xsi:type="object">PaymentGatewayConfig</argument>
+        </arguments>
+    </type>
+
+    <type name="Magenest\PaymentEPay\Controller\Payment\Response">
+        <arguments>
+            <argument name="config" xsi:type="object">PaymentGatewayConfig</argument>
+            <argument name="commandPool" xsi:type="object">PaymentCommandPool</argument>
+        </arguments>
+    </type>
+
+    <type name="Magenest\PaymentEPay\Controller\Payment\QRPaymentIPN">
+        <arguments>
+            <argument name="config" xsi:type="object">QRPaymentGatewayConfig</argument>
+            <argument name="commandPool" xsi:type="object">QRPaymentCommandPool</argument>
+        </arguments>
+    </type>
+
+    <type name="Magenest\PaymentEPay\Controller\Payment\ResponseIS">
+        <arguments>
+            <argument name="config" xsi:type="object">ISPaymentGatewayConfig</argument>
+            <argument name="commandPool" xsi:type="object">ISPaymentCommandPool</argument>
+        </arguments>
+    </type>
+
+    <type name="Magenest\PaymentEPay\Controller\Payment\ResponseRepayment">
+        <arguments>
+            <argument name="config" xsi:type="object">PaymentGatewayConfig</argument>
+            <argument name="commandPool" xsi:type="object">PaymentCommandPool</argument>
+        </arguments>
+    </type>
+
+    <type name="Magenest\PaymentEPay\Model\Ui\QRPaymentConfigProvider">
+        <arguments>
+            <argument name="config" xsi:type="object">QRPaymentGatewayConfig</argument>
+        </arguments>
+    </type>
+
+    <type name="Magenest\PaymentEPay\Model\Ui\ISPaymentConfigProvider">
+        <arguments>
+            <argument name="config" xsi:type="object">ISPaymentGatewayConfig</argument>
+        </arguments>
+    </type>
+</config>

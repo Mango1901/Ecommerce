@@ -1,0 +1,117 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+namespace Magenest\OrderManagement\Setup;
+
+use Magento\Framework\Setup\InstallDataInterface;
+use Magento\Framework\Setup\ModuleContextInterface;
+use Magento\Framework\Setup\ModuleDataSetupInterface;
+use Magenest\OrderManagement\Model\Order;
+use Magento\Sales\Model\Order\StatusFactory;
+use Magento\Sales\Model\ResourceModel\Order\Status as StatusResource;
+use Magento\Sales\Setup\SalesSetupFactory;
+
+/**
+ * Class InstallData
+ * @package Magenest\OrderManagement\Setup
+ */
+class InstallData implements InstallDataInterface
+{
+    /**
+     * @var StatusFactory
+     */
+    protected $_statusFactory;
+
+    /**
+     * @var StatusResource
+     */
+    protected $_statusResource;
+
+    /**
+     * @var SalesSetupFactory
+     */
+    protected $salesSetupFactory;
+
+    /**
+     * Constructor.
+     *
+     * @param StatusFactory $statusFactory
+     * @param StatusResource $statusResource
+     * @param SalesSetupFactory $salesSetupFactory
+     */
+    function __construct(
+        StatusFactory $statusFactory,
+        StatusResource $statusResource,
+        SalesSetupFactory $salesSetupFactory
+    ) {
+        $this->_statusFactory = $statusFactory;
+        $this->_statusResource = $statusResource;
+        $this->salesSetupFactory = $salesSetupFactory;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function install(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
+    {
+        /** Add new status */
+        $statuses = [
+            Order::WAIT_SUPPLIER_CODE => Order:: WAIT_SUPPLIER_LABEL,
+            Order::SUPPLIER_CONFIRMED_CODE => Order::SUPPLIER_CONFIRMED_LABEL,
+            Order::SUPPLIER_REJECTED_CODE => Order::SUPPLIER_REJECTED_LABEL,
+            Order::RECEIVED_GOODS_CODE => Order::RECEIVED_GOODS_LABEL,
+            Order::CONFIRMED_WAREHOUSE_SALES_CODE => Order::CONFIRMED_LABEL,
+            Order::CONFIRMED_PAID_CODE => Order::CONFIRMED_PAID_LABEL,
+            Order::NEED_WAREHOUSE_CONFIRM_CODE => Order::NEED_WAREHOUSE_CONFIRM_LABEL,
+            Order::NEED_CONFIRM_REIMBURSEMENT_CODE => Order::NEED_CONFIRM_REIMBURSEMENT_LABEL,
+            Order::REIMBURSED_CODE => Order::REIMBURSED_LABEL
+        ];
+        $states = [
+            'new' => [Order::WAIT_SUPPLIER_CODE => false, Order::SUPPLIER_CONFIRMED_CODE => false, Order::SUPPLIER_REJECTED_CODE => false, Order::RECEIVED_GOODS_CODE => false],
+            'processing' => [Order::CONFIRMED_WAREHOUSE_SALES_CODE => false, Order::CONFIRMED_PAID_CODE => false],
+            'closed' => [Order::NEED_WAREHOUSE_CONFIRM_CODE => false, Order::NEED_CONFIRM_REIMBURSEMENT_CODE => false, Order::REIMBURSED_CODE => false]
+        ];
+
+        foreach ($statuses as $code => $label) {
+            /** @var \Magento\Sales\Model\Order\Status $status */
+            $status = $this->_statusFactory->create();
+            $status->setData(['status' => $code, 'label' => $label]);
+            $this->_statusResource->save($status);
+        }
+
+        foreach ($states as $state => $statuses) {
+            foreach ($statuses as $statusCode => $isDefault) {
+                $this->assignState($statusCode, $state, $isDefault);
+            }
+        }
+
+        $this->assignState('processing', 'processing', true);
+
+        /** Add sales attribute */
+        /** @var \Magento\Sales\Setup\SalesSetup $salesInstaller */
+        $salesInstaller = $this->salesSetupFactory->create(['resourceName' => 'sales_setup', 'setup' => $setup]);
+        $salesInstaller->addAttribute('order', 'confirmed_person_name', ['type' => 'varchar']);
+        $salesInstaller->addAttribute('order', 'warehouse', ['type' => 'varchar']);
+        $salesInstaller->addAttribute('order', 'confirmed_at', ['type' => 'datetime']);
+        $salesInstaller->addAttribute('order', 'confirm_paid_at', ['type' => 'datetime']);
+        $salesInstaller->addAttribute('order', 'received_goods_at', ['type' => 'datetime']);
+    }
+
+    /**
+     * Assign state
+     *
+     * @param string $statusCode
+     * @param string $state
+     * @param bool $isDefault
+     * @throws \Exception
+     */
+    public function assignState($statusCode, $state, $isDefault)
+    {
+        /** @var \Magento\Sales\Model\Order\Status $statusModel */
+        $statusModel = $this->_statusFactory->create();
+        $this->_statusResource->load($statusModel, $statusCode);
+        $statusModel->assignState($state, $isDefault, false);
+    }
+}

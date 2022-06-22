@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magenest
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magenest.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.magenest.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Magenest
+ * @package     Magenest_StoreCredit
+ * @copyright   Copyright (c) Magenest (https://www.magenest.com/)
+ * @license     https://www.magenest.com/LICENSE.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Sales:etc/sales.xsd">
+    <section name="quote">
+        <group name="totals">
+            <item name="mp_store_credit_spent" instance="Magenest\StoreCredit\Model\Total\Quote\Credit" sort_order="600"/>
+        </group>
+    </section>
+    <section name="order_invoice">
+        <group name="totals">
+            <item name="mp_store_credit_invoice" instance="Magenest\StoreCredit\Model\Total\Invoice\Credit" sort_order="500"/>
+        </group>
+    </section>
+    <section name="order_creditmemo">
+        <group name="totals">
+            <item name="mp_store_credit_creditmemo" instance="Magenest\StoreCredit\Model\Total\Creditmemo\Credit" sort_order="500"/>
+        </group>
+    </section>
+</config>

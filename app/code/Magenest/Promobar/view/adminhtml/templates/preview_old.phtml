@@ -1,0 +1,244 @@
+<?php if ($id = $this->getRequest()->getParam('id')): ?>
+    <?php $bar = $this->getBarById($id);
+    $backgroundImage = $this->getBarImageUrl($bar);
+    $editBackground = $this->getInfoEditBackground($bar);
+    $dataProBar = $this->getDataPromoBar($bar);
+
+    //Get data of promobar
+    $heightProBar = $bar->getData('height-pro-bar');
+    $height = $editBackground['height'];
+    $width = $editBackground['width'];
+    $left_right = $editBackground['left-right'];
+    $up_down = $editBackground['up-down'];
+    $opacity = $editBackground['opacity'];
+    ?>
+    <div class="area-bar-preview" id="area-preview">
+        <div class="" id="bar-preview">
+            <div class="promobar" id="promobar-container" style="height: <?= $heightProBar . 'px'; ?>;">
+                <span id="close"></span>
+                <a href="#" class="img-responsive"
+                   style="height:<?= $height . '%'; ?>;
+                           width:<?= $width . '%'; ?>;
+                           left:<?= $left_right . '%'; ?>;
+                           top:<?= $up_down . '%'; ?>;
+                           opacity:<?= $opacity; ?>;">
+                    <img alt="" src="<?= $backgroundImage ?>" id="img_temp">
+                </a>
+                <div class="text" id="text-container"
+                     style="display:block;">
+                    <h1></h1>
+                    <span class="bar-button" id="button-container" style="display:block; margin-top:-30px;">
+                            <a id="url-button" target="_blank" href="">
+					        <button class="btn btn-default btn-promo-bar"
+                                    style="padding:0">
+                                <div class="promobutton" id="promobutton-container">
+                                    <div class="text-button" id="text-container-button"
+                                         style="padding-right: 5px"</div>
+                </div>
+                </button>
+                </a>
+                </span>
+            </div>
+        </div>
+    </div>
+    </div>
+<?php else:?>
+    <div class="area-bar-preview" id="area-preview">
+        <div class="" id="bar-preview">
+            <div class="promobar" id="promobar-container">
+
+                <a href="#" class="img-responsive">
+                    <img alt="" src="" id="img_temp">
+                    <span id="close"></span>
+                </a>
+                <span id="close"></span>
+                <div class="text" id="text-container" style="display:block;  margin-top:-30px;">
+                    <h1></h1>
+                    <span class="bar-button" id="button-container" style="float:right; display:none; margin-top:-65px;">
+                            <a id="url-button" target="_blank" href="">
+					        <button class="btn btn-default btn-promo-bar" style="padding:0">
+                                <div class="promobutton" id="promobutton-container">
+                                    <div class="text-button" id="text-container-button" style="padding-right: 5px"></div>
+                                </div>
+                            </button>
+                            </a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif ?>
+<script type="text/javascript">
+    require([
+        'jquery',
+    ], function ($) {
+        var id='#content-0';
+        $(document).on('click', 'tr.table-multiple-content-row', function (i) {
+            if (i.target.textContent != 'Delete' && i.target.className != "magenest-multiple-content-button-delete") {
+                id = '#content-' + i.target.parentNode.attributes.id.value;
+            }
+        });
+        $(document).on('click', 'button.add-option', function () {
+            var idLastRow = $('.add-option').attr('id');
+            id = '#content-'+idLastRow;
+        });
+
+
+        $(window).load(function () {
+
+            $("#content").change(function () {
+                updateContent(id);
+            });
+
+            $("#url").change(function () {
+                updateUrl();
+            });
+
+            $("#effect").click(function () {
+                updateEffect();
+            });
+
+            $("#size").change(function () {
+                updateSize();
+            });
+
+            $("#allow_closed").change(function () {
+                updateButtonClose();
+            });
+
+            $("#display_type").click(function () {
+                updateDisplayType();
+            });
+
+            <?php if($this->getRequest()->getParam('id')): ?>
+            updateContent();
+            updateEffect();
+            updateUrl();
+            updateSize();
+            updateButtonClose();
+            updateDisplayType();
+            <?php endif ?>
+
+            //change position of field preview when admin scroll page
+            var previewOffset = $('#area-preview').offset();
+            var topOffset = previewOffset.top - 57.58522033691406;
+
+            $(window).scroll(function () {
+                var checkbox_right = document.getElementById('check-range-right');
+                var checkbox_left = document.getElementById('check-range-left');
+                if ($(this).scrollTop() >= topOffset) {
+                    $('#container').addClass('preview-move');
+                    if (checkbox_left.checked) {
+                        var margin_left1 = $('.input-range-left').val();
+                        $('.bar-button').css('margin-left', margin_left1 + '%');
+                    }
+                    if (checkbox_right.checked) {
+                        var margin_right1 = $('.input-range-right').val();
+                        $('.bar-button').css('margin-right', margin_right1 + '%');
+                    }
+                } else {
+                    $('#container').removeClass('preview-move');
+                    if (checkbox_left.checked) {
+                        var margin_left = $('.input-range-left').val();
+                        var value_left = parseInt(margin_left) - 3;
+                        $('.bar-button').css('margin-left', value_left + '%');
+                    }
+                    if (checkbox_right.checked) {
+                        var margin_right = $('.input-range-right').val();
+                        var value_right = parseInt(margin_right) - 3;
+                        $('.bar-button').css('margin-right', value_right + '%');
+                    }
+                }
+            });
+        });
+    });
+
+    function updateContent(idContent) {
+        require([
+            'jquery',
+        ], function ($) {
+            var size = $("#size").val();
+            var textSize = $("#content").val();
+            if (size) {
+                size = size + 'px';
+                textSize = textSize.replace("xx-small", "small");
+                textSize = textSize.replace("x-small", "small");
+                textSize = textSize.replace("small", size);
+                textSize = textSize.replace("medium", size);
+                textSize = textSize.replace("xx-large", "large");
+                textSize = textSize.replace("x-large", "large");
+                textSize = textSize.replace("large", size);
+            }
+            $('#text-container h1').html(textSize);
+            $(idContent).html(textSize);
+        });
+    }
+
+
+    function updateUrl() {
+        require([
+            'jquery',
+        ], function ($) {
+            var url = $("#url").val();
+            $('#url-button').attr('href', url);
+
+        });
+    }
+
+    function updateEffect() {
+        require([
+            'jquery',
+        ], function ($) {
+            var effect = $("#effect").val();
+            $('#promobar-container').attr('class', 'promobar');
+            $('#promobar-container').addClass(effect);
+        });
+    }
+
+    function updateSize() {
+        require([
+            'jquery',
+        ], function ($) {
+            var size = $("#size").val() + 'px';
+            var textSize = $("#content").val();
+            textSize = textSize.replace("xx-small", "small");
+            textSize = textSize.replace("x-small", "small");
+            textSize = textSize.replace("small", size);
+            textSize = textSize.replace("medium", size);
+            textSize = textSize.replace("xx-large", "large");
+            textSize = textSize.replace("x-large", "large");
+            textSize = textSize.replace("large", size);
+            $('#text-container h1').html(textSize);
+            $('#text-container h1').css('font-size', size)
+        });
+    }
+
+    function updateButtonClose() {
+        require([
+            'jquery',
+        ], function ($) {
+            var statusButton = $("#allow_closed").val();
+            if (statusButton == 0) {
+                $('#close').text('');
+            } else {
+                $('#close').text('x');
+            }
+
+        });
+    }
+
+
+    function updateDisplayType() {
+        require([
+            'jquery',
+        ], function ($) {
+            var value = $("#display_type").val();
+            if(value !=='none') {
+                $("#bar-preview").attr("class", "").addClass("wow " + value + " animated").one("webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend", function () {
+                    $(this).attr("class", "");
+                });
+            }
+        });
+    }
+
+</script>

@@ -1,0 +1,123 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+use Magento\Framework\App\Action\Action;
+use Magenest\Core\Helper\CatalogHelper;
+// @codingStandardsIgnoreFile
+
+/** @var \Magento\CatalogWidget\Block\Product\ProductsList $block */
+?>
+<?php if ($exist = ($block->getProductCollection() && $block->getProductCollection()->getSize())): ?>
+    <?php
+    $type = 'widget-product-grid';
+
+    $mode = 'grid';
+
+    $image = 'new_products_content_widget_grid';
+    $items = $block->getProductCollection()->getItems();
+
+    $showWishlist = true;
+    $showCompare = false;
+    $showCart = false;
+    $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+    $description = false;
+    $pathMedia = $this->helper('\Magento\Cms\Helper\Wysiwyg\Images')->getBaseUrl()
+    ?>
+    <div class="block widget block-products-list product-slider-widget no-showmore <?= /* @noEscape */ $mode ?>">
+        <?php if ($block->getTitle()): ?>
+            <div class="block-title">
+                <span class="h5-mi-des-bk"><?= $block->escapeHtml(__($block->getTitle())) ?></span>
+            </div>
+        <?php endif; ?>
+        <div class="block-content">
+            <?= /* @noEscape */ '<!-- ' . $image . '-->' ?>
+            <div class="products-<?= /* @noEscape */ $mode ?> <?= /* @noEscape */ $mode ?>">
+                <ol class="product-items owl-carousel <?= /* @noEscape */ $type ?>">
+                    <?php $iterator = 1; ?>
+                    <?php foreach ($items as $_item): ?>
+                        <?= /* @noEscape */ ($iterator++ == 1) ? '<li class="product-item">' : '</li><li class="product-item">' ?>
+                        <div class="product-item-info">
+                            <div class="product-info-top">
+                                <div class="product-labels">
+                                    <?php if ($sale = CatalogHelper::getSalesPercent($_item)): ?>
+		                                <span class="label label-discount">
+		                                    <span class="text-sm-mi-des-wh"><?= '-' . $sale . '%' ?></span>
+		                                </span>
+                                    <?php endif; ?>
+                                    <?php if (CatalogHelper::isProductNew($_item)): ?>
+		                                <span class="label label-new">
+			                                <span class="text-sm-mi-des-wh"><?= __('New') ?></span>
+			                            </span>
+                                    <?php endif; ?>
+                                </div>
+                                <a href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>" class="product-item-photo">
+                                    <?= $block->getImage($_item, $image)->toHtml() ?>
+                                </a>
+                            </div>
+                            <div class="product-item-details">
+                                <strong class="product-item-name">
+                                    <a title="<?= $block->escapeHtml($_item->getName()) ?>"
+                                       href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
+                                       class="product-item-link text-md-mi-des-bk">
+                                        <?= $block->escapeHtml($_item->getName()) ?>
+                                    </a>
+                                </strong>
+
+                                <?= $block->getProductPriceHtml($_item, $type) ?>
+
+                                <?= $block->getProductDetailsHtml($_item) ?>
+                            </div>
+                        </div>
+                        <?php if ($showWishlist || $showCompare || $showCart): ?>
+                            <div class="product-item-actions">
+                                <?php if ($showCart): ?>
+                                    <div class="actions-primary">
+                                        <?php if ($_item->isSaleable()): ?>
+                                            <?php $postParams = $block->getAddToCartPostParams($_item); ?>
+                                            <form data-role="tocart-form" data-product-sku="<?= $block->escapeHtml($_item->getSku()) ?>" action="<?= /* @NoEscape */ $postParams['action'] ?>" method="post">
+                                                <input type="hidden" name="product" value="<?= /* @escapeNotVerified */ $postParams['data']['product'] ?>">
+                                                <input type="hidden" name="<?= /* @escapeNotVerified */ Action::PARAM_NAME_URL_ENCODED ?>" value="<?= /* @escapeNotVerified */ $postParams['data'][Action::PARAM_NAME_URL_ENCODED] ?>">
+                                                <?= $block->getBlockHtml('formkey') ?>
+                                                <button type="submit"
+                                                        title="<?= $block->escapeHtml(__('Add to Cart')) ?>"
+                                                        class="action tocart primary">
+                                                    <span><?= /* @escapeNotVerified */ __('Add to Cart') ?></span>
+                                                </button>
+                                            </form>
+                                        <?php else: ?>
+                                            <?php if ($_item->getIsSalable()): ?>
+                                                <div class="stock available"><span><?= $block->escapeHtml(__('In stock')) ?></span></div>
+                                            <?php else: ?>
+                                                <div class="stock unavailable"><span><?= $block->escapeHtml(__('Out of stock')) ?></span></div>
+                                            <?php endif; ?>
+                                        <?php endif; ?>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if ($showWishlist || $showCompare): ?>
+                                    <div class="actions-secondary" data-role="add-to-links">
+                                        <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && $showWishlist): ?>
+                                            <a href="#"
+                                               data-post='<?= /* @noEscape */ $block->getAddToWishlistParams($_item) ?>' class="action towishlist" data-action="add-to-wishlist" title="<?= $block->escapeHtmlAttr(__('Add to Wish List')) ?>">
+                                                <span><?= $block->escapeHtml(__('Add to Wish List')) ?></span>
+                                            </a>
+                                        <?php endif; ?>
+                                        <?php if ($block->getAddToCompareUrl() && $showCompare): ?>
+                                            <?php $compareHelper = $this->helper('Magento\Catalog\Helper\Product\Compare');?>
+                                            <a href="#" class="action tocompare" data-post='<?= /* @noEscape */ $compareHelper->getPostDataParams($_item) ?>' title="<?= $block->escapeHtmlAttr(__('Add to Compare')) ?>">
+                                                <span><?= $block->escapeHtml(__('Add to Compare')) ?></span>
+                                            </a>
+                                        <?php endif; ?>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        <?php endif; ?>
+                        <?= ($iterator == count($items) + 1) ? '</li>' : '' ?>
+                    <?php endforeach ?>
+                </ol>
+            </div>
+            <?= $block->getPagerHtml() ?>
+        </div>
+    </div>
+<?php endif;?>

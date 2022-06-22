@@ -1,0 +1,34 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var \Magento\Customer\Block\Account\Dashboard\Info $block */
+?>
+<?php if ($block->isNewsletterEnabled()): ?>
+    <div class="block block-newsletter">
+        <div class="block-content">
+
+            <div class="box box-newsletter">
+                <div class="block-title">
+                    <strong><?= $block->escapeHtml(__('Sign up for the Kangaroo Newsletter')) ?></strong>
+                    <div class="box-actions">
+                        <a class="action" href="<?= $block->escapeUrl($block->getUrl('newsletter/manage')) ?>">
+                            <span><?= $block->escapeHtml(__('Edit')) ?></span></a>
+                    </div>
+                </div>
+                <div class="box-content">
+                    <strong class="box-title"><?= __('Receive newsletter via Email') ?></strong>
+                    <p>
+                        <?php if ($block->getIsSubscribed()): ?>
+                            <?= $block->escapeHtml(__("You have subscribed to the 'General Subscriptions' newsletter.")) ?>
+                        <?php else: ?>
+                            <?= $block->escapeHtml(__("You aren't subscribed to the 'General Subscriptions' newsletter.")) ?>
+                        <?php endif; ?>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>

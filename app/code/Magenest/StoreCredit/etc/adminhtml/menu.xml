@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magenest
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magenest.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.magenest.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Magenest
+ * @package     Magenest_StoreCredit
+ * @copyright   Copyright (c) Magenest (https://www.magenest.com/)
+ * @license     https://www.magenest.com/LICENSE.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Magenest_StoreCredit::storecredit" title="Store Credit - Kcoin" module="Magenest_StoreCredit" sortOrder="110" resource="Magenest_StoreCredit::storecredit" parent="Magenest_Backend::Magenest"/>
+        <add id="Magenest_StoreCredit::transaction" title="Credit Transactions" module="Magenest_StoreCredit" sortOrder="10" action="mpstorecredit/transaction" resource="Magenest_StoreCredit::transaction" parent="Magenest_StoreCredit::storecredit"/>
+        <add id="Magenest_StoreCredit::configuration" title="Configuration" module="Magenest_StoreCredit" sortOrder="1000" action="adminhtml/system_config/edit/section/mpstorecredit" resource="Magenest_StoreCredit::configuration" parent="Magenest_StoreCredit::storecredit"/>
+    </menu>
+</config>

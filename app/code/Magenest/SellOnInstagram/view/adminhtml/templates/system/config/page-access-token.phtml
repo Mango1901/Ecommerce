@@ -1,0 +1,22 @@
+<?php
+/** @var Magenest\SellOnInstagram\Block\Adminhtml\System\Config\Form\GetPageAccessToken $block */
+$buttonLabel  = $block->getButtonLabel();
+$buttonHtmlId = $block->getHtmlId();
+$login = $block->getLogin();
+?>
+<a data-ui-id="button-get-authorization-instagram" class="action-default scalable action-save action-secondary"
+   id="<?= $block->escapeHtml($buttonHtmlId) ?>"
+   style="cursor: pointer;"
+>
+    <?= $block->escapeHtml($buttonLabel) ?>
+</a>
+<script>
+    require(['jquery'], function ($) {
+        $('#<?=$buttonHtmlId?>').on('click', function () {
+            if ($(this).parents('form').valid()) {
+                $('body').loader('show');
+                window.location.href = '<?= $login ?>';
+            }
+        })
+    })
+</script>

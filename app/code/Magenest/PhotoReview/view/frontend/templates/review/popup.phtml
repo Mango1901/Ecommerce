@@ -1,0 +1,59 @@
+<?php
+/** @var \Magenest\PhotoReview\Block\Review\View\Photo $block */
+/** @var \Magenest\PhotoReview\Helper\Review $helper */
+$helper = $this->helper(\Magenest\PhotoReview\Helper\Review::class);
+$appId = $helper->getAppId();
+if (empty($appId)) {
+    $appId = '420724915308275';
+}
+$_review = $block->getPhotoReview();
+if ($_review != null):
+    $format = $block->getDateFormat() ?: \IntlDateFormatter::SHORT;
+    $additionalData = $block->getPhotoData($_review);
+    ?>
+
+    <div class="review-popup-content">
+        <div class="review-image" style="display: none;">
+            <?php
+            if (!empty($additionalData['additional_data']) && isset($additionalData['additional_data']['photos']) && !empty($additionalData['additional_data']['photos'])):
+                $photos = $additionalData['additional_data']['photos'];
+                foreach ($photos as $photo):
+                    $type = $photo['type'] ?? '';
+                    ?>
+                    <?php if ($type == \Magenest\PhotoReview\Observer\Review\Detail::TYPE_VIDEO) { ?>
+                            <span class="review-image-container">
+                                <span class="review-image-wrapper">
+                                     <video class="video-item" width="100%" height="600px" src="<?= $photo['url'] ?>" controls></video>
+                                </span>
+                            </span>
+                    <?php
+                        } else {
+                            ?>
+                            <span class="review-image-container">
+                                <span class="review-image-wrapper">
+                                    <img src="<?= $photo['url'] ?>" alt="Customer photo review"/>
+                                </span>
+                            </span>
+                            <?php
+                        }
+                endforeach;
+            endif;
+            ?>
+
+        </div>
+    </div>
+<?php
+endif;
+?>
+<script>
+    require([
+        'jquery',
+        'slick',
+    ], function ($) {
+        $('.review-image').css("display", "").slick({
+            slidesToShow: 1,
+            arrows: true,
+            dots: false,
+        });
+    });
+</script>

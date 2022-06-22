@@ -1,0 +1,83 @@
+{
+    "magenest_activity": {
+        "column": {
+            "entity_id": true,
+            "username": false,
+            "name": true,
+            "admin_id": true,
+            "store_id": true,
+            "scope": true,
+            "action_type": true,
+            "remote_ip": true,
+            "forwarded_ip": true,
+            "user_agent": true,
+            "module": true,
+            "fullaction": true,
+            "item_name": true,
+            "item_url": true,
+            "is_revertable": true,
+            "revert_by": true,
+            "created_at": true,
+            "updated_at": true
+        },
+        "index": {
+            "ADMIN_USER_USER_ID": true,
+            "STORE_STORE_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "magenest_activity_log": {
+        "column": {
+            "entity_id": true,
+            "activity_id": true,
+            "field_name": true,
+            "old_value": true,
+            "new_value": true
+        },
+        "index": {
+            "MAGENEST_ACTIVITY_LOG_ACTIVITY_ID": true,
+            "MAGENEST_ACTIVITY_ENTITY_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "MAGENEST_ACTIVITY_LOG_ACTIVITY_ID_MAGENEST_ACTIVITY_ENTITY_ID": true
+        }
+    },
+    "magenest_activity_detail": {
+        "column": {
+            "entity_id": true,
+            "activity_id": true,
+            "model_class": true,
+            "item_id": true,
+            "status": true,
+            "response": true
+        },
+        "index": {
+            "MAGENEST_ACTIVITY_DETAIL_ACTIVITY_ID": true,
+            "MAGENEST_ACTIVITY_ENTITY_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "MAGENEST_ACTIVITY_DETAIL_ACTIVITY_ID_MAGENEST_ACTIVITY_ENTITY_ID": true
+        }
+    },
+    "magenest_login_activity": {
+        "column": {
+            "entity_id": true,
+            "username": true,
+            "name": true,
+            "remote_ip": true,
+            "forwarded_ip": true,
+            "user_agent": true,
+            "type": true,
+            "status": true,
+            "remarks": true,
+            "created_at": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}

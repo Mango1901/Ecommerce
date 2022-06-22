@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="checkout.root">
+            <arguments>
+                <argument name="jsLayout" xsi:type="array">
+                    <item name="components" xsi:type="array">
+                        <item name="checkout" xsi:type="array">
+                            <item name="children" xsi:type="array">
+                                <item name="steps" xsi:type="array">
+                                    <item name="children" xsi:type="array">
+                                        <item name="billing-step" xsi:type="array">
+                                            <item name="component" xsi:type="string">uiComponent</item>
+                                            <item name="children" xsi:type="array">
+                                                <item name="payment" xsi:type="array">
+                                                    <item name="children" xsi:type="array">
+                                                        <item name="afterMethods" xsi:type="array">
+                                                            <item name="children" xsi:type="array">
+                                                                <item name="reward-point" xsi:type="array">
+                                                                    <item name="sortOrder" xsi:type="string">110</item>
+                                                                    <item name="component" xsi:type="string">Magenest_RewardPoints/js/view/payment/rewardpoints</item>
+                                                                    <item name="children" xsi:type="array">
+                                                                        <item name="errors" xsi:type="array">
+                                                                            <item name="sortOrder" xsi:type="string">0</item>
+                                                                            <item name="component" xsi:type="string">Magenest_RewardPoints/js/view/payment/messages</item>
+                                                                            <item name="displayArea" xsi:type="string">messages</item>
+                                                                        </item>
+                                                                    </item>
+                                                                </item>
+                                                            </item>
+                                                        </item>
+                                                    </item>
+                                                </item>
+                                            </item>
+                                        </item>
+                                    </item>
+                                </item>
+                                <item name="sidebar" xsi:type="array">
+                                    <item name="children" xsi:type="array">
+                                        <item name="summary" xsi:type="array">
+                                            <item name="children" xsi:type="array">
+                                                <item name="totals" xsi:type="array">
+                                                    <item name="children" xsi:type="array">
+                                                        <item name="rewardpoint" xsi:type="array">
+                                                            <item name="component" xsi:type="string">Magenest_RewardPoints/js/view/summary/rewardpoints</item>
+                                                            <item name="sortOrder" xsi:type="string">40</item>
+                                                            <item name="config" xsi:type="array">
+                                                                <item name="template" xsi:type="string">Magenest_RewardPoints/summary/rewardpoints</item>
+                                                                <item name="title" xsi:type="string">Reward Discount</item>
+                                                            </item>
+                                                        </item>
+                                                        <item name="point-total" xsi:type="array">
+                                                            <item name="component" xsi:type="string">Magenest_RewardPoints/js/view/checkout/rewards/points_totals</item>
+                                                            <item name="sortOrder" xsi:type="string">100</item>
+                                                            <item name="config" xsi:type="array">
+                                                                <item name="template" xsi:type="string">Magenest_RewardPoints/checkout/rewards/points_totals</item>
+                                                                <item name="title" xsi:type="string" translate="true">You Earn</item>
+                                                            </item>
+                                                        </item>
+                                                    </item>
+                                                </item>
+                                            </item>
+                                        </item>
+                                    </item>
+                                </item>
+                            </item>
+                        </item>
+                    </item>
+                </argument>
+            </arguments>
+        </referenceBlock>
+        <referenceContainer name="content">
+            <block class="Magento\Catalog\Block\Product\View" name="price_scheme_edit_js" template="Magenest_RewardPoints::js.phtml"/>
+        </referenceContainer>
+    </body>
+</page>

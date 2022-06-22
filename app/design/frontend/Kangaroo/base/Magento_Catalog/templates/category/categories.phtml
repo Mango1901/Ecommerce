@@ -1,0 +1,75 @@
+<?php
+/** @var \Magento\Catalog\Block\Category\View $block
+ * @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
+ */
+$category = $block->getCurrentCategory();
+$level    = $category->getLevel();
+if ($level == 2) {
+    $subcategories = $category->getChildrenCategories();
+    $level++;
+} else {
+    $subcategories = $category->getParentCategory()->getChildrenCategories();
+}
+$subcategories
+    ->addAttributeToSelect('category_icon')
+    ->addAttributeToSelect('image')
+    ->addAttributeToFilter(\Magenest\CustomCatalog\Setup\Patch\Data\AddIncludeInCategoryMenu::ATTRIBUTE_CODE, 1);
+?>
+<div class="sub-categories level-<?= $level ?>">
+    <h3><?= __('Product portfolio') ?></h3>
+    <h3 class="title-lv2"><?= __('Industry') ?></h3>
+    <div class="sub-categories-list">
+        <?php foreach ($subcategories as $subcategory): ?>
+            <a href="<?= $subcategory->getUrl(); ?>" class="sub-categories-item">
+                <img src="<?= $subcategory->getImageUrl('category_icon'); ?>" alt="<?= $subcategory->getName() ?>">
+                <div class="sub-categories-info">
+                    <span class="sub-categories-name" <?= $subcategory->getId() == $category->getId()
+                        ? "class='current'" : "" ?>>
+                        <?= $subcategory->getName() ?>
+                    </span>
+                    <span class="sub-categories-total">
+                        <?= $subcategory->getProductCount() . ' ' . __('Products') ?>
+                    </span>
+                </div>
+            </a>
+        <?php endforeach; ?>
+    </div>
+</div>
+
+<?php
+$subcategories = $category->getChildrenCategories();
+$subcategories->addAttributeToSelect('category_icon')->addAttributeToSelect('image');
+?>
+
+<?php if ($subcategories->getItems() != null): ?>
+    <div class="sub-categories mobile-device mobile-layer-navigation level-<?= $level - 1 ?>">
+        <h3><?= __('Product portfolio') ?></h3>
+        <div class="sub-categories-list">
+            <?php foreach ($subcategories as $subcategory): ?>
+                <div class="sub-categories-item">
+                    <img src="<?= $subcategory->getImageUrl('category_icon'); ?>" alt="<?= $subcategory->getName() ?>">
+                    <div class="sub-categories-info">
+                        <a href="<?= $subcategory->getRequestPath() ?>"
+                           class="sub-categories-name" <?= $subcategory->getId() == $category->getId()
+                            ? "class='current'" : "" ?>>
+                            <?= $subcategory->getName() ?>
+                        </a>
+                        <span class="sub-categories-total">
+                        <?= $subcategory->getProductCount() . ' ' . __('Products') ?>
+                    </span>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+<?php endif; ?>
+
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Catalog/js/categories": {}
+        }
+    }
+</script>
+
+

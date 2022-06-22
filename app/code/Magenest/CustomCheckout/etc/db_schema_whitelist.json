@@ -1,0 +1,15 @@
+{
+    "sales_guest_view": {
+        "column": {
+            "pk": true,
+            "hash_key": true,
+            "hash_value": true
+        },
+        "index": {
+            "SALES_GUEST_VIEW_HASH_KEY": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}

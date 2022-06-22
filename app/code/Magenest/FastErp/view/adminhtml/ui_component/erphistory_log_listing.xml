@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">erphistory_log_listing.erphistory_log_listing_data_source</item>
+        </item>
+    </argument>
+    <settings>
+        <spinner>erphistory_log_columns</spinner>
+        <deps>
+            <dep>erphistory_log_listing.erphistory_log_listing_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="erphistory_log_listing_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">entity_id</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+        <aclResource>Magenest_FastErp::erp_history_log</aclResource>
+        <dataProvider class="Magenest\FastErp\Ui\DataProvider\ErpLog" name="erphistory_log_listing_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>entity_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <settings>
+            <sticky>true</sticky>
+        </settings>
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls"/>
+        <filterSearch name="fulltext"/>
+        <filters name="listing_filters">
+            <settings>
+                <templates>
+                    <filters>
+                        <select>
+                            <param name="template" xsi:type="string">ui/grid/filters/elements/ui-select</param>
+                            <param name="component" xsi:type="string">Magento_Ui/js/form/element/ui-select</param>
+                        </select>
+                    </filters>
+                </templates>
+            </settings>
+        </filters>
+        <paging name="listing_paging"/>
+    </listingToolbar>
+    <columns name="erphistory_log_columns">
+        <column name="type_erp" component="Magento_Ui/js/grid/columns/select">
+            <settings>
+                <options class="Magenest\FastErp\Model\Block\Source\TypeErp"/>
+                <filter>select</filter>
+                <dataType>select</dataType>
+                <sortable>false</sortable>
+                <label translate="true">Type Erp</label>
+            </settings>
+        </column>
+        <column name="status" component="Magento_Ui/js/grid/columns/select">
+            <settings>
+                <options class="Magenest\FastErp\Model\Block\Source\Status"/>
+                <filter>select</filter>
+                <dataType>select</dataType>
+                <sortable>false</sortable>
+                <label translate="true">Status</label>
+            </settings>
+        </column>
+        <column name="note">
+            <settings>
+                <label translate="true">Note</label>
+                <sortable>false</sortable>
+            </settings>
+        </column>
+        <column name="created_at" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date">
+            <settings>
+                <filter>dateRange</filter>
+                <dataType>date</dataType>
+                <label translate="true">Created At</label>
+                <sorting>desc</sorting>
+            </settings>
+        </column>
+        <column name="entity_id">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">ID</label>
+            </settings>
+        </column>
+        <column name="order_id" component="Magento_Ui/js/grid/columns/link">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="link" xsi:type="string">order_url</item>
+                    <item name="bodyTmpl" xsi:type="string">Magenest_FastErp/grid/cells/link</item>
+                </item>
+            </argument>
+            <settings>
+                <label translate="true">Order ID</label>
+                <sortable>false</sortable>
+            </settings>
+        </column>
+        <!--        <column name="erp_id">-->
+        <!--            <settings>-->
+        <!--                <label translate="true">Erp Id</label>-->
+        <!--            </settings>-->
+        <!--        </column>-->
+    </columns>
+</listing>

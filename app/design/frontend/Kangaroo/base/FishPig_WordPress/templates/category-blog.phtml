@@ -1,0 +1,41 @@
+<?php
+/**
+ * @var $block \FishPig\WordPress\Block\Sidebar\Widget\Categories
+ */
+?>
+<?php $categories = $block->getCategories() ?>
+
+<div class="category-blog-wrapper">
+    <?php if (count($categories) > 0): ?>
+        <?php if ($title = $block->getTitle()): ?>
+            <div class="block-title"><?= $block->escapeHtml(__($title)) ?></div>
+        <?php endif; ?>
+    <div class="block-content">
+        <ul class="category-list">
+            <?php foreach ($categories as $category): ?>
+                <li class="category-item">
+                    <?php $children = $category->getChildrenTerms() ?>
+                    <?php if (count($children) > 0): ?>
+                        <a href="<?= $block->escapeUrl($category->getUrl()) ?>" class="title" title="<?= $block->escapeHtml($category->getName()) ?>"><?= $block->escapeHtml($category->getName()) ?></a>
+                        <ul class="sub-category">
+                            <?php foreach ($children as $child): ?>
+                                <li><a href="<?= $child->getUrl() ?>" title="<?= $child->getName() ?>"><?= $block->escapeHtml($child->getName()) ?></a></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php else: ?>
+                        <a href="<?= $block->escapeUrl($category->getUrl()) ?>" class="title" title="<?= $block->escapeHtml($category->getName()) ?>"><?= $block->escapeHtml($category->getName()) ?></a>
+                    <?php endif; ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+    <?php endif; ?>
+</div>
+
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "FishPig_WordPress/js/category-toggle": {}
+        }
+    }
+</script>

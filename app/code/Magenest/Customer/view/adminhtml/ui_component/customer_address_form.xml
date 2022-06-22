@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd" component="Magento_Customer/js/form/components/form">
+    <fieldset name="general">
+        <field name="prefix">
+            <settings>
+                <visible>false</visible>
+            </settings>
+        </field>
+        <field name="suffix">
+            <settings>
+                <visible>false</visible>
+            </settings>
+        </field>
+        <field name="middlename">
+            <settings>
+                <visible>false</visible>
+            </settings>
+        </field>
+        <field name="firstname">
+            <settings>
+                <visible>false</visible>
+            </settings>
+        </field>
+        <field name="lastname">
+            <settings>
+                <visible>false</visible>
+            </settings>
+        </field>
+    </fieldset>
+</form>

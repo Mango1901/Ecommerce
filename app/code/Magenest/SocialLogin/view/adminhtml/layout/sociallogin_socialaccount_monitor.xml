@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <script src="Magenest_SocialLogin::js/lib/google_chart_loader.js"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Magenest\SocialLogin\Block\Adminhtml\SocialAccount\Monitor" name="monitor_social_login" template="Magenest_SocialLogin::monitor_social_login.phtml">
+                <block class="Magenest\SocialLogin\Block\Adminhtml\SocialAccount\Monitor\SocialLoginChart" name="social_login_chart" template="Magenest_SocialLogin::monitor/social_login_chart.phtml"/>
+                <block class="Magenest\SocialLogin\Block\Adminhtml\SocialAccount\Monitor\TopSocialLogin" name="top_social_login" template="Magenest_SocialLogin::monitor/top_social_login.phtml"/>
+                <block class="Magenest\SocialLogin\Block\Adminhtml\SocialAccount\Monitor\OtherConnections" name="other_connections" template="Magenest_SocialLogin::monitor/other_connections.phtml"/>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

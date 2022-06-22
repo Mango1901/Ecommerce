@@ -1,0 +1,32 @@
+<?php
+/** @var \Magenest\QuantitySold\Block\Product\SoldQuantity $block */
+if ($block->isEnabled()) :
+?>
+<div class="sold_qty_container product-sold"><span id="sold_qty">999+</span>&nbsp;<?= $block->getData('is_virtual') ? __('downloaded') : __('sold') ?></div>
+<script type="text/javascript">
+    require(['jquery', 'Magento_Swatches/js/swatch-renderer'], function($) {
+        let skuQty = <?= $block->getQuantities() ?>;
+        let totalQty = <?= $block->getTotalQty() ?>;
+        if (typeof skuQty === 'number' || typeof skuQty === 'string') {
+            $("#sold_qty").text(skuQty);
+            $("div.sold_qty_container").show();
+        } else if (typeof skuQty === 'object') {
+            $("#sold_qty").text(totalQty);
+            $("div.sold_qty_container").show();
+            $('#product_addtocart_form').on('change', function () {
+                var simpleId = $('[name=selected_configurable_option]').val();
+                if (skuQty[simpleId] !== undefined && skuQty[simpleId] !== null && skuQty[simpleId] !== "" && skuQty[simpleId] > 0) {
+                    $("#sold_qty").text(skuQty[simpleId]);
+                    $("div.sold_qty_container").show();
+                } else {
+                    // $("div.sold_qty_container").hide();
+                    if (!$('.super-attribute-select').val()) {
+                        $("#sold_qty").text(totalQty);
+                        $("div.sold_qty_container").show();
+                    }
+                }
+            });
+        }
+    });
+</script>
+<?php endif; ?>

@@ -1,0 +1,135 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<div class="admin__page-section-item order-additional-information">
+    <!-- ko if: !editMode() -->
+    <!-- ko if: customerNote() -->
+    <div class="admin__page-section-item-title">
+        <span class="title" data-bind="i18n: 'Customer Note'"></span>
+    </div>
+    <div class="admin__page-section-item-content"  style="margin-bottom: 20px" data-bind="html: customerNote"></div>
+    <!--/ko-->
+    <!-- ko if: telephoneCustomerConsign() -->
+    <div class="admin__page-section-item-title">
+        <span class="title" data-bind="i18n: 'Telephone Number Of Customer Consign'"></span>
+    </div>
+    <div class="admin__page-section-item-content"  style="margin-bottom: 20px" data-bind="html: telephoneCustomerConsign"></div>
+    <!--/ko-->
+<!--    &lt;!&ndash; ko if: deliveryDate() &ndash;&gt;-->
+<!--    <div class="admin__page-section-item-title">-->
+<!--        <span class="title" data-bind="i18n: 'Delivery Date'"></span>-->
+<!--    </div>-->
+<!--    <div class="admin__page-section-item-content"  style="margin-bottom: 20px" data-bind="html: deliveryDate"></div>-->
+<!--    &lt;!&ndash;/ko&ndash;&gt;-->
+    <!-- ko if: deliveryTime() -->
+    <div class="admin__page-section-item-title">
+        <span class="title" data-bind="i18n: 'Delivery Time'"></span>
+    </div>
+    <div class="admin__page-section-item-content"  style="margin-bottom: 20px" data-bind="html: getDeliveryTime()"></div>
+    <!--/ko-->
+    <!-- ko if: companyName -->
+    <div class="admin__page-section-item-title">
+        <span class="title" data-bind="i18n: 'VAT Invoice Information'"></span>
+    </div>
+    <div class="admin__page-section-item-content">
+        <table class="admin__page-section-item-vat-invoice-table">
+            <tbody>
+                <tr>
+                    <td style="padding-right: 15px"><strong data-bind="i18n: 'Company Name'"></strong></td>
+                    <td data-bind="text: companyName"></td>
+                </tr>
+                <tr>
+                    <td style="padding-right: 15px"><strong data-bind="i18n: 'Tax Code'"></strong></td>
+                    <td data-bind="text: taxCode"></td>
+                </tr>
+                <tr>
+                    <td style="padding-right: 15px"><strong data-bind="i18n: 'Company Address'"></strong></td>
+                    <td data-bind="text: companyAddress"></td>
+                </tr>
+                <tr>
+                    <td style="padding-right: 15px"><strong data-bind="i18n: 'Company Email'"></strong></td>
+                    <td data-bind="text: companyEmail"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!--/ko-->
+    <!--/ko-->
+    <!-- ko if: editMode() -->
+    <form class="form edit" id="additional-information-form" data-bind="attr: {'action': actionUrl}">
+        <fieldset class="admin__fieldset">
+            <div class="admin__field field field-customer-note">
+                <label class="label admin__field-label" for="order-customer_note"><span data-bind="i18n: 'Customer Note'"></span></label>
+                <div class="admin__field-control control">
+                    <textarea id="order-customer_note" data-bind="html: customerNote()" name="order[customer_note]" class=" input-text admin__control-text" rows="6">
+                    </textarea>
+                </div>
+            </div>
+<!--            <div class="admin__field field field-delivery-date">-->
+<!--                <label class="label admin__field-label" for="order-delivery_date"><span data-bind="i18n: 'Delivery Date'"></span></label>-->
+<!--                <div class="admin__field-control control">-->
+<!--                    <input type="text" id="order-delivery_date" readonly="readonly" data-bind="datepicker: true, value: deliveryDate()" name="order[delivery_date]" class=" input-text admin__control-text">-->
+<!--                </div>-->
+<!--            </div>-->
+            <div class="admin__field field field-tax-code required _required">
+                <label class="label admin__field-label" for="order-customer_consign"><span data-bind="i18n: 'Telephone Number Of Customer Consign'"></span></label>
+                <div class="admin__field-control control">
+                    <input id="order-customer_consign" data-bind="value: telephoneCustomerConsign()" name="order[telephone_customer_consign]" class="required-entry _required input-text admin__control-text validate-telephone-require" type="text">
+                </div>
+            </div>
+            <div class="admin__field field field-delivery-time">
+                <label class="label admin__field-label" for="order-delivery_time"><span data-bind="i18n: 'Delivery Time'"></span></label>
+                <div class="admin__field-control control">
+                    <select class="select" id="order-delivery_time" readonly="readonly" name="order[delivery_time]"
+                            data-bind="value: deliveryTime()"
+                    >
+                        <option data-bind="i18n: 'In office hours'" value="0"></option>
+                        <option data-bind="i18n: 'Outside office hours'" value="1"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="admin__field admin__field-option admin__field-shipping-save-vat-invoice">
+                <input type="checkbox" value="1" data-bind="checked: saveVatInvoice" id="save-vat-invoice" name="order[save_vat_invoice]" class="admin__control-checkbox">
+                <label for="save-vat-invoice" class="admin__field-label"><span data-bind="i18n: 'Save VAT invoice information'"></span></label>
+            </div>
+            <!-- ko if: saveVatInvoice() -->
+            <div class="admin__field field field-company-name required _required">
+                <label class="label admin__field-label" for="order-company_name"><span data-bind="i18n: 'Company Name'"></span></label>
+                <div class="admin__field-control control">
+                    <input id="order-company_name" data-bind="value: companyName()" name="order[company_name]" class="required-entry _required input-text admin__control-text" type="text">
+                </div>
+            </div>
+            <div class="admin__field field field-tax-code required _required">
+                <label class="label admin__field-label" for="order-tax_code"><span data-bind="i18n: 'Tax Code'"></span></label>
+                <div class="admin__field-control control">
+                    <input id="order-tax_code" data-bind="value: taxCode()" name="order[tax_code]" class="required-entry _required input-text admin__control-text" type="text">
+                </div>
+            </div>
+            <div class="admin__field field field-company-address required _required">
+                <label class="label admin__field-label" for="order-company_address"><span data-bind="i18n: 'Company Address'"></span></label>
+                <div class="admin__field-control control">
+                    <input id="order-company_address" data-bind="value: companyAddress()" name="order[company_address]" class="required-entry _required input-text admin__control-text" type="text">
+                </div>
+            </div>
+            <div class="admin__field field field-company-email required _required">
+                <label class="label admin__field-label" for="order-company_email"><span data-bind="i18n: 'Company Email'"></span></label>
+                <div class="admin__field-control control">
+                    <input id="order-company_email" data-bind="value: companyEmail()" name="order[company_email]" class="required-entry _required input-text admin__control-text" type="email">
+                </div>
+            </div>
+            <!--/ko-->
+        </fieldset>
+        <div class="actions">
+            <button title="Cancel" type="button" class="action-default scalable canceled">
+                <span data-bind="i18n: 'Cancel', click: closeEditForm"></span>
+            </button>
+            <button title="Save Changed" type="button" data-bind="click: submit" class="action-default scalable save primary">
+                <span data-bind="i18n: 'Save Changed'"></span>
+            </button>
+        </div>
+    </form>
+    <!--/ko-->
+</div>

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magenest. All rights reserved.
+ * See COPYING.txt for license details.page.main.title.mobile
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block class="Magento\Sales\Block\Order\Info" name="additional.order.info" after="sales.order.info" template="Magenest_OrderExtraInformation::sales/order/view.phtml"/>
+        </referenceContainer>
+        <referenceBlock name="page.main.title.mobile">
+            <arguments>
+                <argument name="remove_script" xsi:type="boolean">true</argument>
+            </arguments>
+        </referenceBlock>
+    </body>
+</page>

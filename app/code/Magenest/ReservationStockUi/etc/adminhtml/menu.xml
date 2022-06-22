@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2020 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ *
+ * Magenest_ReservationStockUi extension
+ * NOTICE OF LICENSE
+ *
+ * @category Magenest
+ * @package Magenest_ReservationStockUi
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Magenest_ReservationStockUi::catalog_reservation" title="Reservation Stock" translate="title" module="Magenest_ReservationStockUi" sortOrder="30" parent="Magento_Catalog::inventory" action="inventory/reservation/" resource="Magenest_ReservationStockUi::catalog_reservation"/>
+    </menu>
+</config>

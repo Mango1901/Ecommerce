@@ -1,0 +1,27 @@
+<?php
+/**
+ * Copyright © 2020 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ *
+ * Reward points extension
+ * NOTICE OF LICENSE
+ *
+ * @author Magenest
+ * @time: 25/12/2020 16:16
+ */
+
+/**
+ * @var $block \Magenest\RewardPoints\Block\Customer\Notifications
+ */
+
+$notifications = $block->getListNotifications(\Magenest\RewardPoints\Api\Data\NotificationInterface::NOTIFICATION_DISPLAY_POSITION_CART);
+
+foreach ($notifications as $notification) {
+    ?>
+    <div class="reward-point message message-notice notice">
+        <span><?= $notification[\Magenest\RewardPoints\Api\Data\NotificationInterface::NOTIFICATION_CONTENT] ?></span>
+        <span class="close-notification"><a href="<?= $block->getLinkDisableNotification($notification['notification_id']) ?>"><?= __('Disable') ?></a></span>
+    </div>
+    <?php
+}
+?>

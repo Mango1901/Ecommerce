@@ -1,0 +1,21 @@
+<?php
+/** @var \Magenest\MegaMenu\Block\Menu\Component\Background $block */
+?>
+<?php if ($block->isShow()): ?>
+    <?php $opacity = $block->getOpacity(); ?>
+	<div style="
+			background-image: url('<?= $block->getImgUrl() ?>');
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
+			filter: alpha(opacity=<?= ($opacity * 100) ?>);
+			-moz-opacity: <?= $opacity ?>;
+			opacity: <?= $opacity ?>;
+			background-color: <?= $block->getData('color') ?>;
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: <?= $block->getBackgroundSize() ?>;
+			"></div>
+<?php endif; ?>

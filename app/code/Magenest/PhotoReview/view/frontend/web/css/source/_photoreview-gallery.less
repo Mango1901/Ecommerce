@@ -1,0 +1,150 @@
+& when (@media-common = true) {
+  //Photo review gallery
+
+  .photoreview-gallery-index{
+    .page-title-wrapper{
+      margin: 30px 0;
+      text-align: center;
+    }
+    .page-title{
+      font-weight: bold;
+      font-size: 30px;
+      text-transform: capitalize;
+    }
+    .rating-summary .rating-result{
+      width: auto;
+    }
+    .rating-summary .rating-result:before{
+      content: '\f006' '\f006' '\f006' '\f006' '\f006';
+      color: @photoreview-color-15;
+      font-family: FontAwesome;
+      font-size: 1.4rem;
+
+    }
+    .rating-summary .rating-result>span:before{
+      content: '\f005' '\f005' '\f005' '\f005' '\f005';
+      color: @photoreview-color-15;
+      font-family: FontAwesome;
+      font-size: 1.4rem;
+    }
+  }
+  div#photoreview-gallery {
+    width: 100%;
+    margin: auto;
+  }
+  .widget-flex-grid-sizer{
+    width: 2%;
+  }
+  .photoreview-items {
+    display: inline-grid;
+    height: auto;
+    box-sizing: border-box;
+    overflow: hidden;
+    position: relative;
+    margin: 8px auto;
+    background: @photoreview-color-1;
+    .lib-review-box-shadow(0 3px 6px rgba(0, 0, 0, 0.16));
+
+    .admin-comment {
+      margin: 0;
+      padding: 10px 0;
+      background: transparent;
+      border-top: 1px solid @photoreview-color-13;
+
+      .admin-comment-title {
+        font-size: inherit;
+        font-weight: 700;
+      }
+
+      .comment-content {
+        color: inherit;
+      }
+    }
+
+    .photoreview-image {
+      cursor: pointer;
+      display: block;
+      border-bottom: 0;
+      height: 100%;
+
+      img{
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        max-height: unset;
+      }
+      ~ .photoreview-title {
+        border-top: 0;
+      }
+    }
+
+    .photoreview-title {
+      padding: 15px;
+      .photoreview-author {
+        color: @photoreview-color-14;
+        font-size: 1.8rem;
+        word-break: break-all;
+        i{
+          margin-left: 2px;
+        }
+      }
+      .photoreview-create-at{
+        display: block;
+        color: @photoreview-color-10;
+        font-size: 1.2rem;
+      }
+
+      .photorereview-recommend{
+        display: block;
+        font-style: italic;
+        height: 20px;
+        padding-top: 10px;
+      }
+      .photoreview-ratings {
+        display: block;
+        width: 100%;
+        .rating-summary {
+          display: table-row;
+        }
+        .rating-label {
+          display: none;
+        }
+      }
+
+      .photoreview-content {
+        padding: 10px 0;
+        font-size: 1.4rem;
+        color: @photoreview-color-14;
+        word-break: break-all;
+      }
+    }
+  }
+  .photoreview-items{
+    width: calc(~'(100% - 45px)/4');
+  }
+  @media(max-width: 991px){
+    .widget-flex-grid-sizer{
+      width: 1.5%;
+    }
+    .photoreview-items{
+      width: calc(~'(100% - 30px)/3');
+    }
+  }
+}
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+  .widget-flex-grid-sizer{
+    width: 1%;
+  }
+  .photoreview-items{
+    width: calc(~'(100% - 15px)/2');
+  }
+}
+@media(max-width: 420px){
+  .widget-flex-grid-sizer{
+    width: 0.5%;
+  }
+  .widget-flex-grid .photoreview-items{
+    width: 100% !important;
+    margin: 8px 0;
+  }
+}

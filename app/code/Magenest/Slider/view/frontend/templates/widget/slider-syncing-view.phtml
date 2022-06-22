@@ -1,0 +1,371 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: doanhcn2
+ * Date: 29/03/2019
+ * Time: 10:40
+ * @var \Magenest\Slider\Block\SliderPreview\Preview $block;
+ */
+
+$sliderData = $block->getSliderData();
+$childSliderData = $block->getChildSliderData();
+$sliderId = $sliderData['id'];
+$childSliderId = $childSliderData['id'];
+?>
+
+<?php
+    $items_1 = $sliderData['numOfItemsShow'] ? $sliderData['numOfItemsShow'] : '1';
+    if($items_1 == 1): $items0_1 = $items480_1 = $items768_1 = $items1024_1 = $items_1;
+    elseif ($items_1 == 2): $items0_1 = 1; $items480_1 = 2; $items768_1 = 2; $items1024_1 = 2;
+    elseif ($items_1 == 3): $items0_1 = 2; $items480_1 = 2; $items768_1 = 3; $items1024_1 = 3;
+    elseif ($items_1 == 4): $items0_1 = 2; $items480_1 = 2; $items768_1 = 3; $items1024_1 = 4;
+    elseif ($items_1 == 5): $items0_1 = 2; $items480_1 = 3; $items768_1 = 4; $items1024_1 = 5;
+    elseif ($items_1 == 6): $items0_1 = 2; $items480_1 = 3; $items768_1 = 5; $items1024_1 = 6;
+    elseif ($items_1 == 7): $items0_1 = 2; $items480_1 = 3; $items768_1 = 5; $items1024_1 = 7;
+    elseif ($items_1 == 8): $items0_1 = 2; $items480_1 = 4; $items768_1 = 6; $items1024_1 = 8;
+    elseif ($items_1 == 9): $items0_1 = 3; $items480_1 = 5; $items768_1 = 7; $items1024_1 = 9;
+    elseif ($items_1 == 10): $items0_1 = 3; $items480_1 = 5; $items768_1 = 8; $items1024_1 = 10;
+    else: $items0_1 = $items480_1 = $items768_1 = $items1024_1 = $items_1;
+    endif;
+    $items_2 = $childSliderData['numOfItemsShow'] ? $childSliderData['numOfItemsShow'] : '1';
+    if($items_2 == 1): $items0_2 = $items480_2 = $items768_2 = $items1024_2 = $items_2;
+    elseif ($items_2 == 2): $items0_2 = 1; $items480_2 = 2; $items768_2 = 2; $items1024_2 = 2;
+    elseif ($items_2 == 3): $items0_2 = 2; $items480_2 = 2; $items768_2 = 3; $items1024_2 = 3;
+    elseif ($items_2 == 4): $items0_2 = 2; $items480_2 = 2; $items768_2 = 3; $items1024_2 = 4;
+    elseif ($items_2 == 5): $items0_2 = 2; $items480_2 = 3; $items768_2 = 4; $items1024_2 = 5;
+    elseif ($items_2 == 6): $items0_2 = 2; $items480_2 = 3; $items768_2 = 5; $items1024_2 = 6;
+    elseif ($items_2 == 7): $items0_2 = 2; $items480_2 = 3; $items768_2 = 5; $items1024_2 = 7;
+    elseif ($items_2 == 8): $items0_2 = 2; $items480_2 = 4; $items768_2 = 6; $items1024_2 = 8;
+    elseif ($items_2 == 9): $items0_2 = 3; $items480_2 = 5; $items768_2 = 7; $items1024_2 = 9;
+    elseif ($items_2 == 10): $items0_2 = 3; $items480_2 = 5; $items768_2 = 8; $items1024_2 = 10;
+    else: $items0_2 = $items480_2 = $items768_2 = $items1024_2 = $items_2;
+    endif;
+
+    $margin_1 = $sliderData['sliderMargin'] ? $sliderData['sliderMargin'] : '0';
+    $margin_2 = $childSliderData['sliderMargin'] ? $childSliderData['sliderMargin'] : '0';
+
+    $nav_1 = $sliderData['sliderArrows'] ? 'true' : 'false';
+    $nav_2 = $childSliderData['sliderArrows'] ? 'true' : 'false';
+
+    $dots_1 = $sliderData['sliderDots'] ? 'true' : 'false';
+    $dots_2 = $childSliderData['sliderDots'] ? 'true' : 'false';
+
+    $animateIn_1 = $sliderData['sliderAnimate'];
+    $animateIn_1 = $animateIn_1 ? '"'.$animateIn_1.'"' : 'false';
+    $animateIn_2 = $childSliderData['sliderAnimate'];
+    $animateIn_2 = $animateIn_2 ? '"'.$animateIn_2.'"' : 'false';
+
+    $animateOut_1 = $sliderData['sliderAnimateOut'];
+    $animateOut_1 = $animateOut_1 ? '"'.$animateOut_1.'"' : 'false';
+    $animateOut_2 = $childSliderData['sliderAnimateOut'];
+    $animateOut_2 = $animateOut_2 ? '"'.$animateOut_2.'"' : 'false';
+
+    $autoHeight_1 = $sliderData['autoHeight'] ? 'true' : 'false';
+    $autoHeight_2 = $childSliderData['autoHeight'] ? 'true' : 'false';
+
+    $autoplay_1 = $sliderData['autoPlay'] ? 'true' : 'false';
+
+    $autoplayTimeout_1 = $sliderData['autoPlaySpeed'] ? $sliderData['autoPlaySpeed'] : '5000';
+
+    $autoplayHoverPause_1 = $sliderData['pauseHover'] ? 'true' : 'false';
+
+    $mouseDrag_1 = $sliderData['draggable'] ? 'true' : 'false';
+    $mouseDrag_2 = $childSliderData['draggable'] ? 'true' : 'false';
+?>
+<?php if($sliderData['customCss']) : ?>
+    <style><?= $sliderData['customCss'] ?></style>
+<?php endif; ?>
+
+<div class="magenest-slider-syncing <?= $sliderData['customClass'] ?>">
+    <div class="magenest-slider sync1 owl-carousel owl-theme" id="magenest_slider_<?= $sliderId; ?>">
+
+        <!-- Slider item -->
+        <?php foreach ($sliderData['items'] as $sliderItem) : ?>
+            <div class="slider-item-container <?= $sliderItem['itemCustomClass'] ?>"
+                 style=" <?php if($sliderItem['paddingTop']): echo('padding-top: '.$sliderItem['paddingTop'].'px;'); endif; ?>
+                 <?php if($sliderItem['paddingBottom']): echo('padding-bottom: '.$sliderItem['paddingBottom'].'px;'); endif; ?>
+                 <?php if($sliderItem['paddingLeft']): echo('padding-left: '.$sliderItem['paddingLeft'].'px;'); endif; ?>
+                 <?php if($sliderItem['paddingRight']): echo('padding-right: '.$sliderItem['paddingRight'].'px;'); endif; ?>
+                 <?php if($sliderItem['marginTop']): echo('margin-top: '.$sliderItem['marginTop'].'px;'); endif; ?>
+                 <?php if($sliderItem['marginBottom']): echo('margin-bottom: '.$sliderItem['marginBottom'].'px;'); endif; ?>
+                 <?php if($sliderItem['marginLeft']): echo('margin-left: '.$sliderItem['marginLeft'].'px;'); endif; ?>
+                 <?php if($sliderItem['marginRight']): echo('margin-right: '.$sliderItem['marginRight'].'px;'); endif; ?>">
+                <div class="slider-item-bg"
+                     style=" <?php if(isset($sliderItem['bgImage']) && $sliderItem['bgImage']): echo('background-image: url('. $block->getBaseUrl() . $sliderItem['bgImage'].');'); endif; ?>
+                     <?php if(isset($sliderItem['bgPosition']) && $sliderItem['bgPosition']): echo('background-position: '.$sliderItem['bgPosition'].';'); endif; ?>
+                     <?php if(isset($sliderItem['bgSize']) && $sliderItem['bgSize']): echo('background-size: '.$sliderItem['bgSize'].';'); endif; ?>
+                     <?php if(isset($sliderItem['bgRepeat']) && $sliderItem['bgRepeat']): echo('background-repeat: '.$sliderItem['bgRepeat'].';'); endif; ?>
+                     <?php if($sliderItem['marginTop']): echo('top: '.$sliderItem['marginTop'].'px;'); endif; ?>
+                     <?php if($sliderItem['marginBottom']): echo('bottom: '.$sliderItem['marginBottom'].'px;'); endif; ?>
+                     <?php if($sliderItem['marginLeft']): echo('left: '.$sliderItem['marginLeft'].'px;'); endif; ?>
+                     <?php if($sliderItem['marginRight']): echo('right: '.$sliderItem['marginRight'].'px;'); endif; ?> "></div>
+                <div class="slider-item-content <?= 'animated '.$sliderItem['contentAnimation']; ?> <?php if($sliderItem['contentAnimationDelay']): echo('mgn-animation-delay'); endif; ?>" data-itemid="<?= $sliderItem['id']; ?>"
+                     style=" <?php if($sliderItem['contentPaddingTop']): echo('padding-top: '.$sliderItem['contentPaddingTop'].'px;'); endif; ?>
+                     <?php if($sliderItem['contentPaddingBottom']): echo('padding-bottom: '.$sliderItem['contentPaddingBottom'].'px;'); endif; ?>
+                     <?php if($sliderItem['contentPaddingLeft']): echo('padding-left: '.$sliderItem['contentPaddingLeft'].'px;'); endif; ?>
+                     <?php if($sliderItem['contentPaddingRight']): echo('padding-right: '.$sliderItem['contentPaddingRight'].'px;'); endif; ?>
+                     <?php if($sliderItem['contentMarginTop']): echo('margin-top: '.$sliderItem['contentMarginTop'].'px;'); endif; ?>
+                     <?php if($sliderItem['contentMarginBottom']): echo('margin-bottom: '.$sliderItem['contentMarginBottom'].'px;'); endif; ?>
+                     <?php if($sliderItem['contentMarginLeft'] && $sliderItem['contentPosition'] != 'center'): echo('margin-left: '.$sliderItem['contentMarginLeft'].'px;'); endif; ?>
+                     <?php if($sliderItem['contentMarginRight'] && $sliderItem['contentPosition'] != 'center'): echo('margin-right: '.$sliderItem['contentMarginRight'].'px;'); endif; ?>
+                     <?php if($sliderItem['contentPosition'] != 'center'):
+                         $maxWidth = (int)$sliderItem['contentMarginLeft'] + (int)$sliderItem['contentMarginRight'];
+                         echo ('max-width: calc(100% - '.$maxWidth.'px);');
+                     endif; ?>
+                     <?php if($sliderItem['contentWidth'] && $sliderItem['contentWidthUnit']): echo('width: '.$sliderItem['contentWidth'].$sliderItem['contentWidthUnit'].';'); endif; ?>
+                     <?php if($sliderItem['contentHeight'] && $sliderItem['contentHeightUnit']): echo('height: '.$sliderItem['contentHeight'].$sliderItem['contentHeightUnit'].';'); endif; ?>
+                     <?php if($sliderItem['contentPosition'] == 'right'):
+                         echo('float: right;');
+                     elseif($sliderItem['contentPosition'] == 'center'):
+                         echo('float: none; margin-left: auto; margin-right: auto;');
+                     endif; ?>
+                     <?php if($sliderItem['contentBgColor'] && $sliderItem['contentOpacity']): echo('background-color: '.$block->hex2rgba($sliderItem['contentBgColor'], $sliderItem['contentOpacity']).';'); endif; ?>
+                     <?php if($sliderItem['contentAnimationDelay']): echo('--animation-delay:'.$sliderItem['contentAnimationDelay'].'s;'); endif; ?>">
+
+                    <!-- Content Box -->
+                    <?php foreach ($sliderItem['blocks'] as $contentBox) : ?>
+                        <!-- Button -->
+                        <?php if($contentBox['type']=='button'):?>
+                            <div class="content-box content-box--button content-box--<?= $contentBox['position'] ?> <?= $contentBox['customClass'] ?>">
+                                <?php
+                                $btnUrl = $contentBox['customLink'];
+                                $btnColor = $contentBox['textColor'] ? $contentBox['textColor'] : '#f26321';
+                                $btnColorHover = $contentBox['textColorHover'] ? $contentBox['textColorHover'] : $btnColor;
+                                $btnBgColor = $contentBox['bgColor'] ? $contentBox['bgColor'] : 'transparent';
+                                $btnBgColorHover = $contentBox['bgColorHover'] ? $contentBox['bgColorHover'] : $btnBgColor;
+                                $btnBorderColor = $contentBox['borderColor'] ? $contentBox['borderColor'] : 'transparent';
+                                $btnBorderColorHover = $contentBox['borderColorHover'] ? $contentBox['borderColorHover'] : $btnBgColor;
+                                ?>
+                                <a href="<?= $btnUrl ?>" class="magenest-button <?= 'animated '.$contentBox['animation'] ?> <?php if($contentBox['animationDelay']): echo('mgn-animation-delay'); endif; ?>"
+                                   style=" <?php if($contentBox['width'] && $contentBox['widthUnit']): echo('width: '.$contentBox['width'].$contentBox['widthUnit'].';'); endif; ?>
+                                   <?php if($contentBox['paddingTop']): echo('padding-top: '.$contentBox['paddingTop'].'px;'); endif; ?>
+                                   <?php if($contentBox['paddingBottom']): echo('padding-bottom: '.$contentBox['paddingBottom'].'px;'); endif; ?>
+                                   <?php if($contentBox['paddingLeft']): echo('padding-left: '.$contentBox['paddingLeft'].'px;'); endif; ?>
+                                   <?php if($contentBox['paddingRight']): echo('padding-right: '.$contentBox['paddingRight'].'px;'); endif; ?>
+                                   <?php if($contentBox['marginTop']): echo('margin-top: '.$contentBox['marginTop'].'px;'); endif; ?>
+                                   <?php if($contentBox['marginBottom']): echo('margin-bottom: '.$contentBox['marginBottom'].'px;'); endif; ?>
+                                   <?php if($contentBox['marginLeft']): echo('margin-left: '.$contentBox['marginLeft'].'px;'); endif; ?>
+                                   <?php if($contentBox['marginRight']): echo('margin-right: '.$contentBox['marginRight'].'px;'); endif; ?>
+                                   <?php if($contentBox['fontSize']): echo('font-size:'.$contentBox['fontSize'].'px;'); endif; ?>
+                                   <?php if($contentBox['animationDelay']): echo('--animation-delay:'.$contentBox['animationDelay'].'s;'); endif; ?>
+                                           --color: <?= $btnColor ?>;
+                                           --color-hover: <?= $btnColorHover ?>;
+                                           --bg: <?= $btnBgColor ?>;
+                                           --bg-hover: <?= $btnBgColorHover ?>;
+                                           --border: <?= $btnBorderColor ?>;
+                                           --border-hover: <?= $btnBorderColorHover ?>;">
+                                    <?= $contentBox['content'] ?>
+                                </a>
+                            </div>
+                            <!-- END Button -->
+                            <!-- Text -->
+                        <?php elseif ($contentBox['type']=='text'):?>
+                            <div class="content-box content-box--text content-box--<?= $contentBox['position'] ?> <?= $contentBox['customClass'] ?> <?= 'animated '.$contentBox['animation'] ?> <?php if($contentBox['animationDelay']): echo('mgn-animation-delay'); endif; ?>"
+                                 style=" <?php if($contentBox['width'] && $contentBox['widthUnit']): echo('width: '.$contentBox['width'].$contentBox['widthUnit'].';'); endif; ?>
+                                 <?php if($contentBox['textAlign']): echo('text-align: '.$contentBox['textAlign'].';'); endif; ?>
+                                 <?php if($contentBox['textColor']): echo('color: '.$contentBox['textColor'].';'); endif; ?>
+                                 <?php if($contentBox['paddingTop']): echo('padding-top: '.$contentBox['paddingTop'].'px;'); endif; ?>
+                                 <?php if($contentBox['paddingBottom']): echo('padding-bottom: '.$contentBox['paddingBottom'].'px;'); endif; ?>
+                                 <?php if($contentBox['paddingLeft']): echo('padding-left: '.$contentBox['paddingLeft'].'px;'); endif; ?>
+                                 <?php if($contentBox['paddingRight']): echo('padding-right: '.$contentBox['paddingRight'].'px;'); endif; ?>
+                                 <?php if($contentBox['marginTop']): echo('margin-top: '.$contentBox['marginTop'].'px;'); endif; ?>
+                                 <?php if($contentBox['marginBottom']): echo('margin-bottom: '.$contentBox['marginBottom'].'px;'); endif; ?>
+                                 <?php if($contentBox['marginLeft']): echo('margin-left: '.$contentBox['marginLeft'].'px;'); endif; ?>
+                                 <?php if($contentBox['marginRight']): echo('margin-right: '.$contentBox['marginRight'].'px;'); endif; ?>
+                                 <?php if($contentBox['fontSize']): echo('font-size:'.$contentBox['fontSize'].'px;'); endif; ?>
+                                 <?php if($contentBox['animationDelay']): echo('--animation-delay:'.$contentBox['animationDelay'].'s;'); endif; ?>">
+                                <h3><?= $contentBox['content'] ?></h3>
+                            </div>
+                            <!-- END Text -->
+                            <!-- HTML -->
+                        <?php elseif ($contentBox['type']=='html'):?>
+                            <div class="content-box content-box--html content-box--<?= $contentBox['position'] ?> <?= $contentBox['customClass'] ?> <?= 'animated '.$contentBox['animation'] ?> <?php if($contentBox['animationDelay']): echo('mgn-animation-delay'); endif; ?>"
+                                 style=" <?php if($contentBox['width'] && $contentBox['widthUnit']): echo('width: '.$contentBox['width'].$contentBox['widthUnit'].';'); endif; ?>
+                                 <?php if($contentBox['paddingTop']): echo('padding-top: '.$contentBox['paddingTop'].'px;'); endif; ?>
+                                 <?php if($contentBox['paddingBottom']): echo('padding-bottom: '.$contentBox['paddingBottom'].'px;'); endif; ?>
+                                 <?php if($contentBox['paddingLeft']): echo('padding-left: '.$contentBox['paddingLeft'].'px;'); endif; ?>
+                                 <?php if($contentBox['paddingRight']): echo('padding-right: '.$contentBox['paddingRight'].'px;'); endif; ?>
+                                 <?php if($contentBox['marginTop']): echo('margin-top: '.$contentBox['marginTop'].'px;'); endif; ?>
+                                 <?php if($contentBox['marginBottom']): echo('margin-bottom: '.$contentBox['marginBottom'].'px;'); endif; ?>
+                                 <?php if($contentBox['marginLeft']): echo('margin-left: '.$contentBox['marginLeft'].'px;'); endif; ?>
+                                 <?php if($contentBox['marginRight']): echo('margin-right: '.$contentBox['marginRight'].'px;'); endif; ?>">
+                                <?= $contentBox['content'] ?>
+                            </div>
+                        <?php endif;?>
+                        <!-- END HTML -->
+                    <?php endforeach; ?>
+                    <!-- END Content Box -->
+
+                </div>
+            </div>
+        <?php endforeach; ?>
+        <!-- END Slider item -->
+
+    </div>
+
+    <div class="magenest-slider sync2 owl-carousel owl-theme" id="magenest_slider_<?= $childSliderId; ?>">
+
+        <!-- Slider item -->
+        <?php foreach ($childSliderData['items'] as $sliderItem) : ?>
+            <div class="slider-item-container <?= $sliderItem['itemCustomClass'] ?>"
+                 style=" <?php if($sliderItem['paddingTop']): echo('padding-top: '.$sliderItem['paddingTop'].'px;'); endif; ?>
+                 <?php if($sliderItem['paddingBottom']): echo('padding-bottom: '.$sliderItem['paddingBottom'].'px;'); endif; ?>
+                 <?php if($sliderItem['paddingLeft']): echo('padding-left: '.$sliderItem['paddingLeft'].'px;'); endif; ?>
+                 <?php if($sliderItem['paddingRight']): echo('padding-right: '.$sliderItem['paddingRight'].'px;'); endif; ?>
+                 <?php if($sliderItem['marginTop']): echo('margin-top: '.$sliderItem['marginTop'].'px;'); endif; ?>
+                 <?php if($sliderItem['marginBottom']): echo('margin-bottom: '.$sliderItem['marginBottom'].'px;'); endif; ?>
+                 <?php if($sliderItem['marginLeft']): echo('margin-left: '.$sliderItem['marginLeft'].'px;'); endif; ?>
+                 <?php if($sliderItem['marginRight']): echo('margin-right: '.$sliderItem['marginRight'].'px;'); endif; ?>">
+                <div class="slider-item-bg"
+                     style=" <?php if(isset($sliderItem['bgImage']) && $sliderItem['bgImage']): echo('background-image: url('. $block->getBaseUrl() . $sliderItem['bgImage'].');'); endif; ?>
+                     <?php if(isset($sliderItem['bgPosition']) && $sliderItem['bgPosition']): echo('background-position: '.$sliderItem['bgPosition'].';'); endif; ?>
+                     <?php if(isset($sliderItem['bgSize']) && $sliderItem['bgSize']): echo('background-size: '.$sliderItem['bgSize'].';'); endif; ?>
+                     <?php if(isset($sliderItem['bgRepeat']) && $sliderItem['bgRepeat']): echo('background-repeat: '.$sliderItem['bgRepeat'].';'); endif; ?>
+                     <?php if($sliderItem['marginTop']): echo('top: '.$sliderItem['marginTop'].'px;'); endif; ?>
+                     <?php if($sliderItem['marginBottom']): echo('bottom: '.$sliderItem['marginBottom'].'px;'); endif; ?>
+                     <?php if($sliderItem['marginLeft']): echo('left: '.$sliderItem['marginLeft'].'px;'); endif; ?>
+                     <?php if($sliderItem['marginRight']): echo('right: '.$sliderItem['marginRight'].'px;'); endif; ?> "></div>
+                <div class="slider-item-content <?= 'animated '.$sliderItem['contentAnimation']; ?> <?php if($sliderItem['contentAnimationDelay']): echo('mgn-animation-delay'); endif; ?>" data-itemid="<?= $sliderItem['id']; ?>"
+                     style=" <?php if($sliderItem['contentPaddingTop']): echo('padding-top: '.$sliderItem['contentPaddingTop'].'px;'); endif; ?>
+                     <?php if($sliderItem['contentPaddingBottom']): echo('padding-bottom: '.$sliderItem['contentPaddingBottom'].'px;'); endif; ?>
+                     <?php if($sliderItem['contentPaddingLeft']): echo('padding-left: '.$sliderItem['contentPaddingLeft'].'px;'); endif; ?>
+                     <?php if($sliderItem['contentPaddingRight']): echo('padding-right: '.$sliderItem['contentPaddingRight'].'px;'); endif; ?>
+                     <?php if($sliderItem['contentMarginTop']): echo('margin-top: '.$sliderItem['contentMarginTop'].'px;'); endif; ?>
+                     <?php if($sliderItem['contentMarginBottom']): echo('margin-bottom: '.$sliderItem['contentMarginBottom'].'px;'); endif; ?>
+                     <?php if($sliderItem['contentMarginLeft'] && $sliderItem['contentPosition'] != 'center'): echo('margin-left: '.$sliderItem['contentMarginLeft'].'px;'); endif; ?>
+                     <?php if($sliderItem['contentMarginRight'] && $sliderItem['contentPosition'] != 'center'): echo('margin-right: '.$sliderItem['contentMarginRight'].'px;'); endif; ?>
+                     <?php if($sliderItem['contentPosition'] != 'center'):
+                         $maxWidth = (int)$sliderItem['contentMarginLeft'] + (int)$sliderItem['contentMarginRight'];
+                         echo ('max-width: calc(100% - '.$maxWidth.'px);');
+                     endif; ?>
+                     <?php if($sliderItem['contentWidth'] && $sliderItem['contentWidthUnit']): echo('width: '.$sliderItem['contentWidth'].$sliderItem['contentWidthUnit'].';'); endif; ?>
+                     <?php if($sliderItem['contentHeight'] && $sliderItem['contentHeightUnit']): echo('height: '.$sliderItem['contentHeight'].$sliderItem['contentHeightUnit'].';'); endif; ?>
+                     <?php if($sliderItem['contentPosition'] == 'right'):
+                         echo('float: right;');
+                     elseif($sliderItem['contentPosition'] == 'center'):
+                         echo('float: none; margin-left: auto; margin-right: auto;');
+                     endif; ?>
+                     <?php if($sliderItem['contentBgColor'] && $sliderItem['contentOpacity']): echo('background-color: '.$block->hex2rgba($sliderItem['contentBgColor'], $sliderItem['contentOpacity']).';'); endif; ?>
+                     <?php if($sliderItem['contentAnimationDelay']): echo('--animation-delay:'.$sliderItem['contentAnimationDelay'].'s;'); endif; ?>">
+
+                    <!-- Content Box -->
+                    <?php foreach ($sliderItem['blocks'] as $contentBox) : ?>
+                        <!-- Button -->
+                        <?php if($contentBox['type']=='button'):?>
+                            <div class="content-box content-box--button content-box--<?= $contentBox['position'] ?> <?= $contentBox['customClass'] ?>">
+                                <?php
+                                $btnUrl = $contentBox['customLink'];
+                                $btnColor = $contentBox['textColor'] ? $contentBox['textColor'] : '#f26321';
+                                $btnColorHover = $contentBox['textColorHover'] ? $contentBox['textColorHover'] : $btnColor;
+                                $btnBgColor = $contentBox['bgColor'] ? $contentBox['bgColor'] : 'transparent';
+                                $btnBgColorHover = $contentBox['bgColorHover'] ? $contentBox['bgColorHover'] : $btnBgColor;
+                                $btnBorderColor = $contentBox['borderColor'] ? $contentBox['borderColor'] : 'transparent';
+                                $btnBorderColorHover = $contentBox['borderColorHover'] ? $contentBox['borderColorHover'] : $btnBgColor;
+                                ?>
+                                <a href="<?= $btnUrl ?>" class="magenest-button <?= 'animated '.$contentBox['animation'] ?> <?php if($contentBox['animationDelay']): echo('mgn-animation-delay'); endif; ?>"
+                                   style=" <?php if($contentBox['width'] && $contentBox['widthUnit']): echo('width: '.$contentBox['width'].$contentBox['widthUnit'].';'); endif; ?>
+                                   <?php if($contentBox['paddingTop']): echo('padding-top: '.$contentBox['paddingTop'].'px;'); endif; ?>
+                                   <?php if($contentBox['paddingBottom']): echo('padding-bottom: '.$contentBox['paddingBottom'].'px;'); endif; ?>
+                                   <?php if($contentBox['paddingLeft']): echo('padding-left: '.$contentBox['paddingLeft'].'px;'); endif; ?>
+                                   <?php if($contentBox['paddingRight']): echo('padding-right: '.$contentBox['paddingRight'].'px;'); endif; ?>
+                                   <?php if($contentBox['marginTop']): echo('margin-top: '.$contentBox['marginTop'].'px;'); endif; ?>
+                                   <?php if($contentBox['marginBottom']): echo('margin-bottom: '.$contentBox['marginBottom'].'px;'); endif; ?>
+                                   <?php if($contentBox['marginLeft']): echo('margin-left: '.$contentBox['marginLeft'].'px;'); endif; ?>
+                                   <?php if($contentBox['marginRight']): echo('margin-right: '.$contentBox['marginRight'].'px;'); endif; ?>
+                                   <?php if($contentBox['fontSize']): echo('font-size:'.$contentBox['fontSize'].'px;'); endif; ?>
+                                   <?php if($contentBox['animationDelay']): echo('--animation-delay:'.$contentBox['animationDelay'].'s;'); endif; ?>
+                                           --color: <?= $btnColor ?>;
+                                           --color-hover: <?= $btnColorHover ?>;
+                                           --bg: <?= $btnBgColor ?>;
+                                           --bg-hover: <?= $btnBgColorHover ?>;
+                                           --border: <?= $btnBorderColor ?>;
+                                           --border-hover: <?= $btnBorderColorHover ?>;">
+                                    <?= $contentBox['content'] ?>
+                                </a>
+                            </div>
+                            <!-- END Button -->
+                            <!-- Text -->
+                        <?php elseif ($contentBox['type']=='text'):?>
+                            <div class="content-box content-box--text content-box--<?= $contentBox['position'] ?> <?= $contentBox['customClass'] ?> <?= 'animated '.$contentBox['animation'] ?> <?php if($contentBox['animationDelay']): echo('mgn-animation-delay'); endif; ?>"
+                                 style=" <?php if($contentBox['width'] && $contentBox['widthUnit']): echo('width: '.$contentBox['width'].$contentBox['widthUnit'].';'); endif; ?>
+                                 <?php if($contentBox['textAlign']): echo('text-align: '.$contentBox['textAlign'].';'); endif; ?>
+                                 <?php if($contentBox['textColor']): echo('color: '.$contentBox['textColor'].';'); endif; ?>
+                                 <?php if($contentBox['paddingTop']): echo('padding-top: '.$contentBox['paddingTop'].'px;'); endif; ?>
+                                 <?php if($contentBox['paddingBottom']): echo('padding-bottom: '.$contentBox['paddingBottom'].'px;'); endif; ?>
+                                 <?php if($contentBox['paddingLeft']): echo('padding-left: '.$contentBox['paddingLeft'].'px;'); endif; ?>
+                                 <?php if($contentBox['paddingRight']): echo('padding-right: '.$contentBox['paddingRight'].'px;'); endif; ?>
+                                 <?php if($contentBox['marginTop']): echo('margin-top: '.$contentBox['marginTop'].'px;'); endif; ?>
+                                 <?php if($contentBox['marginBottom']): echo('margin-bottom: '.$contentBox['marginBottom'].'px;'); endif; ?>
+                                 <?php if($contentBox['marginLeft']): echo('margin-left: '.$contentBox['marginLeft'].'px;'); endif; ?>
+                                 <?php if($contentBox['marginRight']): echo('margin-right: '.$contentBox['marginRight'].'px;'); endif; ?>
+                                 <?php if($contentBox['fontSize']): echo('font-size:'.$contentBox['fontSize'].'px;'); endif; ?>
+                                 <?php if($contentBox['animationDelay']): echo('--animation-delay:'.$contentBox['animationDelay'].'s;'); endif; ?>">
+                                <h3><?= $contentBox['content'] ?></h3>
+                            </div>
+                            <!-- END Text -->
+                            <!-- HTML -->
+                        <?php elseif ($contentBox['type']=='html'):?>
+                            <div class="content-box content-box--html content-box--<?= $contentBox['position'] ?> <?= $contentBox['customClass'] ?> <?= 'animated '.$contentBox['animation'] ?> <?php if($contentBox['animationDelay']): echo('mgn-animation-delay'); endif; ?>"
+                                 style=" <?php if($contentBox['width'] && $contentBox['widthUnit']): echo('width: '.$contentBox['width'].$contentBox['widthUnit'].';'); endif; ?>
+                                 <?php if($contentBox['paddingTop']): echo('padding-top: '.$contentBox['paddingTop'].'px;'); endif; ?>
+                                 <?php if($contentBox['paddingBottom']): echo('padding-bottom: '.$contentBox['paddingBottom'].'px;'); endif; ?>
+                                 <?php if($contentBox['paddingLeft']): echo('padding-left: '.$contentBox['paddingLeft'].'px;'); endif; ?>
+                                 <?php if($contentBox['paddingRight']): echo('padding-right: '.$contentBox['paddingRight'].'px;'); endif; ?>
+                                 <?php if($contentBox['marginTop']): echo('margin-top: '.$contentBox['marginTop'].'px;'); endif; ?>
+                                 <?php if($contentBox['marginBottom']): echo('margin-bottom: '.$contentBox['marginBottom'].'px;'); endif; ?>
+                                 <?php if($contentBox['marginLeft']): echo('margin-left: '.$contentBox['marginLeft'].'px;'); endif; ?>
+                                 <?php if($contentBox['marginRight']): echo('margin-right: '.$contentBox['marginRight'].'px;'); endif; ?>">
+                                <?= $contentBox['content'] ?>
+                            </div>
+                        <?php endif;?>
+                        <!-- END HTML -->
+                    <?php endforeach; ?>
+                    <!-- END Content Box -->
+
+                </div>
+            </div>
+        <?php endforeach; ?>
+        <!-- END Slider item -->
+
+    </div>
+</div>
+
+
+<script>
+    require([
+        "jquery",
+        "Magenest_Slider/js/owl.carousel",
+        "Magenest_Slider/js/owl.carousel.extend"
+    ], function($, owlCarousel, sliderSyncing){
+
+        var sync1 = $("#magenest_slider_<?= $sliderId; ?>");
+        var sync2 = $("#magenest_slider_<?= $childSliderId; ?>");
+        var optionSync1 = [<?= $items_1 ?>, <?= $margin_1 ?>, <?= $nav_1 ?>, <?= $dots_1 ?>, <?= $animateIn_1 ?>, <?= $animateOut_1 ?>, <?= $autoHeight_1 ?>, <?= $autoplay_1 ?>, <?= $autoplayTimeout_1 ?>, <?= $autoplayHoverPause_1 ?>, <?= $mouseDrag_1 ?>, <?= $items0_1 ?>, <?= $items480_1 ?>, <?= $items768_1 ?>, <?= $items1024_1 ?>];
+        var optionSync2 = [<?= $items_2 ?>, <?= $margin_2 ?>, <?= $nav_2 ?>, <?= $dots_2 ?>, <?= $animateIn_2 ?>, <?= $animateOut_2 ?>, <?= $autoHeight_2 ?>, false, 0, false, <?= $mouseDrag_2 ?>, <?= $items0_2 ?>, <?= $items480_2 ?>, <?= $items768_2 ?>, <?= $items1024_2 ?>];
+
+        /* optionSync1, optionSync2 = [items, margin, nav, dots, animateIn, animateOut, autoHeight, autoplay, autoplayTimeout, autoplayHoverPause, mouseDrag, items-0, items-480, items-768, items-1024 ] */
+        /*
+        * optionSync1.autoplay === optionSync2.autoplay
+        * optionSync1.autoplayTimeout === optionSync2.autoplayTimeout
+        * optionSync1.autoplayHoverPause === optionSync2.autoplayHoverPause
+        * */
+
+        <?php if($autoHeight_1=='false'): ?>
+        $('#magenest_slider_<?= $sliderId; ?>').on('refreshed.owl.carousel', function(event) {
+            $(this).find('.owl-item').css('min-height','auto');
+            let height = $(this).find('.owl-stage').outerHeight();
+            $(this).find('.owl-item').css('min-height',height);
+        });
+        <?php endif; ?>
+        <?php if($autoHeight_2=='false'): ?>
+        $('#magenest_slider_<?= $childSliderId; ?>').on('refreshed.owl.carousel', function(event) {
+            $(this).find('.owl-item').css('min-height','auto');
+            let height = $(this).find('.owl-stage').outerHeight();
+            $(this).find('.owl-item').css('min-height',height);
+        });
+        <?php endif; ?>
+
+        sliderSyncing.sliderSyncing(sync1,sync2, optionSync1, optionSync2);
+
+    });
+</script>

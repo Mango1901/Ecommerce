@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2019 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ *
+ * Magenest_MegaMenu extension
+ * NOTICE OF LICENSE
+ *
+ * @category Magenest
+ * @package Magenest_MegaMenu
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="magenest" translate="label" sortOrder="200">
+            <label>Magenest</label>
+        </tab>
+        <section id="mega_menu" translate="label" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Mega Menu</label>
+            <tab>magenest</tab>
+            <resource>Magenest_MegaMenu::configuration</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Configuration</label>
+                <field id="enable" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Mega Menu</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="disable_owl_carousel" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Disable Owl Carousel Library</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Disable Owl Carousel Library (if theme has already declared it)]]></comment>
+                    <depends>
+                        <field id="mega_menu/general/enable">1</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="default_conf" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Default Menu Configuration</label>
+                <depends>
+                    <field id="mega_menu/general/enable">1</field>
+                </depends>
+                <field id="txt_color" translate="label comment" sortOrder="20" type="text" showInDefault="1"
+                       showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Text Color</label>
+                    <validate>jscolor {hash:true,refine:false}</validate>
+                    <depends>
+                        <field id="page_design">flat</field>
+                    </depends>
+                </field>
+                <field id="hov_txt_color" translate="label comment" sortOrder="20" type="text" showInDefault="1"
+                       showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Hover Text Color</label>
+                    <validate>jscolor {hash:true,refine:false}</validate>
+                    <depends>
+                        <field id="page_design">flat</field>
+                    </depends>
+                </field>
+                <field id="hov_btn_bg_color" translate="label comment" sortOrder="20" type="text" showInDefault="1"
+                       showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Hover Button Background Color</label>
+                    <validate>jscolor {hash:true,refine:false}</validate>
+                    <depends>
+                        <field id="page_design">flat</field>
+                    </depends>
+                </field>
+                <field id="drd_bg_color" translate="label comment" sortOrder="20" type="text" showInDefault="1"
+                       showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Dropdown Background Color</label>
+                    <validate>jscolor {hash:true,refine:false}</validate>
+                    <depends>
+                        <field id="page_design">flat</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="backup" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Auto Backup</label>
+                <depends>
+                    <field id="mega_menu/general/enable">1</field>
+                </depends>
+                <field id="enable" translate="label comment" sortOrder="10" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Auto Backup</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="backup_times" translate="label comment" sortOrder="20" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Number of Backup Version</label>
+                    <depends>
+                        <field id="mega_menu/backup/enable">1</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="mobile_footer" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Mobile Footer</label>
+                <depends>
+                    <field id="mega_menu/general/enable">1</field>
+                </depends>
+                <field id="main_category" translate="label comment" sortOrder="10" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Mega Menu Main Category Link</label>
+                    <source_model>Magenest\MegaMenu\Model\Config\Source\Category</source_model>
+                </field>
+                <field id="promotion_category" translate="label comment" sortOrder="20" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Mega Menu Promotion Category Link</label>
+                    <source_model>Magenest\MegaMenu\Model\Config\Source\Category</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

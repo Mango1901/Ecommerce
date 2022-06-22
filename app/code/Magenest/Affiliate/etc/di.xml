@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<!--
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="affiliate_account_listing_data_source" xsi:type="string">
+                    Magenest\Affiliate\Model\ResourceModel\Account\Grid\Collection
+                </item>
+                <item name="affiliate_group_listing_data_source" xsi:type="string">
+                    Magenest\Affiliate\Model\ResourceModel\Group\Grid\Collection
+                </item>
+                <item name="affiliate_campaign_listing_data_source" xsi:type="string">
+                    Magenest\Affiliate\Model\ResourceModel\Campaign\Grid\Collection
+                </item>
+                <item name="affiliate_transaction_listing_data_source" xsi:type="string">
+                    Magenest\Affiliate\Model\ResourceModel\Transaction\Grid\Collection
+                </item>
+                <item name="affiliate_withdraw_listing_data_source" xsi:type="string">
+                    Magenest\Affiliate\Model\ResourceModel\Withdraw\Grid\Collection
+                </item>
+                <item name="affiliate_banner_listing_data_source" xsi:type="string">
+                    Magenest\Affiliate\Model\ResourceModel\Banner\Grid\Collection
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="Magenest\Affiliate\Model\ResourceModel\Group\Grid\Collection"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">magenest_affiliate_group</argument>
+            <argument name="resourceModel" xsi:type="string">Magenest\Affiliate\Model\ResourceModel\Group</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magenest\Affiliate\Model\ResourceModel\Campaign\Grid\Collection"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">magenest_affiliate_campaign</argument>
+            <argument name="resourceModel" xsi:type="string">Magenest\Affiliate\Model\ResourceModel\Campaign</argument>
+        </arguments>
+    </virtualType>
+    <preference for="Magenest\Affiliate\Api\GuestCouponManagementInterface"
+                type="Magenest\Affiliate\Model\GuestCouponManagement"/>
+    <preference for="Magenest\Affiliate\Api\CouponManagementInterface"
+                type="Magenest\Affiliate\Model\CouponManagement"/>
+
+    <preference for="Magenest\Affiliate\Api\ConfigRepositoryInterface"
+                type="Magenest\Affiliate\Model\ConfigRepository"/>
+    <preference for="Magenest\Affiliate\Api\Data\ConfigInterface" type="Magenest\Affiliate\Model\Api\Config"/>
+    <preference for="Magenest\Affiliate\Api\Data\Config\GeneralConfigInterface"
+                type="Magenest\Affiliate\Model\Api\Config\GeneralConfig"/>
+    <preference for="Magenest\Affiliate\Api\Data\Config\AccountConfigInterface"
+                type="Magenest\Affiliate\Model\Api\Config\AccountConfig"/>
+    <preference for="Magenest\Affiliate\Api\Data\Config\CommissionConfigInterface"
+                type="Magenest\Affiliate\Model\Api\Config\CommissionConfig"/>
+    <preference for="Magenest\Affiliate\Api\Data\Config\CommissionProcessConfigInterface"
+                type="Magenest\Affiliate\Model\Api\Config\CommissionProcessConfig"/>
+    <preference for="Magenest\Affiliate\Api\Data\Config\WithdrawConfigInterface"
+                type="Magenest\Affiliate\Model\Api\Config\WithdrawConfig"/>
+    <preference for="Magenest\Affiliate\Api\Data\Config\EmailConfigInterface"
+                type="Magenest\Affiliate\Model\Api\Config\EmailConfig"/>
+    <preference for="Magenest\Affiliate\Api\Data\Config\EmailAdminConfigInterface"
+                type="Magenest\Affiliate\Model\Api\Config\EmailAdminConfig"/>
+    <preference for="Magenest\Affiliate\Api\Data\Config\EmailAccountConfigInterface"
+                type="Magenest\Affiliate\Model\Api\Config\EmailAccountConfig"/>
+    <preference for="Magenest\Affiliate\Api\Data\Config\EmailTransactionConfigInterface"
+                type="Magenest\Affiliate\Model\Api\Config\EmailTransactionConfig"/>
+    <preference for="Magenest\Affiliate\Api\Data\Config\EmailWithdrawConfigInterface"
+                type="Magenest\Affiliate\Model\Api\Config\EmailWithdrawConfig"/>
+    <preference for="Magenest\Affiliate\Api\Data\Config\ReferConfigInterface"
+                type="Magenest\Affiliate\Model\Api\Config\ReferConfig"/>
+    <preference for="Magenest\Affiliate\Api\Data\Config\ReferSharingContentInterface"
+                type="Magenest\Affiliate\Model\Api\Config\ReferSharingContentConfig"/>
+
+    <preference for="Magenest\Affiliate\Api\Data\AccountInterface" type="Magenest\Affiliate\Model\Api\Account"/>
+    <preference for="Magenest\Affiliate\Api\AccountRepositoryInterface"
+                type="Magenest\Affiliate\Model\AccountRepository"/>
+
+    <preference for="Magenest\Affiliate\Api\Data\TransactionSearchResultInterface"
+                type="Magenest\Affiliate\Model\ResourceModel\Transaction\Api\Collection"/>
+    <preference for="Magenest\Affiliate\Api\Data\TransactionInterface" type="Magenest\Affiliate\Model\Api\Transaction"/>
+
+    <preference for="Magenest\Affiliate\Api\Data\WithdrawSearchResultInterface"
+                type="Magenest\Affiliate\Model\ResourceModel\Withdraw\Api\Collection"/>
+    <preference for="Magenest\Affiliate\Api\Data\WithdrawInterface" type="Magenest\Affiliate\Model\Api\Withdraw"/>
+
+    <preference for="Magenest\Affiliate\Api\Data\CampaignSearchResultInterface"
+                type="Magenest\Affiliate\Model\ResourceModel\Campaign\Api\Collection"/>
+    <preference for="Magenest\Affiliate\Api\Data\CampaignInterface" type="Magenest\Affiliate\Model\Api\Campaign"/>
+    <preference for="Magenest\Affiliate\Block\Adminhtml\Campaign\Edit\Tab\Commissions\Arraycommission"
+                type="Magenest\Affiliate\Plugin\Arraycommission"/>
+
+    <preference for="Magento\Catalog\Pricing\Render\FinalPriceBox"
+                type="Magenest\Affiliate\Pricing\Render\FinalPriceBox"/>
+    <preference for="Magento\ConfigurableProduct\Pricing\Render\FinalPriceBox"
+                type="Magenest\Affiliate\Pricing\Render\ConfigurablePriceBox"/>
+
+    <preference for="Magenest\Affiliate\Api\GetCommissionDiscountInterface"
+                type="Magenest\Affiliate\Model\GetCommissionDiscount"/>
+</config>

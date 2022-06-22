@@ -1,0 +1,80 @@
+<?php
+/** @var \Magenest\ViettelPost\Block\Adminhtml\Shipment\Inventory $block */
+$shipment = $block->getShipment();
+$order = $shipment->getOrder();
+$shippingCarriers = $block->getShippingCarrier();
+$shippingCarrierCode = $block->getCarrierCode();
+?>
+<?php if($shippingCarrierCode){ ?>
+    <?php
+        $carrierModel = $block->getCarrierModel($shippingCarrierCode);
+        $orderData = $carrierModel->getShipmentData($shipment->getId());
+    ?>
+    <div class="admin__page-section-item-title">
+        <span class="title"><?= ucwords(str_replace("_", " ", $shippingCarrierCode))?></span>
+    </div>
+    <?php if(count($orderData) > 0){ ?>
+        <table class="data-table admin__table-secondary" style="width: 40%;">
+            <thead style="font-weight: bold;">
+                <tr>
+                    <td><?= __("Name") ?></td>
+                    <td><?= __("Value") ?></td>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($orderData as $k=>$v){ ?>
+                    <tr>
+                        <td><?= ucwords(str_replace("_", " ", $k)) ?></td>
+                        <td><?= $v ?></td>
+                    </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+    <?php } else { ?>
+        <?php if ($block->isDisplayed()){ ?>
+            <?=
+            $block->getChildHtml('backend_shipping_carrier_new');
+            ?>
+            <button id="request_shipment_button">Request shipment</button>
+            <script>
+                require(['jquery'], function ($) {
+                    $('#request_shipment_button').on("click", function (e) {
+                        var province_id = $('#city_id').val();
+                        var district_id = $('#district_id').val();
+                        var wards_id = $('#ward_id').val();
+                        var carrier = $('#carrier_select').val();
+                        if(!carrier){
+                            alert("Please validate input form");
+                            return;
+                        }
+                        e.preventDefault();
+                        $.ajax({
+                            url: '<?= $block->getUrl('viettelpost/shipment/request') ?>',
+                            data: {
+                                shipment_id: '<?= $shipment->getId() ?>',
+                                order_id: '<?= $block->getOrderId() ?>',
+                                carrier: carrier,
+                                order_note: $('#shipment_order_note').val(),
+                                province_id: province_id,
+                                district_id: district_id,
+                                wards_id: wards_id,
+                            },
+                            success: function (resp) {
+                                if(resp.success){
+                                    location.reload();
+                                }
+                                if(resp.error){
+                                    alert(resp.message)
+                                }
+                            },
+                            dataType: 'json',
+                            showLoader: true,
+                        });
+                    });
+                });
+            </script>
+        <?php } ?>
+    <?php }?>
+
+
+<?php } ?>

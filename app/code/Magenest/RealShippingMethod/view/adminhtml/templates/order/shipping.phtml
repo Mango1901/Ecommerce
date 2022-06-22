@@ -1,0 +1,176 @@
+<?php
+/** @var \Magento\Shipping\Block\Adminhtml\Order\Tracking|\Magento\Shipping\Block\Adminhtml\Order\Tracking\Invoice $block */
+$object = $block->getInvoice() ?? $block->getShipment();
+/** @var \Magenest\RealShippingMethod\ViewModel\Carriers $carriers */
+$carriers = $block->getOnlineCarriers();
+if (!$carriers->isSelfDelivery($object->getOrder())) : ?>
+    <?php
+        $carrierOptions = $carriers->getCarriersForStore($object->getStoreId());
+        $sourceOptions = $carriers->getAllSourcesAvailable($object->getAllItems());
+    ?>
+    <div class="real-shipping-container" style="margin-top: 50px; margin-bottom: 50px">
+        <div class="admin__page-section-title">
+            <span class="title"><?= $block->escapeHtml(__("Real Shipping Fee")) ?></span>
+        </div>
+        <div class="admin__page-section-content" style="margin: 10px">
+            <label>
+                <?= $block->escapeHtml(__("Carrier")) ?>:
+                <select id="real_shipping_method" name="real_shipping_method"
+                        class="select admin__control-select carrier required-entry">
+                    <?php foreach ($carrierOptions as $code => $name): ?>
+                        <option value="<?= $block->escapeHtmlAttr($code) ?>"><?= $block->escapeHtml($name) ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </label>
+        </div>
+        <div class="admin__page-section-content" style="margin: 10px">
+            <label>
+                <?= $block->escapeHtml(__("Source")) ?>:
+                <select id="pickup_source" name="pickup_source"
+                        class="select admin__control-select carrier required-entry">
+                    <?php foreach ($sourceOptions as $code => $string): ?>
+                        <option <?= $carriers->isExistVU157($code) ? 'isvu157=true' : ''?> value="<?= $block->escapeHtmlAttr($code) ?>"
+                            <?php if ($carriers->getSourceCode() === $code) {
+                                echo "selected";
+                            } ?>>
+                            <?= $block->escapeHtml($string) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </label>
+        </div>
+        <div id="calculated_fee_container" class="admin__page-section-content" style="margin: 10px; display: none">
+            <strong><?= __("Shipping Fee") ?></strong>: <span id="standard_fee"></span>
+
+            <div id="extension_fee_container"></div>
+        </div>
+        <div id="manual_fee" class="admin__page-section-content" style="margin: 10px; display: none">
+            <label>
+                <?= $block->escapeHtml(__("Shipping Fee")) ?>:
+                <input name="manual_fee" class="input-text admin__control-text"
+                       data-validate='{"required":true, "integer":true, "validate-zero-or-greater":true}'/>
+            </label>
+        </div>
+        <div id="error_messages"></div>
+        <script>
+            require(['jquery', 'mage/translate'], function ($, $t) {
+                let shippingSelect = $("#real_shipping_method"),
+                    sourceSelect = $("#pickup_source"),
+                    feeInput = $("#manual_fee"),
+                    calculatedFee = $("#calculated_fee_container"),
+                    submitButton = $('button.save.submit-button.primary');
+
+                $('#create_shipping_label').prop('disabled', true);
+
+                const hiddenSourceVU157 = function () {
+                    if (shippingSelect.val() === 'viettelPostCarrier') {
+                        $('select[id=pickup_source] option[isvu157=true]').attr('style', 'display:none;');
+                    } else {
+                        $('select[id=pickup_source] option[isvu157=true]').attr('style', 'display:block;');
+                    }
+                }
+
+                const hiddenShippingViettelPost = function () {
+                    if (sourceSelect.find("option:selected").attr('isvu157')) {
+                        $('select[id=real_shipping_method] option[value=viettelPostCarrier]').attr('style', 'display:none;');
+                    } else {
+                        $('select[id=real_shipping_method] option[value=viettelPostCarrier]').attr('style', 'display:block;');
+                    }
+                }
+
+                const fetchPrice = function () {
+                    if (shippingSelect.val() !== "" && sourceSelect.val() !== "") {
+                        if (shippingSelect.val() === 'viettelPostCarrier' && sourceSelect.find("option:selected").attr('isvu157')) {
+                            return;
+                        }
+
+                        $.ajax({
+                            type: 'GET',
+                            data: {
+                                method: shippingSelect.val(),
+                                pickup_source: sourceSelect.val(),
+                                order_id: "<?= $object->getOrderId() ?>"
+                            },
+                            url: "<?= $carriers->getShippingPriceUrl() ?>",
+                            showLoader: true,
+                            success: function (response) {
+                                if (response.success === true) {
+                                    let resultHtml = ""
+                                    calculatedFee.empty();
+                                    switch ($("#real_shipping_method").val()) {
+                                        case "giaohangtietkiem":
+                                            let fee = response.fee;
+                                            resultHtml = "<strong>" + $t("Shipping Fee") + "</strong>: <span>" + fee.fee + "</span>";
+                                            if (fee.insurance_fee > 0) {
+                                                resultHtml += "<br><strong>" + $t("Insurance Fee") + "</strong>: <span>" + fee.insurance_fee + "</span>";
+                                            }
+                                            for (let i of fee.extFees) {
+                                                resultHtml += "<br><strong>" + i.title + "</strong>: <span>" + i.display + "</span>";
+                                            }
+                                            break;
+                                        case "viettelPostCarrier":
+                                            if (response.error) {
+                                                resultHtml += "<strong>"+ response.message +"</strong>";
+                                            } else {
+                                                for (const key in response) {
+                                                    if (key !== "success") {
+                                                        resultHtml += '<br>' +
+                                                            '<input type="radio" id="' + response[key].MA_DV_CHINH + '" name="shipping_option" value="' + response[key].MA_DV_CHINH + '" required>' +
+                                                            '<label for="' + response[key].MA_DV_CHINH + '">' + response[key].TEN_DICHVU + ', ' + response[key].THOI_GIAN + ', <b>' + response[key].GIA_CUOC + '</b></label>';
+                                                    }
+                                                }
+                                            }
+                                            break;
+                                    }
+
+                                    calculatedFee.html(resultHtml);
+                                    calculatedFee.show();
+                                }
+                            },
+                            error: function (response) {
+                                submitButton.prop('disabled', true);
+                                let object = JSON.parse(response.responseText);
+                                $('body').notification('add', {
+                                    error: true,
+                                    message: object.message,
+                                    insertMethod: function (message) {
+                                        $('#error_messages').html(message);
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+                hiddenSourceVU157();
+                hiddenShippingViettelPost();
+
+                shippingSelect.change(function () {
+                    submitButton.prop('disabled', false);
+                    $('body').notification('clear');
+                    calculatedFee.hide();
+                    if (shippingSelect.val() === "custom") {
+                        feeInput.show();
+                        feeInput.find('input').prop('disabled', false);
+                    } else {
+                        hiddenSourceVU157();
+                        feeInput.hide();
+                        feeInput.find('input').prop('disabled', true);
+                        fetchPrice();
+                    }
+                })
+
+                sourceSelect.change(function () {
+                    let self = this;
+                    submitButton.prop('disabled', false);
+                    $('body').notification('clear');
+                    calculatedFee.hide();
+                    hiddenShippingViettelPost();
+
+                    if (shippingSelect.val() !== "custom") {
+                        fetchPrice();
+                    }
+                })
+            })
+        </script>
+    </div>
+<?php endif; ?>

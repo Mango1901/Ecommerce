@@ -1,0 +1,93 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+namespace Magenest\OrderManagement\Setup;
+
+use Magento\Framework\DB\Ddl\Table;
+use Magento\Framework\Setup\SchemaSetupInterface;
+use Magento\Framework\Setup\UpgradeSchemaInterface;
+use Magento\Framework\Setup\ModuleContextInterface;
+use Magento\Framework\App\State;
+
+/**
+ * Class UpgradeSchema
+ * @package Magenest\OrderManagement\Setup
+ */
+class UpgradeSchema implements UpgradeSchemaInterface
+{
+    /**
+     * @var State
+     */
+    protected $_state;
+
+    /**
+     * UpgradeData constructor.
+     *
+     * @param State $state
+     */
+    public function __construct(
+        State $state
+    )
+    {
+        $this->_state = $state;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function upgrade(SchemaSetupInterface $setup, ModuleContextInterface $context)
+    {
+        $setup->startSetup();
+
+        if (version_compare($context->getVersion(), "1.0.1", "<")) {
+            $this->_state->emulateAreaCode(
+                'global', function ($setup) {
+                $this->_addHoldUnpaidOrderSchema($setup);
+            }, [$setup]);
+        }
+
+        if (version_compare($context->getVersion(), "1.0.10", "<")) {
+            $this->_state->emulateAreaCode(
+                'global', function ($setup) {
+                $this->addAdminUserIdOrderGrid($setup);
+            }, [$setup]);
+        }
+        if (version_compare($context->getVersion(), '1.0.15') < 0) {
+            $tableName = $setup->getTable('sales_sequence_profile');
+            $bind['prefix'] = 2;
+            $where = ['profile_id IN(?)' => [3, 7, 11, 15, 19]];
+            $setup->getConnection()->update($tableName, $bind, $where);
+        }
+
+        $setup->endSetup();
+    }
+
+    /**
+     *
+     * @param SchemaSetupInterface $setup
+     */
+    private function addAdminUserIdOrderGrid($setup)
+    {
+        if ($setup->tableExists('sales_order_grid')) {
+            $setup->getConnection()->addColumn($setup->getTable('sales_order_grid'), 'confirmed_person_name', [
+                'type' => Table::TYPE_TEXT,
+                'length' => 127,
+                'nullable' => true,
+                'comment' => "Admin User ID"
+            ]);
+        }
+    }
+
+    /**
+     * Add hold unpaid column
+     *
+     * @param SchemaSetupInterface $setup
+     */
+    private function _addHoldUnpaidOrderSchema($setup)
+    {
+        $connection = $setup->getConnection();
+        $connection->addColumn($setup->getTable('sales_order_grid'), "hold_unpaid_order_at", ['type' => Table::TYPE_DATETIME, 'comment' => "Hold Unpaid Order At"]);
+    }
+}

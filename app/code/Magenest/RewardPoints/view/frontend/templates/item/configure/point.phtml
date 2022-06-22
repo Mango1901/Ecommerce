@@ -1,0 +1,109 @@
+<?php
+/** @var \Magenest\RewardPoints\Block\PointInfo $block */
+if ($block->getEnableModule()):
+    $productType   = $block->getCurrentProductType();
+
+    // disable code for bundle product
+    if ($productType === 'bundle') return;
+
+    $productId     = $block->getCurrentProductId();
+    $point         = $block->getProductPoint($productId);
+    $discountInfo  = $block->getDiscountInfo();
+    $canShowPoints = false;
+    $upDown        = $block->getUpOrDown();
+    if ($point > 0 && $block->getIsShowProductDetailEnabled()) {
+        $canShowPoints = true;
+    }
+    if ($productType == 'bundle') {
+        $productPointBundle = json_encode($block->getPointBundleProduct($productId));
+        $defautBundlePoint  = $block->getDefaultBundlePoint($productId);
+    } else {
+        $productPointBundle = json_encode([]);
+        $defautBundlePoint  = 0;
+    }
+    $rewardPointRule = $block->getProductRules();
+    ?>
+    <?php if ($block->getRewardTiersEnable() == 1 AND $discountInfo): ?>
+    <div class="discount-info">
+        <div id="popup" hidden>
+            <table>
+                <tr>
+                    <th>Points</th>
+                    <th>Discount (%)</th>
+                </tr>
+                <?php foreach ($discountInfo as $discount): ?>
+                    <tr>
+                        <td><?= $discount['points'] ?></td>
+                        <td><?= $discount['discount'] ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
+        </div>
+    </div>
+    <script>
+        require([
+            "jquery",
+            'Magento_Ui/js/modal/modal'
+        ], function ($, modal) {
+            'use strict';
+            var skuDiv = document.getElementsByClassName('product-info-stock-sku');
+            $(skuDiv).append('<div style="color: #006bb4; padding-top: 10px"><em>Discount RewardPoint <?= $block->getDiscountPercent()?> %</em></div>');
+            $(skuDiv).append('<button class="btn-discount-info">Discount RewardPoint Info</button>');
+            $('.btn-discount-info').click(function () {
+                var dataForm = $('#popup');
+                var options = {
+                    type: 'popup',
+                    responsive: true,
+                    innerScroll: true,
+                    title: 'Discount Info',
+                    buttons: [{
+                        text: 'Ok',
+                        class: 'action primary',
+                        click: function () {
+                            this.closeModal();
+                        }
+                    }]
+                };
+                var popup = modal(options, dataForm);
+                popup.openModal();
+            });
+        });
+
+    </script>
+<?php endif; ?>
+    <?php if ($block->isSetProductRule() && $point > 0 && $block->getIsShowProductDetailEnabled() && $block->isShowPointForGuest()) :
+    ?>
+    <script>
+        require([
+            "jquery"
+        ], function ($) {
+            'use strict';
+            var productType = '<?= $productType ?>';
+            var priceDiv = $('.product-info-main').find('.price-box .price-final_price');
+            var pointmin = '<?= $point['min']?>';
+            var pointmax = '<?= $point['max']?>';
+            if (pointmin > 0)
+                if (pointmax > 0) {
+                    if (productType !== 'bundle') {
+                        if (productType !== 'grouped') {
+                            if (productType == 'configurable') {
+                                $('.product-info-main').find('.price-box > .normal-price > .price-final_price').append('<span id="point-show1"><strong><p style="color: <?=$block->getPointColor()?>; font-size: <?= $block->getPointSize()?>px"><?php echo '+From ' . $point['min'] . ' ' . htmlspecialchars($block->getPointUnit(),ENT_QUOTES); ?></p></strong></span');
+                            } else {
+                                $(priceDiv).append('<span id="point-show1"><strong><p style="color: <?=$block->getPointColor()?>; font-size: <?= $block->getPointSize()?>px"><?php echo '+' . $point['min'] . ' ' . htmlspecialchars($block->getPointUnit(),ENT_QUOTES); ?></p></strong></span');
+                            }
+                        }
+                    } else {
+                        if ('<?= ($point['min'] == $point['max']) ?>')
+                            $(priceDiv).append('<span id="point-show1"><strong><p style="color: <?=$block->getPointColor()?>; font-size: <?= $block->getPointSize()?>px"><?php echo '+' . $point['min'] . ' ' . htmlspecialchars($block->getPointUnit(),
+                                    ENT_QUOTES); ?></p></strong></span');
+                        else
+                            $(priceDiv).append('<span id="point-show1"><strong><p style="color: <?=$block->getPointColor()?>; font-size: <?= $block->getPointSize()?>px"><?php echo '+' . $point['min'] . ' to +' . $point['max']; ?></p></strong></span');
+                    }
+                }
+            else
+                $(priceDiv).append('<span id="point-show1"><strong><p style="color: <?=$block->getPointColor()?>; font-size: <?= $block->getPointSize()?>px"></p></strong></span>');
+
+        });
+    </script>
+    <?php endif; ?>
+<?php endif; ?>

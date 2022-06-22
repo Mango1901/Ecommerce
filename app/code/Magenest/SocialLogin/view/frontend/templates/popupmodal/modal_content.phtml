@@ -1,0 +1,30 @@
+<?php $modalContent = \Zend_Json::encode($block->getConfig()); ?>
+<div id="modal_content" data-bind="scope:'modal_content'" >
+    <?php $scriptString = <<<script
+        window.modal_content = {$modalContent};
+    script;
+    ?>
+    <?= isset($secureRenderer) ? $secureRenderer->renderTag('script', [], $scriptString, false) : '<script>' . $scriptString . '</script>' ?>
+    <!-- ko template: getTemplate() --><!-- /ko -->
+    <script type="text/x-magento-init">
+        {
+            "#modal_content": {
+                "Magento_Ui/js/core/app": <?php /* @escapeNotVerified */ echo $block->getJsLayout();?>
+            }
+        }
+    </script>
+
+<?php $scriptString = <<<script
+        require([
+            'mage/url',
+            'Magento_Ui/js/block-loader'
+        ], function(url, blockLoader) {
+            blockLoader("{$block->getViewFileUrl('images/loader-1.gif')}");
+            return url.setBaseUrl('{$block->getBaseUrl()}');
+        })
+script;
+?>
+<?= isset($secureRenderer) ? $secureRenderer->renderTag('script', [], $scriptString, false) : '<script>' . $scriptString . '</script>' ?>
+
+
+</div>

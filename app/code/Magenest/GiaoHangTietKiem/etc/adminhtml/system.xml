@@ -1,0 +1,91 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="carriers" translate="label" type="text" sortOrder="320" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="giaohangtietkiem" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>GiaoHangTietKiem</label>
+                <field id="active" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>The method uses address validation via Google API. Make sure that Google Maps API is enabled in Stores / Configuration / Drinkies / Google Maps API</comment>
+                </field>
+                <field id="test_mode" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Test Mode</label>
+                    <source_model>Magenest\GiaoHangTietKiem\Model\Config\Source\TestMode</source_model>
+                </field>
+                <field id="title" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Title</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="api_token" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>API Token</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="name" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Method Name</label>
+                </field>
+                <field id="price_type" translate="label" type="select" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Price Type</label>
+                    <source_model>Magenest\GiaoHangTietKiem\Model\Config\Source\PriceType</source_model>
+                </field>
+                <field id="total_fee" translate="label" type="text" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Total Fee</label>
+                    <validate>required-entry validate-number validate-zero-or-greater</validate>
+                    <depends><field id="price_type">1</field></depends>
+                    <comment>Specify price in currency which is configured as "Default Display Currency" in settings on Website level (Main menu / Stores / General / Currency Setup)</comment>
+                </field>
+                <field id="xfast" translate="label" type="select" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Use XFast Delivery</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+<!--                <field id="is_freeship" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">-->
+<!--                    <label>Free Shipping</label>-->
+<!--                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>-->
+<!--                </field>-->
+<!--                <field id="freeshipping_subtotal" translate="label" type="text" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="0">-->
+<!--                    <label>Free Shipping When Subtotal Greater Than</label>-->
+<!--                    <validate>required-entry validate-number validate-zero-or-greater</validate>-->
+<!--                    <depends>-->
+<!--                        <field id="is_freeship">1</field>-->
+<!--                    </depends>-->
+<!--                    <comment>Specify price in currency which is configured as "Default Display Currency" in settings on Website level (Main menu / Stores / General / Currency Setup)</comment>-->
+<!--                </field>-->
+<!--                <field id="enable_freebrand" translate="label" type="select" sortOrder="27" showInDefault="1" showInWebsite="1" showInStore="0">-->
+<!--                    <label>Enable Free Ship By Brand</label>-->
+<!--                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>-->
+<!--                </field>-->
+<!--                <field id="free_brand" translate="label" type="multiselect" sortOrder="28" showInDefault="1" showInWebsite="1" showInStore="0">-->
+<!--                    <label>Free Brands</label>-->
+<!--                    <depends>-->
+<!--                        <field id="enable_freebrand">1</field>-->
+<!--                    </depends>-->
+<!--                    <source_model>Magenest\Core\Model\Config\Source\FreeBrands</source_model>-->
+<!--                </field>-->
+                <field id="sallowspecific" translate="label" type="select" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Ship to Applicable Countries</label>
+                    <frontend_class>shipping-applicable-country</frontend_class>
+                    <source_model>Magento\Shipping\Model\Config\Source\Allspecificcountries</source_model>
+                </field>
+                <field id="specificcountry" translate="label" type="multiselect" sortOrder="91" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Ship to Specific Countries</label>
+                    <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                    <can_be_empty>1</can_be_empty>
+                </field>
+                <field id="showmethod" translate="label" type="select" sortOrder="92" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Show Method if Not Applicable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="specificerrmsg" translate="label" type="textarea" sortOrder="93" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Displayed Error Message</label>
+                </field>
+                <field id="sort_order" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Sort Order</label>
+                </field>
+                <field id="enable_logging" translate="label" type="select" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enable Logging</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

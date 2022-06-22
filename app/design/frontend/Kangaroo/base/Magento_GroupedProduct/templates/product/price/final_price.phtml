@@ -1,0 +1,34 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/**
+ * Template for displaying grouped product price
+ */
+?>
+<?php
+$minProduct = $block->getSaleableItem()
+    ->getPriceInfo()
+    ->getPrice(\Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE)
+    ->getMinProduct();
+
+if ($minProduct) {
+    $amountRender = $block->getRendererPool()
+        ->createAmountRender(
+            $minProduct->getPriceInfo()->getPrice('final_price')->getAmount(),
+            $minProduct,
+            $minProduct->getPriceInfo()->getPrice('final_price'),
+            [
+                'include_container' => true,
+                'price_type'        => 'finalPrice'
+            ]
+        );
+}
+?>
+<div class="price-box">
+        <p class="minimal-price">
+            <?= $amountRender->toHtml() ?>
+        </p>
+</div>

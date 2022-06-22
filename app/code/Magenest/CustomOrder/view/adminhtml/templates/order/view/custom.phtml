@@ -1,0 +1,12 @@
+<?php
+/**
+ * @var $block Magenest\CustomOrder\Block\Adminhtml\Order\View\Custom
+ */
+$rule_id = $block->getCoupon();
+$dir = $block->prepareDataSource();
+
+?>
+<h3>Coupon Code Information</h3>
+<h4>Coupon Code : <a href="<?= $block->escapeHtml($dir);?>"" ><?php echo $block->getCouponCode()?></a></h4>
+<h4>Coupon Code Name : <?php echo $block->getCouponCodeName();?></h4>
+

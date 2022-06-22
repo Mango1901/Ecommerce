@@ -1,0 +1,130 @@
+"Store Credit","Store Credit"
+ID,ID
+Title,Title
+Status,Status
+Action,Action
+Amount,Amount
+Balance,Balance
+Date,Date
+"First Name","First Name"
+"Last Name","Last Name"
+Email,Email
+Group,Group
+"Save and Continue View","Save and Continue View"
+"This action can not be restored. Are you sure?","This action can not be restored. Are you sure?"
+"Transaction Information","Transaction Information"
+Customer,Customer
+"Customer Note","Customer Note"
+"Admin Note","Admin Note"
+"Created At","Created At"
+"Customer Id","Customer Id"
+"This note will be visible to customers. It will not be translated, please be conscious of the language.","This note will be visible to customers. It will not be translated, please be conscious of the language."
+"This note is visible to admin only.","This note is visible to admin only."
+"An error occur. Please try again later.","An error occur. Please try again later."
+Transactions,Transactions
+"Customer does not exist.","Customer does not exist."
+"The transaction has been created successfully.","The transaction has been created successfully."
+"View Transaction #%1","View Transaction #%1"
+"Create New Transaction","Create New Transaction"
+"Store Credit is turned off.","Store Credit is turned off."
+"Saved email settings successfully.","Saved email settings successfully."
+"Something wrong when saving email notifications.","Something wrong when saving email notifications."
+"Cannot create transaction. Amount is invalid.","Cannot create transaction. Amount is invalid."
+"Admin Updated","Admin Updated"
+"Earn from Order","Earn from Order"
+"Taken back for refunding Order","Taken back for refunding Order"
+Reverted,Reverted
+"Spend on Order","Spend on Order"
+"Regain for refunding Order","Regain for refunding Order"
+"Action does not exist","Action does not exist"
+"Allow Credit Range","Allow Credit Range"
+"Price Percentage","Price Percentage"
+No,No
+"Fixed Amount (exclude Tax)","Fixed Amount (exclude Tax)"
+"Percent of Subtotal (exclude Tax)","Percent of Subtotal (exclude Tax)"
+"Admin Order","Admin Order"
+"Checkout Page","Checkout Page"
+Completed,Completed
+"Something went wrong.","Something went wrong."
+"Range amount is incorrect, please choose your range amount again","Range amount is incorrect, please choose your range amount again"
+"Range amount is not allowed","Range amount is not allowed"
+"Customer balance is not sufficient to deduct credit.","Customer balance is not sufficient to deduct credit."
+"Customer id required","Customer id required"
+"Amount must be greater than zero","Amount must be greater than zero"
+"Customer doesn't exist","Customer doesn't exist"
+"Store Credit products are not allowed to be refunded.","Store Credit products are not allowed to be refunded."
+"Range From","Range From"
+[WEBSITE],[WEBSITE]
+To,To
+"Credit Information","Credit Information"
+"Credit Balance","Credit Balance"
+"Subscribe to balance update","Subscribe to balance update"
+"Update Balance","Update Balance"
+"Amount Change","Amount Change"
+"Use positive number to add the credit and negative number to subtract the credit.","Use positive number to add the credit and negative number to subtract the credit."
+"This note is visible to customers. It will not be translated, please be conscious of the language.","This note is visible to customers. It will not be translated, please be conscious of the language."
+"This note is visible to admins only.","This note is visible to admins only."
+"Spend your Store Credit","Spend your Store Credit"
+"Return to credit balance","Return to credit balance"
+From,From
+"My Current Balance","My Current Balance"
+"Notification Settings","Notification Settings"
+"Update Balance Notification","Update Balance Notification"
+Save,Save
+#,#
+"Created Date","Created Date"
+Note,Note
+"You have created no transactions.","You have created no transactions."
+"From %1 To %2","From %1 To %2"
+"Credit Amount","Credit Amount"
+"Enter Amount","Enter Amount"
+"Credit Balance Updated at %store_name","Credit Balance Updated at %store_name"
+"Dear %name,","Dear %name,"
+"Your credit balance has been updated.","Your credit balance has been updated."
+"Please click <a href=""%credit_url"" target=""_blank"">here</a> for more details.","Please click <a href=""%credit_url"" target=""_blank"">here</a> for more details."
+Transaction:,Transaction:
+%title,%title
+Status:,Status:
+%status,%status
+Amount:,Amount:
+Balance:,Balance:
+Note:,Note:
+"Your Current Balance:","Your Current Balance:"
+"Please update us if anything makes you confused, we would be willing to help as soon as
+                possible.","Please update us if anything makes you confused, we would be willing to help as soon as
+                possible."
+"Select Customer","Select Customer"
+"Your Balance","Your Balance"
+"Credit Transactions","Credit Transactions"
+"General Configuration","General Configuration"
+Enable,Enable
+"Select <b>Yes</b> to enable this module.","Select <b>Yes</b> to enable this module."
+"Enable for Customer Groups","Enable for Customer Groups"
+"Display Balance on Toplink","Display Balance on Toplink"
+"Select <b>Yes</b> to display customer's credit balance on the toplink.","Select <b>Yes</b> to display customer's credit balance on the toplink."
+"Allow Refunding Orders to Credit Balance","Allow Refunding Orders to Credit Balance"
+"Select <b>Yes</b> to allow refunding orders expenses to store credit.","Select <b>Yes</b> to allow refunding orders expenses to store credit."
+"Allow Refunding Store Credit Products","Allow Refunding Store Credit Products"
+"Select <b>Yes</b> to allow refunding store credit product.","Select <b>Yes</b> to allow refunding store credit product."
+"Spending Configuration","Spending Configuration"
+"Enable Spending On","Enable Spending On"
+"Compatible with <a href=""https://www.magenest.com/magento-2-one-step-checkout-extension?utm_source=extension&utm_medium=text&utm_campaign=store-credit"" target=""_blank"">One Step Checkout</a>","Compatible with <a href=""https://www.magenest.com/magento-2-one-step-checkout-extension?utm_source=extension&utm_medium=text&utm_campaign=store-credit"" target=""_blank"">One Step Checkout</a>"
+"Apply for","Apply for"
+"Apply for Tax","Apply for Tax"
+"Apply for Shipping Fee","Apply for Shipping Fee"
+"Limit Spend Amount","Limit Spend Amount"
+"Select the limit type for spending amount per order.","Select the limit type for spending amount per order."
+"Limit Value","Limit Value"
+"Leave empty for default (0).","Leave empty for default (0)."
+"Allow Refunding","Allow Refunding"
+"If <b>Yes</b>, the credit spent on the order can be paid back to Credit Balance.","If <b>Yes</b>, the credit spent on the order can be paid back to Credit Balance."
+"Email Configuration","Email Configuration"
+"Enable Email Notification","Enable Email Notification"
+"Install <a href=""https://www.magenest.com/magento-2-smtp/"" target=""_blank"">Magenest SMTP</a> to avoid sending to spam box.","Install <a href=""https://www.magenest.com/magento-2-smtp/"" target=""_blank"">Magenest SMTP</a> to avoid sending to spam box."
+"Subscribe Customers by Default","Subscribe Customers by Default"
+"If <b>Yes</b>, customers will be subscribed to balance updates by default.","If <b>Yes</b>, customers will be subscribed to balance updates by default."
+"Sender Email","Sender Email"
+"Select a sender email for notification emails.","Select a sender email for notification emails."
+"Update Balance Email Template","Update Balance Email Template"
+"Select an email template to inform customers when their credit balances are updated.","Select an email template to inform customers when their credit balances are updated."
+View,View

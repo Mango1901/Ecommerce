@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright  Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<csp_whitelist xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Csp/etc/csp_whitelist.xsd">
+    <policies>
+        <policy id="style-src">
+            <values>
+                <value id="paymentcss" type="host">https://sandbox.megapay.vn:2810</value>
+            </values>
+        </policy>
+        <policy id="script-src">
+            <values>
+                <value id="paymentcss" type="host">https://sandbox.megapay.vn:2810</value>
+            </values>
+        </policy>
+         <policy id="form-action">
+            <values>
+                <value id="paymentcss" type="host">https://sandbox.megapay.vn:2810</value>
+            </values>
+        </policy>
+         <policy id="frame-src">
+            <values>
+                <value id="paymentcss" type="host">https://sandbox.megapay.vn:2810</value>
+            </values>
+        </policy>
+        <policy id="connect-src">
+            <values>
+                <value id="paymentcss" type="host">https://www.cloudflare.com/cdn-cgi/trace</value>
+            </values>
+        </policy>
+    </policies>
+</csp_whitelist>

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2019 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ *
+ * Magenest_MegaMenu extension
+ * NOTICE OF LICENSE
+ *
+ * @category Magenest
+ * @package Magenest_MegaMenu
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="Magenest_MegaMenu" setup_version="2.2.22">
+        <sequence>
+            <module name="Magento_ImportExport" />
+            <module name="Magento_Eav"/>
+            <module name="Magento_Ui"/>
+        </sequence>
+    </module>
+</config>

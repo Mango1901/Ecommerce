@@ -1,0 +1,19 @@
+<div class="aw-taxexempt__file-uploader-summary">
+    <div class="aw-taxexempt__file-uploader-preview">
+        <a attr="href: $file.url" class="title" target="_blank">
+            <text args="$file.name"/>
+        </a>
+        <div class="actions">
+            <button
+                type="button"
+                class="action-remove"
+                data-role="delete-button"
+                attr="title: $t('Delete')"
+                click="$parent.removeFile.bind($parent, $file)">
+                <span translate="'Delete'"/>
+            </button>
+        </div>
+        <input type="hidden" data-bind="attr: {name: $parent.getInputName('file_name',$index())}, value: $file.name">
+        <input type="hidden" data-bind="attr: {name: $parent.getInputName('file',$index())}, value: $file.file">
+    </div>
+</div>

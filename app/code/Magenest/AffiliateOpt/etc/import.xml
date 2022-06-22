@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<!--
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_ImportExport:etc/import.xsd">
+    <entity name="mp_affiliate_account" label="Magenest Affiliate Account" model="Magenest\AffiliateOpt\Model\Import\AffiliateAccount" behaviorModel="Magenest\AffiliateOpt\Model\Import\Behavior\Account"/>
+    <entity name="mp_affiliate_transaction" label="Magenest Affiliate Transaction" model="Magenest\AffiliateOpt\Model\Import\AffiliateTransaction" behaviorModel="Magenest\AffiliateOpt\Model\Import\Behavior\Transaction"/>
+</config>

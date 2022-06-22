@@ -1,0 +1,11 @@
+<!--@subject {{trans "New order comment"}}  @-->
+{{template config_path="design/email/header_template"}}
+{{trans "Hello,"}}<br>
+
+{{trans "A new order comment was created."}}<br>
+{{trans "Order Id"}}: {{var order_id}}<br>
+{{trans "Status"}}: {{var status}}<br>
+{{trans "Comment"}}: {{var comment}}<br>
+
+{{template config_path="design/email/footer_template"}}
+

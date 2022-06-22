@@ -1,0 +1,45 @@
+
+//
+//Box-shadow
+//-------------------------
+
+.lib-review-box-shadow(
+  @_value: none
+) {
+  -webkit-box-shadow: @_value;
+  -moz-box-shadow: @_value;
+  box-shadow: @_value;
+}
+
+//
+//Position center
+//-------------------------
+.lib-review-center(
+  @position: absolute;
+  @top: 50%;
+  @left: 50%;
+  @transform: translate(-50%, -50%);
+) {
+  position: @position;
+  top: @top;
+  left: @left;
+  -webkit-transform: @transform;
+  -moz-transform: @transform;
+  -ms-transform: @transform;
+  -o-transform: @transform;
+  transform: @transform;
+}
+
+.lib-review-center-Y(
+  @position: absolute;
+  @top: 50%;
+  @transform: translateY(-50%);
+) {
+  position: @position;
+  top: @top;
+  -webkit-transform: @transform;
+  -moz-transform: @transform;
+  -ms-transform: @transform;
+  -o-transform: @transform;
+  transform: @transform;
+}

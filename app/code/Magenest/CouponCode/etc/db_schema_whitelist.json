@@ -1,0 +1,20 @@
+{
+    "salesrule": {
+        "column": {
+            "images": true
+        }
+    },
+    "magenest_customer_coupon": {
+        "column": {
+            "id": true,
+            "rule_id": true,
+            "coupon_id": true,
+            "customer_id": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "MAGENEST_CUSTOMER_COUPON_RULE_ID_SALESRULE_RULE_ID": true,
+            "MAGENEST_CUSTOMER_COUPON_COUPON_ID_SALESRULE_COUPON_COUPON_ID": true
+        }
+    }
+}

@@ -1,0 +1,46 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var \Magenest\OrderExtraInformation\Block\Account\Dashboard\VATInvoice $block */
+$formOption = $block->getFormOptions();
+?>
+<div class="block block-dashboard-vat-invoice">
+    <div class="block-title">
+        <strong><?= $block->escapeHtml(__('VAT Invoice Information')) ?></strong>
+    </div>
+    <div class="block-content">
+        <div class="box box-vat-invoice-info" data-mage-init='{"Magenest_OrderExtraInformation/js/vat-invoice":{"formOptions": <?= \Zend_json::encode($formOption) ?>}}'>
+            <?php if(!$formOption['has_default_information']): ?>
+            <div class="box-actions">
+                <a class="action action-create add" href="javascript:void(0)"><span><?= $block->escapeHtml(__('Add Information')) ?></span></a>
+            </div>
+            <?php else: ?>
+                <div class="box-content">
+                    <div class="field company-name">
+                        <label><strong><?= $block->escapeHtml(__('Company Name:')) ?></strong></label>&nbsp;
+                        <span><?= $formOption['company_name'] ?></span>
+                    </div>
+                    <div class="field tax_code">
+                        <label><strong><?= $block->escapeHtml(__('Tax Code:')) ?></strong></label>&nbsp;
+                        <span><?= $formOption['tax_code'] ?></span>
+                    </div>
+                    <div class="field company-address">
+                        <label><strong><?= $block->escapeHtml(__('Company Address:')) ?></strong></label>&nbsp;
+                        <span><?= $formOption['company_address'] ?></span>
+                    </div>
+                    <div class="field company-email">
+                        <label><strong><?= $block->escapeHtml(__('Company Email:')) ?></strong></label>&nbsp;
+                        <span><?= $formOption['company_email'] ?></span>
+                    </div>
+                </div>
+                <div class="box-actions">
+                    <a class="action action-create edit" href="javascript:void(0)"><span><?= $block->escapeHtml(__('Edit')) ?></span></a>
+                    <a class="action action-remove" href="javascript:void(0)"><span><?= $block->escapeHtml(__('Remove')) ?></span></a>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>

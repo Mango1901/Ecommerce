@@ -1,0 +1,68 @@
+<!--
+/**
+ * Copyright © 2019 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ *
+ * Magenest_Kangaroo extension
+ * NOTICE OF LICENSE
+ *
+ * @category Magenest
+ * @package Magenest_Kangaroo
+ */
+-->
+<!--@subject {{trans "An order has been confirmed with receipt." }} - {{var order.increment_id}} - {{var payment_method }} @-->
+<!--@vars {
+"var formattedBillingAddress|raw":"Billing Address",
+"var order.getEmailCustomerNote()":"Email Order Note",
+"var order.increment_id":"Order Id",
+"layout handle=\"sales_email_order_items\" order=$order area=\"frontend\"":"Order Items Grid",
+"var payment_html|raw":"Payment Details",
+"var formattedShippingAddress|raw":"Shipping Address",
+"var order.getShippingDescription()":"Shipping Description",
+"var shipping_msg":"Shipping message"
+} @-->
+
+{{template config_path="design/email/header_template"}}
+
+<table>
+	<tr class="email-intro">
+		<td>
+			<p class="greeting" style="font-weight: bold; font-size: larger">{{trans "Warehouse Staff,"}}</p>
+			<p>
+				{{trans "An order has been confirmed with receipt." store_name=$store.getFrontendName()}}
+			</p>
+		</td>
+	</tr>
+	<tr class="email-summary">
+		<td>
+			<h1>{{trans 'Order <span class="no-link">#%increment_id</span>' increment_id=$order.increment_id |raw}}</h1>
+			<p>{{trans 'Placed on <span class="no-link">%created_at</span>' created_at=$order.getCreatedAtFormatted(2) |raw}}</p>
+			<p><a href="{{var order_url}}">{{trans "Order Link"}}</a></p>
+		</td>
+	</tr>
+	<tr class="email-information">
+		<td>
+			{{depend order.getEmailCustomerNote()}}
+			<table class="message-info">
+				<tr>
+					<td>
+						{{var order.getEmailCustomerNote()|escape|nl2br}}
+					</td>
+				</tr>
+			</table>
+			{{/depend}}
+			{{depend order_note}}
+			<table class="message-info">
+				<tr>
+					<td>
+						{{var order_note |raw}}
+					</td>
+				</tr>
+			</table>
+			{{/depend}}
+
+		</td>
+	</tr>
+</table>
+
+{{template config_path="design/email/footer_template"}}

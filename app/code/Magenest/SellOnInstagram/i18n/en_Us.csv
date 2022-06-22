@@ -1,0 +1,116 @@
+"Sync Now","Sync Now"
+"Create & Update","Create & Update"
+Delete,Delete
+Back,Back
+"Delete Feed","Delete Feed"
+"Are you sure you want to do this?","Are you sure you want to do this?"
+"Save and Continue Edit","Save and Continue Edit"
+Save,Save
+Conditions,Conditions
+"Conditions (don't add conditions if you want to include all products in the feed)","Conditions (don't add conditions if you want to include all products in the feed)"
+"Scheduled Task","Scheduled Task"
+Enabled,Enabled
+No,No
+Yes,Yes
+"If enabled, the extension will generate a feed by schedule. To generate feed by schedule, magento cron must be configured.","If enabled, the extension will generate a feed by schedule. To generate feed by schedule, magento cron must be configured."
+"Days of the week","Days of the week"
+"Time of the day","Time of the day"
+History,History
+"Created At","Created At"
+"Sync Mode","Sync Mode"
+"Action Type","Action Type"
+"Execution Time","Execution Time"
+"Error Log","Error Log"
+Process,Process
+"Product Generated","Product Generated"
+"Manage Feed","Manage Feed"
+Feed,Feed
+"Can not find Feed","Can not find Feed"
+"Feed with Id %1 doesn't exit.","Feed with Id %1 doesn't exit."
+"Feed with Id is %1 was deleted.","Feed with Id is %1 was deleted."
+"Something when wrong. Please try again.","Something when wrong. Please try again."
+"Feed data has been successfully duplicated.","Feed data has been successfully duplicated."
+"New Instagram Shopping","New Instagram Shopping"
+"Manage Feeds","Manage Feeds"
+"Total of %1 record(s) were deleted.","Total of %1 record(s) were deleted."
+"Total of %1 record(s) were modified.","Total of %1 record(s) were modified."
+"You saved the Feed.","You saved the Feed."
+"Please check status of sync product in View History","Please check status of sync product in View History"
+"Not found product with your condition, Please check your condition","Not found product with your condition, Please check your condition"
+"Your Feed is inactive, not ready for sync","Your Feed is inactive, not ready for sync"
+"Not found products with your condition, Please check your condition","Not found products with your condition, Please check your condition"
+"Sell On Instagram","Sell On Instagram"
+"The Mapping template with Id is %1 was deleted.","The Mapping template with Id is %1 was deleted."
+"This Mapping template no longer exists.","This Mapping template no longer exists."
+"New Mapping Template","New Mapping Template"
+"Mapping Attributes","Mapping Attributes"
+"You saved the Mapping Template","You saved the Mapping Template"
+". ' added to cart successfully.'",". ' added to cart successfully.'"
+"in stock","in stock"
+"out of stock","out of stock"
+"No description","No description"
+Sunday,Sunday
+Monday,Monday
+Tuesday,Tuesday
+Wednesday,Wednesday
+Thursday,Thursday
+Friday,Friday
+Saturday,Saturday
+Product,Product
+New,New
+Refurbished,Refurbished
+Used,Used
+"Used like new","Used like new"
+"Used good","Used good"
+"Used fair","Used fair"
+CPO,CPO
+"Open box new","Open box new"
+Success,Success
+Failed,Failed
+"In Progress","In Progress"
+"DUPLICATE: magento attribute fields is duplicated. We auto replace them.","DUPLICATE: magento attribute fields is duplicated. We auto replace them."
+"Get Access Token Successfully!","Get Access Token Successfully!"
+Edit,Edit
+"Are you sure you want to delete ?","Are you sure you want to delete ?"
+Active,Active
+Inactive,Inactive
+"Delete Template","Delete Template"
+"Save Mapping","Save Mapping"
+"Magento Fields","Magento Fields"
+"Facebook Product Fields","Facebook Product Fields"
+Status,Status
+"Add New Attribute","Add New Attribute"
+Configuration,Configuration
+Magenest,Magenest
+"Facebook(Instagram) Connection","Facebook(Instagram) Connection"
+"Enable Sell On Instagram","Enable Sell On Instagram"
+"Enable/Disable Sell On Instagram module","Enable/Disable Sell On Instagram module"
+"Catalog Id","Catalog Id"
+"Page Id","Page Id"
+"App Id","App Id"
+"App secret","App secret"
+"Redirect Uri","Redirect Uri"
+"Page Access Token","Page Access Token"
+"Synchronization Configuration","Synchronization Configuration"
+"Allow sync out of stock product","Allow sync out of stock product"
+"Display special price of product","Display special price of product"
+"Enable Tracking Order","Enable Tracking Order"
+"Product In Shop","Product In Shop"
+"Product Condition","Product Condition"
+"General Information","General Information"
+"Feed Status","Feed Status"
+Name,Name
+"Store View","Store View"
+"Feed Template","Feed Template"
+"Please create Feed Template first if this field is empty.","Please create Feed Template first if this field is empty."
+"Add New Feed","Add New Feed"
+"Are you sure you want to delete selected items?","Are you sure you want to delete selected items?"
+"Delete items","Delete items"
+"Enable/Disable Status","Enable/Disable Status"
+Disable,Disable
+Enable,Enable
+ID,ID
+Template,Template
+"Mapping Template Name","Mapping Template Name"
+"Updated At","Updated At"
+"From Shop","From Shop"

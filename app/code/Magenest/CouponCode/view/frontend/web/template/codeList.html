@@ -1,0 +1,54 @@
+<!-- ko if: enable -->
+<form id="coupon-form">
+    <div class="coupon-listing-wrapper">
+        <h2 class="coupon-listing-title">
+            <span class="base" data-ui-id="page-title-wrapper" data-bind="i18n: 'Coupon Code For You'"></span>
+        </h2>
+        <span class="coupon-listing-desc" data-bind="i18n: 'Can choose 1'"></span>
+    </div>
+    <!-- ko if: messageError -->
+    <div class="message-error error message" data-ui-id="message-error">
+        <div data-bind="text: messageError"></div>
+    </div>
+    <!-- /ko -->
+    <div class="listingScroll" id="scrollbar" data-bind="attr: {'data-hasrequired': $t('* Required Fields')}">
+        <!-- ko foreach: rules -->
+        <div class="information-container">
+            <label class="information-label" data-bind="attr: {for: $data.code}">
+                <div class="code-and-img">
+                    <img class="coupon_images_checkout" data-bind="attr:{src: $parent.showImages($data)}" />
+                </div>
+                <div class="detail-information">
+                    <strong><p class="code" data-bind="html: $parent.getTitleHtmlOfCoupon($data)"></p></strong>
+                    <p class="toDate" data-bind="css: $parent.dateStyling($data), text: $parent.showExpiring($data)"></p>
+                </div>
+            </label>
+            <!-- ko if: $parent.checkConfigurationValidate($data)-->
+            <input type="radio" attr="id: $data.code, checked: $data.using" name="coupon" data-bind="value: $data.code">
+            <span class="custom-checkbox-coupon"></span>
+            <!-- /ko -->
+
+            <!--ko ifnot: $parent.checkConfigurationValidate($data)-->
+            <span class="reasonNotUsed" data-bind="text: $parent.reason"></span>
+            <!-- /ko -->
+
+            <div class="information-condition">
+                <a data-bind="i18n: 'Condition'" attr="href: $parent.getConditionUrl($data)" target="_blank"></a>
+            </div>
+        </div>
+        <!-- /ko -->
+        <div id="noCouponCode" data-bind="i18n: 'No Coupon Code', visible: rules().length == 0"></div>
+    </div>
+    <a href="/voucher/hunt/" class="view-more">
+        <span data-bind="i18n: 'See more'"></span>
+    </a>
+    <div class="action-coupon">
+        <button type="button" class="action secondary" name="button_back" id="back_popup" data-bind="click: closePopup">
+            <span data-bind="i18n: 'Back'"></span>
+        </button>
+        <button type="submit" class="action primary" name="button_apply" id="submit_coupon" data-bind="click: useNow" attr="disabled: isApplied">
+            <span data-bind="i18n: 'Apply'"></span>
+        </button>
+    </div>
+</form>
+<!-- /ko -->

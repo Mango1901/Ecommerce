@@ -1,0 +1,26 @@
+{
+  "name": "magenest/module-store-credit",
+  "description": "Magento 2 Store Credit Extension",
+  "require": {
+    "magenest/module-core": "^1.1.0"
+  },
+  "type": "magento2-module",
+  "version": "4.0.3",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Magenest",
+      "email": "support@magenest.com",
+      "homepage": "https://www.magenest.com",
+      "role": "Technical Support"
+    }
+  ],
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Magenest\\StoreCredit\\": ""
+    }
+  }
+}

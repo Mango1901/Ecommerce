@@ -1,0 +1,222 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+
+<div id="opc-sidebar" class="opc-sidebar opc-summary-wrapper">
+
+    <div class="checkout-note desktop-device">
+        <span><!-- ko i18n: 'Clicking "Place Order" means that you agree to comply'--><!-- /ko --></span>
+        <a href="/terms-conditions"><!-- ko i18n: 'Kangaroo Terms'--><!-- /ko --></a>
+    </div>
+
+    <!-- ko foreach: getRegion('summary') -->
+    <!-- ko template: getTemplate() --><!-- /ko -->
+    <!--/ko-->
+
+    <!--<div class="opc-block-shipping-information">
+        &lt;!&ndash; ko foreach: getRegion('shipping-information') &ndash;&gt;
+        &lt;!&ndash; ko template: getTemplate() &ndash;&gt;&lt;!&ndash; /ko &ndash;&gt;
+        &lt;!&ndash;/ko&ndash;&gt;
+    </div>-->
+
+    <div class="checkout-payment-block mobile-device">
+        <div class="block-discount-code mobile-device">
+            <div class="discount-title">
+                <span data-bind="i18n: 'Discount code'"></span>
+            </div>
+            <button type="button" class="payment-option-title action discount-btn-mobile" data-bind="click: showPopupDiscount">
+            <span class="action action-toggle" ifnot="isDiscountDisplayed()" id="block-discount-heading" data-bind="i18n: 'Select or enter a code'">
+            </span>
+            <span class="action action-toggle" if="isDiscountDisplayed()" id="block-discount-heading" data-bind="text: getCouponCode()">
+            </span>
+            </button>
+        </div>
+        <div class="ship-via mobile-device">
+            <div class="shipping-information-title">
+                <span data-bind="i18n: 'Shipping unit (Tap to select)'"></span>
+            </div>
+            <button class="shipping-information-content" type="button" data-trigger="shipping-method">
+            <span class="shipping-information-text">
+                <span class="name" text="getShippingCarrier()">
+                </span>
+                <span class="title" text="getShippingMethod()">
+                </span>
+            </span>
+                <span class="price" text="getShippingPrice()">
+            </span>
+            </button>
+
+            <div class="shipping-information-popup" data-bind="mageInit: {
+            'Magento_Ui/js/modal/modal':{
+                'type': 'popup',
+                'title': jQuery.mage.__('Shipping method'),
+                'modalClass': 'shipping-method-popup',
+                'trigger': '[data-trigger=shipping-method]',
+                'responsive': true,
+                'buttons': [
+                    {
+                        text: jQuery.mage.__('Confirm'),
+                        class: 'submit action primary',
+                        click: function (event) {
+                           this.closeModal(event);
+                           $data.submitShippingMethod();
+                        }
+                    }
+                ]
+            }}">
+                <div class="shipping-method-title mobile-device">
+                    <span class="title" data-bind="i18n: 'Shipping unit (Tap to select)'"></span>
+                    <span class="description">
+                    <span class="value" text="getShippingCarrier()"></span>
+                    <span class="price"><translate args="'From'"/> <text args="getShippingPrice()" /></span>
+                </span>
+                </div>
+                <table class="table-checkout-shipping-method">
+                    <tbody>
+                    <!-- ko foreach: { data: rates(), as: 'method'} -->
+                    <tr class="row"
+                        click="$parent.selectShippingMethod.bind($parent, method, $element)">
+                        <td class="col col-method">
+                            <input type="radio"
+                                   class="radio payment-step-shipping"
+                                   ifnot="method.error_message"
+                                   ko-id
+                                   attr="'aria-labelledby': 'label_method_' + method.method_code + '_' + method.carrier_code + ' ' + 'label_carrier_' + method.method_code + '_' + method.carrier_code,
+                    'checked': $parent.rates().length == 1, 'id' :method.carrier_code + '_' + method.method_code"/>
+                            <span class="custom-check radio"></span>
+                        </td>
+                        <td class="col col-carrier"
+                            attr="'id': 'label_method_' + method.method_code + '_' + method.carrier_code"
+                            >
+                            <span class="name" text="method.method_title"></span>
+                            <span class="title" text="method.carrier_title"></span>
+                        </td>
+                        <!-- ko ifnot: (method.error_message) -->
+                        <td class="col col-price">
+                            <span class="price" data-bind="text: $parent.getFormattedPrice(method.price_excl_tax)"></span>
+                        </td>
+                        <!-- /ko -->
+                    </tr>
+                    <tr class="row row-error"
+                        if="method.error_message">
+                        <td class="col col-error" colspan="4">
+                            <div role="alert" class="message error">
+                                <div text="method.error_message"></div>
+                            </div>
+                            <span class="no-display">
+                            <input type="radio"
+                                   attr="'value' : method.method_code, 'id': 's_method_' + method.method_code">
+                        </span>
+                        </td>
+                    </tr>
+                    <!-- /ko -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="shipping-information-inner">
+            <div class="shipping-note">
+                <span class="shipping-information-title" data-bind="i18n: 'Message'"></span>
+                <input type="text" class="input-text" name="shipping_information_message" data-bind="value: customerNote.value, attr: { placeholder: $t('Note to seller...'), value: customerNote.value()}">
+            </div>
+            <div class="shipping-price-total-item">
+                <div class="shipping-price-total-left">
+                    <span class="shipping-information-title" data-bind="i18n: 'Estimated Total'"></span>
+                    <span class="total-item"><text args="getItemsCount()" /> <translate args="'Items'"/></span>
+                </div>
+                <div class="shipping-price-total-right">
+                    <span class="price"><text args="getSubtotal()" /></span>
+                    <span class="vat-included" data-bind="i18n: 'VAT included'"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="checkout-payment-method">
+            <button type="button" data-trigger="payment-method" class="checkout-payment-method-title">
+                <span class="shipping-information-title" data-bind="i18n: 'Payment method'"></span>
+                <span class="checkout-payment-method-desc" data-bind="i18n: selectedPaymentMethod"></span>
+            </button>
+            <div class="payment-method-popup" data-bind="mageInit: {
+            'Magento_Ui/js/modal/modal':{
+                'type': 'popup',
+                'title': jQuery.mage.__('Payment method'),
+                'modalClass': 'payment-method-popup',
+                'trigger': '[data-trigger=payment-method]',
+                'responsive': true,
+                'buttons': [{
+                    text: jQuery.mage.__('Confirm'),
+                    class: 'submit action primary'
+                    }
+                ]
+            }}">
+                <div class="shipping-method-title">
+                    <span class="title" data-bind="i18n: 'Select payment method (Tap to select)'"></span>
+                    <span class="description">
+                    <span class="value" data-bind="i18n: 'Thanh toán bằng thẻ ATM/Napas'"></span>
+                </span>
+                </div>
+                <table class="table-checkout-shipping-method">
+                    <tbody if="methodListProvider.isPaymentMethodsAvailable()"
+                         class="items payment-methods"
+                           repeat="foreach: methodListProvider.paymentGroupsList, item: '$group'">
+                    <!-- ko foreach: {data: methodListProvider.getRegion($group().displayArea), as: 'method'} -->
+                    <tr class="payment-group" data-bind="click: $parent.selectPaymentMethod.bind($parent, method)">
+                            <td class="col col-method">
+                                <input type="radio" name="payment[method]" class="radio"
+                                       data-bind="attr: {
+                                           'id': getCode()},
+                                           value: getCode(),
+                                           click: selectPaymentMethod,
+                                           visible: isRadioButtonVisible()"
+                                >
+                                <label class="custom-check radio" data-bind="attr: {for: getCode()}"></label>
+                            </td>
+                            <td class="col col-carrier">
+                                <label data-bind="attr: {for: getCode()}" class="name" text="getTitle()"></label>
+                            </td>
+                        </tr>
+                    <!-- /ko -->
+
+                    </tbody>
+                    <tbody ifnot="methodListProvider.isPaymentMethodsAvailable()"
+                         class="no-payments-block"
+                         translate="'No Payment Methods'">
+                    </tbody>
+                </table>
+            </div>
+            <table>
+                <tr class="row">
+                    <th class="col total-amount-goods" data-bind="i18n: 'Total amount of goods'"></th>
+                    <td class="col total-amount-goods"><text args="getSubtotal()" /></td>
+                </tr>
+                <tr class="row">
+                    <th class="col transport-fee" data-bind="i18n: 'Transport fee'"></th>
+                    <td class="col transport-fee"><text args="getShippingPrice()" /></td>
+                </tr>
+<!--                <tr class="row">-->
+<!--                    <th class="col free-shipping" data-bind="i18n: 'Free shipping'"></th>-->
+<!--                    <td class="col free-shipping"><text args="getShippingDiscount()" /></td>-->
+<!--                </tr>-->
+                <!-- ko if: isDiscountDisplayed() -->
+                <tr class="row">
+                    <th class="mark" scope="row">
+                        <span class="title" data-bind="html: getDiscountTitle()"></span>
+                        (<span class="discount coupon" data-bind="text: getCouponCode()"></span>)
+                    </th>
+                    <td class="col discount-amount">
+                        <text args="getDiscountValue()" />
+                    </td>
+                </tr>
+                <!-- /ko -->
+                <tr class="row">
+                    <th class="col total-price" data-bind="i18n: 'Estimated Total'"></th>
+                    <td class="col total-price"><text args="getGrandTotal()" /></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

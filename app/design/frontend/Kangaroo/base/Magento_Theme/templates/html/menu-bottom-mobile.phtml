@@ -1,0 +1,25 @@
+
+<div class="menu-bottom-mobile">
+	<div class="menu-bottom-mobile-container">
+		<a href="<?php echo $block->getBaseUrl(); ?>" class="menu-item menu-home active">
+			<span class="icon"></span>
+			<span class="text"><?= $block->escapeHtml(__('Home')) ?></span>
+		</a>
+		<a href="<?= $block->getMainCategoryUrl() ?>" class="menu-item menu-category">
+			<span class="icon"></span>
+			<span class="text"><?= $block->escapeHtml(__('Category')) ?></span>
+		</a>
+		<a href="<?= $block->getPromotionCategoryUrl() ?>" class="menu-item menu-promotion">
+			<span class="icon"></span>
+			<span class="text"><?= $block->escapeHtml(__('Promotion')) ?></span>
+		</a>
+		<a href="#" class="menu-item menu-notification">
+			<span class="icon"></span>
+			<span class="text"><?= $block->escapeHtml(__('Notification')) ?></span>
+		</a>
+		<a href="<?php echo $block->getBaseUrl(); ?>customer/" class="menu-item menu-account">
+			<span class="icon"></span>
+			<span class="text"><?= $block->escapeHtml(__('Account')) ?></span>
+		</a>
+	</div>
+</div>

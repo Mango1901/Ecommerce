@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/layout_generic.xsd">
+        <container name="root">
+            <block ifconfig="photoreview/general/enable" class="Magento\Framework\View\Element\Template" name="product.info.product_additional_data_display_with_condition" template="Magenest_PhotoReview::product/view/content.phtml">
+                <block class="Magenest\PhotoReview\Block\Product\View\ListView" name="product.info.product_additional_data" template="Magenest_PhotoReview::product/view/list.phtml" />
+                <block class="Magento\Theme\Block\Html\Pager" name="product_review_list.toolbar" ifconfig="catalog/review/active" template="Magenest_PhotoReview::product/view/pager.phtml">
+                    <arguments>
+                        <argument name="show_per_page" xsi:type="boolean">false</argument>
+                        <argument name="show_amounts" xsi:type="boolean">false</argument>
+                    </arguments>
+                </block>
+            </block>
+    </container>
+</layout>

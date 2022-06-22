@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Copyright 2016 aheadWorks. All rights reserved.
+* See LICENSE.txt for license details.
+*/
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Aheadworks_AdvancedReports::main" title="Advanced Reports by aheadWorks" module="Aheadworks_AdvancedReports" sortOrder="999" dependsOnModule="Aheadworks_AdvancedReports" parent="Magento_Reports::report" resource="Aheadworks_AdvancedReports::main"/>
+        <add id="Aheadworks_AdvancedReports::reports_salesoverview" title="Sales Overview" module="Aheadworks_AdvancedReports" sortOrder="10" parent="Aheadworks_AdvancedReports::main" action="advancedreports/salesoverview" resource="Aheadworks_AdvancedReports::reports_salesoverview"/>
+        <add id="Aheadworks_AdvancedReports::reports_productperformance" title="Product Performance" module="Aheadworks_AdvancedReports" sortOrder="20" parent="Aheadworks_AdvancedReports::main" action="advancedreports/productperformance" resource="Aheadworks_AdvancedReports::reports_productperformance"/>
+        <add id="Aheadworks_AdvancedReports::reports_salesdetailed" title="Sales Detailed" module="Aheadworks_AdvancedReports" sortOrder="30" parent="Aheadworks_AdvancedReports::main" action="advancedreports/salesdetailed" resource="Aheadworks_AdvancedReports::reports_salesdetailed"/>
+        <add id="Aheadworks_AdvancedReports::reports_category" title="Sales by Category" module="Aheadworks_AdvancedReports" sortOrder="40" parent="Aheadworks_AdvancedReports::main" action="advancedreports/category" resource="Aheadworks_AdvancedReports::reports_category"/>
+        <add id="Aheadworks_AdvancedReports::reports_couponcode" title="Sales by Coupon Code" module="Aheadworks_AdvancedReports" sortOrder="50" parent="Aheadworks_AdvancedReports::main" action="advancedreports/couponcode" resource="Aheadworks_AdvancedReports::reports_couponcode"/>
+        <add id="Aheadworks_AdvancedReports::reports_paymenttype" title="Sales by Payment Type" module="Aheadworks_AdvancedReports" sortOrder="60" parent="Aheadworks_AdvancedReports::main" action="advancedreports/paymenttype" resource="Aheadworks_AdvancedReports::reports_paymenttype"/>
+        <add id="Aheadworks_AdvancedReports::reports_manufacturer" title="Sales by Manufacturer" module="Aheadworks_AdvancedReports" sortOrder="70" parent="Aheadworks_AdvancedReports::main" action="advancedreports/manufacturer" resource="Aheadworks_AdvancedReports::reports_manufacturer"/>
+    </menu>
+</config>

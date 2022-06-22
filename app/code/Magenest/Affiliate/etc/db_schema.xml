@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<!--
+
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="magenest_affiliate_transaction" engine="innodb" comment="Magenest Affiliate Transaction">
+        <column xsi:type="decimal" name="amount" precision="20" scale="6" nullable="false" default="0.00" comment="Amount"/>
+        <column xsi:type="decimal" name="amount_used" precision="20" scale="6" comment="Amount Used"/>
+        <column xsi:type="decimal" name="current_balance" precision="20" scale="6" comment="Current Balance"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP"/>
+        <column xsi:type="decimal" name="total_commission" precision="16" scale="6" nullable="false" default="0.00" comment="Total Commission"/>
+        <column xsi:type="decimal" name="tax_deduction" precision="16" scale="6" nullable="false" default="0.00" comment="Tax Deduction"/>
+    </table>
+    <table name="magenest_affiliate_account">
+        <column xsi:type="boolean" name="acc_type" nullable="true" comment="Bank Type"/>
+        <column xsi:type="varchar" name="bank_no" nullable="true" length="20" comment="Bank Code"/>
+        <column xsi:type="varchar" name="acc_no" nullable="true" length="50" comment="Bank Number"/>
+        <column xsi:type="varchar" name="account_name" nullable="true" length="100" comment="Bank Owner"/>
+        <column xsi:type="decimal" name="balance" precision="20" scale="6" nullable="false" default="0.00" comment="Account Balance"/>
+        <column xsi:type="decimal" name="holding_balance" precision="20" scale="6" nullable="false" default="0.00" comment="Account Holding Balance"/>
+        <column xsi:type="decimal" name="total_commission" precision="20" scale="6" nullable="false" default="0.00" comment="Account Total Commission"/>
+        <column xsi:type="decimal" name="total_paid" precision="20" scale="6" nullable="false" default="0.00" comment="Account Total Paid"/>
+        <column xsi:type="int" name="customer_id" unsigned="true" nullable="false" />
+        <column xsi:type="varchar" name="telephone" nullable="false" comment="Phone Number" />
+        <column xsi:type="varchar" name="employee_id" comment="Kangaroo Employee ID" />
+        <column xsi:type="varchar" name="id_number" nullable="false" comment="ID Number" />
+        <column xsi:type="text" name="id_front" nullable="false" comment="ID Image Front" />
+        <column xsi:type="text" name="id_back" nullable="false" comment="ID Image Back" />
+        <column xsi:type="text" name="note" nullable="true" comment="Note of affiliate account" />
+        <column xsi:type="text" name="attention" nullable="true" comment="Attention of affiliate account" />
+        <column xsi:type="date" name="license_date" nullable="false" comment="License Date"/>
+        <column xsi:type="varchar" name="issued_by" nullable="false" comment="Issued By" />
+        <column xsi:type="varchar" name="city" nullable="true" length="255" comment="City" />
+        <column xsi:type="varchar" name="city_id" nullable="true" length="255" comment="City Id" />
+        <column xsi:type="varchar" name="district" nullable="true" length="255" comment="District" />
+        <column xsi:type="varchar" name="district_id" nullable="true" length="255" comment="District Id" />
+        <column xsi:type="varchar" name="ward" nullable="true" length="255" comment="Ward" />
+        <column xsi:type="varchar" name="ward_id" nullable="true" length="255" comment="Ward Id" />
+        <constraint
+            xsi:type="foreign"
+            referenceId="MAGENEST_AFFILIATE_ACCOUNT_CUSTOMER_ID_CUSTOMER_ENTITY_ENTITY_ID"
+            table="magenest_affiliate_account"
+            column="customer_id"
+            referenceTable="customer_entity"
+            referenceColumn="entity_id"
+            onDelete="CASCADE"
+        />
+
+
+    </table>
+    <table name="magenest_affiliate_withdraw">
+        <column xsi:type="boolean" name="acc_type" nullable="false" default="0" comment="Bank Type"/>
+        <column xsi:type="varchar" name="bank_no" nullable="true" length="20" comment="Bank Code"/>
+        <column xsi:type="varchar" name="acc_no" nullable="true" length="50" comment="Bank Number"/>
+        <column xsi:type="varchar" name="account_name" nullable="true" length="100"  comment="Bank Owner"/>
+        <column xsi:type="decimal" name="amount" precision="16" scale="6" nullable="false" default="0.00" comment="Withdraw Amount"/>
+        <column xsi:type="decimal" name="fee" precision="16" scale="6" nullable="false" default="0.00" comment="Withdraw Fee"/>
+        <column xsi:type="decimal" name="transfer_amount" precision="16" scale="6" nullable="false" default="0.00" comment="Withdraw Transaction Amount"/>
+    </table>
+
+    <table name="sales_order">
+        <column xsi:type="varchar" name="affiliate_commission_fee" length="11" nullable="true" default="" comment="Affiliate Commission Fee"/>
+        <column xsi:type="decimal" name="base_discount_customer_affiliate" precision="16" scale="6" nullable="true" default="0.00" comment="Base Discount customer affiliate"/>
+        <column xsi:type="decimal" name="discount_customer_affiliate" precision="16" scale="6" nullable="true" default="0.00" comment="Discount customer affiliate"/>
+    </table>
+
+    <table name="quote">
+        <column xsi:type="decimal" name="base_discount_customer_affiliate" precision="16" scale="6" nullable="true" default="0.00" comment="Base Discount customer affiliate"/>
+        <column xsi:type="decimal" name="discount_customer_affiliate" precision="16" scale="6" nullable="true" default="0.00" comment="Discount customer affiliate"/>
+    </table>
+
+    <table name="quote_item">
+        <column xsi:type="decimal" name="base_discount_customer_affiliate" precision="16" scale="6" nullable="true" default="0.00" comment="Base Discount customer affiliate"/>
+        <column xsi:type="decimal" name="discount_customer_affiliate" precision="16" scale="6" nullable="true" default="0.00" comment="Discount customer affiliate"/>
+    </table>
+
+    <table name="sales_order_item">
+        <column xsi:type="decimal" name="base_discount_customer_affiliate" precision="16" scale="6" nullable="true" default="0.00" comment="Base Discount customer affiliate"/>
+        <column xsi:type="decimal" name="discount_customer_affiliate" precision="16" scale="6" nullable="true" default="0.00" comment="Discount customer affiliate"/>
+    </table>
+</schema>

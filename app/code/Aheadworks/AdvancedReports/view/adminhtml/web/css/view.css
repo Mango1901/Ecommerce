@@ -1,0 +1,189 @@
+/* Global */
+.aw-arep-report_left-position {
+    float: left;
+}
+.aw-arep-report_right-position {
+    float: right;
+}
+.aw-arep-report_clear {
+    clear: both;
+}
+.aw-arep-report_grid .sticky-header{
+    top: 0;
+}
+.aw-arep-report_grid .admin__data-grid-header {
+    margin-top: 2rem;
+}
+
+/** Breadcrumbs */
+.aw-arep-breadcrumbs {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0px 0px 2rem;
+}
+.aw-arep-breadcrumbs .items {
+    font-size: 1.4rem;
+    color: #41362f;
+    margin: 0;
+    padding: 0;
+    list-style: none none;
+}
+.aw-arep-breadcrumbs .items > li {
+    display: inline-block;
+    vertical-align: top;
+}
+.aw-arep-breadcrumbs .item:not(:last-child) {
+    display: inline-block;
+    text-decoration: none;
+}
+.aw-arep-breadcrumbs .item:not(:last-child):after {
+    content: '>';
+    font-size: 1.4rem;
+    line-height: 20px;
+    overflow: hidden;
+    speak: none;
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+    margin: 0 1px;
+}
+.aw-arep-breadcrumbs a {
+    color: #007bdb;
+    text-decoration: underline;
+}
+.aw-arep-breadcrumbs a:hover {
+    text-decoration: underline;
+}
+
+/** Store */
+.aw-arep-store__dropdown-menu-action--group {
+    padding-left: 15px;
+}
+.aw-arep-store__dropdown-menu-action--store {
+    padding-left: 30px;
+}
+.aw-arep-store .dropdown-menu {
+    min-width: 40.5rem!important;
+    right: 0;
+}
+.aw-arep-store .dropdown.active .admin__action-dropdown-text:after {
+    left: -6px!important;
+    right: 0!important;
+}
+.aw-arep-store {
+    margin-right: 10px;
+}
+
+/** Group by*/
+.aw-arep-report_period_box {
+    float: right;
+}
+.aw-arep-report_period_item {
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    border: 1px solid #cccccc;
+    border-bottom-color: #b3b3b3;
+    color: #333333;
+    display: inline-block;
+    padding: 4px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    font-weight: bold;
+    position: relative;
+    margin-left: -1px;
+    background: #ffffff;
+}
+
+.aw-arep-report_period_item:hover {
+    background: #e5e5e5;
+}
+.aw-arep-report_period_item:active {
+    background: #4774b3;
+    color: #fff;
+}
+.aw-arep-report_period_item.active {
+    background: #5c95e6;
+    color: #fff;
+    opacity: 1;
+}
+.aw-arep-report_period_item.active:hover {
+    background: #5c95e6;
+}
+#aw-arep-report_periods_list {
+    position: relative;
+    display: inline-block;
+    font-size: 0;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+#aw-arep-report_periods_list>.aw-arep-report_period_item:first-child {
+    margin-left: 0;
+    -webkit-border-top-left-radius: 4px;
+    -moz-border-radius-topleft: 4px;
+    border-top-left-radius: 4px;
+    -webkit-border-bottom-left-radius: 4px;
+    -moz-border-radius-bottomleft: 4px;
+    border-bottom-left-radius: 4px;
+}
+#aw-arep-report_periods_list>.aw-arep-report_period_item:last-child {
+    -webkit-border-top-right-radius: 4px;
+    -moz-border-radius-topright: 4px;
+    border-top-right-radius: 4px;
+    -webkit-border-bottom-right-radius: 4px;
+    -moz-border-radius-bottomright: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+/** Grid totals */
+.aw-arep__column-totals-list {
+    width: 100%;
+    display: inline-table;
+    margin: 0;
+    padding: 0;
+    list-style: none none;
+    text-align:center;
+    margin: 10px 0;
+}
+.aw-arep__column-totals-item {
+    display: inline-block;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: normal;
+    margin: 5px 35px;
+    padding: 0px 10px 0;
+    border-left: 3px solid #6b96ce;
+    text-align: left;
+}
+.aw-arep__column-totals-value {
+    font-size: 30px;
+    font-weight: normal;
+    color: #6b96ce;
+}
+.aw-arep__column-totals-label {
+    font-size: 13px;
+    color: #41362f;
+}
+
+/** Grid toolbar */
+.aw-arep__data-grid-action-report-settings .admin__action-dropdown:before {
+    content: '\e613';
+    font-size: 1.8rem;
+    margin-right: 0.7rem;
+    vertical-align: top;
+    -webkit-font-smoothing: antialiased;
+    font-family: 'Admin Icons';
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    speak: none;
+}
+.admin__data-grid-actions-wrap .aw-arep__data-grid-action-report-settings .admin__action-dropdown:after {
+    display: none;
+}
+.sticky-header .admin__data-grid-actions-wrap .aw-arep__data-grid-action-report-settings .admin__action-dropdown .admin__action-dropdown-text {
+    display: none;
+}

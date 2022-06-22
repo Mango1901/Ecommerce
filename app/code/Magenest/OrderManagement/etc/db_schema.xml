@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @copyright Copyright (c) Eten.com, Inc. (http://www.eten.com)
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="sales_order" resource="default" engine="innodb">
+        <column xsi:type="varchar" name="order_creator"  length="255" comment="Order Creator"/>
+        <column xsi:type="smallint" name="sent_email_warehouse_archived"  default="0" comment="Sent Email Archived"/>
+        <column xsi:type="smallint" name="sent_email_cs_archived"  default="0" comment="Sent Email Archived"/>
+        <column xsi:type="smallint" name="is_confirm_debt"  default="0"/>
+        <column xsi:type="smallint" name="send_pos_email"  default="0"/>
+    </table>
+    <table name="sales_order_grid" resource="default" engine="innodb">
+        <column xsi:type="varchar" name="order_creator"  length="255" comment="Order Creator"/>
+        <column xsi:type="varchar" name="warehouse"  length="255" comment="Warehouse"/>
+    </table>
+</schema>

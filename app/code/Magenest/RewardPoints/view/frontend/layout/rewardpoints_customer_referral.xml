@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Copyright © 2015 Magento. All rights reserved.
+* See COPYING.txt for license details.
+*/
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="customer_account"/>
+    <head>
+        <css src="Magenest_RewardPoints::css/referral.css"/>
+        <css src="Magenest_RewardPoints::css/share.css"/>
+    </head>
+    <body>
+        <referenceBlock name="page.main.title">
+            <action method="setPageTitle">
+                <argument translate="true" name="title" xsi:type="string">Referral Dashboard</argument>
+            </action>
+        </referenceBlock>
+        <referenceContainer name="content">
+            <block class="Magenest\RewardPoints\Block\Customer\Friend" ifconfig="rewardpoints/reward_points_display/reward_points_enable" name="referral_customer_points_list" template="customer/points/friend.phtml" cacheable="false">
+                <block class="Magenest\RewardPoints\Block\Customer\Friend" name="referral_customer_points_list.share_buttons" template="customer/points/points/share_buttons.phtml"/>
+                <block class="Magenest\RewardPoints\Block\Customer\Friend" name="referral_customer_points_list.share_via_email" template="referral/form.phtml"/>
+                <block class="Magenest\RewardPoints\Block\Customer\MyReferral" name="referral_customer_points_list.my_referral_tabs" template="referral/my_referral.phtml"/>
+                <block class="Magenest\RewardPoints\Block\Customer\Js" name="referral_customer_points_list.js" template="Magenest_RewardPoints::customer/points/js.phtml"/>
+                <block class="Magento\Theme\Block\Html\Pager" name="referral_paging"/>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

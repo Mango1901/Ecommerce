@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="customer.wishlist.item.review" remove="true"/>
+        <referenceBlock name="customer.wishlist.items">
+            <block class="Magento\Wishlist\Block\Customer\Wishlist\Item\Column" name="customer.wishlist.item.additional.info" template="Magenest_CustomFrontend::wishlist-bottom.phtml" cacheable="false" after="-"/>
+        </referenceBlock>
+        <referenceBlock class="Magenest\CustomFrontend\Block\Html\Pager" name="wishlist_item_pager">
+            <arguments>
+                <argument name="toolbar_number_title" xsi:type="string">Wishlist</argument>
+            </arguments>
+        </referenceBlock>
+        <referenceContainer name="div.sidebar.additional" remove="true" />
+    </body>
+</page>

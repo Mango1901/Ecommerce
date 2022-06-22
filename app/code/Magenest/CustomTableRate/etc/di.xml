@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="kangaroo_rates_listing_data_source" xsi:type="string">kangaroo_rates_collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="kangaroo_rates_collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">kangaroo_shipping_tablerate</argument>
+            <argument name="resourceModel" xsi:type="string">Magenest\CustomTableRate\Model\ResourceModel\Carrier</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Magento\Quote\Model\Quote\Address\Rate">
+        <plugin name="add_original_price_to_rate" type="Magenest\CustomTableRate\Plugin\Model\Quote\Address\Rate" sortOrder="0"/>
+    </type>
+
+    <type name="Magento\Quote\Model\Cart\ShippingMethodConverter">
+        <plugin name="add_original_price_to_extension_attribute_rest_api" type="Magenest\CustomTableRate\Plugin\Model\Cart\ShippingMethodConverter" sortOrder="0"/>
+    </type>
+</config>

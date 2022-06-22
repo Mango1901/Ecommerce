@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="review_detail">
+        <column xsi:type="varchar" name="title" length="1024" nullable="true" comment="Title"/>
+    </table>
+
+    <table name="magenest_photoreview_photo" resource="default" engine="innodb" comment="magenest_photoreview_photo">
+        <column name="type" xsi:type="text"  comment="File type" />
+    </table>
+
+</schema>

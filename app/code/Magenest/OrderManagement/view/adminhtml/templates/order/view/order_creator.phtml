@@ -1,0 +1,98 @@
+<?php
+/**
+ * @copyright Copyright (c) cafe.net.vn, Inc. (https://cafe.net.vn/)
+ */
+
+/**
+ * @var $block Magenest\OrderManagement\Block\Adminhtml\Order\View\OrderCreator
+ */
+$orderCreator = $block->getOrderCreator();
+$warehouse = $block->getWarehouse();
+$sourceWarehouse = $block->getSourceWarehouse();
+?>
+<section class="admin__page-section order-view-account-information">
+    <div class="admin__page-section-title">
+        <span class="title"><?= $block->escapeHtml(__('Order Creator')) ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <div class="admin__page-section-item order-information">
+            <div class="admin__page-section-item-content">
+                <?php if ($orderCreator): ?>
+                    <div id="order-creator-value">
+                        <?= $orderCreator ?>
+                        <a id="update-order-creator" href="javascript:void(0);"><?= __("Edit") ?></a>
+                    </div>
+                <?php endif; ?>
+                <form action="<?= $block->getUrl('salesom/order/updateOrderCreator') ?>" data-mage-init='{"validation":{}}'
+                    <?php if ($orderCreator): ?> style="display: none;" <?php endif; ?>
+                      id="form-order-creator" method="POST" data-mage-init='{"validation": {}}'>
+                    <input type="hidden" name="form_key" value="<?= $block->getFormKey() ?>">
+                    <input type="hidden" name="order_id" value="<?= $block->getOrder()->getId() ?>">
+                    <input name="order_creator" data-validate='{"required":true}' id="order_creator" value="<?= $orderCreator ?>" class="input-text admin__control-text"/>
+                    <button type="submit">Submit</button>
+                    <?php if ($orderCreator): ?>
+                        <button id="btn-cancel-update">Cancel</button>
+                    <?php endif; ?>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</section>
+<section class="admin__page-section order-view-account-information">
+    <div class="admin__page-section-title">
+        <span class="title"><?= $block->escapeHtml(__('Warehouse')) ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <div class="admin__page-section-item order-information">
+            <div class="admin__page-section-item-content">
+                <?php if ($warehouse): ?>
+                    <div id="order-warehouse-value">
+                        <?= $block->getWarehouseText($warehouse) ?>
+                        <a id="update-order-warehouse" href="javascript:void(0);"><?= __("Edit") ?></a>
+                    </div>
+                <?php endif; ?>
+                <form action="<?= $block->getUrl('salesom/order/updateWarehouse') ?>" data-mage-init='{"validation":{}}'
+                    <?php if ($warehouse): ?> style="display: none;" <?php endif; ?>
+                      id="form-order-warehouse" method="POST" data-mage-init='{"validation": {}}'>
+                    <input type="hidden" name="form_key" value="<?= $block->getFormKey() ?>">
+                    <input type="hidden" name="order_id" value="<?= $block->getOrder()->getId() ?>">
+                    <select name="warehouse" data-validate='{"required":true}' id="warehouse" value="<?= $warehouse ?>"
+                           class="select admin__control-select">
+                        <?php foreach ($sourceWarehouse as $key => $source): ?>
+                            <option <?= $key == $warehouse ? 'selected' : '' ?> value="<?= $key ?>"><?= $source ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <button type="submit">Submit</button>
+                    <?php if ($warehouse): ?>
+                        <button id="btn-cancel-warehouse">Cancel</button>
+                    <?php endif; ?>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</section>
+<script>
+    require(['jquery'], function ($) {
+        $("#update-order-creator").click(function () {
+            $("#form-order-creator").show();
+            $("#order-creator-value").hide();
+        });
+        $("#btn-cancel-update").on('click', function (e) {
+            e.preventDefault();
+            $("#form-order-creator").hide();
+            $("#order-creator-value").show();
+        });
+
+        $("#update-order-warehouse").click(function () {
+            $("#form-order-warehouse").show();
+            $("#order-warehouse-value").hide();
+        });
+        $("#btn-cancel-warehouse").on('click', function (e) {
+            e.preventDefault();
+            $("#form-order-warehouse").hide();
+            $("#order-warehouse-value").show();
+        })
+    })
+</script>

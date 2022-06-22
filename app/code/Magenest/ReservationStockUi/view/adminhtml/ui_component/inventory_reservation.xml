@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © 2020 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ *
+ * Magenest_ReservationStockUi extension
+ * NOTICE OF LICENSE
+ *
+ * @category Magenest
+ * @package Magenest_ReservationStockUi
+ */
+-->
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">inventory_reservation.inventory_reservation_data_source</item>
+        </item>
+    </argument>
+    <settings>
+        <spinner>inventory_reservation_columns</spinner>
+        <deps>
+            <dep>inventory_reservation.inventory_reservation_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="inventory_reservation_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">reservation_id</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+        <aclResource>Magenest_ReservationStockUi::catalog_reservation</aclResource>
+        <dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider" name="inventory_reservation_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>main_table.reservation_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <settings>
+            <sticky>true</sticky>
+        </settings>
+        <bookmark name="bookmarks" />
+        <columnsControls name="columns_controls"/>
+        <paging name="listing_paging"/>
+    </listingToolbar>
+    <columns name="inventory_reservation_columns">
+        <settings>
+            <childDefaults>
+                <param name="fieldAction" xsi:type="array">
+                    <item name="provider" xsi:type="string">inventory_reservation.inventory_reservation.inventory_reservation_columns.actions</item>
+                    <item name="target" xsi:type="string">applyAction</item>
+                    <item name="params" xsi:type="array">
+                        <item name="0" xsi:type="string">view</item>
+                        <item name="1" xsi:type="string">${ $.$data.rowIndex }</item>
+                    </item>
+                </param>
+            </childDefaults>
+        </settings>
+        <selectionsColumn name="ids">
+            <settings>
+                <indexField>reservation_id</indexField>
+            </settings>
+        </selectionsColumn>
+        <column name="reservation_id">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Reservation ID</label>
+                <dataType>number</dataType>
+                <sorting>desc</sorting>
+            </settings>
+        </column>
+        <column name="stock_id" component="Magento_Ui/js/grid/columns/select">
+            <settings>
+                <filter>select</filter>
+                <options class="Magenest\ReservationStockUi\Model\Source\Stock"/>
+                <dataType>select</dataType>
+                <label translate="true">Stock</label>
+            </settings>
+        </column>
+        <column name="sku">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">SKU</label>
+            </settings>
+        </column>
+        <column name="quantity">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Quantity</label>
+                <dataType>number</dataType>
+            </settings>
+        </column>
+        <column name="metadata">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Additional Data</label>
+            </settings>
+        </column>
+        <column name="area_code">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Area Code</label>
+            </settings>
+        </column>
+        <actionsColumn name="actions" class="Magenest\ReservationStockUi\Ui\Component\Listing\Columns\ReservationActions" sortOrder="200">
+            <settings>
+                <indexField>reservation_id</indexField>
+            </settings>
+        </actionsColumn>
+    </columns>
+</listing>

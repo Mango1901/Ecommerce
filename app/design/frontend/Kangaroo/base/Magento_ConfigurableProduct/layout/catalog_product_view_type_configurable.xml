@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+      
+        <referenceBlock name="product.info">
+            <container name="product.info.form.mobile"  htmlTag="div" htmlClass="product-add-form-top" before="-"> 
+                <block class="Magento\Catalog\Block\Product\View\Gallery" name="product.info.media.image.mobile" template="Magento_Catalog::product/view/gallery-mobile.phtml">
+                    <arguments>
+                        <argument name="gallery_options" xsi:type="object">Magento\Catalog\Block\Product\View\GalleryOptions</argument>
+                        <argument name="imageHelper" xsi:type="object">Magento\Catalog\Helper\Image</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Catalog\Pricing\Render" name="product.price.final.mobile">
+                    <arguments>
+                        <argument name="price_render" xsi:type="string">product.price.render.default</argument>
+                        <argument name="price_type_code" xsi:type="string">final_price</argument>
+                        <argument name="zone" xsi:type="string">item_view</argument>
+                    </arguments>
+                </block> 
+            </container> 
+
+            
+        </referenceBlock>
+    </body>
+</page>

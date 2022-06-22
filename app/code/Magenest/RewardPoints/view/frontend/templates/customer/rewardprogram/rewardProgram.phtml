@@ -1,0 +1,101 @@
+<?php
+/**
+ * Copyright © 2020 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ *
+ * Reward points extension
+ * NOTICE OF LICENSE
+ *
+ * @author Magenest
+ * @time: 11/11/2020 14:51
+ */
+?>
+
+<?php
+/**
+ * @var \Magenest\RewardPoints\Block\Customer\RewardProgram $block
+ */
+/**
+ * @var \Magenest\RewardPoints\Helper\MembershipData $membershipHelper
+ */
+$membershipHelper = $this->helper('Magenest\RewardPoints\Helper\MembershipData');
+$imageHelper = $this->helper('Magenest\RewardPoints\Helper\ImageHelper');
+?>
+
+<div class="description"><?= $block->getRewardProgramDescription() ?></div>
+<?php
+if (count($membershipHelper->getActiveTier())) :
+?>
+<div class="table-scroll">
+    <table class="program">
+        <tbody>
+        <tr class="program-rank">
+            <td></td>
+            <?php
+            foreach ($membershipHelper->getActiveTier() as $tier) {
+                ?>
+                <td class="rank rank-<?= $tier->getData(\Magenest\RewardPoints\Api\Data\MembershipInterface::GROUP_CODE) ?>">
+                    <div class="rank-award">
+                        <?php if ($tierLogo = $tier->getData(\Magenest\RewardPoints\Api\Data\MembershipInterface::TIER_LOGO)) {
+                            echo '<img src="' . $imageHelper->getRewardPointsViewFileUrl($tierLogo) . '"/>';
+                        }
+                        ?>
+                    </div>
+                    <h4 class="rank-title"><?= $tier->getData(\Magenest\RewardPoints\Api\Data\MembershipInterface::GROUP_NAME) ?></h4>
+                    <p><?= $block->filterOutputHtml($tier->getData(\Magenest\RewardPoints\Api\Data\MembershipInterface::GROUP_DESCRIPTION)) ?> </p>
+                </td>
+                <?php
+            }
+            ?>
+        </tr>
+        <tr class="program-benefit">
+            <td class="program-benefit-title"><h4><?= __('Benefits') ?></h4></td>
+            <?php
+            foreach ($membershipHelper->getActiveTier() as $tier) {
+                echo '<td>' . $block->filterOutputHtml($tier->getData(\Magenest\RewardPoints\Api\Data\MembershipInterface::GROUP_BENEFIT)) . '</td>';
+            }
+            ?>
+        </tr>
+        <tr class="program-requirement">
+            <td class="program-requirement-title"><h4><?= __('Requirements') ?></h4></td>
+            <?php
+            foreach ($membershipHelper->getActiveTier() as $tier) {
+                echo '<td><p>' . $tier->getData(\Magenest\RewardPoints\Api\Data\MembershipInterface::GROUP_REQUIREMENTS) . '</p></td>';
+            }
+            ?>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<?php
+endif;
+?>
+<?php
+if (count($block->getActiveRule())):
+?>
+<h3><?= __('How can you earn more points') ?></h3>
+<table class="rules">
+    <thead>
+        <tr>
+            <th><?= __('Rule') ?></th>
+            <th><?= __('Earn') ?></th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php
+    foreach ($block->getActiveRule() as $rule) {
+        ?>
+        <tr>
+            <td class="rules-description">
+                <p><?= $rule->getData(\Magenest\RewardPoints\Api\Data\RuleInterface::RULE_DESCRIPTION) ?? $rule->getData(\Magenest\RewardPoints\Api\Data\RuleInterface::RULE_TITLE) ?></p>
+            </td>
+            <td colspan="2"><?= $block->getRuleEarn($rule) ?></td>
+        </tr>
+        <?php
+    }
+    ?>
+    </tbody>
+</table>
+<?php
+endif;
+?>

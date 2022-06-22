@@ -1,0 +1,53 @@
+<?php
+/**
+ * Copyright © 2020 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ *
+ * Magenest_ProductLabel extension
+ * NOTICE OF LICENSE
+ *
+ * @category Magenest
+ * @package Magenest_ProductLabel
+ */
+
+    /** @var \Magenest\ProductLabel\Block\Label $block */
+    $label = $block->getLabel();
+    $page = $block->getPage();
+    $data = $block->getDataLabel($label, $page);
+    $nardir = $block->getVar('gallery/navdir', 'Magento_Catalog');
+?>
+<?php if (!empty($label->getData())): ?>
+    <?php
+        $labelType = $data->getType();
+        $labelLayout = $block->getLabelLayout($labelType, $data);
+        $labelClass = $block->getLabelClass($data, $labelLayout);
+        $labelStyle = $block->getLabelStyle($data, $labelLayout);
+        $checkImageThumb = $block->checkImageThumb($this->getProduct());
+        //Get Size Image Thumbnail
+        $imageSize      = $block->getImageSize($this->getProduct(), 'product_swatch_image_small');
+        $txtStyle       = $block->getTxtStyle($data);
+        if ($imageSize != null) {
+            $check_space = ($nardir == 'vertical') ? '--space-x: ' . ($imageSize["width"] + 4) . 'px;' : '--space-y: ' . ($imageSize["height"] + 4) . 'px;';
+            $space_position = (is_array($checkImageThumb) && count($checkImageThumb) > 1) ? array($check_space) : array();
+            $labelStyle = array_merge($labelStyle, $space_position);
+        }
+    ?>
+    <div class="<?= implode(' ', array_filter($labelClass)) ?>" style="<?= $block->escapeHtml($data->getCustomCss()) ?>">
+        <?php if ($labelType == 1): ?>
+            <div class="label-text" style="<?= implode(' ', array_filter($txtStyle)) ?>">
+                <span><?= $block->escapeHtml($block->getTextValue($data)); ?></span>
+            </div>
+        <?php elseif ($labelType == 2): ?>
+            <?= $block->getShapeHtml($data) ?>
+        <?php elseif ($labelType == 3): ?>
+            <span class="label-image">
+                    <img style="height: 100%; width: 100%"
+                         src="<?= $block->escapeUrl($block->getSrcImg($data->getImage())) ?>">
+                </span>
+
+            <div class="label-text" style="<?= implode(' ', array_filter($txtStyle)) ?>">
+                <span><?= $block->escapeHtml($block->getTextValue($data)); ?></span>
+            </div>
+        <?php endif; ?>
+    </div>
+<?php endif; ?>

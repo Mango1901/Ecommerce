@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_PageBuilder:etc/content_type.xsd">
+    <type name="products">
+        <appearances>
+            <appearance name="grid">
+                <elements>
+                    <element name="main">
+                        <attribute name="note" source="data-note"/>
+                    </element>
+                </elements>
+                <converters>
+                    <converter component="Magenest_Cms/js/content-type/products/mass-converter/widget-directive" name="widget_directive">
+                        <config>
+                            <item name="html_variable" value="html"/>
+                        </config>
+                    </converter>
+                </converters>
+            </appearance>
+            <appearance name="carousel">
+                <elements>
+                    <element name="main">
+                        <attribute name="note" source="data-note"/>
+                    </element>
+                </elements>
+            </appearance>
+        </appearances>
+    </type>
+</config>

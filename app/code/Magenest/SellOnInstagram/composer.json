@@ -1,0 +1,21 @@
+{
+    "name": "magenest/module-sell-on-instagram",
+    "description": "Sell On Instagram extension by Magenest",
+    "require": {
+        "magenest/core": ">=1.2.1"
+    },
+    "type": "magento2-module",
+    "version": "1.0.0",
+    "license": [
+        "proprietary",
+        "OSL-3.0"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Magenest\\SellOnInstagram\\": ""
+        }
+    }
+}

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Magenest_AdminActivity::css/activity-view.css"/>
+        <css src="Magenest_AdminActivity::css/jquery.json-viewer.css"/>
+    </head>
+    <body>
+        <referenceContainer name="js">
+            <block class="Magenest\AdminActivity\Block\Adminhtml\Selector" template="Magenest_AdminActivity::activity/js.phtml" name="activity.view.model.js"/>
+        </referenceContainer>
+        <referenceContainer name="content">
+            <uiComponent name="admin_activity_listing"/>
+        </referenceContainer>
+    </body>
+</page>

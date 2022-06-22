@@ -1,0 +1,175 @@
+.cms-reward-landing {
+    .page-title{
+        display: none;
+    }
+    .reward-wrapper{
+        font-family: Segoe UI, "Open Sans";
+        font-size: 16px;
+        text-align: center;
+        color: #707070;
+        line-height: 20px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        .hero{
+            background-image: url(../images/hero.jpg);
+            background-size: cover;
+            height: 508px;
+            width: 100%;
+            text-align: center;
+            h4{
+                font-size: 46px;
+                font-weight: bold;
+                text-transform: uppercase;
+                text-align: center;
+                display: inline-block;
+                margin: 120px auto 0;
+                color: #787878;
+                background: white;
+                line-height: 1.2;
+                padding: 0 15px;
+            }
+            h2{
+                font-size: 77px;
+                font-weight: bold;
+                text-transform: uppercase;
+                padding: 0 20px;
+                margin: 0 auto;
+                display: inline-block;
+                color: white;
+                background: black;
+            }
+        }
+        .benefit{
+            .summary{
+                .summary-title{
+                    font-size: 30px;
+                    line-height: 40px;
+                    margin-top: 60px;
+                    margin-bottom: 40px;
+                }
+                .summary-content{
+                    line-height: 20px;
+                }
+            }
+            .tier{
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                margin-top: 75px;
+                > div{
+                    width: calc(~'33.33% - 30px');
+                    max-width:calc(~'33.33% - 30px');
+                    border-radius: 5px;
+                    padding: 40px 25px 0;
+                    border: 1px solid black;
+                    min-height: 500px;
+                    -webkit-box-sizing: border-box;
+                    -moz-box-sizing: border-box;
+                    box-sizing: border-box;
+                    .tier-title{
+                        margin: 0 0 25px;
+                        font-size: 30px;
+                        line-height: 40px;
+                    }
+                }
+            }
+        }
+        .how-it-works{
+            margin-top: 150px;
+            .title{
+                font-size: 30px;
+                line-height: 40px;
+                margin: 0 0 40px;
+            }
+            .top-image{
+                background-image: url(../images/atm.jpg);
+                background-size: cover;
+                width: 100%;
+                height: 300px;
+                background-position: 0px -230px;
+                margin: 50px 0px;
+                background-repeat: no-repeat;
+            }
+        }
+        .term-and-condition{
+            margin: 20px 0 80px;
+            a{
+                color: #707070;
+                text-decoration: underline;
+            }
+        }
+        .what-it-worth{
+            strong{
+                display: inline-block;
+            }
+            p{
+                display: inline-block;
+                margin-bottom: 20px;
+            }
+        }
+        .bottom-image{
+            background-image: url(../images/things.jpg);
+            background-size: cover;
+            width: 100%;
+            height: 300px;
+            background-position: 0px -230px;
+            margin: 0 0 50px;
+            background-repeat: no-repeat;
+        }
+        .faq{
+            h3{
+                font-size: 30px;
+                line-height: 40px;
+                margin: 0;
+            }
+            .question{
+                strong{
+                    margin: 30px 0px;
+                    display: block;
+                }
+            }
+        }
+        @media (max-width: 768px){
+            font-size: 16px;
+            line-height: 20px;
+            .hero{
+                h4{
+                    font-size: 40px;
+                }
+                h2{
+                    font-size: 60px;
+                }
+            }
+            .benefit .tier > div{
+                width: 100%;
+                max-width: 100%;
+                min-height: 250px;
+                padding: 20px;
+                margin-bottom: 30px;
+            }
+            .how-it-works{
+                margin-top: 50px;
+            }
+            .how-it-works .top-image{
+                background-position: 0 0;
+            }
+            .bottom-image{
+                background-position: 0 0;
+            }
+            .term-and-condition{
+                margin: 30px 0px;
+            }
+        }
+        @media (max-width: 768px){
+            .hero{
+                h4{
+                    font-size: 20px;
+                }
+                h2{
+                    font-size: 30px;
+                }
+            }
+        }
+    }
+}

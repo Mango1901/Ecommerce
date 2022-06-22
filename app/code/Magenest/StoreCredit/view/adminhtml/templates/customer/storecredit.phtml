@@ -1,0 +1,202 @@
+<?php
+/**
+ * Magenest
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magenest.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.magenest.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Magenest
+ * @package     Magenest_StoreCredit
+ * @copyright   Copyright (c) Magenest (https://www.magenest.com/)
+ * @license     https://www.magenest.com/LICENSE.txt
+ */
+
+/** @var \Magenest\StoreCredit\Block\Adminhtml\Customer\Edit\Tab\Balance $block */
+?>
+<form action="#" id="form-change-amount">
+    <fieldset class="fieldset admin__fieldset" id="mpstorecredit_information">
+        <legend class="admin__legend legend">
+            <span><?php echo __('Credit Information') ?></span>
+        </legend>
+        <br>
+        <div class="admin__field field field-point_balance">
+            <label class="label admin__field-label" for="mpstorecredit_balance">
+                <span><?php echo __('Credit Balance') ?></span>
+            </label>
+            <div class="admin__field-control control">
+                <div id="mpstorecredit_balance" class="control-value admin__field-value">
+                    <strong><?php echo $block->getFormattedBalance(); ?></strong>
+                </div>
+            </div>
+        </div>
+        <div class="admin__field field field-notification_update">
+            <label class="label admin__field-label" for="mpstorecredit[mp_credit_notification]">
+                <span><?php echo __('Subscribe to balance update') ?></span>
+            </label>
+            <div class="admin__field-control control">
+                <div id="mpstorecredit_balance" class="control-value admin__field-value">
+                    <input id="mpstorecredit_mp_credit_notification" name="mpstorecredit[mp_credit_notification]"
+                           data-form-part="customer_form" type="checkbox"
+                        <?php if ($block->isCreditNotification()) {
+                            echo 'checked';
+                        } ?>></div>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset class="fieldset admin__fieldset" id="mpstorecredit_update">
+        <legend class="admin__legend legend">
+            <span><?php echo __('Update Balance') ?></span>
+        </legend>
+        <br>
+        <div class="admin__field field field-point_amount required _required">
+            <label class="label admin__field-label" for="mpstorecredit_amount">
+                <span><?php echo __('Amount Change') ?></span>
+            </label>
+            <div class="admin__field-control control">
+                <input id="mpstorecredit_amount" name="mpstorecredit[amount]" type="text"
+                       class="input-text admin__control-text required-entry _required number-range--<?php echo $block->getBalance() ?>-"
+                       data-validate="{required:true, 'validate-number': true, 'validate-number-range':true}"/>
+                <div class="note admin__field-note" id="mpstorecredit_amount-note">
+                    <?php echo __('Use positive number to add the credit and negative number to subtract the credit.') ?>
+                </div>
+            </div>
+        </div>
+        <div class="admin__field field field-customer-note">
+            <label class="label admin__field-label" for="mpstorecredit_customer_note">
+                <span><?php echo __('Customer Note') ?></span>
+            </label>
+            <div class="admin__field-control control">
+                <textarea id="mpstorecredit_customer_note" name="mpstorecredit[customer_note]" rows="2" cols="15"
+                          class=" textarea admin__control-textarea"></textarea>
+                <div class="note admin__field-note" id="mpstorecredit_customer_note-note">
+                    <?php echo __('This note is visible to customers. It will not be translated, please be conscious of the language.') ?>
+                </div>
+            </div>
+        </div>
+        <div class="admin__field field field-admin-note">
+            <label class="label admin__field-label" for="mpstorecredit_admin_note">
+                <span><?php echo __('Admin Note') ?></span>
+            </label>
+            <div class="admin__field-control control">
+                <textarea id="mpstorecredit_admin_note" name="mpstorecredit[admin_note]" rows="2" cols="15"
+                          class=" textarea admin__control-textarea"></textarea>
+                <div class="note admin__field-note" id="mpstorecredit_admin_note-note">
+                    <?php echo __('This note is visible to admins only.') ?>
+                </div>
+            </div>
+        </div>
+        <div class="admin__field field">
+            <label class="label admin__field-label" for="mpstorecredit_update_balance"><span></span></label>
+            <div class="admin__field-control control">
+                <button type="button" id="mpstorecredit-update-balance"
+                        class="action-primary"><?php echo __('Update Balance'); ?></button>
+            </div>
+        </div>
+    </fieldset>
+</form>
+
+<script>
+    require([
+        'jquery',
+        'Magento_Ui/js/modal/alert',
+        'mage/validation'
+    ], function ($, alert) {
+
+        var form = $('#form-change-amount'),
+            amountElem = $('#mpstorecredit_amount'),
+            cusNoteElem = $('#mpstorecredit_customer_note'),
+            admNoteElem = $('#mpstorecredit_admin_note'),
+            balanceElem = $('#mpstorecredit_balance > strong'),
+            balanceAmount = <?php echo $block->getBalance() ?>,
+            rangeClass = 'number-range--' + balanceAmount + '-';
+
+        form.validation();
+
+        /** Event for Change button */
+        $('#mpstorecredit-update-balance').on('click', function () {
+            if (amountElem.valid()) {
+                changeAmount();
+            }
+        });
+
+        /** Event for submit form (prevent enter key) **/
+        form.on('submit', function () {
+            if (amountElem.valid()) {
+                changeAmount();
+            }
+
+            return false;
+        });
+
+        /** Change balance amount for Customer **/
+        function changeAmount() {
+            var amount = parseFloat(amountElem.val());
+
+            if (amount === 0) {
+                return false;
+            }
+
+            $.ajax({
+                method: 'POST',
+                url: '<?php echo $block->getChangeAmountUrl();?>',
+                showLoader: true,
+                data: {
+                    form_key: window.FORM_KEY,
+                    customer_id: <?php echo $block->getCustomerId();?>,
+                    amount: amountElem.val(),
+                    customer_note: cusNoteElem.val(),
+                    admin_note: admNoteElem.val()
+                }
+            }).done(function (response) {
+                if (response.error) {
+                    alert(response.message);
+                } else {
+                    balanceAmount = response.balance;
+
+                    amountElem.val('');
+                    cusNoteElem.val('');
+                    admNoteElem.val('');
+
+                    amountElem.removeClass(rangeClass);
+                    rangeClass = 'number-range--' + balanceAmount + '-';
+                    amountElem.addClass(rangeClass);
+
+                    balanceElem.html(response.balanceFormatted);
+
+                    window.transaction_gridJsObject.doFilter();
+                }
+            });
+
+            return false;
+        }
+    });
+</script>
+
+<style type="text/css">
+    .admin__scope-old div.mage-error {
+        border: 1px solid #e22626;
+        display: block;
+        margin: 2px 0 0;
+        padding: 6px 10px 10px;
+        background: #fff8d6;
+        color: #555;
+        font-size: 12px;
+        font-weight: 500;
+        box-sizing: border-box;
+    }
+</style>
+
+<div class="fieldset-wrapper-title" tabindex="-1">
+    <strong class="title">
+        <span><?php echo __('Transactions') ?></span>
+    </strong>
+</div>

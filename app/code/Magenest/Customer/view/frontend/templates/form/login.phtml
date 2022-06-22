@@ -1,0 +1,105 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// phpcs:disable Generic.Files.LineLength.TooLong
+
+/** @var \Magento\Customer\Block\Form\Login $block
+ * @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
+ */
+?>
+<div class="block block-customer-login">
+    <div class="block-title">
+        <strong id="block-customer-login-heading" role="heading" aria-level="2"><?= $block->escapeHtml(__('Login')) ?></strong>
+    </div>
+    <div class="block-content" aria-labelledby="block-customer-login-heading">
+        <form class="form form-login"
+              action="<?= $block->escapeUrl($block->getPostActionUrl()) ?>"
+              method="post"
+              id="login-form"
+              data-mage-init='{"validation":{}}'>
+            <?= $block->getBlockHtml('formkey') ?>
+            <fieldset class="fieldset login" data-hasrequired="<?= $block->escapeHtml(__('* Required Fields')) ?>">
+                <div class="field email required">
+                    <div class="control">
+                        <input name="login[username]" value="<?= $block->escapeHtmlAttr($block->getUsername()) ?>"
+                            <?php if ($block->isAutocompleteDisabled()): ?> autocomplete="off"<?php endif; ?>
+                               id="email" type="text" class="input-text"
+                               title="<?= $block->escapeHtmlAttr(__('Email Or Telephone')) ?>"
+                               placeholder="<?= $block->escapeHtml(__('Please enter your email or telephone')) ?>"
+                               data-mage-init='{"mage/trim-input":{}}'
+                               data-validate="{required:true, 'validate-custom-mob-email-rule':true}">
+                    </div>
+                </div>
+                <div class="field password required">
+                    <div class="control">
+                        <input name="login[password]" type="password"
+                            <?php if ($block->isAutocompleteDisabled()): ?> autocomplete="off"<?php endif; ?>
+                               class="input-text" id="pass"
+                               placeholder="<?= $block->escapeHtml(__('Please enter your password')) ?>"
+                               title="<?= $block->escapeHtmlAttr(__('Password')) ?>"
+                               data-validate="{required:true}">
+                        <span class="show-password"></span>
+                    </div>
+                </div>
+                <div class="field choice" data-bind="scope: 'showPassword'">
+                    <!-- ko template: getTemplate() --><!-- /ko -->
+                </div>
+                <?= $block->getChildHtml('form_additional_info') ?>
+                <div class="actions-toolbar">
+                    <div class="primary"><button type="submit" class="action login primary" name="send" id="send2"><span><?= $block->escapeHtml(__('Sign In')) ?></span></button></div>
+                    <div class="secondary">
+                        <a class="action remind" href="<?= $block->escapeUrl($block->getForgotPasswordUrl()) ?>"><span><?= $block->escapeHtml(__('Forgot Your Password?')) ?></span></a>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+    <script type="text/x-magento-init">
+        {
+            "*": {
+                "Magento_Customer/js/block-submit-on-send": {
+                    "formId": "login-form"
+                },
+                "Magento_Ui/js/core/app": {
+                    "components": {
+                        "showPassword": {
+                            "component": "Magento_Customer/js/show-password",
+                            "passwordSelector": "#pass"
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</div>
+<div class="create-account">
+    <span><?= __('New to Kangaroo?') ?></span>
+    <a href="<?= $this->getBaseUrl() ?>customer/account/create/" class="action create">
+        <?= $block->escapeHtml(__('Create an Account')) ?>
+    </a>
+</div>
+
+<?php
+$scriptString = <<<script
+    require(['jquery'], function($){
+        let btnShowPassword = $('.show-password');
+
+        btnShowPassword.on('click', function () {
+            let input = $(this).siblings('.input-text');
+            let inputType = input.attr('type');
+
+            if (inputType === 'password') {
+                $(this).addClass('show');
+                input.attr('type', 'text');
+            } else  {
+                $(this).removeClass('show');
+                input.attr('type', 'password');
+            }
+        })
+    });
+script;
+?>
+<?= /* @noEscape */ $secureRenderer->renderTag('script', [], $scriptString, false) ?>

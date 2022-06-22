@@ -1,0 +1,118 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<li id="payment" role="presentation" class="checkout-payment-method" data-bind="fadeVisible: isVisible">
+    <div id="checkout-step-payment"
+         class="step-content"
+         data-role="content"
+         role="tabpanel"
+         aria-hidden="false">
+        <!-- ko if: (quoteIsVirtual) -->
+        <!-- ko foreach: getRegion('customer-email') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!--/ko-->
+        <!--/ko-->
+        <form id="co-payment-form" class="form payments" novalidate="novalidate">
+            <input data-bind='attr: {value: getFormKey()}' type="hidden" name="form_key"/>
+            <fieldset class="fieldset">
+                <!-- ko foreach: getRegion('afterMethods') -->
+                <!-- ko template: getTemplate() --><!-- /ko -->
+                <!-- /ko -->
+
+                <!-- ko foreach: getRegion('place-order-captcha') -->
+                <!-- ko template: getTemplate() --><!-- /ko -->
+                <!-- /ko -->
+                <br />
+                <!-- ko foreach: getRegion('beforeMethods') -->
+                <!-- ko template: getTemplate() --><!-- /ko -->
+                <!-- /ko -->
+                <div class="company-invoice-container desktop-device">
+                    <div class="step-title"><!-- ko i18n: 'Issue company invoice'--><!-- /ko --></div>
+                    <button class="btn-company-invoice" data-trigger="company-invoice-popup" type="button">
+                        <!-- ko i18n: 'Issue company invoice'--><!-- /ko -->
+                    </button>
+                    <div data-bind="mageInit: {
+                        'Magento_Ui/js/modal/modal':{
+                            'type': 'popup',
+                            'title': 'Company information',
+                            'trigger': '[data-trigger=company-invoice-popup]',
+                            'responsive': true,
+                            'modalClass': 'company-invoice-popup',
+                            'buttons': [{
+                                text: jQuery.mage.__('Apply'),
+                                class: 'action primary action-apply'
+                            },
+                            {
+                                text: jQuery.mage.__('Back'),
+                                class: 'action secondary action-back',
+                                click: function () {
+                                    this.closeModal();
+                                }
+                            }
+                            ]
+                        }}">
+                        <div class="content">
+                            <fieldset class="fieldset vat-information">
+                                <div class="field _required">
+                                    <label class="label">
+                                        <span data-bind="i18n: 'Company Name'">
+                                        </span>
+                                    </label>
+                                    <div class="control">
+                                        <input class="input-text">
+                                    </div>
+                                </div>
+                                <div class="field _required">
+                                    <label class="label">
+                                        <span data-bind="i18n: 'Tax Code'">
+                                        </span>
+                                    </label>
+                                    <div class="control">
+                                        <input class="input-text">
+                                    </div>
+                                </div>
+                                <div class="field _required">
+                                    <label class="label">
+                                        <span data-bind="i18n: 'Company Email'">
+                                        </span>
+                                    </label>
+                                    <div class="control">
+                                        <input class="input-text">
+                                    </div>
+                                </div>
+                                <div class="field _required">
+                                    <label class="label">
+                                        <span data-bind="i18n: 'Company Address'">
+                                        </span>
+                                    </label>
+                                    <div class="control">
+                                        <input class="input-text">
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+                <div id="checkout-payment-method-load" class="opc-payment" data-bind="visible: isPaymentMethodsAvailable">
+                    <div class="checkout-payment-method-head mobile-device" data-trigger="payment-method">
+                        <span class="checkout-payment-method-title">
+                            <!-- ko i18n: 'Payment method'--><!-- /ko -->
+                        </span>
+                        <span class="checkout-payment-method-desc">
+                            <!-- ko i18n: 'Select a payment method'--><!-- /ko -->
+                        </span>
+                    </div>
+                    <!-- ko foreach: getRegion('payment-methods-list') -->
+                    <!-- ko template: getTemplate() --><!-- /ko -->
+                    <!-- /ko -->
+                </div>
+                <div class="no-quotes-block" data-bind="visible: isPaymentMethodsAvailable() == false">
+                    <!-- ko i18n: 'No Payment method available.'--><!-- /ko -->
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</li>

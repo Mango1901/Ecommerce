@@ -1,0 +1,17 @@
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <fieldset name="general">
+        <field name="erp_source_code" formElement="select" sortOrder="120">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Erp Warehouse</label>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Magenest\FastErp\Model\Source\ErpWarehouse\Options"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+    </fieldset>
+</form>

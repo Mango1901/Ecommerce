@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Amasty Team
+ * @copyright Copyright (c) 2020 Amasty (https://www.amasty.com)
+ * @package Amasty_Shopby
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="sales_quote_address_save_before">
+        <observer name="before_save" instance="Magenest\Directory\Observer\SaveQuoteAddress"/>
+    </event>
+    <event name="sales_convert_order_to_quote">
+        <observer name="add_data_to_quote" instance="Magenest\Directory\Observer\ConvertOrderToQuote"/>
+    </event>
+    <event name="sales_quote_address_collect_totals_before">
+        <observer name="add_data_to_address" instance="Magenest\Directory\Observer\AddDataToAddress"/>
+    </event>
+</config>

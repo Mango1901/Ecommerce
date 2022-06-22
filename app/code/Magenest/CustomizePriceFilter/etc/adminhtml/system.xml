@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="catalog" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="layered_navigation" translate="label" sortOrder="490" showInDefault="1" showInWebsite="1"
+                   showInStore="1">
+                <field id="price_options" translate="label" type="text" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Price Options</label>
+                    <frontend_model>Magenest\CustomizePriceFilter\Block\Adminhtml\Form\Field\PriceOptions</frontend_model>
+                    <backend_model>Magenest\CustomizePriceFilter\Model\Config\Backend\Serialized\PriceOptions</backend_model>
+                    <validate>validate-number validate-number-range number-range-0.01-9999999999999999</validate>
+                    <depends>
+                        <field id="price_range_calculation">manual_price_range</field>
+                    </depends>
+                    <comment><![CDATA[<ul><li>Price must be in range from 1 to 9999999999999999</li><li>Price options must be arrange in ascending order</li></ul>]]></comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block class="Magenest\RewardPoints\Block\Adminhtml\Transaction\Edit" name="rewardpoints_transaction_edit"/>
+        </referenceContainer>
+    </body>
+    <referenceContainer name="left">
+        <block class="Magenest\RewardPoints\Block\Adminhtml\Transaction\Edit\Tabs" name="rewardpoints_transaction_tabs">
+            <block class="Magenest\RewardPoints\Block\Adminhtml\Transaction\Edit\Tab\General" name="rewardpoints_transaction_tab_general"/>
+            <action method="addTab">
+                <argument name="name" xsi:type="string">rewardpoints_transaction_general</argument>
+                <argument name="block" xsi:type="string">rewardpoints_transaction_tab_general</argument>
+            </action>
+        </block>
+    </referenceContainer>
+</page>

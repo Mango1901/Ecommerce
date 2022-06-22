@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <affiliate>
+            <credit_balance_chart>
+                <background_color>rgba(0, 0, 0, 0.1)</background_color>
+                <border_color>rgba(255,99,132,1)</border_color>
+            </credit_balance_chart>
+        </affiliate>
+    </default>
+</config>

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">kangaroo_rates_form.kangaroo_rates_form_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Rate Information</item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+    <settings>
+        <buttons>
+            <button name="save" class="Magenest\CustomTableRate\Block\Adminhtml\Form\TableRates\Edit\SaveButton"/>
+            <button name="back" class="Magenest\CustomTableRate\Block\Adminhtml\Form\TableRates\Edit\BackButton"/>
+        </buttons>
+        <namespace>kangaroo_rates_form</namespace>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>kangaroo_rates_form.kangaroo_rates_form_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="kangaroo_rates_form_data_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+        <settings>
+            <submitUrl path="adminhtml/rates/save"/>
+        </settings>
+        <dataProvider class="Magenest\CustomTableRate\Model\TableRates\DataProvider" name="kangaroo_rates_form_data_source">
+            <settings>
+                <requestFieldName>pk</requestFieldName>
+                <primaryFieldName>pk</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <fieldset name="general">
+        <settings>
+            <label/>
+        </settings>
+        <field name="website_id" component="Magento_Customer/js/form/element/website" formElement="select">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">rates</item>
+                </item>
+            </argument>
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <label translate="true">Website</label>
+                <dataType>number</dataType>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Magento\Customer\ViewModel\Customer\Website"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <field name="country_code" formElement="select" sortOrder="10">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="default" xsi:type="string">VN</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Country</label>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Magento\Directory\Model\Config\Source\Country"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <field name="city_id" component="Magenest_Directory/js/form/element/city" sortOrder="20" formElement="select" >
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">City</label>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <filterBy>
+                            <field>country_id</field>
+                            <target>${ $.provider }:${ $.parentScope }.country_code</target>
+                        </filterBy>
+                        <options class="Magenest\Directory\Model\ResourceModel\City\Collection"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <field name="district_id" component="Magenest_Directory/js/form/element/district" sortOrder="30" formElement="select" >
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">District</label>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <filterBy>
+                            <field>city_id</field>
+                            <target>${ $.provider }:${ $.parentScope }.city_id</target>
+                        </filterBy>
+                        <options class="Magenest\Directory\Model\ResourceModel\District\Collection"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <field name="source_code" sortOrder="40" formElement="select">
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">Source Code</label>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Magento\Inventory\Model\ResourceModel\Source\Collection"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <field name="weight" sortOrder="50" formElement="input">
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                    <rule name="validate-number" xsi:type="boolean">true</rule>
+                    <rule name="validate-zero-or-greater" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>text</dataType>
+                <visible>true</visible>
+                <label translate="true">Weight</label>
+            </settings>
+        </field>
+        <field name="fee" sortOrder="60" formElement="input">
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                    <rule name="validate-number" xsi:type="boolean">true</rule>
+                    <rule name="validate-zero-or-greater" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>text</dataType>
+                <visible>true</visible>
+                <label translate="true">Fee</label>
+            </settings>
+        </field>
+    </fieldset>
+</form>

@@ -1,0 +1,8 @@
+<div class="product-reviews-summary short">
+    <div class="rating-summary">
+        <span class="label"><span data-bind="i18n: 'Rating'"></span></span>
+        <div class="rating-result" data-bind="attr: {id: 'rating-result-' + getId($row()), title: getReviewsSummary($row())}">
+            <span data-bind="attr: {style: 'width:' + getReviewsSummary($row())}"><span data-bind="text: getReviewsSummary($row())"></span></span>
+        </div>
+    </div>
+</div>

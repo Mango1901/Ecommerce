@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block class="Magenest\MapList\Block\Adminhtml\Map\Edit" name="maplist_map_edit"/>
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="Magenest\MapList\Block\Adminhtml\Map\Edit\Tabs" name="maplist_map_tabs">
+                <block class="Magenest\MapList\Block\Adminhtml\Map\Edit\Tab\Setting" name="maplist_map_settings"/>
+                <block class="Magenest\MapList\Block\Adminhtml\Map\Edit\Tab\AddLocation" name="maplist_map_add_location"/>
+
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">setting</argument>
+                    <argument name="block" xsi:type="string">maplist_map_settings</argument>
+                </action>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">add_location</argument>
+                    <argument name="block" xsi:type="string">maplist_map_add_location</argument>
+                </action>
+
+            </block>
+        </referenceContainer>
+
+        <referenceContainer name="js">
+            <block class="Magenest\MapList\Block\Adminhtml\Map\Edit\Js" template="map/js.phtml"/>
+        </referenceContainer>
+    </body>
+
+</page>

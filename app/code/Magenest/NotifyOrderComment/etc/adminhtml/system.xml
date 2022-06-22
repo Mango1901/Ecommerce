@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="magenest" translate="label" sortOrder="100">
+            <label>Magenest</label>
+        </tab>
+        <section id="notify_order_comment" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Notify Order Comment</label>
+            <tab>magenest</tab>
+            <resource>Magenest_NotifyOrderComment::config</resource>
+            <group id="general" translate="label" type="text" sortOrder="100" showInStore="1" showInWebsite="1" showInDefault="1">
+                <label>General</label>
+                <field id="sender" translate="label comment" type="select" sortOrder="10" showInDefault="1"
+                       showInWebsite="0" showInStore="1">
+                    <label>Email Sender</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                    <config_path>notify_order_comment/setting/sender</config_path>
+                </field>
+                <field id="email_default" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Email Default</label>
+                    <validate>required-entry</validate>
+                    <comment><![CDATA[Comma-separated]]></comment>
+                    <config_path>notify_order_comment/setting/email_default</config_path>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

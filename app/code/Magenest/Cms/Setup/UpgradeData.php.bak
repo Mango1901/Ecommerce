@@ -1,0 +1,425 @@
+<?php
+
+
+namespace Magenest\Cms\Setup;
+
+use Exception;
+use Magento\Cms\Model\BlockFactory;
+use Magento\Cms\Model\Page;
+use Magento\Cms\Model\PageFactory;
+use Magento\Framework\App\Area;
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\App\State;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Setup\ModuleContextInterface;
+use Magento\Framework\Setup\ModuleDataSetupInterface;
+use Magento\Framework\Setup\UpgradeDataInterface;
+use Magento\Framework\View\DesignInterface;
+use Magento\Store\Model\ScopeInterface;
+use Magento\Store\Model\StoreFactory;
+use Magento\Theme\Model\ThemeFactory;
+use Magento\Widget\Model\Widget\InstanceFactory;
+
+/**
+ * Class UpgradeData
+ * @package Magenest\Cms\Setup
+ */
+class UpgradeData implements UpgradeDataInterface
+{
+
+    protected $storeFactory;
+
+    protected $scopeConfig;
+
+    protected $blockFactory;
+
+    protected $pageFactory;
+
+    protected $widgetFactory;
+
+    protected $themeFactory;
+
+    protected $state;
+
+    /**
+     * UpgradeData constructor.
+     * @param StoreFactory $storeFactory
+     * @param BlockFactory $blockFactory
+     * @param PageFactory $pageFactory
+     * @param InstanceFactory $widgetFactory
+     * @param ThemeFactory $themeFactory
+     * @param ScopeConfigInterface $scopeConfig
+     * @param State $state
+     */
+    public function __construct(
+        StoreFactory $storeFactory,
+        BlockFactory $blockFactory,
+        PageFactory $pageFactory,
+        InstanceFactory $widgetFactory,
+        ThemeFactory $themeFactory,
+        ScopeConfigInterface $scopeConfig,
+        State $state
+    )
+    {
+        $this->storeFactory  = $storeFactory;
+        $this->blockFactory  = $blockFactory;
+        $this->pageFactory  = $pageFactory;
+        $this->widgetFactory = $widgetFactory;
+        $this->themeFactory  = $themeFactory;
+        $this->scopeConfig   = $scopeConfig;
+        try {
+            $state->setAreaCode(Area::AREA_GLOBAL);
+        } catch (Exception $e) {
+            //Area code is already set
+        }
+    }
+
+    /**
+     * @param ModuleDataSetupInterface $setup
+     * @param ModuleContextInterface $context
+     * @throws LocalizedException
+     */
+    public function upgrade(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
+    {
+        $setup->startSetup();
+
+        if (version_compare($context->getVersion(), '1.0.0') < 0) {
+            $this->createBlockAndWidget();
+        }
+
+        if (version_compare($context->getVersion(), '1.0.1') < 0) {
+            $this->createNoteB2BBlock();
+        }
+
+        if (version_compare($context->getVersion(), '1.0.2') < 0) {
+            $this->createSuccessNote();
+        }
+
+        if (version_compare($context->getVersion(), '1.0.3') < 0) {
+            $this->createMenuCmsPages();
+        }
+
+        if (version_compare($context->getVersion(), '1.0.4') < 0) {
+            $this->createFAQsPageAndPrivacyPage();
+        }
+
+        if (version_compare($context->getVersion(), '1.0.5') < 0) {
+            $this->createAboutusPage();
+        }
+
+        $setup->endSetup();
+    }
+
+    /**
+     * @throws LocalizedException
+     */
+    private function createBlockAndWidget()
+    {
+        $store      = $this->storeFactory->create()->load('default');
+        $storeId    = $store->getStoreId();
+        $blockData  = [
+            'title' => 'New Post List Block',
+            'identifier' => 'new_post_list_block',
+            'stores' => [0],
+            'is_active' => 1,
+            'content' =>
+                '{{block class="Magenest\Cms\Block\Post" template="Magenest_Cms::post.phtml"}}',
+        ];
+        $block      = $this->blockFactory->create()->setData($blockData)->save();
+        $themeId    = $this->getThemeIdByStoreId($storeId);
+        $widgetData = [
+            "instance_type" => "Magento\Cms\Block\Widget\Block",
+            "theme_id" => $themeId,
+            "title" => "New Post List Widget",
+            "widget_parameters" => [
+                "block_id" => $block->getId()
+            ],
+            "store_ids" => [0],
+            "sort_order" => 12
+        ];
+        $this->widgetFactory->create()->setData($widgetData)
+            ->setPageGroups(
+                [
+                    0 => [
+                        'page_group' => 'pages',
+                        'pages' => [
+                            'page_id' => '1',
+                            'layout_handle' => 'cms_index_index',
+                            'for' => 'all',
+                            'block' => 'content.bottom',
+                            'template' => 'widget/static_block/default.phtml'
+                        ],
+                        'page_layouts' => [
+                            'layout_handle' => ''
+                        ],
+                    ]
+                ]
+            )
+            ->save();
+    }
+
+    private function createNoteB2BBlock(){
+        $store      = $this->storeFactory->create()->load('default');
+        $storeId    = $store->getStoreId();
+        $blockData  = [
+            'title' => 'Note B2B Block',
+            'identifier' => 'note_b2b_block',
+            'stores' => [0],
+            'is_active' => 1,
+            'content' =>
+                '<div class="text-md-le-des-bk">Quy định cần lưu ý</div>
+                <div class="notes-block text-sm-le-des-bk" style="margin-top: 18px; padding-top: 32px; border-top: 1px solid #f6f6f6">
+                    <ul class="list-notes">
+                        <li>Bạn sẽ được chia sẻ một phần lợi nhuận trên mỗi đơn mua hàng thành công từ liên kết trên.</li>
+                        <li>Lưu lịch sử 30 ngày: Tức là nếu ai đó bấm vào link, và họ không mua hàng. Nhưng chỉ cần trong 30 ngày sau đó, họ mua hàng, bạn vẫn được tính tiền</li>
+                        <li>Click 2 link: Nếu khách hàng click vào 2 link của 2 cộng tác viên khác nhau, thì tiền sẽ được tính cho click link sau.</li>
+                        <li>Ghi đè lịch sử: Nếu khách click vào link của bạn, và sau đó họ click vào link quảng cáo của Tiki trên Google, Facebook, thì bạn sẽ không được tính tiền.</li>
+                    </ul>
+                </div>',
+        ];
+        $block      = $this->blockFactory->create()->setData($blockData)->save();
+    }
+
+    private function createSuccessNote(){
+        $store      = $this->storeFactory->create()->load('default');
+        $storeId    = $store->getStoreId();
+        $blockData  = [
+            'title' => 'Success Order Note',
+            'identifier' => 'order-note',
+            'stores' => [0],
+            'is_active' => 1,
+            'content' =>
+                '<p>Thời gian chuyển hàng từ 1- 4 ngày. <br>Những đơn hàng ở HCM chuyển sau 8PM trong thứ 2, thứ 5.<br><br>Mọi vấn đề xảy ra, xin vui lòng liên hệ:<br><a href="tel:">(84.8) 39251852</a></p>',
+        ];
+        $block      = $this->blockFactory->create()->setData($blockData)->save();
+    }
+
+    private function createMenuCmsPages(){
+        $store      = $this->storeFactory->create()->load('default');
+        $storeId    = $store->getStoreId();
+        $blockData  = [
+            'title' => 'Menu CMS pages',
+            'identifier' => 'menu_cms_pages',
+            'stores' => [0],
+            'is_active' => 1,
+            'content' =>
+                '<div class="menu_cms_pages">
+                <div class="menus">
+                <div class="menu_item menu_contact"><a href="{{store url=\'contact\'}}">Liên hệ</a></div>
+                <div class="menu_item menu_faqs"><a href="{{store url=\'faqs\'}}">Câu hỏi thường gặp</a></div>
+                <div class="menu_item menu_privacy"><a href="{{store url=\'privacy_policy\'}}">Chính sách &amp; điều khoản</a></div>
+                </div>
+                </div>',
+        ];
+        $block      = $this->blockFactory->create()->setData($blockData)->save();
+    }
+
+    private function createFAQsPageAndPrivacyPage(){
+        $cmsPages = [
+            [
+                'title' => 'Câu hỏi thường gặp',
+                'page_layout' => '1column',
+                'meta_keywords' => 'Câu hỏi thường gặp Trung Nguyên',
+                'meta_description' => 'Câu hỏi thường gặp Trung Nguyên',
+                'identifier' => 'faqs',
+                'content_heading' => 'Các thắc mắc thường gặp',
+                'content' => '<div class="faqs-wrapper">
+                            <div class="faq-block">
+                            <div class="block-title">1. Tài khoản của tôi</div>
+                            <div class="block-content">
+                            <div class="questions">
+                            <div class="question">
+                            <div class="question-title">Làm cách nào để tôi tạo tài khoản?</div>
+                            <div class="question-content">&nbsp;</div>
+                            </div>
+                            <div class="question">
+                            <div class="question-title">Nếu quên mật khẩu đăng nhập vào tài khoản tại website , tôi phải làm gì?</div>
+                            <div class="question-content">&nbsp;</div>
+                            </div>
+                            <div class="question">
+                            <div class="question-title">Làm thế nào để thay đổi thông tin trong tài khoản của tôi?</div>
+                            <div class="question-content">&nbsp;</div>
+                            </div>
+                            </div>
+                            </div>
+                            </div>
+                            <div class="faq-block">
+                            <div class="block-title">2. Các bước đặt hàng và tình trạng đơn hàng</div>
+                            <div class="block-content">
+                            <div class="questions">
+                            <div class="question">
+                            <div class="question-title">Làm thế nào để đặt hàng?</div>
+                            <div class="question-content">Đối với Khách hàng thành viên, quý khách có thể đặt hàng trên trang web cafe.net.vn qua các bước sau:<br> <br> Bước 1: Đăng nhập tài khoản thành viên.<br> Bước 2: Chọn sản phẩm trong Danh mục sản phẩm, cập nhật số lượng để chuẩn bị đơn đặt hàng. Chọn “Mua hàng”<br> Bước 3: Kiểm tra lại thông tin đơn đặt hàng, chọn “Tiến hành thanh toán”.<br> Bước 4: Chọn phương thức thanh toán phù hợp.<br> Bước 5: Điền đầy đủ thông tin, nhấn “Hoàn tất mua hàng” và chờ xác nhận đơn hàng qua thư điện tử.<br> Đối với Khách hàng Người tiêu dùng, quý khách có thể đặt hàng trên trang web cafe.net.vn qua các bước sau:<br> <br> Bước 1: Chọn sản phẩm và cho vào giỏ hàng<br> Bước 2: Nhấn “Tiến hành đặt hàng”.<br> Bước 3: Chọn phương thức thanh toán phù hợp.<br> Bước 4: Điền đầy đủ thông tin, nhấn “Hoàn tất mua hàng” và chờ xác nhận đơn hàng qua thư điện tử.<br> Hoặc quý khách cũng có thể liên hệ Bộ Phận Dịch Vụ Khách Hàng của cafe.net.vn qua kênh liên hệ hỗ trợ trực tuyến, thư điện tử hoặc gọi số 1900 6016 để được hỗ trợ.</div>
+                            </div>
+                            <div class="question">
+                            <div class="question-title">Tôi có thể đặt hàng trực tuyến và nhận trực tiếp tại cửa hàng không?</div>
+                            <div class="question-content">&nbsp;</div>
+                            </div>
+                            <div class="question">
+                            <div class="question-title">Trung Nguyên có dịch vụ giao hàng không?</div>
+                            <div class="question-content">&nbsp;</div>
+                            </div>
+                            <div class="question">
+                            <div class="question-title">Làm sao để liên lạc được nhân viên đang thực hiện giao hàng cho tôi?</div>
+                            <div class="question-content">&nbsp;</div>
+                            </div>
+                            <div class="question">
+                            <div class="question-title">Làm thế nào để theo dõi tình trạng đơn hàng?</div>
+                            <div class="question-content">&nbsp;</div>
+                            </div>
+                            <div class="question">
+                            <div class="question-title">Làm thế nào để thay đổi địa chỉ giao hàng cho đơn hàng đã đặt?</div>
+                            <div class="question-content">&nbsp;</div>
+                            </div>
+                            </div>
+                            </div>
+                            </div>
+                            <div class="faq-block">
+                            <div class="block-title">3. Thanh toán và giá cả</div>
+                            <div class="block-content">
+                            <div class="questions">
+                            <div class="question">
+                            <div class="question-title">Những hình thức thanh toán nào được công ty chấp nhận?</div>
+                            <div class="question-content">&nbsp;</div>
+                            </div>
+                            <div class="question">
+                            <div class="question-title">Có an toàn khi tôi sử dụng thẻ tín dụng của mình tại trang web không?</div>
+                            <div class="question-content">&nbsp;</div>
+                            </div>
+                            <div class="question">
+                            <div class="question-title">Thông tin thẻ tín dụng của tôi không được chấp nhận. Tôi phải làm gì?</div>
+                            <div class="question-content">&nbsp;</div>
+                            </div>
+                            <div class="question">
+                            <div class="question-title">Máy tính bị treo trong quá trình thanh toán. Liệu thanh toán thành công?</div>
+                            <div class="question-content">&nbsp;</div>
+                            </div>
+                            <div class="question">
+                            <div class="question-title">Tương tự với các câu hỏi khác</div>
+                            <div class="question-content">&nbsp;</div>
+                            </div>
+                            </div>
+                            </div>
+                            </div>
+                            </div>',
+                'is_active' => 1,
+                'layout_update_xml' => '<referenceContainer name="columns.top">
+                                    <block class="Magento\Cms\Block\Block" name="menu_cms_pages" before="page.main.title">
+                                        <arguments>
+                                            <argument name="block_id" xsi:type="string">menu_cms_pages</argument>
+                                        </arguments>
+                                    </block>
+                                </referenceContainer>',
+                'stores' => [0],
+                'sort_order' => 0
+            ],
+            [
+                'title' => 'Chính sách và điều khoản',
+                'page_layout' => '1column',
+                'meta_keywords' => 'Chính sách và điều khoản của Trung Nguyên',
+                'meta_description' => 'Chính sách và điều khoản của Trung Nguyên',
+                'identifier' => 'privacy-policy',
+                'content_heading' => '',
+                'content' => '<div class="privacy-policy-block">
+                        <div class="block">
+                        <div class="block-title">CHÍNH SÁCH GIAO NHẬN HÀNG</div>
+                        <div class="block-content">CAFE.NET.VN luôn hướng đến việc cung cấp dịch vụ vận chuyển tốt nhất với mức phí cạnh tranh cho tất cả các đơn hàng mà quý khách đặt với chúng tôi. Chúng tôi giao hàng trên toàn quốc với chính sách giao hàng cụ thể như sau.<br> 1. Quy trình giao nhận hàng<br> Đơn hàng của quý khách sẽ được liên hệ và giao hàng tối đa trong 2 lần.<br> - Trường hợp lần đầu giao hàng không thành công, chúng tôi liên hệ để sắp xếp lịch giao hàng lần 2 cho quý khách.<br> - Chúng tôi sẽ liên hệ quý khách trong 24 giờ tiếp theo (qua điện thoại hoặc thư điện tử).<br> - Trong trường hợp vẫn không thể liên hệ được hoặc không nhận được bất kì phản hồi nào từ phía quý khách, đơn hàng sẽ được hủy.<br> Để kiểm tra tình trạng đơn hàng: Quý khách sử dụng mã số đơn hàng (được gửi trong thư xác nhận của quý khách) để kiểm tra với Bộ Phận Dịch Vụ Khách Hàng.<br> Tại thời điểm nhận hàng, quý khách có thể kiểm tra tình trạng, số lượng các sản phẩm trong đơn đặt hàng. Đối với các đơn hàng đã được thanh toán trước, quý khách vui lòng xuất trình giấy tờ tùy thân (CMND hay giấy phép lái xe…) để nhận hàng.<br> 2. Chi phí vận chuyển<br> Miễn phí vận chuyển toàn quốc đối với đơn hàng có tổng giá trị thanh toán từ 2.000.000 VNĐ trở lên.<br> Đơn hàng có tổng giá trị thanh toán dưới 2.000.000 VNĐ, quý khách vui lòng thêm phí vận chuyển như sau:....</div>
+                        </div>
+                        <div class="block">
+                        <div class="block-title">CHÍNH SÁCH ĐỔI HÀNG</div>
+                        <div class="block-content">Với mong muốn mang lại sự hài lòng cho quý khách khi mua sắm tại Coffee Hypermarket, chúng tôi hỗ trợ chính sách đổi hàng như sau:<br> 1. Hàng giao bị bể vỡ, sai nội dung hoặc bị thiếu<br> Coffee Hypermarket khuyến khích quý khách kiểm tra tình trạng bên ngoài của thùng hàng và sản phẩm trước khi thanh toán để đảm bảo rằng hàng hóa được giao đúng chủng loại, số lượng, màu sắc theo đơn đặt hàng và tình trạng bên ngoài không bị tác động (bể vỡ/ trầy xước). Nếu gặp trường hợp này, quý khách vui lòng từ chối nhận hàng hoặc báo ngay cho Bộ phận Dịch Vụ Khách Hàng để chúng tôi có phương án xử lí kịp thời. (Xin lưu ý những bước kiểm tra sâu hơn như dùng thử sản phẩm chỉ có thể được chấp nhận sau khi đơn hàng được thanh toán đầy đủ)<br> Trong trường hợp khách hàng đã thanh toán, nhận hàng và sau đó phát hiện hàng hóa bị bể vỡ, sai nội dung hoặc thiếu hàng, xin vui lòng liên hệ ngay với Bộ phận Dịch Vụ Khách Hàng của Coffee Hypermarket để chúng tôi hỗ trợ các bước tiếp theo như đổi hàng hoặc gửi sản phẩm còn thiếu đến quý khách.<br> Sau 3 ngày làm việc kể từ ngày quý khách nhận hàng, chúng tôi có quyền từ chối hỗ trợ đổi hàng cho những khiếu nại theo như nội dung trên.</div>
+                        </div>
+                        <div class="block">
+                        <div class="block-title">CHÍNH SÁCH BẢO HÀNH</div>
+                        <div class="block-content">Trung Nguyên có chính sách bảo hành riêng cho từng sản phẩm. Các thông tin bảo hành được quy định cụ thể trên mỗi nhãn hiệu hàng hóa đăng tải trên website www.cafe.net.vn.<br> <br> Đối với các mặt hàng thực phẩm, đồ uống ... Trung Nguyên cam kết đảm bảo về chất lượng hàng hóa theo tiêu chuẩn và đảm bảo an toàn thực phẩm như (thành phần, thời hạn sử dụng.. in trên bao bì).<br> <br> Đối với các mặt hàng máy móc thiêt bị: Khi máy móc bị hỏng Trung Nguyên sẽ kiểm tra và sửa chữa cho khách hàng trong thời gian bảo hành đã cam kết trên sản phẩm, đồng thời chuyển báo cáo về các máy móc bị hỏng cho Nhà sản xuất, Nhà sản xuất sẽ gửi phụ tùng thay thế cho khách hàng. Trong một số trường hợp nếu có yêu cầu, Trung Nguyên sẽ gửi phụ tùng hỏng về cho Nhà sản xuất. Khách hàng sẽ không chịu chi phí bảo hành trong thời hạn bảo hành mà Nhà sản xuất đã quy định gắn trên các thiết bị máy móc.<br> <br> Đối với các mặt hàng ly tách, vật phẩm không được bảo hành. Khách hàng sẽ tiến hành kiểm tra tình trạng hàng hóa ngay khi nhận hàng, Nếu hàng giao bị lỗi kỷ thuật, bể trước khi nhận hàng. Trung Nguyên sẽ tiến hành đổi hàng ngay tại thời điểm giao. Sau khi khách hàng đã ký xác nhận và nhận hàng, Trung Nguyên sẽ không chịu trách nhiệm về tình trạng hàng hóa.</div>
+                        </div>
+                        </div>',
+                'is_active' => 1,
+                'layout_update_xml' => '<referenceContainer name="columns.top">
+                                    <block class="Magento\Cms\Block\Block" name="menu_cms_pages" before="page.main.title">
+                                        <arguments>
+                                            <argument name="block_id" xsi:type="string">menu_cms_pages</argument>
+                                        </arguments>
+                                    </block>
+                                </referenceContainer>',
+                'stores' => [0],
+                'sort_order' => 0
+            ]
+        ];
+
+        /**
+         * Insert default and system pages
+         */
+        foreach ($cmsPages as $data) {
+            $this->createPage()->setData($data)->save();
+        }
+    }
+
+    private function createAboutusPage(){
+        $cmsPages = [
+          [
+              'title' => 'Về chúng tôi',
+              'page_layout' => '1column',
+              'meta_keywords' => 'Về Trung Nguyên',
+              'meta_description' => 'Về Trung Nguyên',
+              'identifier' => 'about-us',
+              'content_heading' => 'Về chúng tôi',
+              'content' => '<div class="about-us-block">
+                            <img src="{{media url=&quot;img-blog-1.png&quot;}}" alt="">
+                            <div class="about-us-content">
+                                Thân gửi những người bạn cà phê,<br/>
+                                <br/>
+                                Chúng tôi xin trân trọng  giới thiệu với các bạn là những người yêu và đam mê cà phê, sành cà phê về Coffee Hypermarket – www.cafe.net.vn  đầu tiên tại Việt Nam.<br/>
+                                <br/>
+                                Đây là không gian on-line chuyên cà phê, một Thế giới cà phê thú vị nhất mà bạn có thể tìm thấy cho riêng mình những gói cà phê tuyệt hảo – năng lượng sáng tạo để thành công, có đầy đủ các loại từ cà phê Chồn – cà phê dành cho nguyên thủ của Trung Nguyên cho đến cà phê rang xay pha phin đặc sản Việt Nam. Bạn sẽ được chu du các kiểu cà phê thế giới với cà phê espresso đến cappuccino, từ cà phê pha máy classic đến cà phê hòa tan G7 đang vang danh 60 quốc gia toàn cầu. Và còn nhiều nữa những nhãn hiệu cà phê đích thực từ bốn phương cùng tụ hội hứa hẹn mang đến cho bạn những trải nghiệm lý thú. Chỉ bằng 01 cú “Click” chuột trên máy tính, smart phone, chúng tôi sẽ gửi đến bạn những gói cà phê mà bạn chọn lựa.
+                            </div>
+                            <img src="{{media url=&quot;img-blog-2.png&quot;}}" alt="">
+                            <div class="about-us-content">
+                                Bạn muốn khám phá và chia sẻ những trải nghiệm thực tế về cà phê? Bạn sẽ tìm thấy tại www.cafe.net.vn từ  những món hàng nhỏ nhắn tinh xảo, những văn hóa phẩm cà phê cho đến những chuyến du lịch coffee tour về vùng đất thánh của cà phê Việt Nam tại Daklak, khám phá văn hóa đồng bào dân.<br/>
+                                <br/>
+                                Bạn đang muốn khởi nghiệp bằng việc mở quán cà phê? Hãy vào www.cafe.net.vn, bạn sẽ được giới thiệu các phương thức kinh doanh hiện đại và hiệu quả như Franchise, License, tham dự  khóa huấn luyện thực tiễn về pha chế, quản lý  quán với những bí quyết chỉ có ở Trung Nguyên. Ở đây bạn sẽ được tư vấn về chọn lựa mặt bằng, đầu tư hiệu quả và được  cung ứng trang thiết bị, dụng cụ, phụ liệu pha
+                            </div>
+                            <img src="{{media url=&quot;img-blog-3.png&quot;}}" alt="">
+                            <div class="about-us-content">
+                                Tất cả thế giới phong phú huyền nhiệm của cà phê, chỉ bằng một cú lướt hoặc “click” chuột, một Coffee Hypermarket đã trong tay bạn, giúp bạn có ngay những gì bạn muốn.<br/>
+                                <br/>
+                                Còn chờ gì nữa, là người sáng tạo, năng động, yêu cà phê, thành công với cà phê hãy cùng khám phá không gian duy nhất – Thế Giới Cà phê của bạn: Coffee Hypermarket – www.cafe.net.vn<br/>
+                                <br/>
+                                Thân ái,<br/>
+                                <br/>
+                                Coffee Hypermarket
+                            </div>
+                        </div>',
+              'is_active' => 1,
+              'stores' => [0],
+              'sort_order' => 0
+          ]
+        ];
+
+        /**
+         * Insert default and system pages
+         */
+        foreach ($cmsPages as $data) {
+            $this->createPage()->setData($data)->save();
+        }
+    }
+
+    private function getThemeIdByStoreId($storeId)
+    {
+        return $this->scopeConfig->getValue(
+            DesignInterface::XML_PATH_THEME_ID,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+    }
+
+    /**
+     * Create page
+     *
+     * @return Page
+     */
+    public function createPage()
+    {
+        return $this->pageFactory->create();
+    }
+}

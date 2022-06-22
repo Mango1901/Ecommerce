@@ -1,0 +1,263 @@
+<?php
+use Magento\Customer\Helper\Address;
+?>
+<?php
+/** @var Magenest\Affiliate\Block\Account\Signup $block */
+$address = $block->callAddress();
+?>
+<?php
+    $affiliateHelper = $block->getAffiliateHelper();
+?>
+<form class="form form-edit-account form-affiliate form-create-affiliate"
+      enctype="multipart/form-data" data-mage-init='{"validation": {}}'
+      action="<?= $block->getSignUpUrl() ?>" method="post" id="form-validate" autocomplete="off">
+    <fieldset class="fieldset">
+        <legend class="legend"><span><?= __('Affiliate Information') ?></span></legend>
+        <div class="field telephone required">
+            <label for="telephone" class="label">
+                <span><?= $block->escapeHtml(__('Phone Number')) ?></span>
+            </label>
+            <div class="control">
+                <input type="tel" name="telephone" id="telephone" class="input-text"
+                       data-validate='{required:true,"validate-telephone-require":true}'
+                       title="<?= $block->escapeHtmlAttr(__('Phone Number')) ?>">
+            </div>
+        </div>
+        <div class="field">
+            <label for="employee_id" class="label">
+                <span><?= $block->escapeHtml(__('Employee code')) ?></span>
+            </label>
+            <div class="control">
+                <input type="text" name="employee_id" id="employee_id" class="input-text"
+                       title="<?= $block->escapeHtmlAttr(__('Employee code')) ?>">
+            </div>
+            <span class="note"><?= __('(If you do not have an employee ID, please ignore this content)') ?></span>
+        </div>
+        <div class="field">
+            <label for="referred_by" class="label">
+                <span><?= $block->escapeHtml(__('Referral code')) ?></span>
+            </label>
+            <div class="control">
+                <?php
+                    $referBy = $affiliateHelper->getCustomerReferBy();
+                    $classCss = $referBy ? 'class="affiliate-input-read-only"' : '';
+                ?>
+                <input name="referred_by" id="referred_by" <?= $classCss ?>
+                       class="input-text"
+                       title="<?= __('Referral code') ?>" <?= $referBy ? 'value="' . $referBy . '" readonly' : '' ?> />
+            </div>
+            <span class="note"><?= __("(If you don't have email or referral code, please ignore this)") ?></span>
+        </div>
+
+        <div class="field country required">
+            <div class="control">
+                <input type="hidden" name="country_id" value="VN" title="Country" id="country" class="input-text">
+            </div>
+        </div>
+        <div class="field city required">
+            <label class="label" for="city_id">
+                <span><?= __('City') ?></span>
+            </label>
+            <div class="control">
+                <select id="city_id" name="city_id"
+                        title="<?= __('City') ?>"
+                        class="validate-select district_id">
+                    <option value=""><?= $block->escapeHtml(__('Please select a city.')) ?></option>
+                </select>
+                <input type="text"
+                       id="city"
+                       name="city"
+                       style="display: none"
+                       value=""
+                       title="<?=__('City') ?>"
+                       class="input-text" <?= $block->escapeHtmlAttr($this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('city')) ?>/>
+            </div>
+        </div>
+        <div class="field district required">
+            <label class="label" for="district_id">
+                <span><?= __('District') ?></span>
+            </label>
+            <div class="control">
+                <select id="district_id" name="district_id"
+                        title="<?= __('District') ?>"
+                        class="validate-select district_id">
+                    <option value=""><?= $block->escapeHtml(__('Please select a district.')) ?></option>
+                </select>
+                <input type="text"
+                       id="district"
+                       name="district"
+                       style="display: none"
+                       value=""
+                       title="<?= __('District') ?>"
+                       class="input-text"/>
+            </div>
+        </div>
+        <div class="field ward required">
+            <label class="label" for="ward_id">
+                <span><?= __('Ward') ?></span>
+            </label>
+            <div class="control">
+                <select id="ward_id" name="ward_id"
+                        title="<?= __('Ward') ?>"
+                        class="validate-select ward_id">
+                    <option value=""><?= $block->escapeHtml(__('Please select a ward')) ?></option>
+                </select>
+                <input type="text"
+                       id="ward"
+                       name="ward"
+                       style="display: none"
+                       value=""
+                       title="<?= __('Ward') ?>"
+                       class="input-text"/>
+            </div>
+        </div>
+        <div class="field required">
+            <label for="id_number" class="label">
+                <span><?= $block->escapeHtml(__('ID number/CCCD')) ?></span>
+            </label>
+            <div class="control">
+                <input name="id_number" id="id_number" class="input-text"
+                       data-validate='{required:true,"integer":true,"validate-greater-than-zero":true,"validate-id-number":true}'
+                       title="<?= $block->escapeHtmlAttr(__('ID number/CCCD')) ?>">
+            </div>
+        </div>
+        <div class="field required">
+            <label for="license_date" class="label">
+                <span><?= $block->escapeHtml(__('License date')) ?></span>
+            </label>
+            <div class="control">
+                <input name="license_date" id="license_date" class="input-text"
+                       data-validate='{required:true}'
+                       title="<?= $block->escapeHtmlAttr(__('License date')) ?>">
+                <script>
+                    require([
+                        'jquery',
+                        'mage/translate',
+                        'moment',
+                        'daterangepicker',
+                    ], function($, $t, moment){
+                        const formatDate = 'YYYY-MM-DD';
+
+                        $('#license_date').daterangepicker({
+                            singleDatePicker: true,
+                            showDropdowns: true,
+                            timePicker: false,
+                            locale: {
+                                format: formatDate,
+                                applyLabel: $t('Apply'),
+                                cancelLabel: $t('Cancel')
+                            }
+                        });
+                    });
+                </script>
+            </div>
+        </div>
+        <div class="field required">
+            <label for="issued_by" class="label">
+                <span><?= $block->escapeHtml(__('Issued by')) ?></span>
+            </label>
+            <div class="control">
+                <input name="issued_by" id="" class="input-text"
+                       data-validate='{required:true}'
+                       title="<?= $block->escapeHtmlAttr(__('Issued by')) ?>">
+            </div>
+        </div>
+        <div class="upload-image">
+            <div class="field required">
+                <label for="id_front" class="label">
+                    <span><?= $block->escapeHtml(__("Picture of CMND/CCCD front side")) ?></span>
+                </label>
+                <div class="box-image">
+                    <label class="label">
+                        <img id="id_front_preview"/>
+                        <input class="affiliate_image" type="file" title="search image"
+                               id="id_front" name="id_front" required />
+                        <span><?= __('Select image') ?></span>
+                    </label>
+                </div>
+            </div>
+            <div class="field required">
+                <label for="id_back" class="label">
+                    <span><?= $block->escapeHtml(__("Picture of CMND/ CCCD on the back side")) ?></span>
+                </label>
+                <div class="box-image">
+                    <label class="label">
+                        <img id="id_back_preview"/>
+                        <input class="affiliate_image" type="file" title="search image"
+                               id="id_back" name="id_back" required />
+                        <span><?= __('Select image') ?></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <script>
+            require(['jquery', 'Magento_Ui/js/modal/alert'], function ($, alert) {
+                $('.action.cancel.secondary').on( "click", function() {
+                    window.location.href = "<?= $block->getBackButtonUrl() ?>"
+                });
+
+                $('.affiliate_image').change(function () {
+                    let validExtensions = ['jpg', 'jpeg', 'png'],
+                        fileName = this.files[0].name,
+                        fileNameExt = fileName.substr(fileName.lastIndexOf('.') + 1);
+                    if ($.inArray(fileNameExt, validExtensions) === -1) {
+                        this.type = '';
+                        this.type = 'file';
+                        $(this).parent().removeClass('has-image');
+                        $('#' + this.id + '_preview').attr('src',"");
+                        alert({
+                            title: $.mage.__("Error"),
+                            content: $.mage.__("Only these file types are accepted : " + validExtensions.join(', '))
+                        });
+                    } else if (this.files && this.files[0]) {
+                        let filerdr = new FileReader(), elementId = this.id;
+
+                        $(this).parent().addClass('has-image');
+                        filerdr.onload = function (e) {
+                            $('#' + elementId + '_preview').attr('src', e.target.result);
+                        }
+                        filerdr.readAsDataURL(this.files[0]);
+                    }
+                })
+            })
+        </script>
+    </fieldset>
+    <?php if ($affiliateHelper->isEnableTermsAndConditions()): ?>
+        <div class="fields affiliate-clear">
+            <h3><?= $affiliateHelper->getTermsAndConditionsTitle() ?></h3>
+            <div class="terms_condition_textarea">
+                <div class="terms_condition_text"><?= $block->loadCmsBlock($affiliateHelper->getTermsAndConditionsHtml()) ?></div>
+                <div class="input-box">
+                    <input type="checkbox" class="required required-entry" name="terms"
+                           id="terms_conditions" <?= $affiliateHelper->isCheckedEmailNotification() ? 'checked' : '' ?>/>
+                    <label class="custom-check checkbox" for="terms_conditions"><?= $affiliateHelper->getTermsAndConditionsCheckboxText() ?></label>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+    <div class="actions-toolbar affiliate-clear">
+        <div class="primary">
+            <button type="submit" class="action submit primary" title="<?= __('Create an Account') ?>">
+                <span><?= __('Create an Account') ?></span>
+            </button>
+            <button type="button" class="action cancel secondary" title="<?= __('Cancel changes') ?>">
+                <span><?= __('Cancel changes') ?></span>
+            </button>
+        </div>
+    </div>
+</form>
+
+<script type="text/x-magento-init">
+    {
+        ".form-create-affiliate": {
+            "Magenest_Directory/js/field-updater": {
+                "form": "#form-validate",
+                "defaultCity": "<?=  "" ?>",
+                "defaultDistrict": "<?=  "" ?>",
+                "defaultWard": "<?= "" ?>",
+                "dataJson": <?= $this->helper(\Magenest\Directory\Helper\Data::class)->getDataJson() ?>
+            }
+        }
+    }
+
+</script>

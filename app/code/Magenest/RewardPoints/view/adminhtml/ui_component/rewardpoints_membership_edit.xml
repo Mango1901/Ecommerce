@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">rewardpoints_membership_edit.rewardpoints_membership_edit_data_source</item>
+            <item name="deps" xsi:type="string">rewardpoints_membership_edit.rewardpoints_membership_edit_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Membership Group</item>
+        <item name="layout" xsi:type="array">
+            <item name="type" xsi:type="string">tabs</item>
+            <item name="navContainerName" xsi:type="string">left</item>
+        </item>
+
+        <item name="buttons" xsi:type="array">
+            <item name="back" xsi:type="string">Magenest\RewardPoints\Block\Adminhtml\Membership\Edit\BackButton</item>
+            <item name="delete" xsi:type="string">Magenest\RewardPoints\Block\Adminhtml\Membership\Edit\DeleteButton</item>
+            <item name="reset" xsi:type="string">Magenest\RewardPoints\Block\Adminhtml\Membership\Edit\ResetButton</item>
+            <item name="save_and_continue" xsi:type="string">Magenest\RewardPoints\Block\Adminhtml\Membership\Edit\SaveAndContinue</item>
+            <item name="save" xsi:type="array">
+                <item name="name" xsi:type="string">save</item>
+                <item name="label" xsi:type="string" translate="true">Save Group</item>
+                <item name="class" xsi:type="string">primary</item>
+            </item>
+        </item>
+    </argument>
+    <dataSource name="rewardpoints_membership_edit_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">Magenest\RewardPoints\Model\Membership\DataProvider</argument>
+            <argument name="name" xsi:type="string">rewardpoints_membership_edit_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+        </argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+                <item name="submit_url" path="*/*/save" xsi:type="url"/>
+                <item name="validate_order_url" path="*/*/validateTierOrder" xsi:type="url"/> <!-- validate tier order -->
+                <item name="validate_tier_order_withvalue" path="*/*/validateTierOrderWithReachValue" xsi:type="url"/>
+            </item>
+        </argument>
+    </dataSource>
+    <fieldset name="membership">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string" translate="true">General Information</item>
+            </item>
+        </argument>
+        <field name="id">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">ID</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">membership</item>
+                    <item name="disabled" xsi:type="boolean">true</item>
+                </item>
+            </argument>
+        </field>
+        <field name="is_active">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Is Active</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">boolean</item>
+                    <item name="formElement" xsi:type="string">checkbox</item>
+                    <item name="prefer" xsi:type="string">toggle</item>
+                    <item name="valueMap" xsi:type="array">
+                        <item name="true" xsi:type="string">1</item>
+                        <item name="false" xsi:type="string">0</item>
+                    </item>
+                    <item name="source" xsi:type="string">membership</item>
+                </item>
+            </argument>
+        </field>
+        <field name="name">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Name</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">membership</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                        <item name="validate-alphanum-with-spaces" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="code">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Code</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">membership</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="validate-code" xsi:type="boolean">true</item>
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="description" formElement="wysiwyg">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Description</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="template" xsi:type="string">ui/form/field</item>
+                    <item name="wysiwyg" xsi:type="boolean">true</item>
+                    <item name="source" xsi:type="string">membership</item>
+                    <item name="wysiwygConfigData" xsi:type="array">
+                        <item name="height" xsi:type="string">100px</item>
+                        <item name="add_variables" xsi:type="boolean">false</item>
+                        <item name="add_widgets" xsi:type="boolean">false</item>
+                        <item name="add_images" xsi:type="boolean">true</item>
+                        <item name="add_directives" xsi:type="boolean">true</item>
+                        <item name="is_pagebuilder_enabled" xsi:type="boolean">false</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="benefit" formElement="wysiwyg">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Benefit</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="template" xsi:type="string">ui/form/field</item>
+                    <item name="wysiwyg" xsi:type="boolean">true</item>
+                    <item name="source" xsi:type="string">membership</item>
+                    <item name="wysiwygConfigData" xsi:type="array">
+                        <item name="height" xsi:type="string">100px</item>
+                        <item name="add_variables" xsi:type="boolean">false</item>
+                        <item name="add_widgets" xsi:type="boolean">false</item>
+                        <item name="add_images" xsi:type="boolean">true</item>
+                        <item name="add_directives" xsi:type="boolean">true</item>
+                        <item name="is_pagebuilder_enabled" xsi:type="boolean">false</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="requirements">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Requirements</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">textarea</item>
+                    <item name="source" xsi:type="string">membership</item>
+                </item>
+            </argument>
+        </field>
+        <field name="sort_order">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Sort Order</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">membership</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="membership-sort-order" xsi:type="boolean">true</item>
+                        <item name="membership-sort-order-with-value" xsi:type="boolean">true</item>
+                        <item name="validate-greater-than-zero" xsi:type="boolean">true</item>
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="condition_reach_tier">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Magenest\RewardPoints\Model\Membership\CriteriaToReachTier</item>
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Criteria to Reach Tier</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="membership-sort-order-with-value" xsi:type="boolean">true</item>
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                    <item name="source" xsi:type="string">membership</item>
+                </item>
+            </argument>
+            <settings>
+                <switcherConfig>
+                    <rules>
+                        <rule name="0">
+                            <value>0</value>
+                            <actions>
+                                <action name="0">
+                                    <target>${$.parentName}.condition_reach_tier_value</target>
+                                    <callback>hide</callback>
+                                </action>
+                            </actions>
+                        </rule>
+                        <rule name="1">
+                            <value>1</value>
+                            <actions>
+                                <action name="0">
+                                    <target>${$.parentName}.condition_reach_tier_value</target>
+                                    <callback>show</callback>
+                                </action>
+                            </actions>
+                        </rule>
+                    </rules>
+                    <enabled>true</enabled>
+                </switcherConfig>
+            </settings>
+        </field>
+        <field name="condition_reach_tier_value">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Value of Criteria to Reach Tier</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">number</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">membership</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                        <item name="membership-sort-order-with-value" xsi:type="boolean">true</item>
+                        <item name="validate-greater-than-zero" xsi:type="boolean">true</item>
+                        <item name="integer" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="tier_logo">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Tier Logo</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">string</item>
+                    <item name="formElement" xsi:type="string">imageUploader</item>
+                    <item name="required" xsi:type="boolean">true</item>
+                    <item name="uploaderConfig" xsi:type="array">
+                        <item name="url" xsi:type="url" path="rewardpoints/membership/tierLogoUploader"/>
+                    </item>
+                    <item name="previewTmpl" xsi:type="string">Magento_Catalog/image-preview</item>
+                    <item name="allowedExtensions" xsi:type="string">jpg jpeg gif png</item>
+                    <item name="maxFileSize" xsi:type="string">2097152</item>
+                    <item name="source" xsi:type="string">membership</item>
+                </item>
+            </argument>
+        </field>
+        <field name="additional_earning_point">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Additional Earning Points</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">boolean</item>
+                    <item name="formElement" xsi:type="string">checkbox</item>
+                    <item name="prefer" xsi:type="string">toggle</item>
+                    <item name="valueMap" xsi:type="array">
+                        <item name="true" xsi:type="string">1</item>
+                        <item name="false" xsi:type="string">0</item>
+                    </item>
+                    <item name="source" xsi:type="string">membership</item>
+                </item>
+            </argument>
+            <settings>
+                <switcherConfig>
+                    <rules>
+                        <rule name="0">
+                            <value>0</value>
+                            <actions>
+                                <action name="0">
+                                    <target>rewardpoints_membership_edit.rewardpoints_membership_edit.membership.added_value_type</target>
+                                    <callback>show</callback>
+                                </action>
+                            </actions>
+                        </rule>
+                        <rule name="1">
+                            <value>1</value>
+                            <actions>
+                                <action name="0">
+                                    <target>rewardpoints_membership_edit.rewardpoints_membership_edit.membership.added_value_type</target>
+                                    <callback>hide</callback>
+                                </action>
+                            </actions>
+                        </rule>
+                    </rules>
+                    <enabled>true</enabled>
+                </switcherConfig>
+            </settings>
+        </field>
+        <field name="added_value_type">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Magenest\RewardPoints\Model\Membership\AddedValueType</item>
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Added Value Type</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="source" xsi:type="string">membership</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+            <settings>
+                <imports>
+                    <link name="visible">${$.parentName}.additional_earning_point:checked</link>
+                </imports>
+            </settings>
+        </field>
+        <field name="added_value_amount">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Amount</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="dataType" xsi:type="string">number</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">membership</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                        <item name="validate-greater-than-zero" xsi:type="boolean">true</item>
+                        <item name="integer" xsi:type="boolean">true</item>
+                        <item name="validate-smaller-than-hundred" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+            <settings>
+                <imports>
+                    <link name="visible">${$.parentName}.additional_earning_point:checked</link>
+                </imports>
+            </settings>
+        </field>
+    </fieldset>
+    <fieldset name="customer">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string" translate="true">Customer In Group</item>
+            </item>
+        </argument>
+        <container name="customer_tab_content" >
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="sortOrder" xsi:type="number">1</item>
+                </item>
+            </argument>
+            <htmlContent name="html_content">
+                <argument name="block" xsi:type="object">Magenest\RewardPoints\Block\Adminhtml\Membership\Edit\Tab\Customer\CustomerWrapper</argument>
+            </htmlContent>
+        </container>
+    </fieldset>
+</form>

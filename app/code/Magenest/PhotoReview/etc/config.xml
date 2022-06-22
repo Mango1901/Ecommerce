@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <photoreview>
+            <general>
+                <enable>1</enable>
+                <photo_required>1</photo_required>
+                <max_photo_upload>3</max_photo_upload>
+                <auto_approved_review>1</auto_approved_review>
+                <summary_options>
+                    <item1>
+                        <summary_code>good_quality</summary_code>
+                        <summary_label>Chất lượng sản phẩm tốt</summary_label>
+                    </item1>
+                    <item2>
+                        <summary_code>good_package</summary_code>
+                        <summary_label>Đóng gói sản phẩm chắc chắn</summary_label>
+                    </item2>
+                    <item3>
+                        <summary_code>good_service</summary_code>
+                        <summary_label>Shop phục vụ khá tốt</summary_label>
+                    </item3>
+                    <item4>
+                        <summary_code>good_price</summary_code>
+                        <summary_label>Đáng đồng tiền</summary_label>
+                    </item4>
+                    <item5>
+                        <summary_code>good_time</summary_code>
+                        <summary_label>Thời gian giao hàng nhanh</summary_label>
+                    </item5>
+                </summary_options>
+                <video_required>0</video_required>
+                <max_video_upload>1</max_video_upload>
+                <max_video_size_upload>30</max_video_size_upload>
+            </general>
+        </photoreview>
+    </default>
+</config>

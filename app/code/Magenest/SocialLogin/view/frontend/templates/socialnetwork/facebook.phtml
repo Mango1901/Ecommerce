@@ -1,0 +1,22 @@
+<?php
+/** @var \Magenest\SocialLogin\Block\SocialNetwork\Facebook $block */
+if ($block->isFacebookEnabled()) : ?>
+    <div class="modal-socialogin modal-facebook facebook_button_connect">
+        <span><?= __('Facebook') ?></span>
+    </div>
+    <?php $scriptString = <<<script
+        require(['jquery','magenestSocialLogin'],
+            function($,sociallogin){
+                $(document).ready(function () {
+                    $('.facebook_button_connect').bind('click',function(){
+                        var url = '{$block->getButtonUrl()}';
+                        if (url.length) {
+                            sociallogin.display(url, 'Facebook', 600, 600);
+                        }
+                    });
+                })
+            });
+   script;
+    ?>
+    <?= isset($secureRenderer) ? $secureRenderer->renderTag('script', [], $scriptString, false) : '<script>' . $scriptString . '</script>' ?>
+<?php endif;?>

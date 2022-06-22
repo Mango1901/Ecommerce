@@ -1,0 +1,28 @@
+<?php
+/** @var \Magento\Catalog\Block\Product\View $block */
+/** @var \Magenest\SocialLogin\ViewModel\AffiliateContext $affiliateHelper */
+$affiliateHelper = $block->getAffiliate();
+if ($affiliateHelper->getContext()) :
+$images  = [];
+$gallery = $block->getProduct()->getMediaGalleryImages()->walk(function ($item) use (&$images) {
+    $images[] = $item->getUrl();
+});
+?>
+<div class="download-image" <?php if (!$images): ?> style="opacity: 0" <?php endif; ?>>
+    <a class="label download-images-action"><?= __('Load root image') ?></a>
+</div>
+<script>
+    require(['jquery', 'fileSaver'], function ($) {
+        let images = <?= $affiliateHelper->jsonEncode($images) ?>;
+
+        $('.download-images-action').click((e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            images.forEach(url => {
+                let filename = url.replace(/.*\//g, "");
+                saveAs(url, filename);
+            });
+        });
+    })
+</script>
+<?php endif; ?>

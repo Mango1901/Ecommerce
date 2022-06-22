@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2018 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ *
+ * Magenest_RewardPoints extension
+ * NOTICE OF LICENSE
+ *
+ * @category Magenest
+ * @package Magenest_RewardPoints
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Sales\Model\Service\CreditmemoService">
+        <plugin name="rewardpoint.refund.check" type="Magenest\RewardPoints\Plugin\RefundPointCheck" sortOrder="10"/>
+    </type>
+    <virtualType name="MembershipDescriptionEditor" type="Magenest\RewardPoints\Block\Adminhtml\System\Config\Editor" />
+    <type name="Magenest\RewardPoints\Controller\Adminhtml\Membership\BulkAddPoints">
+        <arguments>
+            <argument name="session" xsi:type="object">Magento\Backend\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Magenest\RewardPoints\Block\Adminhtml\Membership\ListCustomerAssigned">
+        <arguments>
+            <argument name="session" xsi:type="object">Magento\Backend\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+    <type name="Magenest\RewardPoints\Controller\Adminhtml\Membership\SaveBulkAddPoints">
+        <arguments>
+            <argument name="session" xsi:type="object">Magento\Backend\Model\Session\Proxy</argument>
+        </arguments>
+    </type>
+</config>

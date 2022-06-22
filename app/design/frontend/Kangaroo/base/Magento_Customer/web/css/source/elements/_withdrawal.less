@@ -1,0 +1,277 @@
+& when (@media-common = true) {
+    body.account.affiliate-account-withdraw {
+        .fieldset {
+            .box-title {
+                .lib-vendor-prefix-display(flex);
+                justify-content: space-between;
+                -webkit-justify-content: space-between;
+                margin-bottom: 8px;
+            }
+
+            .title {
+                font-size: 14px;
+                line-height: 20px;
+                font-weight: 500;
+                color: #383E4F;
+                padding: 0;
+            }
+
+            .current-balance {
+                font-size: 12px;
+                line-height: 20px;
+                font-weight: normal;
+                color: #383E4F;
+                float: right;
+                padding-bottom: 2px;
+
+                .price {
+                    font-size: 16px;
+                    line-height: 20px;
+                    font-weight: 500;
+                    color: #34373D;
+                }
+            }
+
+            > .field:not(.choice) > .label {
+                float: left;
+                width: auto;
+            }
+
+            .input-text {
+                background-color: #FFFFFF;
+                border: 1px solid #E0E6EC;
+                border-radius: 4px;
+                height: 38px;
+                font-size: 13px;
+                line-height: 20px;
+                padding-top: 2px;
+
+                &:focus {
+                    &::placeholder {
+                        color: rgba(0, 0, 0, 0);
+                    }
+                }
+            }
+
+            &.info {
+                .lib-vendor-prefix-display(flex);
+
+                .title {
+                    margin: 3px 0 0;
+                    font-size: 12px;
+                    white-space: nowrap;
+                }
+
+                .payment-method {
+                    ul {
+                        padding-left: 12px;
+
+                        li {
+                            font-size: 12px;
+                            line-height: 20px;
+                            font-weight: normal;
+                            color: #000;
+                            margin-bottom: 0;
+
+                            &:not(:first-child) {
+                                &:before {
+                                    content: '-';
+                                    padding-right: 3px;
+                                }
+                            }
+
+                            .price {
+                                font-weight: 300;
+                                padding-left: 3px;
+                                font-size: 11px;
+                                color: #2d2d2e;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .actions-toolbar {
+            margin-left: 0 !important;
+            margin-top: 10px;
+
+            &:before, &:after {
+                display: none;
+            }
+
+            .primary {
+                display: block;
+                float: unset;
+            }
+
+            .action {
+                height: 40px;
+                padding: 2px 24px 0;
+                font-size: 14px;
+                line-height: 16px;
+                letter-spacing: 0.56px;
+                text-transform: uppercase;
+                width: auto;
+            }
+        }
+
+        .box-affiliate-withdraw-transaction {
+            margin-top: 25px;
+
+            .box-head h2 {
+                font-weight: 500;
+                color: #383E4F;
+                display: block;
+                margin-bottom: 10px;
+            }
+
+            tbody {
+                .action {
+                    a {
+                        &:last-child {
+                            border-left: 1px solid #1979c3;
+                            padding-left: 8px;
+                            margin-left: 4px;
+                        }
+
+                        &:first-child {
+                            border-left: 0;
+                        }
+                    }
+                }
+
+                .price {
+                    font-weight: 300;
+                }
+            }
+        }
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    body.account.affiliate-account-withdraw {
+        .column.main {
+            .block {
+                table {
+                    &:not(.cart):not(.totals) > thead {
+                        > tr > th {
+                            border-top: 1px solid #E0E6EC;
+                        }
+                    }
+
+                    &:not(.cart):not(.totals) > tbody,
+                    &:not(.cart):not(.totals) > thead {
+                        > tr {
+                            > th, > td {
+                                padding: 15px 10px 14px;
+                                font-size: 12px;
+                                line-height: 20px;
+
+                                &.no-withdraw {
+                                    text-align: center;
+                                }
+
+                                &.id {
+                                    width: 8%;
+                                }
+
+                                &.requested_at {
+                                    width: 20%;
+                                }
+
+                                &.amount {
+                                    width: 12%;
+                                }
+
+                                &.status {
+                                    width: 12%;
+                                }
+
+                                &.action {
+                                    width: 20%;
+                                }
+                            }
+                        }
+                    }
+
+                    &:not(.cart):not(.totals) > tbody {
+                        > tr > td .price {
+                            font-weight: 300;
+                        }
+                    }
+                }
+            }
+        }
+
+        .fieldset {
+            .title {
+                display: block;
+            }
+        }
+
+        .box-affiliate-withdraw-transaction {
+            .box-head h2 {
+                font-size: 14px;
+                line-height: 20px;
+            }
+        }
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    body.account.affiliate-account-withdraw {
+        .column.main {
+            .form-affiliate-withdraw {
+                background-color: #fff;
+                padding: 10px 12px;
+                border: 1px solid #E0E6EC;
+                border-radius: 4px;
+            }
+
+            .block {
+                table {
+                    &:not(.cart):not(.totals) > tbody {
+                        display: block;
+
+                        > tr > td {
+                            &.id {
+                                justify-content: space-between;
+                                -webkit-justify-content: space-between;
+                                border-bottom: 0;
+                                margin-bottom: 0;
+                                font-weight: normal;
+                            }
+
+                            &.action {
+                                justify-content: flex-start;
+                                -webkit-justify-content: flex-start;
+                                padding-left: 0;
+                                border-top: 1px solid #E0E6EC;
+                                padding-top: 15px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .fieldset {
+            &.request {
+                .title {
+                    display: none;
+                }
+            }
+        }
+
+        .box-affiliate-withdraw-transaction {
+            border-top: 1px solid #E0E6EC;
+            padding-top: 18px;
+
+            .box-head h2 {
+                font-size: 18px;
+                line-height: 27px;
+            }
+        }
+    }
+}

@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Magenest_SocialLogin::Menu_SocialLogin"
+             title="Social Login"
+             translate="title"
+             module="Magenest_SocialLogin"
+             sortOrder="100"
+             resource="Magenest_SocialLogin::menu_sociallogin"
+             parent="Magento_Customer::customer"
+        />
+        <add id="Magenest_SocialLogin::SocialAccounts"
+             title="Social Accounts"
+             translate="title"
+             module="Magenest_SocialLogin"
+             sortOrder="10"
+             parent="Magenest_SocialLogin::Menu_SocialLogin"
+             action="sociallogin/socialAccount/index"
+             resource="Magenest_SocialLogin::menu_sociallogin"
+        />
+        <add id="Magenest_SocialLogin::MonitorSocialLogin"
+             title="Monitor"
+             translate="title"
+             module="Magenest_SocialLogin"
+             sortOrder="20"
+             parent="Magenest_SocialLogin::Menu_SocialLogin"
+             action="sociallogin/socialAccount/monitor"
+             resource="Magenest_SocialLogin::menu_sociallogin"
+        />
+        <add id="Magenest_SocialLogin::ConfigurationSocialLogin"
+             title="Configuration"
+             translate="title"
+             module="Magenest_SocialLogin"
+             sortOrder="30"
+             parent="Magenest_SocialLogin::Menu_SocialLogin"
+             action="adminhtml/system_config/edit/section/magenest"
+             resource="Magenest_SocialLogin::config_sociallogin"
+        />
+    </menu>
+</config>

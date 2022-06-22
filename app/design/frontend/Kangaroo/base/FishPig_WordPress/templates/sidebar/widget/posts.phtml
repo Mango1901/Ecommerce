@@ -1,0 +1,42 @@
+<?php
+/**
+ * @category    FishPig
+ * @package     FishPig_WordPress
+ * @author      Ben Tideswell <help@fishpig.co.uk>
+ * @var \FishPig\WordPress\Block\Sidebar\Widget\Posts $block
+ */
+?>
+<?php $posts = $block->getPosts() ?>
+<?php if (count($posts) > 0): ?>
+    <div class="block block-blog block-recent-posts">
+        <?php if ($title = $block->getTitle()): ?>
+            <div class="block-title">
+                <?= $block->escapeHtml(__($title)) ?>
+            </div>
+        <?php endif; ?>
+        <div class="block-content">
+            <ol id="<?= $block->getListId() ?>">
+                <?php foreach ($posts as $post): ?>
+                    <li class="item">
+                        <div class="post-image">
+                            <a href="<?= $block->escapeUrl($post->getUrl()) ?>" title="<?= $block->escapeHtml($post->getName()) ?>">
+                                <?php if ($image = $post->getImage()): ?>
+                                    <?php $imageUrl = $image->getResizer() ? $image->getResizer()->constrainOnly(true)->keepFrame(false)->keepAspectRatio(true)->resize(600, null) : '' ?>
+                                    <img src="<?= $block->escapeUrl($imageUrl) ?>" alt="<?= $block->escapeHtml($post->getName()) ?>"/>
+                                <?php else: ?>
+                                    <img src="<?= $block->escapeUrl($block->getDefaultImage()) ?>" alt="<?= $block->escapeHtml($post->getName()) ?>"/>
+                                <?php endif; ?>
+                            </a>
+                        </div>
+                        <div class="post-content">
+                            <a class="title-zone" href="<?= $block->escapeUrl($post->getUrl()) ?>" title="<?= $block->escapeHtml($post->getPostTitle()) ?>"><?= $block->escapeHtml($post->getPostTitle()) ?></a>
+                            <div class="post-meta">
+                                <div class="post-date post-meta-item"><?= $post->getPostDate("d/m/Y") ?></div>
+                            </div>
+                        </div>
+                    </li>
+                <?php endforeach; ?>
+            </ol>
+        </div>
+    </div>
+<?php endif; ?>

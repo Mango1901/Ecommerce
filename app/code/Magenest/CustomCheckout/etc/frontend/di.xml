@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\Checkout\Controller\Onepage\Success" type="Magenest\CustomCheckout\Controller\Onepage\Success" />
+
+    <type name="Magento\Sales\Helper\Guest">
+        <plugin name="add_request_post_value" type="Magenest\CustomCheckout\Plugin\Helper\Guest"/>
+    </type>
+
+    <type name="Magento\Checkout\Model\CompositeConfigProvider">
+        <arguments>
+            <argument name="configProviders" xsi:type="array">
+                <item name="add_address_default_url" xsi:type="object">Magenest\CustomCheckout\Model\AddAddressDefaultUrl</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

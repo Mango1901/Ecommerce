@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <custom_checkout>
+            <general>
+                <enabled>0</enabled>
+                <checkout_notification>Thực hiện chỉ thị 16 của Chính Phủ trong giai đoạn này, đối tác giao nhận tạm
+                    ngưng đi đến khu vực các tỉnh sau: Đồng Nai, Bình Dương. Mong quý khách thông cảm. Kính chúc quý
+                    khách và gia đình nhiều sức khỏe.
+                </checkout_notification>
+                <redirect>1</redirect>
+            </general>
+        </custom_checkout>
+    </default>
+</config>

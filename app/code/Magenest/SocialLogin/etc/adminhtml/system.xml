@@ -1,0 +1,231 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="magenest" translate="label" sortOrder="200">
+            <label>Magenest</label>
+        </tab>
+        <section id="magenest" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="0"
+                 showInStore="0" canRestore="1">
+            <class>separator-top</class>
+            <label>Social Login</label>
+            <tab>magenest</tab>
+            <resource>Magenest_SocialLogin::config_sociallogin</resource>
+
+            <group id="credentials" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0"
+                   showInStore="0" canRestore="1">
+                <label>Credentials</label>
+
+                <group id="google" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0"
+                       showInStore="0" canRestore="1">
+
+                    <label>Google+</label>
+                    <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1"
+                           showInWebsite="0" showInStore="0" canRestore="1">
+                        <label>Enable</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="client_id" translate="label" type="text" sortOrder="10" showInDefault="1"
+                           showInWebsite="0"
+                           showInStore="0">
+                        <label>Client ID</label>
+                        <validate>required-entry</validate>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                    </field>
+                    <field id="client_secret" translate="label" type="text" sortOrder="20" showInDefault="1"
+                           showInWebsite="0" showInStore="0">
+                        <label>Client Secret</label>
+                        <validate>required-entry</validate>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                    </field>
+                    <field id="redirect_uri" translate="label" type="text" sortOrder="20" showInDefault="1"
+                           showInWebsite="0" showInStore="0">
+                        <label>Redirect Uri</label>
+                        <frontend_model>Magenest\SocialLogin\Model\Config\Config</frontend_model>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                        <attribute type="readonly">readonly</attribute>
+                    </field>
+                    <field id="is_confirmation_required" translate="label comment" type="select" sortOrder="50"
+                           showInDefault="1"
+                           showInWebsite="1" canRestore="1">
+                        <label>Require Emails Confirmation</label>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                        <comment>
+                            <model>Magenest\SocialLogin\Model\CommentConfirmationRequired</model>
+                        </comment>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                </group>
+
+                <group id="facebook" translate="label" type="text" sortOrder="20" showInDefault="1"
+                       showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Facebook</label>
+                    <field id="enabled" translate="label" type="select" sortOrder="1" showInDefault="1"
+                           showInWebsite="0"
+                           showInStore="0" canRestore="1">
+                        <label>Enable</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="client_id" translate="label" type="text" sortOrder="20" showInDefault="1"
+                           showInWebsite="0"
+                           showInStore="0">
+                        <label>Facebook App ID</label>
+                        <validate>required-entry</validate>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                    </field>
+                    <field id="client_secret" translate="label" type="text" sortOrder="30" showInDefault="1"
+                           showInWebsite="0" showInStore="0">
+                        <label>Facebook App Secret</label>
+                        <validate>required-entry</validate>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                    </field>
+                    <field id="redirect_uri" translate="label" type="text" sortOrder="30" showInDefault="1"
+                           showInWebsite="0" showInStore="0">
+                        <label>Redirect Uri</label>
+                        <frontend_model>Magenest\SocialLogin\Model\Config\Config</frontend_model>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                        <attribute type="readonly">readonly</attribute>
+                    </field>
+                    <field id="is_confirmation_required" translate="label comment" type="select" sortOrder="50"
+                           showInDefault="1"
+                           showInWebsite="1" canRestore="1">
+                        <label>Require Emails Confirmation</label>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                        <comment>
+                            <model>Magenest\SocialLogin\Model\CommentConfirmationRequired</model>
+                        </comment>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                </group>
+
+                <group id="apple" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="0"
+                       showInStore="0" canRestore="1">
+
+                    <label>Apple</label>
+                    <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1"
+                           showInWebsite="0" showInStore="0" canRestore="1">
+                        <label>Enable</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="team_id" translate="label" type="text" sortOrder="20" showInDefault="1"
+                           showInWebsite="0"
+                           showInStore="0">
+                        <label>Apple Team ID</label>
+                        <validate>required-entry</validate>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                    </field>
+                    <field id="client_id" translate="label" type="text" sortOrder="30" showInDefault="1"
+                           showInWebsite="0"
+                           showInStore="0">
+                        <label>Client ID</label>
+                        <validate>required-entry</validate>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                    </field>
+                    <field id="key_id" translate="label" type="text" sortOrder="40" showInDefault="1"
+                           showInWebsite="0" showInStore="0">
+                        <label>Key Id</label>
+                        <validate>required-entry</validate>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                    </field>
+                    <field id="file_key" translate="label" type="Magento\Config\Block\System\Config\Form\Field\File"
+                           sortOrder="50" showInDefault="1"
+                           showInWebsite="0" showInStore="0">
+                        <label>File Key</label>
+                        <backend_model>Magento\Config\Model\Config\Backend\File</backend_model>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                        <upload_dir config="system/filesystem/media">upload</upload_dir>
+                    </field>
+                    <field id="redirect_uri" translate="label" type="text" sortOrder="60" showInDefault="1"
+                           showInWebsite="0" showInStore="0">
+                        <label>Redirect Uri</label>
+                        <frontend_model>Magenest\SocialLogin\Model\Config\Config</frontend_model>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                        <attribute type="readonly">readonly</attribute>
+                    </field>
+                    <field id="is_confirmation_required" translate="label comment" type="select" sortOrder="50"
+                           showInDefault="1"
+                           showInWebsite="1" canRestore="1">
+                        <label>Require Emails Confirmation</label>
+                        <depends>
+                            <field id="enabled">1</field>
+                        </depends>
+                        <comment>
+                            <model>Magenest\SocialLogin\Model\CommentConfirmationRequired</model>
+                        </comment>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                </group>
+
+                <group id="zalo" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="0"
+                       showInStore="0" canRestore="1">
+
+                    <label>Zalo</label>
+                    <field id="oaid" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="0"
+                           showInStore="0">
+                        <label>Official Account ID</label>
+                    </field>
+                </group>
+
+            </group>
+
+            <group id="general" translate="label" type="text" sortOrder="0" showInDefault="1" showInStore="0"
+                   canRestore="1"
+                   showInWebsite="0">
+                <label>General Setting</label>
+
+                <field id="enabled_social_enabled_modal" translate="label comment" type="select"
+                       sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Enable Popup Login</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="display_on" translate="label" type="multiselect" sortOrder="20" showInDefault="1"
+                       showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Display On</label>
+                    <source_model>Magenest\SocialLogin\Model\Config\DisplayOn</source_model>
+                    <can_be_empty>1</can_be_empty>
+                </field>
+                <field id="enabled_share" translate="label comment" type="select" sortOrder="50" showInDefault="1"
+                       showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Enable Sharing</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="select_social_share" translate="label comment" type="multiselect" sortOrder="60"
+                       showInDefault="1"
+                       showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Social sharing options</label>
+                    <source_model>Magenest\SocialLogin\Model\Config\SocialShare</source_model>
+                    <comment>To enable Zalo share, make sure Official Account ID is saved below.</comment>
+                    <depends>
+                        <field id="enabled_share">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

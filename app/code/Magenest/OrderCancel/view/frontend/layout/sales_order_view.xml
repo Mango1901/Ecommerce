@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="page.main.title">
+            <block class="Magenest\OrderCancel\Block\Order\Info\ReasonCancel" as="reason_cancel" name="sales.order.reason.cancel" template="Magenest_OrderCancel::order/reason_cancel.phtml" cacheable="false" after="-"/>
+        </referenceContainer>
+
+        <referenceBlock name="sales.order.view">
+            <arguments>
+                <argument name="order_cancel" xsi:type="object">Magenest\OrderCancel\ViewModel\FrontendCancel</argument>
+            </arguments>
+        </referenceBlock>
+    </body>
+</page>

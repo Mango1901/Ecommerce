@@ -1,0 +1,170 @@
+<?php
+/** @var \Magenest\RewardPoints\Block\Customer\Friend $block */
+?>
+<form data-mage-init='{"validation": {}}' action="<?= $block->getSendToFriendFormAction(); ?>" method="post"
+      id="popup-modal-referral-link-sendtofriend-form" data-hasrequired="* Required Fields"
+      novalidate="novalidate" style="display: none;">
+    <fieldset class="fieldset sender" id="sender_options">
+        <div class="field text">
+            <label for="sender-message" class="label"><span><?= /* @escapeNotVerified */ __('Message'); ?></span></label>
+            <div class="control">
+                <textarea name="sender[message]" class="input-text" id="sender-message" cols="3" rows="3"></textarea>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset class="fieldset recipients">
+        <input name="form_key" type="hidden" value="<?= /* @escapeNotVerified */ $block->getFormKey(); ?>">
+        <legend class="legend"><span><?= /* @escapeNotVerified */ __('Invite Your Friends'); ?></span></legend>
+        <br>
+        <div id="recipients-options">
+            <div class="fields" id="row0">
+                <fieldset class="fieldset">
+                    <div class="field name required">
+                        <label for="recipients-name0" class="label"><span><?= /* @escapeNotVerified */ __('Name'); ?></span></label>
+                        <div class="control">
+                            <input name="recipients[name][0]" type="text" title="<?= /* @escapeNotVerified */ __('Name'); ?>" class="input-text"
+                                   id="recipients-name0" data-validate="{required:true, 'validate-alphanum-with-spaces':true}"
+                                   aria-required="true">
+                        </div>
+                    </div>
+
+                    <div class="field email required">
+                        <label for="recipients-email0" class="label"><span><?= /* @escapeNotVerified */ __('Email'); ?></span></label>
+                        <div class="control">
+                            <input name="recipients[email][0]" title="<?= /* @escapeNotVerified */ __('Email'); ?>" id="recipients-email0"
+                                   type="email" class="input-text"
+                                   data-validate="{required:true, 'validate-email':true, 'email-not-duplicated':true}"
+                                   aria-required="true">
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+        <div id="max-recipient-message" style="display: none;" class="message notice limit" role="alert">
+            <span><?= /* @escapeNotVerified */ __('Maximum 5 email addresses allowed.'); ?></span>
+        </div>
+        <div class="actions-toolbar">
+            <div class="secondary">
+                <button type="button" id="add-recipient-button" class="action add">
+                    <span><?= /* @escapeNotVerified */ __('Add Another'); ?></span></button>
+            </div>
+        </div>
+    </fieldset>
+
+    <input type="hidden" name="recipient_index" value="0">
+    <div class="actions-toolbar">
+        <div class="primary">
+            <button type="submit" class="action submit primary" id="submit-send-email">
+                <span><?= /* @escapeNotVerified */ __('Send Email'); ?></span></button>
+        </div>
+    </div>
+</form>
+
+<script>
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal',
+            'Magento_Checkout/js/model/full-screen-loader',
+            'jquery/ui',
+            'jquery/validate',
+            'mage/translate'
+        ],
+        function(
+            $,
+            modal,
+            fullScreenLoader
+        ) {
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                title: '<?= __('Refer A Friend'); ?>',
+                buttons: false
+            };
+
+            var popupModalReferralLinkSendToFriendForm = modal(options, $('#popup-modal-referral-link-sendtofriend-form'));
+
+            $('#rl-send-email').click(function () {
+                $('#popup-modal-referral-link-sendtofriend-form').modal('openModal');
+            });
+
+            $.validator.addMethod(
+                "email-not-duplicated",
+                function(value, element) {
+                    var countEmail = 0;
+                    $( "#popup-modal-referral-link-sendtofriend-form input[type=email]" ).each(function( index ) {
+                        debugger;
+                        if (this.value == element.value) countEmail++ ;
+                    });
+
+                    if (countEmail > 1) return this.optional(element) || false;
+
+                    return true;
+                },
+                $.mage.__("Please make sure all emails of invitees are not duplicated.")
+            );
+            $('#submit-send-email').click(function (e) {
+                var form = $( "#popup-modal-referral-link-sendtofriend-form" );
+                if (!form.valid()) {
+                    e.preventDefault();
+                    return false;
+                }
+                $('#popup-modal-referral-link-sendtofriend-form').modal('closeModal');
+            });
+
+            var indexRp = 1;
+            var appendHtml = '';
+            $("#add-recipient-button").click(function () {
+                if ($('#recipients-options').children('.fields').length == 5) {
+                    $('#max-recipient-message').show();
+                    return;
+                }
+
+                appendHtml = '';
+                appendHtml += '' + '<div class="fields" id="row' + indexRp + '">';
+                appendHtml += '<br>';
+
+                appendHtml += '' +
+                    '<fieldset class="fieldset">' +
+                    '<div class="field name required">' +
+                    '<label for="recipients-name' + indexRp + '" class="label"><span><?= /* @escapeNotVerified */ __('Name'); ?></span></label>' +
+                    '<div class="control">' +
+                    '<input name="recipients[name][' + indexRp + ']" type="text" title="<?= /* @escapeNotVerified */ __('Name'); ?>" class="input-text" id="recipients-name' + indexRp + '" data-validate="{required:true, \'validate-alphanum-with-spaces\':true}" aria-required="true">' +
+                    '</div>' +
+                    '</div>' +
+                    '' +
+                    '<div class="field email required">' +
+                    '<label for="recipients-email' + indexRp + '" class="label"><span><?= /* @escapeNotVerified */ __('Email'); ?></span></label>' +
+                    '<div class="control">' +
+                    '<input name="recipients[email][' + indexRp + ']" title="<?= /* @escapeNotVerified */ __('Email'); ?>" id="recipients-email' + indexRp + '" type="email" class="input-text" data-validate="{required:true, \'validate-email\':true, \'email-not-duplicated\':true}" aria-required="true">' +
+                    '<button type="button" id="btn-remove' + indexRp + '" class="action remove" title="Remove Recipent">' +
+                    '<span><?= /* @escapeNotVerified */ __('Remove'); ?></span>' +
+                    '</button>' +
+                    '</div>';
+
+                if ($('#recipients-options').children('.fields').length == 4) appendHtml += '<br>';
+
+                appendHtml +=
+                    '</div>' +
+                    '</fieldset>' +
+                    '</div>';
+
+                $('#recipients-options').append(appendHtml);
+                $( "input[name=recipient_index]").val(indexRp);
+                indexRp++;
+            });
+
+            setInterval(function () {
+                $("#recipients-options .action.remove").click(function () {
+
+                    if ($('#recipients-options').children('.fields').length > 1) $(this).closest(".fields").remove();
+                    if ($('#recipients-options').children('.fields').length == 4) {
+                        $('#max-recipient-message').hide();
+                    }
+                });
+            },1000);
+        }
+    );
+</script>

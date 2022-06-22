@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * config.xml
+ *
+ * @copyright Copyright © 2021 Magenest. All rights reserved.
+ * @author    dangnh@magenest.com
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <catalog>
+            <seo>
+                <convert_vietnamese_url>1</convert_vietnamese_url>
+            </seo>
+        </catalog>
+    </default>
+</config>

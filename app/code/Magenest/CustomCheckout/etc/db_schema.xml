@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="sales_guest_view" engine="innodb" comment="Magenest Affiliate Transaction">
+        <column xsi:type="int" name="pk" unsigned="true" nullable="false" identity="true"
+                comment="Primary key"/>
+        <column xsi:type="varchar" name="hash_key" nullable="false" length="500" default=""
+                comment="SHA-256 hash"/>
+        <column xsi:type="varchar" name="hash_value" nullable="false" length="500" default=""
+                comment="Param Of Url Sale Order View"/>
+        <index referenceId="INDEX_VALUE_FULLTEXT" indexType="fulltext">
+            <column name="hash_key"/>
+        </index>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="pk"/>
+        </constraint>
+    </table>
+</schema>

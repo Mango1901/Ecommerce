@@ -1,0 +1,145 @@
+# Copyright © Magenest, Jsc. All rights reserved.
+# See COPYING.txt for license details.
+
+type Query {
+    blockCmsProductHomePage (
+        pageSize: Int = 20 @doc(description: "Specifies the maximum number of results to return at once. This attribute is optional."),
+        currentPage: Int = 1 @doc(description: "Specifies which page of results to return. The default value is 1."),
+        identifier: String @doc(description: "identifier of block")
+    ): blockCmsProductHomePageOutput
+    @resolver(class:"Magenest\\MobileApi\\Model\\Resolver\\BlockCmsProductHomePage")
+    @doc(description: "The superSaleOfficialHomePage query returns list product of super sale official in homepage ")
+    @cache(cacheIdentity: "Magenest\\MobileApi\\Model\\Resolver\\Identity")
+
+    blockCmsColumnHomePage (
+        identifier: String @doc(description: "identifier of block")
+    ): blockCmsColumnHomePageOutput
+    @resolver(class:"Magenest\\MobileApi\\Model\\Resolver\\BlockCmsColumnHomePage")
+    @doc(description: "The superSaleOfficialHomePage query returns column cms block in homepage ")
+    @cache(cacheIdentity: "Magenest\\MobileApi\\Model\\Resolver\\Identity")
+
+    hotNewsHomePage : hotNewsHomePageOutput @resolver(class:"Magenest\\MobileApi\\Model\\Resolver\\HotNewsHomePage")
+    @doc(description: "The superSaleOfficialHomePage query returns list hot news in homepage ")
+    @cache(cacheIdentity: "Magenest\\MobileApi\\Model\\Resolver\\Identity")
+
+    bannerHomePage : bannerHomePageOutput @resolver(class:"Magenest\\MobileApi\\Model\\Resolver\\BannerHomePage")
+    @doc(description: "The bannerHomePage query returns banner in homepage ")
+    @cache(cacheIdentity: "Magenest\\MobileApi\\Model\\Resolver\\Identity")
+
+    sliderHomePage : sliderHomePageOutput @resolver(class:"Magenest\\MobileApi\\Model\\Resolver\\SliderHomePage")
+    @doc(description: "The sliderHomePage query returns list slider in homepage ")
+    @cache(cacheIdentity: "Magenest\\MobileApi\\Model\\Resolver\\Identity")
+
+    categoriesSameLevel (
+        id: Int @doc(description: "Id of the category.")
+        pageSize: Int = 5 @doc(description: "Specifies the maximum number of results to return at once. This attribute is optional.")
+        currentPage: Int = 1 @doc(description: "Specifies which page of results to return. The default value is 1.")
+    ): CategorySameLevelResult @resolver(class: "Magenest\\MobileApi\\Model\\Resolver\\CategoriesSameLevelQuery") @cache(cacheIdentity: "Magenest\\MobileApi\\Model\\Resolver\\Categories\\CategoriesSameLevelIdentity")
+}
+
+type blockCmsProductHomePageOutput @doc(description: "The Products object is the top-level object returned in a product search.") {
+    items: [ProductInterface] @doc(description: "An array of products that match the specified search criteria.")
+    page_info: SearchResultPageInfo @doc(description: "An object that includes the page_info and currentPage values specified in the query.")
+    total_count: Int @doc(description: "The number of products that are marked as visible. By default, in complex products, parent products are visible, but their child products are not.")
+    category_id: Int @doc(description: "category_id"),
+    block_id: String @doc(description: "Block Id for Cache."),
+    identifier: String @doc(description: "identifier for Cache.")
+}
+
+type blockCmsColumnHomePageOutput @doc(description: "The Products object is the top-level object returned in a product search.") {
+    items: [ColumnBlockInterface] @doc(description: "An array of products that match the specified search criteria.")
+    total_count: Int @doc(description: "The number of products that are marked as visible. By default, in complex products, parent products are visible, but their child products are not."),
+    block_id: String @doc(description: "Block Id for Cache."),
+    identifier: String @doc(description: "identifier for Cache.")
+}
+
+interface ColumnBlockInterface @typeResolver(class: "Magenest\\MobileApi\\Model\\ColumnBlockInterfaceTypeResolver")
+{
+    background_image: String @doc(description: "background image."),
+    desktop_image: String @doc(description: "desktop image.") @resolver(class: "Magenest\\MobileApi\\Model\\Resolver\\Image\\ImageLink"),
+    mobile_image: String @doc(description: "mobile image.") @resolver(class: "Magenest\\MobileApi\\Model\\Resolver\\Image\\ImageLink"),
+    link: Link @doc(description: "Value Link of Column."),
+    content: String @doc(description: "content."),
+    more_info: String @doc(description: "More Information.")
+}
+
+type MostWatch implements ColumnBlockInterface @doc(description: "MostWatch object") {
+}
+
+type HuntSale implements ColumnBlockInterface @doc(description: "HuntSale object") {
+}
+
+type hotNewsHomePageOutput {
+    items: [HotNewsInterface] @doc(description: "An array of hotNews items."),
+    block_id: String @doc(description: "Block Id for Cache."),
+    identifier: String @doc(description: "identifier for Cache.")
+}
+
+interface HotNewsInterface @typeResolver(class: "Magenest\\MobileApi\\Model\\HotNewsInterfaceTypeResolver")
+{
+    ID: String @doc(description: "post id."),
+    post_author: String @doc(description: "post author id."),
+    post_date: String @doc(description: "Post Date."),
+    post_date_gmt: String @doc(description: "Post Date Gmt."),
+    post_content: String @doc(description: "Post Content."),
+    post_title: String @doc(description: "Post Title."),
+    post_excerpt: String @doc(description: "Post TitleExcerpt"),
+    post_status: String @doc(description: "Post Status"),
+    comment_status: String @doc(description: "Comment Status"),
+    post_name: String @doc(description: "Post name"),
+    post_parent : Int @doc(description: "Post Parent"),
+    menu_order : Int @doc(description: "Menu Order"),
+    post_type : Float @doc(description: "Post Type.")
+    image : String @doc(description: "Post Image.")
+}
+
+type HotNews implements HotNewsInterface @doc(description: "Hot News Type")
+{
+}
+
+type bannerHomePageOutput @doc(description: "banner Home Page Output.") {
+    desktop_image: String @doc(description: "Desktop Image.") @resolver(class: "Magenest\\MobileApi\\Model\\Resolver\\Image\\ImageLink"),
+    mobile_image: String @doc(description: "Mobile Image.") @resolver(class: "Magenest\\MobileApi\\Model\\Resolver\\Image\\ImageLink"),
+    image_caption: String @doc(description: "Image Caption."),
+    link: Link @doc(description: "Value Link of banner."),
+    block_id: String @doc(description: "Block Id for Cache."),
+    identifier: String @doc(description: "identifier for Cache.")
+}
+
+type Link @doc(description: "Link result.") {
+    type: String @doc(description: "Type Link Like: URL, Product, Category."),
+    value: String @doc(description: "Value Link.")
+}
+
+type sliderHomePageOutput @doc(description: "slider Home Page Output.") {
+    items: [Slider] @doc(description: "An array of slider.")
+    total_count: Int @doc(description: "The number of products that are marked as visible. By default, in complex products, parent products are visible, but their child products are not."),
+    block_id: String @doc(description: "Block Id for Cache."),
+    identifier: String @doc(description: "identifier for Cache.")
+}
+
+type Slider {
+    background_image: String @doc(description: " Background Image.") @resolver(class: "Magenest\\MobileApi\\Model\\Resolver\\Image\\ImageLink"),
+    background_mobile_image: String @doc(description: " Background Mobile Image.") @resolver(class: "Magenest\\MobileApi\\Model\\Resolver\\Image\\ImageLink"),
+    link: Link @doc(description: "Value Link of slider.")
+}
+
+type CategorySameLevelResult @doc(description: "A collection of CategoryTree objects and pagination information.") {
+    items: [CategorySameLevelData] @doc(description: "A list of categories that match the filter criteria.")
+    page_info: SearchResultPageInfo @doc(description: "An object that includes the page_info and currentPage values specified in the query.")
+    total_count: Int @doc(description: "The total number of categories that match the criteria.")
+}
+
+type CategorySameLevelData @doc(description: "Category sample level implementation") {
+    id: Int @doc(description: "An ID that uniquely identifies the category.")
+    name: String @doc(description: "The display name of the category.")
+    path: String @doc(description: "Category Path.")
+    image: String @doc(description: "Category Image Url Path.")
+    level: Int @doc(description: "Indicates the depth of the category within the tree.")
+    product_count: Int @doc(description: "The number of products in the category that are marked as visible. By default, in complex products, parent products are visible, but their child products are not.") @resolver(class: "Magento\\CatalogGraphQl\\Model\\Resolver\\Category\\ProductsCount")
+}
+
+interface ProductInterface {
+    final_sold_qty: String @doc(description: "Sold Quantity")
+    technical_description: ComplexTextValue @doc(description: "Product Technical Description (HTML)") @resolver(class: "\\Magento\\CatalogGraphQl\\Model\\Resolver\\Product\\ProductComplexTextAttribute")
+}

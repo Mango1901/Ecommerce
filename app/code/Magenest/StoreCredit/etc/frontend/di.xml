@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magenest
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magenest.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.magenest.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Magenest
+ * @package     Magenest_StoreCredit
+ * @copyright   Copyright (c) Magenest (https://www.magenest.com/)
+ * @license     https://www.magenest.com/LICENSE.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\Url\SecurityInfo">
+        <arguments>
+            <argument name="secureUrlList" xsi:type="array">
+                <item name="mpstorecredit_dashboard" xsi:type="string">/mpstorecredit/</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Customer\CustomerData\Customer">
+        <plugin name="mpstorecredit_customer_data" type="Magenest\StoreCredit\Plugin\CustomerData\Customer"/>
+    </type>
+    <type name="Magento\Checkout\Controller\Cart\Index">
+        <plugin name="store_credit_disabler" type="Magenest\StoreCredit\Plugin\DisableStoreCredit"/>
+    </type>
+    <type name="Magento\Checkout\Helper\Data">
+        <plugin name="store_credit_allow_guest_checkout" type="Magenest\StoreCredit\Plugin\Checkout\Helper\Data"/>
+    </type>
+    <type name="Magenest\Osc\Observer\RedirectToOneStepCheckout">
+        <plugin name="store_credit_allow_guest_checkout" type="Magenest\StoreCredit\Plugin\Osc\RedirectToOneStepCheckout"/>
+    </type>
+</config>

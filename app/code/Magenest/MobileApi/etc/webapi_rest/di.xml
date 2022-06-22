@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!--Preference-->
+    <preference for="Magento\ConfigurableProduct\Helper\Product\Options\Loader" type="Magenest\MobileApi\Preference\Helper\Product\Options\Loader"/>
+    <preference for="Magento\Bundle\Model\Product\LinksList" type="Magenest\MobileApi\Preference\Model\Product\LinksList"/>
+    <!--Plugin-->
+    <type name="Magento\Quote\Model\ResourceModel\Quote\Item\Collection">
+        <plugin name="magenest_mobile_api" type="Magenest\MobileApi\Model\Plugin\Quote\Item\Collection" sortOrder="1" />
+    </type>
+    <type name="Magento\Catalog\Model\ProductLink\Converter\DefaultConverter">
+        <plugin name="magenest_mobile_api" type="Magenest\MobileApi\Model\Plugin\ProductLink\Converter" sortOrder="1" />
+    </type>
+    <type name="Magento\GroupedProduct\Model\Product\Link\ProductEntity\Converter">
+        <plugin name="magenest_mobile_api" type="Magenest\MobileApi\Model\Plugin\ProductLink\Converter" sortOrder="1" />
+    </type>
+    <type name="Magento\Catalog\Model\Product">
+        <plugin name="magenest_mobile_api" type="Magenest\MobileApi\Model\Plugin\Product" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Model\Order\ItemRepository">
+        <plugin name="magenest_mobile_api" type="Magenest\MobileApi\Model\Plugin\Sales\Order\ItemRepository" sortOrder="1" />
+    </type>
+    <type name="Magento\Sales\Model\Order">
+        <plugin name="magenest_mobile_api" type="Magenest\MobileApi\Model\Plugin\Sales\Order" sortOrder="1" />
+    </type>
+</config>

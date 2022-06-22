@@ -1,0 +1,256 @@
+// /**
+//  * Copyright © Magento, Inc. All rights reserved.
+//  * See COPYING.txt for license details.
+//  */
+
+//
+//  Common
+//  _____________________________________________
+
+
+
+.block-subtitle {
+    display: inline-block;
+}
+
+.filter-current {
+
+
+    .filter-label {
+        display: block;
+
+        &:after {
+            content: ':';
+        }
+    }
+}
+
+.filter-options-content {
+    .filter-count-label {
+        &:extend(.abs-visually-hidden all);
+    }
+
+    .list-categories {
+        padding-left: 0;
+
+        .list-sub-categories {
+            padding-left: 32.5px;
+            padding-top: 5px;
+
+            li {
+                margin-bottom: 4px;
+            }
+        }
+
+        li {
+            margin-bottom: 7px;
+            position: relative;
+
+            a {
+                font-size: 16px;
+                letter-spacing: 0.53px;
+                line-height: 25px;
+                color: #000000;
+            }
+
+            .open-sub-categories {
+                position: absolute;
+                top: 2px;
+                right: 20px;
+                height: 22px;
+                cursor: pointer;
+
+                &:before {
+                    font-family: FontAwesome;
+                    content: "\f107";
+                    font-size: 22px;
+                    line-height: 22px;
+                }
+
+                &.opened {
+                    &:before {
+                        content: "\f106";
+                    }
+
+                    ~ .list-sub-categories {
+                        display: list-item;
+                    }
+                }
+
+                ~ .list-sub-categories {
+                    display: none;
+                }
+            }
+
+            .list-sub-categories {
+                .active {
+                    a {
+                        color: #0a6c9f;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.filter-options {
+    margin: 0;
+
+    .filter-options-title {
+        font-size: 13px;
+        letter-spacing: 1.6px;
+        line-height: 17px;
+        text-transform: uppercase;
+        font-weight: 600;
+        margin: 0 0 16px;
+        word-break: break-all;
+    }
+
+    .filter-options-content {
+        margin: 0 0 48px;
+
+        .swatch-attribute {
+            &.color {
+                .swatch-attribute-options {
+                    > a {
+                        float: left;
+
+                        > .swatch-option {
+                            border: 1px solid #ddd;
+                        }
+
+                        &:nth-child(3n+1) {
+                            clear: left;
+                        }
+                    }
+                }
+            }
+        }
+
+        .item {
+            margin-bottom: 3px;
+        }
+
+        > .items {
+            padding-top: 13px;
+            border-top: 1px solid #DDDEDE;
+
+            .item {
+                a {
+                    color: #000000;
+                    font-size: 16px;
+                    letter-spacing: 0.53px;
+                    line-height: 25px;
+                }
+            }
+        }
+
+        .price-inputs {
+            margin-left: -7px;
+            margin-right: -7px;
+            position: relative;
+            display: inline-block;
+            margin-bottom: 30px;
+
+            > span {
+                width: 50%;
+                float: left;
+                padding: 0 7px;
+                position: relative;
+
+                input {
+                    -webkit-border-radius: 5px;
+                    -moz-border-radius: 5px;
+                    border-radius: 5px;
+                    height: 30px;
+                    font-weight: 600;
+                    font-size: 13px;
+                    letter-spacing: 0.5px;
+                    border: 1px solid #ABACAD;
+                    line-height: 30px;
+                }
+            }
+
+            &:before {
+                width: calc(~'100% - 14px');
+                height: 1px;
+                background-color: #ABACAD;
+                content: "";
+                position: absolute;
+                top: 50%;
+                left: 7px;
+                -webkit-transform: translateY(-50%);
+                -moz-transform: translateY(-50%);
+                -ms-transform: translateY(-50%);
+                -o-transform: translateY(-50%);
+                transform: translateY(-50%);
+            }
+        }
+
+        .ui-slider-horizontal {
+            height: 3px;
+            background: #DDDEDE;
+            -webkit-border-radius: 0;
+            -moz-border-radius: 0;
+            border-radius: 0;
+
+            .ui-slider-handle {
+                margin-top: -7.3px;
+                background-color: #58595B;
+                width: 15px;
+                height: 15px;
+            }
+
+            .ui-slider-range {
+                height: 3px;
+                background-color: #58595B;
+                position: absolute;
+            }
+        }
+    }
+
+
+
+    select {
+        border: 1px solid #ABACAD;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        font-weight: 600;
+        font-size: 13px;
+        letter-spacing: 0.5px;
+        padding: 9px 16px;
+        background-position: 93% 19px;
+        background-size: 14px;
+        height: 48px;
+    }
+}
+
+.items {
+    &:extend(.abs-reset-list all);
+}
+
+.filtered {
+    .items {
+        margin: 15px 0;
+    }
+
+    .item {
+        margin-bottom: 6px;
+        padding-left: 22px;
+        position: relative;
+
+
+
+        .action.remove {
+            &:extend(.abs-remove-button-for-blocks all);
+            left: -6px;
+            position: absolute;
+            top: 0;
+        }
+    }
+
+    & + .actions {
+        margin-bottom: 35px;
+    }
+}

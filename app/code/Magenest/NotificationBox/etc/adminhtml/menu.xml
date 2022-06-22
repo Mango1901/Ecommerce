@@ -1,0 +1,16 @@
+<?xml	version="1.0"?>
+
+<config	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+
+        <add id="Magenest_NotificationBox::notificationbox" title="Notification Box" module="Magenest_NotificationBox" sortOrder="30" resource="Magenest_NotificationBox::notificationbox"/>
+        <!--All notification-->
+        <add id="Magenest_NoificationBox::notification" title="Notification" module="Magenest_NotificationBox" sortOrder="20" parent="Magenest_NotificationBox::notificationbox" action="notibox/notification/index" resource="Magenest_NotificationBox::notification"/>
+        <!--Notification type-->
+        <add id="Magenest_NotificationBox::notification_type" title="Notification Types" module="Magenest_NotificationBox" sortOrder="30" parent="Magenest_NotificationBox::notificationbox" action="notibox/notificationtype/index" resource="Magenest_NotificationBox::notification_type"/>
+        <!--Report-->
+        <add id="Magenest_NotificationBox::notification_report" title="Report" module="Magenest_NotificationBox" sortOrder="50" parent="Magenest_NotificationBox::notificationbox" action="notibox/report/index" resource="Magenest_NotificationBox::report"/>
+        <!--Config-->
+        <add id="Magenest_NotificationBox::config" title="Configuration" module="Magenest_NotificationBox" sortOrder="500" parent="Magenest_NotificationBox::notificationbox" action="adminhtml/system_config/edit/section/magenest_notification_box/" resource="Magenest_NotificationBox::config"/>
+    </menu>
+</config>

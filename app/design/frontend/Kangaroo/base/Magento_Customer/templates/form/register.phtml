@@ -1,0 +1,177 @@
+<?php
+/** @var \Magento\Customer\Block\Form\Register $block */
+?>
+<?= $block->getChildHtml('form_fields_before') ?>
+<?php /* Extensions placeholder */ ?>
+<?= $block->getChildHtml('customer.form.register.extra') ?>
+<?php
+$_dob = $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Dob');
+$_gender = $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Gender');
+$_taxvat = $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Taxvat');
+?>
+<form class="form create account form-create-account" action="<?= $block->escapeUrl($block->getPostActionUrl()) ?>" method="post" id="form-validate" enctype="multipart/form-data" autocomplete="off">
+    <?= /* @noEscape */ $block->getBlockHtml('formkey'); ?>
+    <fieldset class="block fieldset create info">
+        <div class="block-title">
+            <span><?= $block->escapeHtmlAttr(__('Register')) ?></span>
+        </div>
+        <div class="block-content">
+            <input type="hidden" name="success_url" value="<?= $block->escapeUrl($block->getSuccessUrl()) ?>">
+            <input type="hidden" name="error_url" value="<?= $block->escapeUrl($block->getErrorUrl()) ?>">
+            <?= $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Name')->setObject($block->getFormData())->setForceUseCustomerAttributes(true)->toHtml() ?>
+            <fieldset class="fieldset address">
+                <?php $_company = $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Company') ?>
+                <?php if ($_company->isEnabled()): ?>
+                    <?= $_company->setCompany($block->getFormData()->getCompany())->toHtml() ?>
+                <?php endif ?>
+
+                <?php $_telephone = $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Telephone') ?>
+                <?php if ($_telephone->isEnabled()): ?>
+                    <?= $_telephone->setTelephone($block->getFormData()->getTelephone())->toHtml() ?>
+                <?php endif ?>
+
+                <?php $_fax = $block->getLayout()->createBlock('Magento\Customer\Block\Widget\Fax') ?>
+                <?php if ($_fax->isEnabled()): ?>
+                    <?= $_fax->setFax($block->getFormData()->getFax())->toHtml() ?>
+                <?php endif ?>
+                <div class="fields-gender-dob">
+                    <?php if ($_gender->isEnabled()): ?>
+                        <?= $_gender->setGender($block->getFormData()->getGender())->toHtml() ?>
+                    <?php endif ?>
+
+                    <?php if ($_dob->isEnabled()): ?>
+                        <?= $_dob->setDate($block->getFormData()->getDob())->toHtml() ?>
+                    <?php endif ?>
+                </div>
+                <?php if ($_taxvat->isEnabled()): ?>
+                    <?= $_taxvat->setTaxvat($block->getFormData()->getTaxvat())->toHtml() ?>
+                <?php endif ?>
+            </fieldset>
+        </div>
+    </fieldset>
+    <fieldset class="block fieldset create account" data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) ?>">
+        <div class="block-content">
+            <div class="field required">
+                <label for="email_address" class="label"><span class="text-sm-le-des-bk"><?= $block->escapeHtml(__('Email')) ?></span></label>
+                <div class="control">
+                    <input type="email" name="email"  placeholder="<?= __('Please enter your email') ?>" autocomplete="email" id="email_address" value="<?= $block->escapeHtmlAttr($block->getFormData()->getEmail()) ?>" title="<?= $block->escapeHtmlAttr(__('Email')) ?>" class="input-text" data-mage-init='{"mage/trim-input":{}}' data-validate="{required:true, 'validate-email':true}">
+                </div>
+            </div>
+            <div class="field password required">
+                <label for="password" class="label"><span class="text-sm-le-des-bk"><?= $block->escapeHtml(__('Password')) ?></span></label>
+                <div class="control">
+                    <input type="password" name="password" id="password"
+                           title="<?= $block->escapeHtmlAttr(__('Password')) ?>"
+                           class="input-text"
+                           placeholder="<?= __('Please enter your password') ?>"
+                           data-password-min-length="<?= $block->escapeHtmlAttr($block->getMinimumPasswordLength()) ?>"
+                           data-password-min-character-sets="<?= $block->escapeHtmlAttr($block->getRequiredCharacterClassesNumber()) ?>"
+                           data-validate="{required:true, 'validate-customer-password':true}"
+                           autocomplete="off">
+                    <span class="show-password"></span>
+                    <div id="password-strength-meter-container" data-role="password-strength-meter" aria-live="polite">
+                        <div id="password-strength-meter" class="password-strength-meter">
+                            <?= $block->escapeHtml(__('Password Strength')) ?>:
+                            <span id="password-strength-meter-label" data-role="password-strength-meter-label">
+                            <?= $block->escapeHtml(__('No Password')) ?>
+                        </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="field confirmation required">
+                <label for="password-confirmation" class="label"><span class="text-sm-le-des-bk"><?= $block->escapeHtml(__('Confirm Password')) ?></span></label>
+                <div class="control">
+                    <input type="password" name="password_confirmation" placeholder="<?= __('Please enter your confirm password') ?>" title="<?= $block->escapeHtmlAttr(__('Confirm Password')) ?>" id="password-confirmation" class="input-text" data-validate="{required:true, equalTo:'#password'}" autocomplete="off">
+                    <span class="show-password"></span>
+                </div>
+            </div>
+            <?= $block->getChildHtml('form_additional_info') ?>
+        </div>
+    </fieldset>
+
+    <div class="actions-toolbar">
+        <div class="primary">
+            <button type="submit" class="action submit primary full-width" title="<?= $block->escapeHtmlAttr(__('Member Register')) ?>"><span><?= $block->escapeHtml(__('Member Register')) ?></span></button>
+        </div>
+    </div>
+
+    <?= $block->getChildHtml('customer_form_register') ?>
+</form>
+<script>
+    require([
+        'jquery',
+        'mage/mage'
+    ], function($){
+
+        var dataForm = $('#form-validate');
+        var ignore = <?= /* @noEscape */ $_dob->isEnabled() ? '\'input[id$="full"]\'' : 'null' ?>;
+
+        dataForm.mage('validation', {
+            <?php if ($_dob->isEnabled()): ?>
+            errorPlacement: function(error, element) {
+                if (element.prop('id').search('full') !== -1) {
+                    var dobElement = $(element).parents('.customer-dob'),
+                        errorClass = error.prop('class');
+                    error.insertAfter(element.parent());
+                    dobElement.find('.validate-custom').addClass(errorClass)
+                        .after('<div class="' + errorClass + '"></div>');
+                }
+                else {
+                    error.insertAfter(element);
+                }
+            },
+            ignore: ':hidden:not(' + ignore + ')'
+            <?php else: ?>
+            ignore: ignore ? ':hidden:not(' + ignore + ')' : ':hidden'
+            <?php endif ?>
+        }).find('input:text').attr('autocomplete', 'off');
+
+    });
+</script>
+<?php if ($block->getShowAddressFields()): ?>
+    <script type="text/x-magento-init">
+    {
+        "#country": {
+            "regionUpdater": {
+                "optionalRegionAllowed": <?= /* @noEscape */ $block->getConfig('general/region/display_all') ? 'true' : 'false' ?>,
+                "regionListId": "#region_id",
+                "regionInputId": "#region",
+                "postcodeId": "#zip",
+                "form": "#form-validate",
+                "regionJson": <?= /* @noEscape */ $this->helper(\Magento\Directory\Helper\Data::class)->getRegionJson() ?>,
+                "defaultRegion": "<?= (int) $block->getFormData()->getRegionId() ?>",
+                "countriesWithOptionalZip": <?= /* @noEscape */ $this->helper(\Magento\Directory\Helper\Data::class)->getCountriesWithOptionalZip(true) ?>
+            }
+        }
+    }
+</script>
+<?php endif; ?>
+
+<script type="text/x-magento-init">
+    {
+        ".field.password": {
+            "passwordStrengthIndicator": {
+                "formSelector": "form.form-create-account"
+            }
+        }
+    }
+</script>
+<script>
+    require(['jquery'], function($){
+        let btnShowPassword = $('.show-password');
+
+        btnShowPassword.on('click', function () {
+            let input = $(this).siblings('.input-text');
+            let inputType = input.attr('type');
+
+            if (inputType === 'password') {
+                $(this).addClass('show');
+                input.attr('type', 'text');
+            } else  {
+                $(this).removeClass('show');
+                input.attr('type', 'password');
+            }
+        })
+    });
+</script>

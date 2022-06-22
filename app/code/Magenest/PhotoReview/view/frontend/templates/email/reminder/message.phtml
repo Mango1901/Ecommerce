@@ -1,0 +1,29 @@
+<?php
+// @codingStandardsIgnoreFile
+
+/** @var \Magento\Sales\Model\Order $_order */
+$_order = $block->getOrder();
+if($_order):
+?>
+<br />
+    <table class="reminder-review">
+        <thead>
+            <tr>
+                <th><?= /* @escapeNotVerified */  __('Product Name') ?></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php
+        /** @var \Magento\Sales\Model\Order\Item $_item */
+        foreach ($_order->getAllVisibleItems() as $_item):
+        ?>
+            <tr>
+                <td><?= $block->escapeHtml($_item->getProduct()->getName()) ?>:</td>
+                <td><?= $block->escapeHtml($_item->getProduct()->getUrlKey()) ?></td>
+            </tr>
+        <?php endforeach;?>
+        </tbody>
+    </table>
+<?php
+endif;

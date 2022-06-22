@@ -1,0 +1,19 @@
+<?php
+/** @var \Magento\Backend\Block\Template $block */
+/** @var \Magenest\ZaloSupportLive\Helper\ZaloConfig $helper */
+$helper = $block->getData('viewModel');
+if ($helper->isEnable()) : ?>
+    <div class="zalo-chat-widget"
+         data-oaid="<?= $helper->getOaId() ?>"
+         data-welcome-message="<?= $helper->getWelcomeMessage() ?>"
+         data-autopopup="<?= $helper->getAutoPopup() ?>"
+         data-width="<?= $helper->getZaloPopupWidth()?>"
+         data-height="<?= $helper->getZaloPopupHeight()?>">
+    </div>
+
+    <script>
+        setTimeout(function () {
+            require(['Magenest_ZaloSupportLive/js/zalo-sdk'], () => {});
+        }, <?= $helper->getDisplayTimeout() ?>)
+    </script>
+<?php endif; ?>

@@ -1,0 +1,172 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var $block \Magento\Catalog\Block\Product\View */
+/** @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer */
+?>
+<?php $_product = $block->getProduct();
+$buttonTitle = __('Add to Cart');
+$stockHelper = $this->helper(\Magenest\ViewStock\Helper\Data::class);
+$stockHelper->setProduct($block->getProduct());
+?>
+<?php if ($_product->isSaleable()) :?>
+<div class="box-tocart">
+    <div class="fieldset">
+        <?php if ($block->shouldRenderQuantity()) :?>
+        <div class="field qty">
+            <label class="label" for="qty"><span><?= $block->escapeHtml(__('Qty')) ?></span></label>
+            <div class="control">
+                <button data-type="minus" data-field="qty" class="btn-number btn-minus"><span>-</span></button>
+                <input type="number"
+                       name="qty"
+                       id="qty"
+                       min="0"
+                       minlength= "0"
+                       value="<?= $block->getProductDefaultQty() * 1 ?>"
+                       title="<?= $block->escapeHtmlAttr(__('Qty')) ?>"
+                       class="input-text qty"
+                       data-validate="<?= $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>"
+                       />
+                <button data-type="plus" data-field="qty" class="btn-number btn-plus"><span>+</span></button>
+            </div>
+            <?php if ($stockHelper->isEnabled()) : ?>
+            <div class="area-viewing">
+                <?php
+                $sourcesBySku = $stockHelper->getQuantityBySource();
+                $currentArea = $stockHelper->getCurrentArea();
+                $currentSource = $sourcesBySku[$currentArea] ?? false;
+                ?>
+                <div class="salable_qty_container">
+                    <?php if (count($sourcesBySku)): ?>
+                        <span><?= __("available stock at") ?>: </span>
+                        <ul>
+                            <?php if ($currentSource): ?>
+                            <?php unset($sourcesBySku[$currentArea]); ?>
+                            <li>
+                                <?php if (count($currentSource['skus']) == 0): ?>
+                                    <span><?= __("Source Name") ?>: <?= __('Out of Stock') ?></span>
+                                <?php else: ?>
+                                    <span><?= $currentSource['area'] . ": " ?></span>
+                                    <?php if (count($currentSource['skus']) > 1):?>
+                                        <?php foreach ($currentSource['skus'] as $item):?>
+                                            <?php if ($item['quantity']): ?>
+                                                <br><span><?= $item['name'] . ": " . $item['quantity'] ?></span>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <span><?= reset($currentSource['skus'])['quantity'] ?></span>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                            </li>
+                            <?php endif; ?>
+                            <?php foreach ($sourcesBySku as $sourceBySku): ?>
+                                <li>
+                                    <?php if (count($sourceBySku['skus']) == 0): ?>
+                                        <span><?= __("Source Name") ?>: <?= __('Out of Stock') ?></span>
+                                    <?php else: ?>
+                                        <span><?= $sourceBySku['area'] . ": " ?></span>
+                                        <?php if (count($sourceBySku['skus']) > 1):?>
+                                            <?php foreach ($sourceBySku['skus'] as $item):?>
+                                                <?php if ($item['quantity']): ?>
+                                                    <br><span><?= $item['name'] . ": " . $item['quantity'] ?></span>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        <?php else: ?>
+                                            <span><?= reset($sourceBySku['skus'])['quantity'] ?></span>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                </li>
+                            <?php endforeach;?>
+                        </ul>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <?php endif; ?>
+        </div>
+        <?php endif; ?>
+        <div class="actions">
+            <button type="submit"
+                    title="<?= $block->escapeHtmlAttr($buttonTitle) ?>"
+                    class="action primary tocart"
+                    id="product-addtocart-button" disabled>
+                <span><?= $block->escapeHtml($buttonTitle) ?></span>
+            </button>
+            <button type="submit"
+                    title="<?= $block->escapeHtml(__('Installment Purchase')) ?>"
+                    class="action primary installment-payment"
+                    id="product-installment-payment-button" disabled>
+                <span><?= $block->escapeHtml(__('Installment Purchase')) ?></span>
+            </button>
+            <button type="submit"
+                    title="<?= $block->escapeHtml(__('Buy now')) ?>"
+                    class="action primary buynow"
+                    id="product-buynow-button" disabled>
+                <span><?= $block->escapeHtml(__('Buy now')) ?></span>
+            </button>
+            <?= $block->getChildHtml('', true) ?>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
+<script type="text/x-magento-init">
+    {
+        "#product_addtocart_form": {
+            "Magento_Catalog/js/validate-product": {}
+        }
+    }
+</script>
+<script>
+    require(['jquery', 'jquery/ui'], function($){
+
+        jQuery(window).load(function () {
+            $('#product-installment-payment-button').removeAttr('disabled');
+            $('#product-buynow-button').removeAttr('disabled');
+            $('#product-installment-payment-button').on('click', function () {
+                if ($('#product_addtocart_form').valid()) {
+                    $("#installment_payment").val("1");
+                }
+            })
+        });
+    });
+</script>
+
+
+<?php $scriptString = <<<script
+    require(['jquery'], function ($) {
+
+        jQuery('.btn-number').on( 'click', function(e) {
+
+            e.preventDefault();
+
+            var fieldName = jQuery(this).attr('data-field');
+            var type      = jQuery(this).attr('data-type');
+            var input = jQuery("input[name='"+fieldName+"']");
+            var currentVal = parseInt(input.val() , 10);
+            if (!isNaN(currentVal)) {
+                if(type == 'minus') {
+
+                    if(currentVal > input.attr('minlength')) {
+                        input.val(currentVal - 1).change();
+                    }
+
+                } else if(type == 'plus') {
+
+                    input.val(currentVal + 1).change();
+                }
+            } else {
+                input.val(0);
+            }
+        });
+
+        $('#product-buynow-button').on( 'click', function(e) {
+            if ($('#product_addtocart_form').valid()) {
+                $('#buy_now').val("1");
+            }
+        })
+    });
+script;
+?>
+<?= /* @noEscape */ $secureRenderer->renderTag('script', [], $scriptString, false); ?>

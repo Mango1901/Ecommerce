@@ -1,0 +1,66 @@
+<?php
+
+
+?>
+<script>
+    require([
+        'jquery',
+        'Magento_Ui/js/modal/alert',
+        'mage/translate'
+    ], function (jQuery, alert, $t) {
+
+        function generateCouponCodes (idPrefix, generateUrl) {
+            $(idPrefix + 'coupon_code_fieldset').removeClassName('ignore-validate');
+            var listInvalidElement = [];
+            var validationResult   = $(idPrefix + 'coupon_code_fieldset').select('input',
+                'select', 'textarea').collect(function (elm) {
+                var validateOneElementResult = jQuery.validator.validateSingleElement(elm);
+                if (!validateOneElementResult) {
+                    listInvalidElement.push(elm);
+                }
+                return validateOneElementResult;
+            }).all();
+            if (listInvalidElement.length) {
+                listInvalidElement[0].focus();
+            }
+
+            $(idPrefix + 'coupon_code_fieldset').addClassName('ignore-validate');
+
+            if (!validationResult) {
+                return;
+            }
+            var params = {
+                'code_length': jQuery('#coupon_code_length').val(),
+                'code_format': jQuery('#coupon_format').val(),
+                'form_key': FORM_KEY
+            };
+
+            jQuery.ajax({
+                method: 'POST',
+                url: generateUrl,
+                data: params,
+                success: function (response) {
+                    if (response && response.hasOwnProperty('status')) {
+                        if (response.status === 'success') {
+                            jQuery('#coupon_coupon_code').val(response.coupon);
+                        }
+
+                        if (response.status === 'error') {
+                            alert({
+                                content: response.message
+                            });
+                        }
+                    }
+                },
+                error: function (error) {
+                    alert({
+                        title: $t('Request Error'),
+                        content: error.status + ' ' + error.statusText
+                    });
+                }
+            });
+        }
+
+        window.generateCouponCodes = generateCouponCodes;
+    });
+</script>

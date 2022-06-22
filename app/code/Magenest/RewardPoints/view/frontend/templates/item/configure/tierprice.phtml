@@ -1,0 +1,84 @@
+<?php
+/**
+ * @var $block \Magenest\RewardPoints\Block\TierPrice
+ */
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$priceHelper   = $objectManager->create('Magento\Framework\Pricing\Helper\Data');
+
+$discountInfo = $block->getDiscountInfo();
+$customerId   = $block->getCustomer()->getId();
+if (!empty($customerId)) {
+    $customerPoints = $block->getCustomerPoints($customerId);
+    $discountPrice  = $priceHelper->currency($block->getDiscountPrice($this->getProduct()->getFinalPrice()), true, false);
+}
+?>
+<?php if (!empty($customerId) && $block->getDiscountPercent() != 0): ?>
+    <span class="discount-price"><?= $discountPrice ?></span>
+    <div style='color: #006bb4; padding-top: 10px'><?= "<em>Discount " . $block->getDiscountPercent() . "%</em>" ?></div>
+    <div class="discount-info">
+        <button class="btn-discount-info">Discount Info</button>
+        <div id="popup" hidden>
+            <table>
+                <tr>
+                    <th>Points</th>
+                    <th>Discount (%)</th>
+                </tr>
+                <?php foreach ($discountInfo as $discount): ?>
+                    <tr>
+                        <td><?= $discount['points'] ?></td>
+                        <td><?= $discount['discount'] ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
+        </div>
+        <script>
+            require([
+                'jquery',
+                'Magento_Ui/js/modal/modal'
+            ], function ($, modal) {
+                $('.btn-discount-info').click(function () {
+                    var dataForm = $('#popup');
+                    var options = {
+                        type: 'popup',
+                        responsive: true,
+                        innerScroll: true,
+                        title: 'Discount Info',
+                        buttons: [{
+                            text: 'Ok',
+                            class: 'action primary',
+                            click: function () {
+                                this.closeModal();
+                            }
+                        }]
+                    };
+                    var popup = modal(options, dataForm);
+                    popup.openModal();
+                });
+            });
+        </script>
+    </div>
+    <style>
+        .discount-price {
+            font-size: 50px;
+            line-height: 36px;
+        }
+
+        .product-info-price .price {
+            text-decoration: line-through;
+            font-size: 28px !important;
+        }
+
+        .discount-info {
+            margin: 25px 0;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        th, td {
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+<?php endif; ?>

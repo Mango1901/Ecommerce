@@ -1,0 +1,122 @@
+<?php
+/** @var  $block \Magenest\RewardPoints\Block\Customer\Js */
+$customerSession = $block->getCustomer();
+$customerId   = $block->getCustomer()->getId();
+$referralEarnedPoints = $customerSession->getData('rfa_customer_earned_points');
+/** @var \Magenest\RewardPoints\Helper\Data $referHelper */
+$referHelper = $this->helper('Magenest\RewardPoints\Helper\Data');
+$isReferByLinkEnabled = $referHelper->isReferByLinkEnabled();
+?>
+<script>
+    require([
+        'jquery'
+    ], function ($) {
+        var notiSHtml = '';
+        <?php if ($referralEarnedPoints > 0): ?>
+        notiSHtml = '<br> <div class="page messages">' +
+            '    <div>' +
+            '        <div role="alert" class="messages">' +
+            '            <div class="message-success success message">' +
+            '                <div> ' + "<?= sprintf(__('You\'ve earned %s points.'), number_format($referralEarnedPoints)) ?>" + '</div>' +
+            '            </div>' +
+            '        </div>' +
+            '    </div>' +
+            '</div>';
+        $('.page.messages').html(notiSHtml);
+
+        <?php $customerSession->setData('rfa_customer_earned_points', null); ?>
+        <?php else: ?>
+        <?php if ($customerSession->getData('apply_success_noti')): ?>
+        notiSHtml = '<br> <div class="page messages">' +
+            '    <div>' +
+            '        <div role="alert" class="messages">' +
+            '            <div class="message-success success message">' +
+            '                <div> ' + "<?= sprintf(__('The referral code has been applied successfully.'), number_format($referralEarnedPoints)) ?>" + '</div>' +
+            '            </div>' +
+            '        </div>' +
+            '    </div>' +
+            '</div>';
+        $('.page.messages').html(notiSHtml);
+        <?php $customerSession->setData('apply_success_noti', null); ?>
+        <?php endif; ?>
+        <?php endif; ?>
+        $('#btn-apply').click(function () {
+            $(this).attr("disabled", "disabled");
+            var applyCode = $('#apply-code').val();
+            var formData = new FormData();
+            formData.append('applyCode', applyCode);
+            formData.append('customerId', <?= $customerId?>);
+            formData.append('apply_success_noti', '1');
+            $.ajax({
+                url: '<?= $block->getApplyReferralCodeUrl()?>',
+                data: formData,
+                processData: false,
+                contentType: false,
+                showLoader: true,
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    if (response.success) {
+                        $('.page.messages').html('');
+                        location.reload();
+                    }
+                    else {
+                        var notiEHtml;
+                        notiEHtml = '<br> <div class="page messages">' +
+                            '    <div>' +
+                            '        <div role="alert" class="messages">' +
+                            '            <div class="message-error error message">' +
+                            '                <div>' + "<?= __('The referral code is invalid.'); ?>" + '</div>' +
+                            '            </div>' +
+                            '        </div>' +
+                            '    </div>' +
+                            '</div>';
+                        $('.page.messages').html(notiEHtml);
+                        location.reload();
+                    }
+                }
+            });
+        });
+
+        <?php if (isset($isReferByLinkEnabled) && $isReferByLinkEnabled): ?>
+        $('#copy-referreal-link').click(function () {
+            copyReferLink();
+        });
+
+        function copyReferLink() {
+            var copyTextRL = document.getElementById("rl-span");
+            var textAreaRL = document.createElement("textarea");
+            textAreaRL.value = copyTextRL.textContent;
+            document.body.appendChild(textAreaRL);
+            textAreaRL.select();
+            document.execCommand("Copy");
+            textAreaRL.remove();
+            document.getElementById("rl-noti-copied").style.display = "block";
+        }
+        <?php endif; ?>
+        $('.tablinks').click(function () {
+            var tabName = $(this).attr('data-name');
+            openTabs(this, tabName);
+        });
+        function openTabs(evt,tabName) {
+            // Declare all variables
+            var i, tabcontent, tablinks;
+            // Get all elements with class="referral-tabs-content" and hide them
+            tabcontent = document.getElementsByClassName("referral-tabs-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            // Get all elements with class="tablinks" and remove the class "active"
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            // Show the current tab, and add an "active" class to the button that opened the tab
+            document.getElementById(tabName).style.display = "block";
+            evt.className += " active";
+        }
+        $('.styled-select').click(function () {
+            $('ul.option').toggle();
+        })
+    });
+</script>

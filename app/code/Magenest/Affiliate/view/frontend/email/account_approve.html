@@ -1,0 +1,29 @@
+<!--@subject {{trans "Affiliate account approved"}} @-->
+<!--@vars {
+"var account.status":"Account Status",
+"var customer.name":"Account Name"
+} @-->
+
+{{template config_path="design/email/header_template"}}
+
+<p class="greeting">Dear {{trans "%name," name=$recipient.name}}</p>
+<p>{{trans "Welcome to our Affiliate program."}}</p>
+<p>{{trans "We're happily to inform that your Affiliate account is approved successfully."}}</p>
+<p>{{trans "Along with us, let's set off a new journey to learn new insights within Affiliate program's outstanding
+    features."}}</p>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td>
+            <table width="100%" class="inner-wrapper" border="0" cellspacing="0" cellpadding="0" align="center">
+                <tr width="100%">
+                    <td bgcolor="#EAEAEA" align="center" style="background:#EAEAEA; text-align:center;">
+                        <p>{{trans "Thank you again, %store_name" store_name=$store.getFrontendName()}}</p>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+{{template config_path="design/email/footer_template"}}

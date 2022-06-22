@@ -1,0 +1,77 @@
+<?php
+/**
+ * @var \Magenest\RewardPoints\Block\Customer\Convert $block
+ * @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
+ */
+$rateConvert = $block->getRateConvert();
+$currentPoint = $block->getCurrentPoint();
+?>
+
+<?php if ($rateConvert): ?>
+<div id="custom-form">
+    <h3><?= __('Convert From Kpoint To Kcoin') ?></h3>
+    <div class="rule-convert">
+        <h4><?= __('Rule') ?></h4>
+        <ul>
+            <li><?= __('1 Kpoint = %1 Kcoin', $rateConvert) ?></li>
+        </ul>
+    </div>
+    <form class="form contact"
+          action="<?= $this->getUrl('rewardpoints/customer/convert');?>"
+          id="custom-form"
+          method="post"
+          data-hasrequired="<?= __('* Required Fields') ?>"
+          data-mage-init='{"validation":{}}'>
+        <?= $block->getBlockHtml('formkey') ?>
+        <fieldset class="fieldset" style="display: flex">
+            <legend class="legend"><span><?= __("Query Detail") ?></span></legend><br />
+            <div class="field kpoint required">
+                <label class="label" for="name"><span><?= __('Kpoint') ?></span></label>
+                <div class="control">
+                    <input name="kpoint" id="kpoint" title="<?= __('Kpoint') ?>" class="input-text validate-digits-range digits-range-0-<?= $currentPoint?>" type="text" data-validate='{"required":true, "validate-number":true, "validate-greater-than-zero":true}' value="0"/>
+                </div>
+            </div>
+            <div>
+                <i class='fas fa-arrow-alt-circle-right'>  ->  </i>
+            </div>
+            <div class="field kcoin">
+                <label class="label" for="email"><span><?= __('Kcoint') ?></span></label>
+                <div class="control">
+                    <input name="kcoin" id="kcoin" title="<?= __('Kcoint') ?>" class="input-text" value="0" type="text" readonly />
+                </div>
+            </div>
+        </fieldset>
+        <div class="actions-toolbar">
+            <div class="primary">
+                <button type="submit" title="<?= __('Convert') ?>" class="action submit primary" id="custom_btn">
+                    <span><?= __('Convert') ?></span>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+<?php $scriptString = <<<script
+require([
+    'jquery',
+], function ($) {
+    'use strict';
+    let inputKpoint = $('#kpoint');
+    let inputKcoin = $('#kcoin');
+    inputKpoint.on("change keyup paste click", function(){
+        let value = $(this).val();
+        let currentPoint = {$currentPoint};
+        let rate = {$rateConvert};
+        if(!isNaN(value)) {
+            if (value > 0 && value < currentPoint) {
+                inputKcoin.val(parseInt(rate * value));
+            }
+        } else {
+            inputKcoin.val(0);
+        }
+    })
+});
+script;
+?>
+<?= isset($secureRenderer) ? $secureRenderer->renderTag('script', [], $scriptString, false)
+    : '<script>' . $scriptString . '</script>' ?>
+<?php endif; ?>

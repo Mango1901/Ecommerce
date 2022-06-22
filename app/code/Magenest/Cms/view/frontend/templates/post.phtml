@@ -1,0 +1,59 @@
+<?php
+
+// @codingStandardsIgnoreFile
+
+/* @var Post $block */
+
+use Magenest\Cms\Block\Post;
+
+$posts = $block->getNewPost();
+$number = 0;
+?>
+<div class="inspiration-block block">
+    <div class="block-label">
+        <span class="h5-mi-des-bk"><?= __('Cafe world') ?></span>
+    </div>
+    <div class="block-content">
+        <div class="post-row">
+            <?php foreach ($posts as $post): ?>
+                <?php if ($number == 0): ?>
+                <div class="first-post post">
+                    <a class="post-link" href="<?= $post->getUrl(); ?>" title="<?= $post->getPostTitle() ?>">
+                        <?php if ($postImage = $post->getImage()): ?>
+                            <img src="<?= $postImage->getData('guid') ?>" title="<?= $post->getPostTitle() ?>"/>
+                        <?php elseif ($post->getPostImageRepresent()): ?>
+                            <img src="<?= $post->getPostImageRepresent() ?>" title="<?= $post->getPostTitle() ?>"/>
+                        <?php else: ?>
+                            <img src="<?= $block->getViewFileUrl('Magenest_Cms::images/placeholder/608x388.png') ?>"
+                                 title="<?= $post['post_title'] ?>"/>
+                        <?php endif; ?>
+                        <div class="post-title"><span class="text-md-le-des-bk"><?= $post->getPostTitle(); ?></span></div>
+                        <div class="post-date"><span class="text-sm-le-des-gr"><?= $block->getFormatDate($post->getData('post_date')); ?></span></div>
+                    </a>
+                </div>
+                <?php $number++; continue;  endif; ?>
+                <div class="post">
+                    <a class="post-link" href="<?= $post->getUrl(); ?>" title="<?= $post->getPostTitle() ?>">
+                        <?php if ($postImage = $post->getImage()): ?>
+                            <img src="<?= $postImage->getData('guid') ?>" title="<?= $post->getPostTitle() ?>"/>
+                        <?php elseif ($post->getPostImageRepresent()): ?>
+                            <img src="<?= $post->getPostImageRepresent() ?>" title="<?= $post->getPostTitle() ?>"/>
+                        <?php else: ?>
+                            <img src="<?= $block->getViewFileUrl('Magenest_Cms::images/placeholder/296x144.png') ?>"
+                                 title="<?= $post['post_title'] ?>"/>
+                        <?php endif; ?>
+                        <div class="post-title"><span class="text-md-le-des-bk"><?= $post->getPostTitle(); ?></span></div>
+                        <div class="post-date"><span class="text-sm-le-des-gr"><?= $block->getFormatDate($post->getData('post_date')); ?></span></div>
+                    </a>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+    <?php if ($posts): ?>
+        <div class="show-more-wrapper">
+            <button type="button" class="btn-show-more" onclick="location.href='<?= $this->getUrl('blog') ?>'">
+                <span class="text-sm-mi-des-wh"><?= __('Show more') ?></span>
+            </button>
+        </div>
+    <?php endif; ?>
+</div>

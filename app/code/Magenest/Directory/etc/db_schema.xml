@@ -1,0 +1,96 @@
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="directory_city_entity" resource="default" engine="innodb" comment="City Table">
+        <column xsi:type="int" name="city_id" padding="10" unsigned="true" nullable="false" identity="true"
+                comment="City ID"/>
+        <column xsi:type="varchar" name="country_id" length="64" comment="Country Id"/>
+        <column xsi:type="varchar" name="code" length="64" comment="Code"/>
+        <column xsi:type="varchar" name="name" length="64" nullable="false" comment="Name"/>
+        <column xsi:type="varchar" name="default_name" length="255" nullable="true" comment="Default Name"/>
+        <column xsi:type="tinyint" name="disable_on_storefront" default="0" nullable="true" comment="Disable cities on storefront"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="city_id"/>
+        </constraint>
+        <index referenceId="INDEX_CITY_ID" indexType="btree">
+            <column name="city_id"/>
+            <column name="country_id"/>
+        </index>
+        <index referenceId="INDEX_VALUE_FULLTEXT" indexType="fulltext">
+            <column name="code"/>
+            <column name="name"/>
+            <column name="default_name"/>
+        </index>
+        <constraint xsi:type="unique" referenceId="city_code_unique">
+            <column name="code"/>
+        </constraint>
+    </table>
+    <table name="directory_district_entity" resource="default" engine="innodb" comment="District Table">
+        <column xsi:type="int" name="district_id" padding="10" unsigned="true" nullable="false" identity="true"
+                comment="District ID"/>
+        <column xsi:type="int" name="city_id" comment="City Id"/>
+        <column xsi:type="varchar" name="code" length="64" comment="Code"/>
+        <column xsi:type="varchar" name="name" length="64" nullable="false" comment="Name"/>
+        <column xsi:type="varchar" name="default_name" length="255" nullable="true" comment="Default Name"/>
+        <column xsi:type="tinyint" name="disable_on_storefront" default="0" nullable="true" comment="Disable districts on storefront"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="district_id"/>
+        </constraint>
+        <index referenceId="INDEX_ID" indexType="btree">
+            <column name="district_id"/>
+            <column name="city_id"/>
+        </index>
+        <index referenceId="INDEX_VALUE_FULLTEXT" indexType="fulltext">
+            <column name="code"/>
+            <column name="name"/>
+            <column name="default_name"/>
+        </index>
+        <constraint xsi:type="unique" referenceId="district_code_unique">
+            <column name="code"/>
+        </constraint>
+    </table>
+    <table name="directory_ward_entity" resource="default" engine="innodb" comment="Ward Table">
+        <column xsi:type="int" name="ward_id" padding="10" unsigned="true" nullable="false" identity="true"
+                comment="Ward ID"/>
+        <column xsi:type="int" name="district_id" comment="District Id"/>
+        <column xsi:type="varchar" name="code" length="64" comment="Code"/>
+        <column xsi:type="varchar" name="name" length="64" nullable="false" comment="Name"/>
+        <column xsi:type="varchar" name="default_name" length="255" nullable="true" comment="Default Name"/>
+        <column xsi:type="tinyint" name="disable_on_storefront" default="0" nullable="true" comment="Disable wards on storefront"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="ward_id"/>
+        </constraint>
+        <index referenceId="INDEX_ID" indexType="btree">
+            <column name="ward_id"/>
+            <column name="district_id"/>
+        </index>
+        <index referenceId="INDEX_VALUE_FULLTEXT" indexType="fulltext">
+            <column name="code"/>
+            <column name="name"/>
+            <column name="default_name"/>
+        </index>
+        <constraint xsi:type="unique" referenceId="ward_code_unique">
+            <column name="code"/>
+        </constraint>
+    </table>
+    <table name="customer_address_entity">
+        <column xsi:type="varchar" name="city_id" nullable="true" length="255" comment="City Id" />
+        <column xsi:type="varchar" name="district" nullable="true" length="255" comment="District" />
+        <column xsi:type="varchar" name="district_id" nullable="true" length="255" comment="District Id" />
+        <column xsi:type="varchar" name="ward" nullable="true" length="255" comment="Ward" />
+        <column xsi:type="varchar" name="ward_id" nullable="true" length="255" comment="Ward Id" />
+    </table>
+    <table name="quote_address">
+        <column xsi:type="varchar" name="city_id" nullable="true" length="255" comment="City Id" />
+        <column xsi:type="varchar" name="district" nullable="true" length="255" comment="District" />
+        <column xsi:type="varchar" name="district_id" nullable="true" length="255" comment="District Id" />
+        <column xsi:type="varchar" name="ward" nullable="true" length="255" comment="Ward" />
+        <column xsi:type="varchar" name="ward_id" nullable="true" length="255" comment="Ward Id" />
+    </table>
+    <table name="sales_order_address">
+        <column xsi:type="varchar" name="city_id" nullable="true" length="255" comment="City Id" />
+        <column xsi:type="varchar" name="district" nullable="true" length="255" comment="District" />
+        <column xsi:type="varchar" name="district_id" nullable="true" length="255" comment="District Id" />
+        <column xsi:type="varchar" name="ward" nullable="true" length="255" comment="Ward" />
+        <column xsi:type="varchar" name="ward_id" nullable="true" length="255" comment="Ward Id" />
+    </table>
+</schema>

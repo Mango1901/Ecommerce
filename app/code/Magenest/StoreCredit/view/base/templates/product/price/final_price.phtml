@@ -1,0 +1,59 @@
+<?php
+/**
+ * Magenest
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magenest.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.magenest.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Magenest
+ * @package     Magenest_StoreCredit
+ * @copyright   Copyright (c) Magenest (https://www.magenest.com/)
+ * @license     https://www.magenest.com/LICENSE.txt
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var \Magenest\StoreCredit\Pricing\Render\FinalPriceBox $block */
+
+$minPrice = $block->getMinPrice();
+$maxPrice = $block->getMaxPrice();
+?>
+
+<?php if ($block->getShowStatic() || $block->isFixedPrice()) : ?>
+    <?php /* @escapeNotVerified */
+    echo $block->renderAmount($minPrice, [
+        'price_id'          => $block->getPriceId('product-price-'),
+        'include_container' => true
+    ]); ?>
+<?php else : ?>
+    <?php if ($minPrice) : ?>
+        <p class="price-from">
+            <?php /* @escapeNotVerified */
+            echo $block->renderAmount($minPrice, [
+                'display_label'     => __('From'),
+                'price_id'          => $block->getPriceId('from-'),
+                'price_type'        => 'minPrice',
+                'include_container' => true
+            ]); ?>
+        </p>
+    <?php endif; ?>
+    <?php if ($maxPrice) : ?>
+        <p class="price-to">
+            <?php /* @escapeNotVerified */
+            echo $block->renderAmount($maxPrice, [
+                'display_label'     => __('To'),
+                'price_id'          => $block->getPriceId('to-'),
+                'price_type'        => 'maxPrice',
+                'include_container' => true
+            ]); ?>
+        </p>
+    <?php endif; ?>
+<?php endif; ?>

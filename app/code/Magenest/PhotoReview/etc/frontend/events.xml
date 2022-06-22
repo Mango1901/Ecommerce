@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="checkout_onepage_controller_success_action">
+        <observer name="clean_cache_product_ids_purchased_of_customer" instance="Magenest\PhotoReview\Observer\Order\CleanListPurchasedCustomer" />
+    </event>
+</config>

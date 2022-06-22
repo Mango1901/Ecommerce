@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="photoreview_review_reminder_email_template"
+              label="Review Reminder Email"
+              file="review_reminder_email.html"
+              type="html"
+              module="Magenest_PhotoReview"
+              area="frontend"
+    />
+    <template id="photoreview_coupon_review_email_template"
+              label="Coupon Review Email"
+              file="review_send_coupon.html"
+              type="html"
+              module="Magenest_PhotoReview"
+              area="frontend"
+    />
+</config>

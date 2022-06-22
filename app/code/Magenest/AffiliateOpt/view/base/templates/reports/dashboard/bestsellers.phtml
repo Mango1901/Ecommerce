@@ -1,0 +1,30 @@
+<?php
+
+?>
+<div class="dashboard-item-content">
+    <?php
+    if ($block->getAffBestSellers()->getSize() > 0):?>
+        <table class="admin__table-primary dashboard-data" id="lastOrdersGrid_table">
+            <thead>
+            <tr>
+                <th class="data-grid-th col-product no-link col-name"><span><?= __('Product') ?></span></th>
+                <th class="data-grid-th col-product no-link col-name"><span><?= __('SKU') ?></span></th>
+                <th class="data-grid-th  no-link col-price"><span><?= __('Price') ?></span></th>
+                <th class="data-grid-th col-qty no-link col-ordered_qty"><span><?= __('Quantity') ?></span></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($block->getAffBestSellers() as $item): ?>
+                <tr>
+                    <td class="col-product col-name "><?= $item->getName() ?></td>
+                    <td class="col-product col-name "><?= $item->getSku() ?></td>
+                    <td class="col-price a-right"><?= $block->formatPrice($item->getBasePrice()) ?></td>
+                    <td class="col-qty col-ordered_qty col-number last "><?= (int)$item->getTotalQty() ?></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <div class="empty-text"><?= __('We couldn\'t find any records.') ?></div>
+    <?php endif; ?>
+</div>

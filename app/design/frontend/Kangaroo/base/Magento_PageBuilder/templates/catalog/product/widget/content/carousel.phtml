@@ -1,0 +1,104 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+use Magenest\CustomCatalog\Helper\Helper;
+use Magenest\Core\Helper\CatalogHelper;
+
+// phpcs:disable Magento2.Templates.ThisInTemplate
+/** @var Helper $helper */
+$helper =  $this->helper(Helper::class);
+
+/** @var \Magento\CatalogWidget\Block\Product\ProductsList $block */
+?>
+<?php if ($exist = ($block->getProductCollection() && $block->getProductCollection()->getSize())) : ?>
+    <?php
+    $type = 'widget-product-carousel';
+
+    $image = 'new_products_content_widget_grid';
+    $items = $block->getProductCollection()->getItems();
+
+    $showWishlist = true;
+    $showCompare  = true;
+    $showCart     = true;
+    $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+    ?>
+    <ol class="product-items <?= /* @noEscape */
+    $type ?>">
+        <?php $iterator = 1; ?>
+        <?php foreach ($items as $_item) : ?>
+            <?= /* @noEscape */
+            ($iterator++ == 1) ? '<li class="product-item">' : '</li><li class="product-item">' ?>
+            <div class="product-item-info">
+                <a href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>" class="product-item-photo">
+                    <?= $block->getImage($_item, $image)->toHtml() ?>
+                </a>
+                <div class="product-item-details">
+
+                    <?php if ($sale = CatalogHelper::getSalesPercent($_item)): ?>
+                        <span class="label label-discount">
+                            <span class="text-sm-mi-des-wh"><?= '' . $sale . '%' ?></span>
+                        </span>
+                    <?php endif; ?>
+                    <?php if ($helper->isSalableInArea($_item->getSku())): ?>
+                        <p><?= __("Out of Stock") ?></p>
+                    <?php endif; ?>
+                    <strong class="product-item-name">
+                        <a title="<?= $block->escapeHtml($_item->getName()) ?>"
+                           href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
+                           class="product-item-link">
+                            <?= $block->escapeHtml($_item->getName()) ?>
+                        </a>
+                    </strong>
+
+
+                    <?= $block->getProductPriceHtml($_item, $type) ?>
+
+                    <div class="product-item-bottom">
+                        <?php if ($showWishlist) : ?>
+
+                            <?php if ($this->helper(\Magento\Wishlist\Helper\Data::class)->isAllow()
+                                && $showWishlist) : ?>
+                                <a href="#"
+                                   data-post='<?= /* @noEscape */
+                                   $block->getAddToWishlistParams($_item) ?>' class="action towishlist"
+                                   data-action="add-to-wishlist"
+                                   title="<?= $block->escapeHtmlAttr(__('Add to Wish List')) ?>"
+                                   data-product-id="<?= $_item->getId() ?>"
+                                >
+                                    <span><?= $block->escapeHtml(__('Add to Wish List')) ?></span>
+                                </a>
+                            <?php endif; ?>
+
+                        <?php endif; ?>
+
+                        <?php if ($templateType) : ?>
+                            <?= $block->getReviewsSummaryHtml($_item, $templateType) ?>
+                        <?php endif; ?>
+                        <?php $soldQty = $_item->getFinalSoldQty() ?? 0 ?>
+                        <div class="product-item-buy"><?= __(
+                                'Sold %1',
+                                Magenest\QuantitySold\Block\Product\SoldQuantity::numberPrefixEncode((int)$soldQty)
+                            ) ?></div>
+                    </div>
+
+                </div>
+            </div>
+            <?= ($iterator == count($items) + 1) ? '</li>' : '' ?>
+        <?php endforeach ?>
+    </ol>
+    <script type="text/x-magento-init">
+        {
+            "body": {
+                "addToWishlist": {}
+            }
+        }
+
+
+
+
+
+    </script>
+<?php endif; ?>

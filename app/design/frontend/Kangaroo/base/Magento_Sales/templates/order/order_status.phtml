@@ -1,0 +1,21 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<?php /** @var $block \Magento\Sales\Block\Order\Info */ ?>
+
+<span class="order-status <?= $block->escapeHtml($block->getOrder()->getStatus()) ?>">
+    <span class="mobile-status-title mobile-device"><?= $block->escapeHtml($block->getOrder()->getStatusLabel()) ?></span>
+    <span class="label desktop-device"><?= __('Status: ') ?></span>
+    <span class="label mobile-device"><?= __('Order') ?></span>
+    <span class="value <?= $block->escapeHtml($block->getOrder()->getStatus()) ?>"><?= $block->escapeHtml($block->getOrder()->getStatusLabel()) ?></span>
+    <span class="mobile-device time value">
+        <span><?= __('Payment to the seller:') ?></span>
+        <?= $this->getLayout()
+            ->createBlock('Magento\Sales\Block\Order\Info')
+            ->setTemplate('Magento_Sales::order/order_date.phtml')
+            ->toHtml(); ?>
+    </span>
+</span>

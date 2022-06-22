@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd" component="Magento_Customer/js/form/components/form">
+    <fieldset name="general">
+        <field name="city_id" component="Magenest_Directory/js/form/element/city" sortOrder="91" formElement="select" >
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">City</label>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <filterBy>
+                            <field>country_id</field>
+                            <target>${ $.provider }:${ $.parentScope }.country_id</target>
+                        </filterBy>
+                        <customEntry>city</customEntry>
+                        <options class="Magenest\Directory\Model\ResourceModel\City\Collection"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <field name="district_id" component="Magenest_Directory/js/form/element/district" sortOrder="92" formElement="select" >
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">District</label>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <filterBy>
+                            <field>city_id</field>
+                            <target>${ $.provider }:${ $.parentScope }.city_id</target>
+                        </filterBy>
+                        <customEntry>district</customEntry>
+                        <options class="Magenest\Directory\Model\ResourceModel\District\Collection"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <field name="ward_id" component="Magenest_Directory/js/form/element/ward" sortOrder="93" formElement="select" >
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">Ward</label>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <filterBy>
+                            <field>district_id</field>
+                            <target>${ $.provider }:${ $.parentScope }.district_id</target>
+                        </filterBy>
+                        <customEntry>district</customEntry>
+                        <options class="Magenest\Directory\Model\ResourceModel\Ward\Collection"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <field name="vat_id" sortOrder="140" formElement="input">
+            <settings>
+                <validation>
+                    <rule name="validate-alphanum" xsi:type="boolean">false</rule>
+                </validation>
+            </settings>
+        </field>
+    </fieldset>
+</form>

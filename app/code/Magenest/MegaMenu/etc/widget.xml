@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © 2019 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ *
+ * Magenest_MegaMenu extension
+ * NOTICE OF LICENSE
+ *
+ * @category Magenest
+ * @package Magenest_MegaMenu
+ */
+-->
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget id="magenest_mega_menu_widget" class="Magenest\MegaMenu\Block\Widget\Menu">
+        <label translate="true">Mega Menu</label>
+        <description>Magenest - Mega Menu Widget</description>
+        <parameters>
+            <parameter name="menu" xsi:type="select" visible="true" required="true" source_model="Magenest\MegaMenu\Model\Source\Config\Menu">
+                <label translate="true">Choose Menu</label>
+            </parameter>
+        </parameters>
+        <containers>
+            <container name="content">
+                <template name="default" value="default"/>
+            </container>
+        </containers>
+    </widget>
+</widgets>

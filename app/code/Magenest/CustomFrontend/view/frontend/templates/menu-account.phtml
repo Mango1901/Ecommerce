@@ -1,0 +1,90 @@
+<?php
+/** @var \Magento\Customer\Block\Account\AuthorizationLink $block */
+$dataPostParam = '';
+if ($block->isLoggedIn()) {
+    $dataPostParam = sprintf(" data-post='%s'", $block->getPostParams());
+}
+$affiliateAccount = \Magento\Framework\App\ObjectManager::getInstance()
+    ->create('Amasty\Affiliate\Api\AccountRepositoryInterface');
+
+
+?>
+<div class="footer-account-menu">
+    <div class="list-menus">
+        <div class="menu-item login-signup-info">
+            <?php if($block->isLoggedIn()): ?>
+                <div class="login-info" data-bind="scope: 'customer'">
+                    <span class="text-sm-le-des-gr"><?= __('Hi, ') ?>
+                        <strong data-bind="text: customer().fullname"></strong>
+                    </span>
+                </div>
+                <div class="login-links text-md-le-des-bk">
+                    <a href="<?= $this->getUrl('customer/account/logout') ?>"><?= __('Sign Out') ?></a>
+                </div>
+            <?php else: ?>
+                <div class="login-info"><span class="text-sm-le-des-gr"><?= __('You are not logged in') ?></span></div>
+                <div class="login-links text-md-le-des-bk">
+                    <a href="<?= $this->getUrl('customer/account/login') ?>"><?= __('Login') ?></a> /
+                    <a href="<?= $this->getUrl('customer/account/create') ?>"><?= __('Register') ?></a>
+                </div>
+            <?php endif; ?>
+        </div>
+        <script type="text/x-magento-init">
+        {
+            "*": {
+                "Magento_Ui/js/core/app": {
+                    "components": {
+                        "customer": {
+                            "component": "Magento_Customer/js/view/customer"
+                        }
+                    }
+                }
+            }
+        }
+        </script>
+        <?php if($block->isLoggedIn()): ?>
+        <div class="menu-item">
+            <div class="list-submenu">
+                <ul>
+                    <li><a class="text-sm-le-des-bk" href="<?= $this->getUrl('customer/account/edit') ?>"><?= __('Personal Information')?></a></li>
+                    <li><a class="text-sm-le-des-bk" href="<?= $this->getUrl('sales/order/history') ?>"><?= __('Your Orders')?></a></li>
+                    <li><a class="text-sm-le-des-bk" href="<?= $this->getUrl('customer/address') ?>"><?= __('Address Book')?></a></li>
+                    <li><a class="text-sm-le-des-bk" href="<?= $this->getUrl('wishlist') ?>"><?= __('Wish List')?></a></li>
+                    <li><a class="text-sm-le-des-bk" href="<?= $this->getUrl('review/customer') ?>"><?= __('Your Reviews')?></a></li>
+                </ul>
+            </div>
+        </div>
+        <?php
+        if ($affiliateAccount->isAffiliate()
+            && $affiliateAccount->getCurrentAccount()->getIsAffiliateActive()): ?>
+        <div class="menu-item">
+            <div class="list-submenu">
+                <ul>
+                    <li><a class="text-sm-le-des-bk" href="<?= $this->getUrl('affiliate/account/setting') ?>"><?= __('Your Affiliate Account')?></a></li>
+                    <li><a class="text-sm-le-des-bk" href="<?= $this->getUrl('affiliate/account/promo') ?>"><?= __('Your Affiliate Links')?></a></li>
+                    <li><a class="text-sm-le-des-bk" href="<?= $this->getUrl('affiliate/account/traffic') ?>"><?= __('Affiliate Reports')?></a></li>
+                    <li><a class="text-sm-le-des-bk" href="<?= $this->getUrl('affiliate/account/withdrawal') ?>"><?= __('My Withdrawals')?></a></li>
+                    <li><a class="text-sm-le-des-bk" href="<?= $this->getUrl('affiliate/account/customization') ?>"><?= __('Customization')?></a></li>
+                </ul>
+            </div>
+        </div>
+        <?php endif; ?>
+        <?php endif; ?>
+        <div class="menu-item">
+            <div class="list-submenu">
+                <ul>
+                    <li><a class="text-sm-le-des-bk" href="<?= $this->getUrl('about-us') ?>"><?= __('About Us')?></a></li>
+                    <li><a class="text-sm-le-des-bk" href="<?= $this->getUrl('maplist') ?>"><?= __('Store Location')?></a></li>
+                    <li><a class="text-sm-le-des-bk" href="<?= $this->getUrl('faqs') ?>"><?= __('FAQS')?></a></li>
+                    <li><a class="text-sm-le-des-bk" href="<?= $this->getUrl('privacy-policy') ?>"><?= __('Policies and Terms')?></a></li>
+                    <li><a class="text-sm-le-des-bk" href="<?= $this->getUrl('b2b-customer-create.html') ?>"><?= __('Register to become a partner')?></a></li>
+                    <li><a class="text-sm-le-des-bk" href="<?= $this->getUrl('affiliate/account/setting') ?>"><?= __('Register to become a collaborator') ?></a></li>
+                    <li><a class="text-sm-le-des-bk" href="<?= $this->getUrl('contact/index') ?>"><?= __('Contacts')?></a></li>
+                    <li><a class="text-sm-le-des-bk" href="<?= $this->getUrl('thanh-toan-an-toan') ?>"><?= __('Trusted Payment')?></a></li>
+                    <li><a class="text-sm-le-des-bk" href="<?= $this->getUrl('doi-hang') ?>"><?= __('Return Policy')?></a></li>
+                    <li><a class="text-sm-le-des-bk" href="<?= $this->getUrl('chinh-sach-bao-hanh') ?>"><?= __('Warranty Policy')?></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

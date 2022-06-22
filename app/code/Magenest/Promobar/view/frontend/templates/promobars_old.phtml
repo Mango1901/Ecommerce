@@ -1,0 +1,301 @@
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$request = $objectManager->get('\Magento\Framework\App\Request\Http');
+$id = $block->getData('select_promo_bar');
+if($id != null || $id > 0) {
+    $bar = $this->getBarById($id);
+    if ($bar->getData('status') == 1) {
+        $display = "none";
+    } else {
+        $display = "block";
+    }
+    $backgroundImage = $this->getBarImageUrl($bar['background_image']);
+    $editBackground = json_decode($bar['edit_background'], true);
+    $multipleContent = json_decode($bar['multiple_content'], true);
+
+    if(sizeof($multipleContent) == 1){
+        $style1 = 'none';
+    }else{
+        $style1 = 'block';
+    }
+
+    $allowClose = $bar['allow_closed'];
+    if ($allowClose == 1) {
+        $x = 'x';
+    } else {
+        $x = '';
+    }
+    $delayTime = $bar['delay_time'];
+    $displayType = $bar['display_type'];
+    if ($displayType == 'none') {
+        $displayType = '';
+    }
+    $delayContent = $bar['delay_content'];
+    if($delayContent == null){
+        $delayContent = 2;
+    }
+    $time = "class='wow " . $displayType . "' data-wow-delay='" . $delayTime . "s'";
+    $timeLife = (int)($bar['time_life']);
+    $autoHide = ($timeLife + (int)($delayTime)) * 1000;
+    $effect = $bar['effect'];
+    $heightProBar = $bar['height-pro-bar'];
+    $height = $editBackground['height'];
+    $width = $editBackground['width'];
+    $left_right = $editBackground['left-right'];
+    $up_down = $editBackground['up-down'];
+    $opacity = $editBackground['opacity'];
+    $idContentButton = 'text-container-button-' . $id;
+    $idPromobarContainer = 'promobar-container-' . $id;
+    $idTextContainer = 'text-container-' . $id;
+    $idButtonContainer = 'button-container-' . $id;
+    $idImg = 'img-responsive-' . $id;
+}
+?>
+<?php if ($id != 0) { ?>
+    <div <?= $time; ?> data-wow-duration='3s' id="bar-preview">
+        <div class="promobar <?= $effect; ?>" id="<?= $idPromobarContainer ?>"
+             style="height: <?= $heightProBar . 'px'; ?>; display: <?= $display ?>;">
+            <span><a id="close"><?= $x ?></a></span>
+            <a href="#" class="img-responsive" id="<?= $idImg ?>"
+               style="height:<?= $height . '%'; ?>;
+                       width:<?= $width . '%'; ?>;
+                       left:<?= $left_right . '%'; ?>;
+                       top:<?= $up_down . '%'; ?>;
+                       opacity:<?= $opacity; ?>;">
+                <img alt="" src="<?= $backgroundImage ?>" id="img_temp">
+            </a>
+            <div class="text"  id="<?= $idTextContainer ?>"
+                 style="display:block;">
+                <h1 style="font-size:2.8rem"></h1>
+                <span class="bar-button" id="<?= $idButtonContainer ?>"
+                      style="display:block; margin-top:-65px;">
+            <a id="url-button" target="_blank"">
+                <button class="btn btn-default btn-promo-bar"
+                        style="padding:0">
+                    <div class="promobutton" id="promobutton-container">
+                        <div class="text-button" id="<?= $idContentButton ?>" style="padding-right: 10px;"></div>
+                    </div>
+                </button>
+            </a>
+                </span>
+            </div>
+            <a class="prev" style="display: <?= $style1 ?>"></a>
+            <a class="next" style="display: <?= $style1 ?>"></a>
+        </div>
+    </div>
+    <script>
+        require(
+            [
+                'jquery',
+            ],
+            function ($) {
+                var widthScreen = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+
+
+                var idContentButton = '#' + '<?= $idContentButton ?>',
+                    idPromobarContainer = '#' + '<?= $idPromobarContainer ?>',
+                    idTextContainer = '#' + '<?= $idTextContainer ?>' + ' h1',
+                    idButtonContainer = '#' + '<?= $idButtonContainer ?>' + ' button',
+                    idButtonContainerButton = '#' + '<?= $idButtonContainer ?>',
+                    idImg = '#' + '<?= $idImg ?>',
+                    interval;
+
+                var time_life = '<?= $timeLife; ?>',
+                    autoHide = '<?= $autoHide; ?>';
+                $("#close").on('click', function () {
+                    $("#bar-preview").remove();
+                });
+                if (time_life > 0) {
+                    setTimeout(function () {
+                        $("#bar-preview").hide('blind', {}, 0)
+                    }, autoHide);
+                }
+                var dataPromoBar,
+                 timeSlider = '<?= $delayContent; ?>',
+                 repeat =0 , current = 0;
+                if (timeSlider === "" || timeSlider === '0' ) {
+                    timeSlider = 3;
+                }
+                    dataPromoBar = <?= json_encode($multipleContent); ?>;
+                interval  = setInterval(function () {
+                    if (repeat < dataPromoBar.length) {
+                        clearStyle();
+                        renderPreviewBar(dataPromoBar[repeat],widthScreen);
+                        if (repeat === dataPromoBar.length - 1) {
+                            repeat = 0;
+                        } else {
+                            repeat++;
+                        }
+                    }
+                }, 10000 * 1000);
+
+                $('div#bar-preview').mouseover(function(){
+                    clearInterval(interval);
+                     current = repeat;
+                });
+                $('div#bar-preview').mouseleave(function(){
+                    repeat = current;
+                    interval  = setInterval(function () {
+                        if (repeat < dataPromoBar.length) {
+                            clearStyle();
+                            renderPreviewBar(dataPromoBar[repeat],widthScreen);
+                            if (repeat === dataPromoBar.length - 1) {
+                                repeat = 0;
+                            } else {
+                                repeat++;
+                            }
+                        }
+                    }, timeSlider * 1000);
+                });
+                $(".next").on('click', function () {
+                    renderPreviewBar(dataPromoBar[current],widthScreen);
+                    current++;
+                    if(current > dataPromoBar.length -1){
+                        current = dataPromoBar.length -1;
+                    }
+                });
+                $(".prev").on('click', function () {
+                    renderPreviewBar(dataPromoBar[current],widthScreen);
+                    current--;
+                    if(current < 0){
+                        current = 0;
+                    }
+                });
+
+                function clearStyle() {
+                    //clear data of preview promo bar
+                    // $(".img-responsive").css("background-color", "");
+                    $(idTextContainer).css("margin-top", "");
+                    $(idTextContainer).text('');
+                    $(idButtonContainerButton).css("display", "none");
+                    $(idButtonContainer).css('background-color', "");
+                    $(idButtonContainer).css('height', "");
+                    $(idButtonContainer).css('width', "");
+                    $(idButtonContainer).css('border', "");
+                    $(idContentButton).css('font-size', "");
+                    $(idContentButton).css('padding-top', "");
+                    $(idContentButton).html("");
+                    $(idButtonContainer).css('border-radius', "");
+                    $(idButtonContainerButton).css('margin-left', "");
+                    $(idButtonContainerButton).css('margin-right', "");
+                    $(idButtonContainerButton).css('margin-top', "");
+                    $(idButtonContainerButton).css('float', "right");
+                };
+
+                function renderPreviewBar(data,widthScreen) {
+                    //render content promo bar
+
+                    if (data.content) {
+                        var dataContent = JSON.parse(data.content),
+                            dataButton = JSON.parse(data.button);
+                    } else {
+                        var dataContent = data[0],
+                            dataButton = data[1];
+                    }
+                    //for lager screen
+                    if (widthScreen > 1440) {
+                        if (dataButton['positionButton']['1']['3'] != '1%') {
+                            var margin_top_button = parseInt( dataButton['positionButton']['1']['3'].replace('%',''))+(3);
+                        }
+                        if (dataButton['positionButton']['3']['3'] != '1%') {
+                            var margin_top_button = parseInt(dataButton['positionButton']['3']['3'].replace('%',''))+(3);
+                        }
+
+                    }
+                    // for laptop and desktop normal
+                    else if (widthScreen <= 1024 && widthScreen > 768) {
+                        if (dataButton['positionButton']['1']['3'] != '1%') {
+                            var margin_top_button = parseInt( dataButton['positionButton']['1']['3'].replace('%',''))-(3);
+                        }
+                        if (dataButton['positionButton']['3']['3'] != '1%') {
+                            var margin_top_button = parseInt(dataButton['positionButton']['3']['3'].replace('%',''))-(3);
+                        }
+                    }
+                    //for tablet
+                    else if (widthScreen <= 768 && widthScreen > 425) {
+                        if (dataButton['positionButton']['1']['3'] != '1%') {
+                            var margin_top_button = parseInt( dataButton['positionButton']['1']['3'].replace('%',''))-(7);
+                        }
+                        if (dataButton['positionButton']['3']['3'] != '1%') {
+                            var margin_top_button = parseInt(dataButton['positionButton']['3']['3'].replace('%',''))-(7);
+                        }
+                    }
+
+                    //for smart phone
+                    else if (widthScreen <= 425 && widthScreen > 375) {
+                        var font_size_content = parseInt(dataContent['size'])+(-6);
+                        if (dataButton['positionButton']['1']['3'] != '1%') {
+                            var margin_top_button = parseInt( dataButton['positionButton']['1']['3'].replace('%',''))+(-18);
+                        }
+                        if (dataButton['positionButton']['3']['3'] != '1%') {
+                            var margin_top_button = parseInt(dataButton['positionButton']['3']['3'].replace('%',''))+(-18);
+                        }
+                    } else if (widthScreen <= 375 && widthScreen >320) {
+                        if (dataButton['positionButton']['1']['3'] != '1%') {
+                            var margin_top_button = parseInt( dataButton['positionButton']['1']['3'].replace('%',''))+(-21);
+                        }
+                        if (dataButton['positionButton']['3']['3'] != '1%') {
+                            var margin_top_button = parseInt(dataButton['positionButton']['3']['3'].replace('%',''))+(-21);
+                        }
+                    } else if (widthScreen <= 320) {
+                        if (dataButton['positionButton']['1']['3'] != '1%') {
+                            var margin_top_button = parseInt( dataButton['positionButton']['1']['3'].replace('%',''))+(-25);
+                        }
+                        if (dataButton['positionButton']['3']['3'] != '1%') {
+                            var margin_top_button = parseInt(dataButton['positionButton']['3']['3'].replace('%',''))+(-25);
+                        }
+                    }else{
+                        if (dataButton['positionButton']['1']['3'] != '1%') {
+                            var margin_top_button = parseInt( dataButton['positionButton']['1']['3'].replace('%',''));
+                        }
+                        if (dataButton['positionButton']['3']['3'] != '1%') {
+                            var margin_top_button = parseInt(dataButton['positionButton']['3']['3'].replace('%',''));
+                        }
+                        var font_size_content = parseInt(dataContent['size']);
+
+                    }
+
+                    if(dataContent['size'] !== ''){
+                        $(idTextContainer).css('font-size', font_size_content + 'px');
+                    }
+                    $(idImg).css("background-color", dataContent['backgroundColor']);
+                    $(idTextContainer).html(dataContent['content']);
+                    $('#url-button').attr('href', dataContent['url']);
+                    $(idTextContainer).css('margin-top', dataContent['positionText']);
+                    $(idTextContainer).css('margin-bottom', "20px");
+
+                    //render button
+                    if (dataButton['button']) {
+                        $(idButtonContainerButton).css("display", "block");
+                        $(idButtonContainer).css('background-color', dataButton['button']['data']['background_color']);
+                        $(idButtonContainer).css('height', dataButton['button']['edit_button']['height'] + 'px');
+                        $(idButtonContainer).css('width', dataButton['button']['edit_button']['width'] + 'px');
+                        $(idContentButton).css('font-size', dataButton['button']['data']['size'] + 'px');
+                        $(idContentButton).css('padding-top', parseInt(dataButton['button']['edit_button']['text'])-5 + 'px');
+                        $(idContentButton).html(dataButton['button']['data']['content']);
+                        $(idButtonContainer).css('border', dataButton['button']['data']['border_style'] + ' ' + dataButton['button']['data']['border_width'] + 'px ' + dataButton['button']['data']['background_color_border']);
+                        if (dataButton['button']['edit_button']['border'] != 0) {
+                            $(idButtonContainer).css('border-radius', dataButton['button']['edit_button']['border'] + 'px');
+                        }
+                        if (dataButton['button']['edit_button']['border'] == 0) {
+                            var border = dataButton['button']['edit_button']['top-left'] + 'px' + ' ' + dataButton['button']['edit_button']['top-right'] + 'px' + ' ' + dataButton['button']['edit_button']['bottom-right'] + 'px' + ' ' + dataButton['button']['edit_button']['bottom-left'] + 'px';
+                            $(idButtonContainer).css('border-radius', border);
+                        }
+                    }
+
+                    //set position button
+                    if (dataButton['positionButton']['1']['3'] != '1%') {
+                        $(idButtonContainerButton).css('float', 'left');
+                        $(idButtonContainerButton).css('margin-left', margin_top_button+'%');
+                    }
+                    if (dataButton['positionButton']['3']['3'] != '1%') {
+                        $(idButtonContainerButton).css('float', 'right');
+                        $(idButtonContainerButton).css('margin-right', margin_top_button+'%');
+                    }
+                    var value = parseInt(dataButton['positionButton']['5']['3'].replace('px',''))+(-65);
+                    $(idButtonContainerButton).css('margin-top', value+'px');
+                };
+            }
+        );
+    </script>
+<?php } ?>

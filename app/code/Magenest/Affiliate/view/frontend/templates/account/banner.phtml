@@ -1,0 +1,61 @@
+<?php
+
+?>
+
+<div class="box-account box-info box-affiliate affiliate-banner-content affiliate-block form-edit-account">
+    <?php
+    $banners = $this->getAvailableBanners();
+    if (sizeof($banners)):?>
+        <?php foreach ($banners as $banner): ?>
+            <fieldset class="fieldset banner-<?= $banner->getId() ?>">
+                <legend>
+                    <span id="banner-title"><?= /* @escapeNotVerified */ 'Banner: ' . $banner->getTitle() ?></span>
+                </legend>
+                <br>
+                <div class="field preview">
+                    <div class="control">
+                        <?= $this->getContentText($banner); ?>
+                    </div>
+                </div>
+                <button id="<?= $banner->getId() ?>"><?= __('Get banner link') ?></button>
+            </fieldset>
+            <div id="bn-link-refer" class="bnlink-refer-<?= $banner->getId() ?>">
+                <div class="bnlink-refer-content">
+                    <div id="link-bn">
+                        <div class="field link">
+                            <label class="label">
+                                <span><?= /* @escapeNotVerified */ __('Link') ?></span></label>
+                            <div class="control">
+                                <span><?= /* @escapeNotVerified */ $this->getBannerLink($banner, $this->getLink($banner)) ?></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="coderefer-bn">
+                        <div class="field content">
+                            <label class="label" for="banner-content-<?= $banner->getId() ?>">
+                                <span><?= /* @escapeNotVerified */ __('Copy and past this source code into your website or forum.') ?></span>
+                            </label>
+                            <div class="control">
+                            <textarea id="banner-content-<?= $banner->getId() ?>"
+                                      class="banner-content" rows="4" readonly="readonly"
+                                      onclick="this.select()"><?= $this->getContentText($banner) ?>
+                            </textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script type="text/x-magento-init">
+            {
+                "*": {
+                    "Magenest_Affiliate/js/banner": {
+                        "bannerId": "<?= $banner->getId() ?>"
+                    }
+                }
+            }
+            </script>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <?= __('No banner available'); ?>
+    <?php endif; ?>
+</div>

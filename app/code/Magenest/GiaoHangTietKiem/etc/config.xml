@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <carriers>
+            <giaohangtietkiem>
+                <model>Magenest\GiaoHangTietKiem\Model\Carrier\GiaoHangTietKiem</model>
+                <active>0</active>
+                <test_mode>0</test_mode>
+                <title>Giao Hang Tiet Kiem</title>
+                <name>Giao Hang Tiet Kiem</name>
+                <price>0.00</price>
+                <price_type>0</price_type>
+                <xfast>1</xfast>
+                <specificerrmsg>This shipping method is not available. To use this shipping method, please contact us.</specificerrmsg>
+                <sallowspecific>0</sallowspecific>
+                <production_api>https://services.giaohangtietkiem.vn</production_api>
+                <sandbox_api>https://services.ghtklab.com</sandbox_api>
+            </giaohangtietkiem>
+        </carriers>
+    </default>
+</config>

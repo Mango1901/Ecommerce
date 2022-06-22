@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Magenest_CustomTableRate::menu" title="Kangaroo TableRates Shipping" module="Magenest_CustomTableRate" sortOrder="80" resource="Magenest_CustomTableRate::menu" parent="Magenest_Backend::Magenest"/>
+        <add id="Magenest_CustomTableRate::manage" title="Manage Rates" module="Magenest_CustomTableRate" sortOrder="10" parent="Magenest_CustomTableRate::menu" action="adminhtml/rates/index" resource="Magenest_CustomTableRate::manage"/>
+        <add id="Magenest_CustomTableRate::configuration" title="Configuration" module="Magenest_CustomTableRate" sortOrder="20" parent="Magenest_CustomTableRate::menu" action="adminhtml/system_config/edit/section/carriers/website/1" resource="Magenest_CustomTableRate::configuration"/>
+    </menu>
+</config>

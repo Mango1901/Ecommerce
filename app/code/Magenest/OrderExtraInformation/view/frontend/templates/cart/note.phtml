@@ -1,0 +1,25 @@
+
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+/**  @var $block \Magenest\OrderExtraInformation\Block\Cart\CustomerNote */
+?>
+<form class="form form-cart" action="<?= $block->getUrl('oei/cart/notesave') ?>" method="post" id="form-validate">
+    <fieldset class="fieldset">
+        <legend class="legend"><span><?= $block->escapeHtml(__('Note for your cart')) ?></span></legend><br>
+        <div class="field customer_note">
+            <div class="control">
+                <textarea name="customer_note" id="customer_note" title="Customer Note" class="input-text" aria-required="true"><?= __($block->getCustomerNote()) ?></textarea>
+            </div>
+        </div>
+    </fieldset>
+    <div class="actions-toolbar">
+        <div class="primary">
+            <button type="submit" class="action save primary" data-action="save-note" title="Save Note">
+                <span><?= $block->escapeHtml(__('Save Note')) ?></span>
+            </button>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,90 @@
+<?php
+/**
+ * Copyright © 2020 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ *
+ * Reward points extension
+ * NOTICE OF LICENSE
+ *
+ * @author Magenest
+ * @time: 18/11/2020 15:49
+ */
+
+/** @var Magento\Backend\Block\Template $block */
+?>
+<div class="page-main-actions">
+    <div class="page-actions">
+        <div class="page-actions-buttons">
+            <div class="page-actions" data-ui-id="page-actions-toolbar-content-header">
+                <div class="page-actions-inner" data-title="Import">
+                    <div class="page-actions-buttons">
+                        <button id="back" title="Back" type="button" class="action-scalable back">
+                            <span><?= /* @noEscape */ __('Back') ?></span>
+                        </button>
+
+                        <button id="bulk-add-points" title="<?= $block->escapeHtmlAttr(__($block->getData('button_title'))) ?>" type="button" class="action-default scalable save primary">
+                            <span><?= $block->escapeHtml(__($block->getData('button_title'))) ?></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="entry-edit form-inline">
+    <form action="<?= /* @noEscape */ $block->getUrl($block->getData('submit_url')) ?>" id="bulk-add-points-form" method="post" enctype="multipart/form-data">
+        <div>
+            <input name="form_key" type="hidden" value="<?= /* @noEscape */ $block->getFormKey() ?>">
+        </div>
+
+
+        <fieldset class="fieldset admin__fieldset" id="base_fieldset">
+            <legend class="admin__legend legend">
+                <span><?= /* @noEscape */ __('Bulk Add Points') ?></span>
+            </legend>
+
+        </fieldset>
+
+        <fieldset class="fieldset admin__fieldset" id="base_fieldset">
+            <legend class="admin__legend legend">
+                <span><?= /* @noEscape */ __('Points Added Information') ?></span>
+            </legend>
+
+            <div class="admin__field" data-index="prefix">
+                <div class="admin__field-label">
+                    <label for="points-value">
+                        <span><?= __('Points Added')?></span>
+                    </label>
+                </div>
+                <div class="admin__field-control">
+                    <input class="admin__control-text" type="number" id="points-value" name="pointValue" required placeholder="Point Value">
+                </div>
+            </div>
+            <div class="admin__field" data-index="prefix">
+                <div class="admin__field-label">
+                    <label for="points-desc">
+                        <span><?= __('Points Description')?></span>
+                    </label>
+                </div>
+                <div class="admin__field-control">
+                    <textarea class="admin__control-text" cols="15" rows="2" name="pointDescription" id="points-desc" placeholder="Description"></textarea>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+
+<script>
+    require(['jquery'], function ($) {
+
+        $('#back').click(function () {
+            self.location.href='<?= /* @noEscape */ $block->getUrl('customer/index') ?>';
+        });
+
+        $('#bulk-add-points').click(function () {
+            $('#bulk-add-points-form').submit();
+        });
+    })
+</script>
+

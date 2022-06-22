@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <fast_erp>
+            <credentials>
+                <enabled>0</enabled>
+                <base_url>http://kgr-dms-api.local.pentamic.com/</base_url>
+                <token_endpoint>connect/token</token_endpoint>
+                <client_id>clientID</client_id>
+                <client_secret>clientSecret</client_secret>
+                <orders_endpoint>api/orders</orders_endpoint>
+                <warehouses_endpoint>api/warehouses</warehouses_endpoint>
+                <products_endpoint>api/products</products_endpoint>
+                <stock_endpoint>api/warehouses/{warehouseId}/availableinventory</stock_endpoint>
+            </credentials>
+        </fast_erp>
+    </default>
+</config>

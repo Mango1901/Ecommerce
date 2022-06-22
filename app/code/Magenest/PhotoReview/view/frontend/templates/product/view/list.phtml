@@ -1,0 +1,102 @@
+<?php
+/** @var Magento\Review\Block\Product\View\ListView $block */
+$_items = $block->getReviewsCollection()->getItems();
+$format = $block->getDateFormat() ?: \IntlDateFormatter::SHORT;
+/** @var \Magenest\PhotoReview\Helper\Review $helper */
+$helper =  $this->helper(\Magenest\PhotoReview\Helper\Review::class);
+$appId = $helper->getAppId();
+if(empty($appId)){
+    $appId = '420724915308275';
+}
+$imageUrl = '';
+?>
+<?php if (count($_items)):?>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v5.0&appId=<?= $block->escapeHtml($appId) ?>&autoLogAppEvents=1"></script>
+    <div id="magenest-photoreview-popup"></div>
+    <div class="block review-list magenest" id="customer-reviews">
+        <div class="block-title">
+            <strong><?= $block->escapeHtml(__('Customer Reviews')) ?></strong>
+        </div>
+        <div class="block-content">
+            <ol class="items review-items">
+                <?php foreach ($_items as $_review):?>
+                    <li class="item review-item" itemscope itemprop="review" itemtype="http://schema.org/Review">
+                        <?php
+                        $data = $helper->getCustomReviewDetail($_review);
+                        if (is_array($data)): ?>
+                            <div class="review-title" itemprop="name"><?= $block->escapeHtml($_review->getTitle()) ?></div>
+                            <div class="photoreview-container">
+                                <?php if(!empty($data['photo']) > 0): ?>
+                                    <div class="photoreview-left">
+                                        <div class="photo-review photo-items">
+                                            <?php
+                                            foreach($data['photo'] as $photo){
+                                                if($photo->getData('path') != ''){
+                                                    $photoId = $photo->getPhotoId();
+                                                    $reviewId = $photo->getReviewId();
+                                                    $path = $photo->getData('path');
+                                                    $url = $helper->getMediaUrl($path);
+                                                    if($imageUrl == '') $imageUrl = $url;
+                                                    ?>
+                                                    <div class="photo-item" data-photo-id="<?= $block->escapeHtml($photoId) ?>" data-review-id="<?= $block->escapeHtml($reviewId) ?>">
+                                                        <img class="image-item" src="<?= $url ?>"/>
+                                                    </div>
+                                                    <?php
+                                                }
+                                            } ?>
+
+                                        </div>
+                                    </div>
+                                <?php
+                                endif;
+                                ?>
+                                <div class="photoreview-right">
+                                    <div class="review-details">
+                                        <p class="review-author">
+                                            <strong class="review-details-value" itemprop="author"><?= $block->escapeHtml($_review->getNickname()) ?></strong>
+                                        </p>
+                                        <p class="review-date">
+                                            <span class="review-details-label"><?= $block->escapeHtml(__('Posted on')) ?></span>
+                                            <time class="review-details-value" itemprop="datePublished" datetime="<?= $block->escapeHtmlAttr($block->formatDate($_review->getCreatedAt(), $format)) ?>"><?= $block->escapeHtml($block->formatDate($_review->getCreatedAt(), $format)) ?></time>
+                                        </p>
+                                    </div>
+
+                                    <?php if (count($_review->getRatingVotes())): ?>
+                                        <div class="review-ratings">
+                                            <?php foreach ($_review->getRatingVotes() as $_vote): ?>
+                                                <div class="rating-summary item" itemprop="reviewRating" itemscope
+                                                     itemtype="http://schema.org/Rating">
+                                                    <span class="label rating-label"><span><?= $block->escapeHtml($_vote->getRatingCode()) ?></span></span>
+                                                    <div class="rating-result"
+                                                         title="<?= $block->escapeHtmlAttr($_vote->getPercent()) ?>%">
+                                                        <meta itemprop="worstRating" content="1"/>
+                                                        <meta itemprop="bestRating" content="100"/>
+                                                        <span style="width:<?= $block->escapeHtmlAttr($_vote->getPercent()) ?>%">
+                                                            <span itemprop="ratingValue"><?= $block->escapeHtml($_vote->getPercent()) ?>%</span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            <?php endforeach; ?>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                    </li>
+                <?php endforeach; ?>
+            </ol>
+            <div class="toolbar review-toolbar">
+                <?= $block->getChildHtml('toolbar') ?>
+            </div>
+        </div>
+    </div>
+    <script>
+        require([
+            'jquery',
+            'Magenest_PhotoReview/js/popup'
+        ], function ($) {
+            'use strict';
+        });
+    </script>
+
+<?php endif;?>

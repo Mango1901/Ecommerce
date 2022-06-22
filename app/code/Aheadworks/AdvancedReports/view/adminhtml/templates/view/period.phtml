@@ -1,0 +1,72 @@
+<?php
+/**
+* Copyright 2016 aheadWorks. All rights reserved.
+* See LICENSE.txt for license details.
+*/
+
+// @codingStandardsIgnoreFile
+
+/** @var \Aheadworks\AdvancedReports\Block\Adminhtml\View\Period $block */
+$period = $block->getPeriod();
+$from = $period['from'];
+$to = $period['to'];
+?>
+<div id="awarep-calendars-box">
+    <div id="awarep-calendars_header">
+        <?php /* @noEscape */ echo $from->format('M d, Y') ?> &nbsp;-&nbsp; <?php /* @noEscape */ echo $to->format('M d, Y') ?>
+    </div>
+    <div id="awarep-calendars-container">
+        <div id="awarep-calendars"></div>
+        <div id="awarep-calendar_form">
+            <div class="awarep-date_range_box">
+                <span><?= $block->escapeHtml(__('Date Range')) ?>:</span>
+                <select class="input-text no-changes advanced-filter"
+                        name="custom_date_range"
+                        id="awarep-custom_date_range">
+                    <?php foreach ($block->getOptions() as $option): ?>
+                        <option value="<?php /* @noEscape */ echo $option['value'] ?>"
+                            <?php /* @noEscape */ echo ($option['value'] == $period['type']) ? 'selected' : '' ?>>
+                            <?= $block->escapeHtml(__($option['label'])) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+            <div id="awarep-fields">
+                <div class="awarep-period_field">
+                    <label for="awarep-period_date_from"><?= $block->escapeHtml(__('From:')) ?></label>
+                    <div class="element_outer_border">
+                        <input type="text" name="report_from" value="<?php /* @noEscape */ echo $from->format('M d, Y') ?>"
+                               id="awarep-period_date_from" />
+                    </div>
+                </div>
+                <div class="awarep-period_field">
+                    <label for="awarep-period_date_to"><?= $block->escapeHtml(__('To:')) ?></label>
+                    <div class="element_outer_border">
+                        <input type="text" name="report_to" value="<?php /* @noEscape */ echo $to->format('M d, Y') ?>"
+                               id="awarep-period_date_to" />
+                    </div>
+                </div>
+            </div>
+            <div class="awarep-button-set">
+                <button type="button" class="scalable task" id="awarep-apply-period">
+                    <span><?= $block->escapeHtml(__('Apply')) ?></span>
+                </button>
+                <button type="button" class="awarep-hide-calendar-button scalable task" id="awarep-cancel-period">
+                    <span><?= $block->escapeHtml(__('Cancel')) ?></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/x-magento-init">
+    {
+        "#awarep-calendars-box": {
+            "awArepPeriod": {
+                "earliest": <?php /* @noEscape */ echo \Zend_Json::encode($block->getEarliestCalendarDateAsString()) ?>,
+                "latest": <?php /* @noEscape */ echo \Zend_Json::encode($block->getLatestCalendarDateAsString()) ?>,
+                "weekOffset": <?php /* @noEscape */ echo $block->getFirstDayOfWeek() ?>,
+                "ranges": <?php /* @noEscape */ echo \Zend_Json::encode($block->getRanges()) ?>
+            }
+        }
+    }
+</script>

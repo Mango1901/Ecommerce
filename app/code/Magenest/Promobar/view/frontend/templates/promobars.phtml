@@ -1,0 +1,402 @@
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+/** @var \Magento\Cms\Model\Template\FilterProvider $filter */
+$filter = $objectManager->get(\Magento\Cms\Model\Template\FilterProvider::class);
+$request = $objectManager->get('\Magento\Framework\App\Request\Http');
+$data = $block->getData();
+$id = $block->getData('select_promo_bar');
+$id = $block->getPromobarId();
+if ($id != null || $id > 0) {
+    $bar = $this->getBarById($id);
+    $promobarId = $bar->getData('promobar_id');
+    $mobileBar = $block->getMobileBarById($promobarId);
+    $breakpoint = 1;
+    if ($mobileBar) {
+        $breakpoint = $mobileBar->getData('breakpoint');
+    }
+    if ($bar->getData('status') == 1 || !array_key_exists('status', $bar->getData())) {
+        $display = 0;
+    } else {
+        $display = 1;
+    }
+
+    $editBackground = json_decode($bar['edit_background'], true);
+    $multipleContent = json_decode($bar['multiple_content'], true);
+    $heightProBar = $bar['height-pro-bar'];
+    $height = $editBackground['height'];
+    $width = $editBackground['width'];
+    $left_right = $editBackground['left-right'];
+    $up_down = $editBackground['up-down'];
+    $opacity = $editBackground['opacity'];
+    $backgroundColor = '';
+    if ($multipleContent != null) {
+        $content = json_decode(reset($multipleContent)['content'], true);
+        if (array())
+        $backgroundColor = $content['backgroundColor'];
+    }
+    $isBackgroundImageExist = false;
+    if ($backgroundColor != null) {
+        $isBackgroundImageExist = true;
+    }
+
+    $backgroundImage = $this->getBarImageUrl($bar['background_image']);
+    $imgExts = array("gif", "jpg", "jpeg", "png", "tiff", "tif");
+    $urlExt = pathinfo($backgroundImage, PATHINFO_EXTENSION);
+    if (in_array($urlExt, $imgExts)) {
+        $isBackgroundImageExist = true;
+    }
+
+    $allowClose = $bar['allow_closed'];
+    if ($allowClose == 1) {
+        $allowClose = 1;
+    } else {
+        $allowClose = 0;
+    }
+    $delayContent = (int)($bar['delay_content']) * 1000;
+    if ($delayContent == null) {
+        $delayContent = 2000;
+    }
+    $delayTime = (int)($bar['delay_time']) * 1000;
+    $timeLife = (int)($bar['time_life']) * 1000;
+
+    $margin_left = ((int)($width) - 100) * (-(int)($left_right) / 100); //unit: %
+    $margin_top = (((int)($height) - 100) / 100) * (-(int)($up_down) / 100) * (int)($heightProBar); //unit: px
+    $imgTop = 50 + (int)($up_down);
+    $imgTransform = -$imgTop;
+
+    // html ID
+    $classPromobar = 'promobar-' . $id;
+    $classClose = 'promobar-close-' . $id;
+    $idPromoCarousel = 'promoCarousel-' . $id;
+    $idButtonContainer = 'button-container-' . $id;
+    $idContentButton = 'text-container-button-' . $id;
+//    chuyển position button lên promobarItemContent
+    // Chuyển hover vào trong promobarItemButton
+    // ImageBackground
+
+}
+?>
+<?php $mobilePromobarId = $id ?>
+<?php if ($id != null && $id != 0 && $display != 0): ?>
+    <div class="section-promobar <?= $classPromobar ?>">
+        <div class="promobar <?php if ($allowClose == 1): echo('has-closebtn'); endif; ?>"
+             style="height: <?= $heightProBar . 'px'; ?>;">
+
+            <!-- Close btn -->
+            <?php if ($allowClose == 1): ?>
+                <span class="promobar-close <?= $classClose ?>"></span>
+            <?php endif; ?>
+            <!-- end Close btn -->
+
+            <!-- Background img -->
+            <?php if ($isBackgroundImageExist): ?>
+            <a href="#" class="promobar-image"
+               style="height:<?= $height . '%'; ?>;
+                       width:<?= $width . '%'; ?>;
+                       margin-top:<?= $margin_top . 'px'; ?>;
+                       margin-left:<?= $margin_left . '%'; ?>;
+                       opacity:<?= $opacity; ?>;">
+                <img src="<?= $backgroundImage ?>" alt=""
+                     style="top:<?= $imgTop . '%'; ?>;
+                         -webkit-transform: translate(-50%, <?= $imgTransform . '%'; ?>);
+                         -moz-transform: translate(-50%, <?= $imgTransform . '%'; ?>);
+                         -ms-transform: translate(-50%, <?= $imgTransform . '%'; ?>);
+                         -o-transform: translate(-50%, <?= $imgTransform . '%'; ?>);
+                             transform: translate(-50%, <?= $imgTransform . '%'; ?>);
+                             ">
+            </a>
+            <?php endif; ?>
+            <!-- end Background img -->
+
+            <div class="promobar-container">
+                <div class="promobar-content">
+
+                    <!-- Content promobar -->
+                    <?php $countItems = count($multipleContent);
+                    if ($countItems): ?>
+                        <div class="promoCarousel owl-carousel owl-theme" id="<?= ($idPromoCarousel); ?>">
+                            <?php $count = 0;
+                            foreach ($multipleContent as $promoItem):
+                                $id += $count;
+                                if ($promoItem['content'] != ""):
+                                    $promoItemContent = json_decode($promoItem['content']);
+                                    if (!is_array($promoItem['button'])){
+                                        $promoItemButton = json_decode($promoItem['button']);
+                                    }else{
+                                        $promoItemButton = $promoItem['button'];
+                                    }
+                                    ?>
+                                    <div class="promoItem" style="display: table; width: 100%;">
+                                        <div style="padding: 1.5px 0; width: 100%; height: <?= $heightProBar . 'px'; ?>; vertical-align: middle;
+                                        <?php if ($promoItemContent->backgroundColor): echo ('background-image: ' . $promoItemContent->backgroundColor) . ';'; endif; ?>">
+                                            <div class="promoItemContainer"
+                                                 style=" position: relative;
+                                                 <?php if (isset($promoItemContent->positionText)): echo ('top: ' . $promoItemContent->positionText) . ';';endif; ?>
+                                                 <?php if (isset($promoItemButton->button->data)):
+                                                     if ($promoItemButton->button->data->displayRight != "no check") {
+                                                         echo('direction: ltr; ');
+                                                         echo('margin-right: ' . $promoItemButton->button->data->displayRight . '; ');
+                                                         echo('width: calc(100% - ' . $promoItemButton->button->data->displayRight . ');');
+                                                     };
+                                                     if ($promoItemButton->button->data->displayLeft != "no check") {
+                                                         echo('direction: rtl;');
+                                                         echo('margin-left: ' . $promoItemButton->button->data->displayLeft . '; ');
+                                                         echo('width: calc(100% - ' . $promoItemButton->button->data->displayLeft . ');');
+                                                     };
+                                                 endif; ?>
+                                                         ">
+                                                <div class="promoItemContent">
+                                                    <div style=" max-height: <?= $heightProBar . 'px'; ?>;
+                                                    <?php if (isset($promoItemContent->size)): echo ('font-size: ' . $promoItemContent->size) . 'px;'; endif; ?>
+                                                    <?php if (isset($promoItemContent->textColor)): echo('color: ' . $promoItemContent->textColor); endif; ?>">
+                                                        <?php if (isset($promoItemContent->content)): echo($filter->getPageFilter()->filter($promoItemContent->content)); endif; ?>
+                                                    </div>
+                                                </div>
+
+                                                <!-- promo Item Button -->
+                                                <?php $promoItemButton = json_decode(json_encode($promoItemButton)); ?>
+                                                <?php if (isset($promoItemButton->button) && $promoItemButton->button->data->status == 1): ?>
+                                                    <div class="promoItemButton"
+                                                         style="<?php if (isset($promoItemButton->button->data->edit_button)):
+                                                             $dataPromoItemBtn = json_decode($promoItemButton->button->data->edit_button);
+                                                             echo('width: ' . $dataPromoItemBtn->width . 'px;');
+                                                         endif; ?>">
+                                                        <div style="max-height: <?= $heightProBar . 'px'; ?>;">
+                                                            <a id="promoItemButton-<?= $id ?>"
+                                                               href="<?php if ($promoItemContent->url): echo $promoItemContent->url; endif; ?>"
+                                                               style="  <?php if (isset($promoItemButton->button->data->edit_button)):
+                                                                   $dataPromoItemBtn = json_decode($promoItemButton->button->data->edit_button);
+                                                                   echo('height: ' . $dataPromoItemBtn->height . 'px; ');
+                                                                   echo('width: ' . $dataPromoItemBtn->width . 'px; ');
+//                                                                   if ($dataPromoItemBtn->border != "0") {
+//                                                                       echo('border-radius: ' . $dataPromoItemBtn->border . 'px; ');
+//                                                                   } else {
+//                                                                       echo('border-radius: ' . $dataPromoItemBtn->top_left . 'px ' . $dataPromoItemBtn->top_right . 'px ' . $dataPromoItemBtn->bottom_right . 'px ' . $dataPromoItemBtn->bottom_left . 'px; ');
+//                                                                   };
+                                                                   if ($dataPromoItemBtn->top_left + $dataPromoItemBtn->bottom_left + $dataPromoItemBtn->top_right + $dataPromoItemBtn->bottom_right > 0) {
+                                                                       echo('border-radius: ' . $dataPromoItemBtn->top_left . 'px ' . $dataPromoItemBtn->top_right . 'px ' . $dataPromoItemBtn->bottom_right . 'px ' . $dataPromoItemBtn->bottom_left . 'px; ');
+                                                                   } elseif ($dataPromoItemBtn->border != "0") {
+                                                                       echo('border-radius: ' . $dataPromoItemBtn->border . 'px; ');
+                                                                   };
+                                                               endif; ?>
+                                                               <?php if (isset($promoItemButton->button->data->upDown)): echo('top: ' . $promoItemButton->button->data->upDown . '; '); endif; ?>
+                                                               <?php if (isset($promoItemButton->button->data->text_color)): echo('color: ' . $promoItemButton->button->data->text_color . '; '); endif; ?>
+                                                               <?php if (isset($promoItemButton->button->data->size)): echo('font-size: ' . $promoItemButton->button->data->size . 'px; '); endif; ?>
+                                                               <?php if (isset($promoItemButton->button->data->background_color)): echo('background-color: ' . $promoItemButton->button->data->background_color . '; color: red'); endif; ?>
+                                                               <?php if (isset($promoItemButton->button->data->border_width)): echo('border-width: ' . $promoItemButton->button->data->border_width . 'px; '); endif; ?>
+                                                               <?php if (isset($promoItemButton->button->data->border_style)): echo('border-style: ' . $promoItemButton->button->data->border_style . '; '); endif; ?>
+                                                               <?php if (isset($promoItemButton->button->data->background_color_border)): echo('border-color: ' . $promoItemButton->button->data->background_color_border . '; '); endif; ?>
+                                                                       ">
+                                                                <div class="dv-content-button" style="
+                                                                <?php if (isset($dataPromoItemBtn->padding_top)):
+                                                                    echo('top: 0; padding-top: ' . $dataPromoItemBtn->padding_top . 'px; '); endif; ?>
+                                                                <?php if (isset($dataPromoItemBtn->padding_bottom)):
+                                                                    echo('bottom:0; padding-bottom: ' . $dataPromoItemBtn->padding_bottom . 'px; '); endif; ?>
+                                                                <?php if (isset($dataPromoItemBtn->padding_right)):
+                                                                    echo('right:0; padding-right: ' . $dataPromoItemBtn->padding_right . 'px; '); endif; ?>
+                                                                <?php if (isset($dataPromoItemBtn->padding_left)):
+                                                                    echo('left:0; padding-left:' . $dataPromoItemBtn->padding_left . 'px; '); endif; ?>
+                                                                        ">
+                                                                    <?php if ($promoItemButton->button->data->content): echo($promoItemButton->button->data->content); endif; ?>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                <?php endif; ?>
+                                                <!-- end promo Item Button -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                                <?php $count++; endforeach; ?>
+                        </div>
+                    <?php endif; ?>
+                    <!-- end Content promobar -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section-promobar-clone" style="display:none;height: <?= $heightProBar . 'px'; ?>;"></div>
+    <script>
+        require([
+                'jquery',
+                'Magenest_Promobar/js/owl.carousel'
+            ], function ($) {
+            var count = 0;
+            var promobarId = <?= $id;?>;
+            var screenWidth = window.screen.availWidth;
+            var breakpoint = <?= $breakpoint ?>;
+            var multipleContent = <?=json_encode($multipleContent) ?>;
+            if (multipleContent !== null && screenWidth > breakpoint) {
+                multipleContent.forEach(function (promoItem) {
+                    promobarId += count;
+                    var id = "#promoItemButton-" + promobarId;
+                    if (promoItem['content'] != "") {
+                        var promoItemButton = [];
+                        if (promoItem['button'] !== undefined) {
+
+                            // if (!Array.isArray(promoItem['button'])) {
+                            //     promoItemButton = JSON.parse(promoItem['button']);
+                            // }
+                            var promoItemContent = JSON.parse(promoItem['content']);
+                            if (isJson(promoItem['button'])) {
+                                promoItemButton = JSON.parse(promoItem['button']);
+                            }
+                            if (promoItemButton !== null && typeof promoItemButton['button'] !== 'undefined' && promoItemButton['button']['data']['status'] == 1) {
+                                //++++++++++++++++++++++++++++++++++++++++++++++++++CREATE CSS CLASS+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                                //text color  --------------------------------------------------------------------------------------------------
+                                var hoverColorText = promoItemButton['button']['data']['hover_color_text'];
+                                var hoverColorTextClass = document.createElement('style');
+                                hoverColorTextClass.type = 'text/css';
+                                hoverColorTextClass.innerHTML = '.hoverColorTextClass { color: ' + hoverColorText + ' !important; }';
+                                document.getElementsByTagName('head')[0].appendChild(hoverColorTextClass);
+                                //background color ------------------------------------------------------------------------------------------------
+                                var hoverBackgroundColor = promoItemButton['button']['data']['hover_color_button'];
+                                var hoverBackgroundColorClass = document.createElement('style');
+                                hoverBackgroundColorClass.type = 'text/css';
+                                hoverBackgroundColorClass.innerHTML = '.hoverBackgroundColorClass { background-color: ' + hoverBackgroundColor + ' !important; }';
+                                document.getElementsByTagName('head')[0].appendChild(hoverBackgroundColorClass);
+                                //border color -----------------------------------------------------------------------------------------------------------
+                                var hoverBorderColor = promoItemButton['button']['data']['hover_color_border'];
+                                var hoverBorderColorClass = document.createElement('style');
+                                hoverBorderColorClass.type = 'text/css';
+                                hoverBorderColorClass.innerHTML = '.hoverBorderColorClass { border-color: ' + hoverBorderColor + ' !important; }';
+                                document.getElementsByTagName('head')[0].appendChild(hoverBorderColorClass);
+                                //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                                //set color text
+                                $(id).hover(function () {
+                                    if (hoverColorText === '') {
+                                        $(this).removeClass('hoverColorTextClass');
+                                    } else {
+                                        $(this).addClass('hoverColorTextClass');
+                                    }
+                                }, function () {
+                                    $(this).removeClass('hoverColorTextClass');
+                                });
+                                //hover color background button
+                                $(id).hover(function () {
+                                    if (hoverBackgroundColor === '') {
+                                        if (promoItemButton['button']['data']['background_color'] === '') {
+                                            $(this).removeClass('hoverBackgroundColorClass');
+                                        } else {
+                                            $(this).removeClass('hoverBackgroundColorClass');
+                                        }
+                                    } else {
+                                        $(this).addClass('hoverBackgroundColorClass');
+                                    }
+                                }, function () {
+                                    if (promoItemButton['button']['data']['background_color'] === '') {
+                                        $(this).removeClass('hoverBackgroundColorClass');
+                                    } else {
+                                        $(this).removeClass('hoverBackgroundColorClass');
+                                    }
+                                });
+                                //hover color border button
+                                $(id).hover(function () {
+                                    if (hoverBorderColor === '') {
+                                        if (promoItemButton['button']['data']['background_color_border'] === '') {
+                                            $(this).removeClass('hoverBorderColorClass');
+                                        } else {
+                                            $(this).removeClass('hoverBorderColorClass');
+                                        }
+                                    } else {
+                                        $(this).addClass('hoverBorderColorClass');
+                                    }
+                                }, function () {
+                                    if (promoItemButton['button']['data']['background_color_border'] === '') {
+                                        $(this).removeClass('hoverBorderColorClass');
+                                    } else {
+                                        $(this).removeClass('hoverBorderColorClass');
+                                    }
+                                });
+                            }
+                        }
+                    }
+                });
+            }
+            function isJson(str) {
+                try {
+                    JSON.parse(str);
+                } catch (e) {
+                    return false;
+                }
+                return true;
+            }
+                var delay = (function () {
+                    var timer = 0;
+                    return function (callback, ms) {
+                        clearTimeout(timer);
+                        timer = setTimeout(callback, ms);
+                    };
+                })();
+                $(document).ready(function () {
+                    delay(function () {
+
+                        $(".<?= $classPromobar ?>").addClass('show');
+                        var height = '<?= $heightProBar; ?>';
+                        var idPromobar = '<?= $classPromobar; ?>';
+                        var promobarHeightClass = document.createElement('style');
+                        promobarHeightClass.type = 'text/css';
+                        promobarHeightClass.innerHTML = '.promobarHeightClass' + idPromobar + '{ height: ' + height + 'px !important; }';
+                        document.getElementsByTagName('head')[0].appendChild(promobarHeightClass);
+                        //$(".<?//=  $classPromobar ?>//").css("height", "<?//= $heightProBar . 'px'; ?>//");
+                        if (height) {
+                            $(".<?=  $classPromobar ?>").addClass('promobarHeightClass'+idPromobar);
+                        }
+
+                        $('#<?=  $idPromoCarousel; ?>').owlCarousel({
+                            items: 1,
+                            loop: true,
+                            nav: false,
+                            mouseDrag: false,
+                            autoplay: true,
+                            autoplayTimeout:<?= $delayContent; ?>,
+                            animateOut: 'fadeOut'
+                        });
+
+                        <?php if($timeLife > 0): ?>
+                        delay(function () {
+                            $(".<?=  $classPromobar ?>").removeClass('show');
+                        }, <?=  $timeLife; ?>);
+                        <?php endif;?>
+
+                    }, <?= $delayTime; ?>);
+
+                    $(".<?=  $classClose ?>").click(function () {
+                        $(this).parent().parent().removeClass('show');
+                    });
+
+                    <?php if($bar->getData('sticky') == 0):?>
+                    var topPromobar = $(".<?=  $classPromobar ?>").offset().top;
+                    $(window).scroll(function () {
+                        var height = '<?= $heightProBar; ?>';
+                        if ($(window).scrollTop() === 10) {
+                            $(".<?=  $classPromobar ?>").removeClass('promobar-sticky');
+                            $('#<?=  $idPromoCarousel; ?>').trigger('refresh.owl.carousel');
+                        } else if ($(window).scrollTop() > 10) {
+                            var promobarStickeyClass = document.createElement('style');
+                            promobarStickeyClass.type = 'text/css';
+                            if ($('.promobarStickeyClass').css('top') !== '0px') {
+                                promobarStickeyClass.innerHTML = '.promobarStickeyClass { top: 0 !important; }';
+                            }
+                            document.getElementsByTagName('head')[0].appendChild(promobarStickeyClass);
+                            $(".promobar-sticky").addClass('promobarStickeyClass');
+                            // $(".promobar-sticky").css("top","0");
+
+                            $(".<?=  $classPromobar ?>").addClass('promobar-sticky');
+                            $("body").css("padding-top",height + "px");
+                            $('#<?=  $idPromoCarousel; ?>').trigger('refresh.owl.carousel');
+                        } else {
+                            $(".<?=  $classPromobar ?>").removeClass('promobar-sticky');
+                            $("body").css("padding-top","");
+                            $('#<?=  $idPromoCarousel; ?>').trigger('refresh.owl.carousel');
+                        }
+                    });
+                    <?php endif;?>
+                });
+            }
+        );
+    </script>
+    <!--    --><?php //endif;?>
+<?php endif; ?>
+

@@ -1,0 +1,41 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+namespace Magenest\OrderManagement\Setup;
+
+use Magento\Framework\Setup\InstallSchemaInterface;
+use Magento\Framework\Setup\ModuleContextInterface;
+use Magento\Framework\Setup\SchemaSetupInterface;
+use Magento\Framework\DB\Ddl\Table;
+
+/**
+ * Class InstallSchema
+ * @package Magenest\OrderManagement\Setup
+ */
+class InstallSchema implements InstallSchemaInterface
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function install(SchemaSetupInterface $setup, ModuleContextInterface $context)
+    {
+        $installer = $setup;
+        $installer->startSetup();
+        $connection = $installer->getConnection();
+
+        /** Add sales order grid columns */
+        $columns = [
+            'confirmed_at' => 'Confirmed At',
+            'confirm_paid_at' => 'Confirm Paid At',
+            'received_goods_at'=> 'Received Goods At'
+        ];
+
+        foreach ($columns as $name => $label) {
+            $connection->addColumn($installer->getTable('sales_order_grid'), $name, ['type' => Table::TYPE_DATETIME, 'comment' => $label]);
+        }
+
+        $installer->endSetup();
+    }
+}

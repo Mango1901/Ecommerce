@@ -1,0 +1,26 @@
+<?php
+
+/** @var \Magento\Wishlist\Block\Customer\Wishlist\Item\Column $block */
+$product      = $block->getItem()->getProduct();
+$templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+?>
+<div class="product-item-bottom">
+    <a href="#" data-role="remove"
+       data-post-remove='<?= /* @noEscape */
+       $block->getItemRemoveParams($block->getItem()) ?>'
+       title="<?= $block->escapeHtmlAttr(__('Remove from favourite')) ?>"
+       class="action towishlist active"
+    >
+        <span><?= $block->escapeHtml(__('Remove from favourite')) ?></span>
+    </a>
+
+    <?php if ($templateType): ?>
+        <?= $block->getReviewsSummaryHtml($product, $templateType) ?>
+    <?php endif; ?>
+    <?php if ($soldQty = $product->getFinalSoldQty()): ?>
+        <div class="product-item-buy"><?= __(
+                'Sold %1',
+                Magenest\QuantitySold\Block\Product\SoldQuantity::numberPrefixEncode((int)$soldQty)
+            ) ?></div>
+    <?php endif; ?>
+</div>

@@ -1,0 +1,348 @@
+@import '_position.less';
+
+/**
+ * Copyright © 2020 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ *
+ * Magenest_ProductLabel extension
+ * NOTICE OF LICENSE
+ *
+ * @category Magenest
+ * @package  Magenest_ProductLabel
+ */
+
+.admin__field legend.admin__field-label {
+    opacity: 1;
+}
+
+.page-layout-admin-2columns-left .page-columns .side-col {
+    position: relative;
+}
+
+//== [ List item shape ]
+div[name="label-shape"] {
+    display: inline-flex;
+    align-items: center;
+    margin: 0 10px 10px 0;
+}
+
+.label-table-position {
+    border-spacing: 1px;
+    border-collapse: initial;
+    background-image: url("../Magenest_ProductLabel/images/product-label-bg.jpg");
+    background-size: cover;
+
+    td {
+        padding: 31px 25px;
+        border: 1px solid;
+
+        &:hover {
+            background-color: #faebd7;
+        }
+
+        &.selected {
+            background-image: url("../Magenest_ProductLabel/images/label.png") !important;
+            background-position: center;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+    }
+}
+
+.mgn-template-label {
+    width: 100%;
+    max-width: 255px;
+    padding-bottom: 100%;
+    margin: auto;
+    background-image: url('../Magenest_ProductLabel/images/product_image.png');
+    background-size: cover;
+    position: relative;
+    @media (min-width: 1485px) {
+        padding-bottom: 255px;
+    }
+
+    .layout-3 {
+        height: auto !important;
+
+        .label-preview-container {
+            position: unset;
+            transform: none;
+        }
+    }
+
+    .title {
+        text-align: center;
+        font-weight: 600;
+        font-size: 1.6rem;
+        color: #303030;
+        margin-top: 25px;
+        margin-bottom: 25px;
+    }
+
+    .label-shape {
+        display: block;
+    }
+
+    .text-block {
+        font-weight: 600;
+    }
+
+    .label-image {
+        display: block;
+        margin: 0 auto;
+        position: relative;
+        line-height: 1;
+    }
+
+    .image-text {
+        position: absolute;
+    }
+
+    .img {
+        height: 100%;
+    }
+
+    //== [ Genetal Label Text ]
+    .label-text {
+        font-weight: 600;
+        line-height: 1.2;
+        text-align: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        &.triangle-hide {
+            display: none;
+        }
+
+        &.rectangle-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5% 7%;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            transform: none;
+        }
+
+        &.square-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5% 7%;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            transform: none;
+        }
+
+        &.circular-shape-text {
+            max-width: 80%;
+            max-height: 80%;
+        }
+
+        &.starburst-text {
+            max-width: 80%;
+            max-height: 80%;
+        }
+
+        &.triangle-text {
+            width: 100%;
+            max-width: 50%;
+            max-height: 45%;
+            overflow: hidden;
+        }
+
+        &.triangle-top {
+            left: 50%;
+            transform: translateX(-50%);
+            top: 0;
+        }
+
+        &.triangle-bot {
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 0;
+        }
+    }
+
+    .layout-1 {
+        &:not([class*='mid-']) .label-text.text-only {
+            position: unset;
+            transform: none;
+        }
+
+        &[class*='bot-'] .label-preview-container {
+            display: flex;
+            align-items: flex-end;
+        }
+
+        &[class*='-left'] .label-text {
+            text-align: left;
+        }
+
+        &[class*='-mid'] .label-text {
+            text-align: center;
+        }
+
+        &[class*='-right'] .label-text {
+            text-align: right;
+
+            &.text-only {
+                text-align: right;
+            }
+        }
+
+        .label-text {
+            display: block;
+            width: 100%;
+        }
+
+        .label-preview-container {
+            height: 100% !important;
+        }
+    }
+
+
+    .image-layout .label-text {
+        padding: 5% 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        max-width: 86%;
+    }
+
+    .text-only .label-text {
+        position: relative;
+        left: auto;
+        top: auto;
+        transform: none;
+    }
+
+    //== [ Triangle Layout ]
+    .top-left, .bot-right {
+        .triangle-rotate.shape-wrapper {
+            transform: rotate(-45deg);
+
+            .svg-icon {
+                transform: rotate(45deg);
+            }
+        }
+    }
+
+    .bot-left, .top-right {
+        .triangle-rotate.shape-wrapper {
+            transform: rotate(45deg);
+
+            .svg-icon {
+                transform: rotate(-45deg);
+            }
+        }
+    }
+
+    //== [ Shape New Update ]
+    .preview-wrapper[class*='preview-shape-new'] {
+        height: auto !important;
+
+        .label-preview-container {
+            position: relative;
+        }
+    }
+
+    .label-preview-container {
+        display: block;
+        width: 100%;
+        position: absolute;
+        height: auto !important;
+        font-size: 0;
+
+        &[class*='-left'] .text-only .label-text {
+            text-align: left;
+        }
+
+        &[class*='-right'] .text-only .label-text {
+            text-align: right;
+        }
+    }
+
+    .shape-new-1, .shape-new-2, .shape-new-3, .shape-new-4, .shape-new-5, .shape-new-6, .shape-new-7,
+    .shape-new-8, .shape-new-9, .shape-new-10, .shape-new-11, .shape-new-14, .shape-new-15, .shape-new-16 {
+        .label-text {
+            width: 90% !important;
+        }
+    }
+
+    .shape-new-3,
+    .shape-new-5 {
+        .label-text {
+            text-align: right !important;
+        }
+    }
+
+    .shape-new-4,
+    .shape-new-6 {
+        .label-text {
+            text-align: left !important;
+        }
+    }
+
+    .shape-new-7 {
+        .label-text {
+            top: 35% !important;
+            left: 25% !important;
+            transform: translate(-45%, -35%);
+
+            span {
+                display: inline-block;
+                transform: rotate(-45deg) !important;
+            }
+        }
+    }
+
+    .shape-new-8 {
+        .label-text {
+            left: auto !important;
+            top: 35% !important;
+            right: 25% !important;
+            transform: translate(45%, -35%);
+
+            span {
+                display: inline-block;
+                transform: rotate(45deg) !important;
+            }
+        }
+    }
+
+    .shape-new-9 {
+        .label-text {
+            margin-top: 4% !important;
+        }
+    }
+
+    .shape-new-12,
+    .shape-new-13,
+    .shape-new-14 {
+        .label-text {
+            margin-top: -15%;
+        }
+    }
+
+    .shape-new-16 {
+        .label-text {
+            padding-left: 5%;
+        }
+    }
+
+    .shape-new-18,
+    .shape-new-19 {
+        .label-text {
+            margin-top: 25% !important;
+        }
+    }
+}

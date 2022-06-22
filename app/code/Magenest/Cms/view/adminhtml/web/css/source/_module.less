@@ -1,0 +1,26 @@
+& when (@media-common = true) {
+    .cms-page-edit.page-layout-admin-1column._has-modal {
+        .modal-slide.magento._show {
+            .modal-inner-wrap {
+                .media-gallery-modal:after {
+                    content: "";
+                    display: block;
+                    clear: both;
+                }
+
+                .page-main-actions {
+                    position: sticky;
+                    top: 67px;
+                    margin-left: -2.6rem;
+                    margin-right: -2.6rem;
+                }
+
+                .modal-header {
+                    position: sticky;
+                    top: 0;
+                    background-color: #fff;
+                }
+            }
+        }
+    }
+}

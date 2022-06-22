@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2018 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ *
+ * Magenest_RewardPoints extension
+ * NOTICE OF LICENSE
+ *
+ * @category Magenest
+ * @package Magenest_RewardPoints
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="sales_model_service_quote_submit_success">
+        <observer name="magenest_rewardpoints" instance="Magenest\RewardPoints\Observer\PlaceOrder" />
+    </event>
+    <event name="newsletter_subscriber_save_after">
+        <observer name="magenest_rewardpoints" instance="Magenest\RewardPoints\Observer\Subscription" />
+    </event>
+    <event name="sales_order_save_after">
+        <observer name="magenest_rewardpoints" instance="Magenest\RewardPoints\Observer\OrderSave"/>
+    </event>
+    <event name="adminhtml_sales_order_creditmemo_register_before">
+        <observer name="magenest_reward_points" instance="Magenest\RewardPoints\Observer\Creditmemo\RewardPointsDataImportObserver"/>
+    </event>
+    <event name="sales_order_creditmemo_save_after">
+        <observer name="magenest_reward_points" instance="Magenest\RewardPoints\Observer\Creditmemo\CreditmemoSaveAfter"/>
+    </event>
+    <event name="sales_order_invoice_save_after">
+        <observer name="magenest_rewardpoints_sales_order_invoice_save_after" instance="Magenest\RewardPoints\Observer\InvoicedAmount"/>
+    </event>
+    <event name="payment_cart_collect_items_and_amounts">
+        <observer name="magenest_rewardpoints_payment_cart_collect_items_and_amounts" instance="Magenest\RewardPoints\Observer\Paypal" />
+    </event>
+    <event name="review_save_after">
+        <observer name="magenest_rewardpoints" instance="Magenest\RewardPoints\Observer\ReviewProduct" />
+    </event>
+    <event name="checkout_type_multishipping_create_orders_single">
+        <observer name="magenest_rewardpoints" instance="Magenest\RewardPoints\Observer\PlaceOrder" />
+    </event>
+    <event name="checkout_submit_all_after">
+        <observer name="magenest_checkout_submit_all_after" instance="Magenest\RewardPoints\Observer\SendCoupon" />
+    </event>
+    <event name="customer_logout">
+        <observer name="customer_logout_redirection" instance="Magenest\RewardPoints\Observer\RemoveCookie" />
+    </event>
+    <event name="customer_save_commit_after">
+        <observer name="reward_save_customer" instance="Magenest\RewardPoints\Observer\Customer\UpdateInformation" />
+    </event>
+</config>

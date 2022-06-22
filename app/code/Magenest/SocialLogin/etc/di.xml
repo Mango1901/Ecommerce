@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Config\Block\System\Config\Form\Field">
+        <plugin name="sociallogin_form_field_attribute_plugin" type="Magenest\SocialLogin\Plugin\System\Config\FormFieldPlugin" sortOrder="0"/>
+    </type>
+    <type name="Magento\Customer\Api\CustomerRepositoryInterface">
+        <plugin name="delete_linked_social_account" type="Magenest\SocialLogin\Plugin\Customer\DeleteSocialAccount"/>
+    </type>
+    <type name="Magenest\SocialLogin\Model\ResourceModel\SocialAccount\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">magenest_social_login_account</argument>
+            <argument name="resourceModel" xsi:type="string">Magenest\SocialLogin\Model\ResourceModel\SocialAccount</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="social_account_listing_data_source" xsi:type="string">Magenest\SocialLogin\Model\ResourceModel\SocialAccount\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="Magenest\SocialLogin\Model\Session\Storage" type="Magento\Framework\Session\Storage"/>
+    <virtualType name="Magenest\SocialLogin\Model\Session" type="Magento\Framework\Session\SessionManager">
+        <arguments>
+            <argument name="storage" xsi:type="object">Magenest\SocialLogin\Model\Session\Storage</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magenest\SocialLogin\Controller\AbstractConnect">
+        <arguments>
+            <argument name="social_session" xsi:type="object">Magenest\SocialLogin\Model\Session</argument>
+        </arguments>
+    </type>
+    <type name="Magenest\SocialLogin\Controller\Customer\RequestPassword">
+        <arguments>
+            <argument name="social_session" xsi:type="object">Magenest\SocialLogin\Model\Session</argument>
+        </arguments>
+    </type>
+    <type name="Magenest\SocialLogin\Observer\SetSocialLoginTypeForOrder">
+        <arguments>
+            <argument name="social_session" xsi:type="object">Magenest\SocialLogin\Model\Session</argument>
+        </arguments>
+    </type>
+    <type name="Magenest\SocialLogin\Controller\Customer\Unlink">
+        <arguments>
+            <argument name="social_session" xsi:type="object">Magenest\SocialLogin\Model\Session</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Customer\Model\AccountConfirmation">
+        <plugin name="set_is_confirmation_not_required_for_social_login" type="Magenest\SocialLogin\Plugin\Customer\Model\AccountConfirmation"/>
+    </type>
+</config>

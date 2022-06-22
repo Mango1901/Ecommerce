@@ -1,0 +1,101 @@
+{
+    "magenest_customer_notification": {
+        "column": {
+            "entity_id": true,
+            "notification_id": true,
+            "customer_id": true,
+            "status": true,
+            "star": true,
+            "icon": true,
+            "notification_type": true,
+            "condition": true,
+            "description": true,
+            "redirect_url": true,
+            "created_at": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "magenest_notification": {
+        "column": {
+            "id": true,
+            "name": true,
+            "is_active": true,
+            "notification_type": true,
+            "condition": true,
+            "image": true,
+            "store_view": true,
+            "customer_group": true,
+            "description": true,
+            "redirect_url": true,
+            "total_sent": true,
+            "total_click": true,
+            "send_time": true,
+            "schedule": true,
+            "schedule_to": true,
+            "is_sent": true,
+            "time_sent": true,
+            "impression": true,
+            "created_at": true,
+            "update_at": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "magenest_notification_type": {
+        "column": {
+            "entity_id": true,
+            "default_type": true,
+            "name": true,
+            "description": true,
+            "is_category": true,
+            "icon": true,
+            "created_at": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "magenest_customer_token": {
+        "column": {
+            "entity_id": true,
+            "customer_id": true,
+            "customer_name": true,
+            "token": true,
+            "status": true,
+            "store_id": true,
+            "limit": true,
+            "created_at": true,
+            "guest_id": true,
+            "is_active": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "magenest_notification_queue": {
+        "column": {
+            "entity_id": true,
+            "customer_id": true,
+            "id": true,
+            "notification_type": true,
+            "name": true,
+            "image": true,
+            "store_view": true,
+            "customer_group": true,
+            "description": true,
+            "redirect_url": true,
+            "send_time": true,
+            "schedule": true,
+            "is_sent": true,
+            "token": true,
+            "created_at": true,
+            "update_at": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}

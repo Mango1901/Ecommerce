@@ -1,0 +1,64 @@
+<?php
+
+// phpcs:disable Magento2.Templates.ThisInTemplate
+
+/** @var \Magenest\PhotoReview\Block\Order\Items\Review $block */
+
+$order = $block->getOrder();
+/**
+ * @var \Magenest\PhotoReview\ViewModel\GetReview $itemsOrder
+ */
+$itemsOrder = $block->getItemsOrder();
+$allItemNeedReview = $itemsOrder->getAllItemNeedReview($order)
+?>
+<div class="table-wrapper order-items block">
+    <table class="data table table-order-items" id="my-orders-table" summary="<?= $block->escapeHtml(__('Items Ordered')) ?>">
+        <caption class="table-caption"><?= $block->escapeHtml(__('Items Ordered')) ?></caption>
+        <thead>
+        <tr>
+            <th class="col name"><?= $block->escapeHtml(__('Name')) ?></th>
+            <th class="col sku"><?= $block->escapeHtml(__('SKU')) ?></th>
+            <th class="col status"><?= $block->escapeHtml(__('Status')) ?></th>
+            <th class="col action"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php if (count($allItemNeedReview)) : ?>
+            <?php foreach ($allItemNeedReview as $_item): ?>
+                <tr id="order-item-row-<?= (int) $_item['id'] ?? null ?>">
+                    <td class="col name" data-th="<?= $block->escapeHtml(__('Product Name')) ?>">
+                        <div class="product-item-inner">
+                            <span>
+                                <span class="product-item-image">
+                                    <img class="product-item-thumb" alt="<?= $block->escapeHtml($_item['product_name'] ?? null) ?>" src="<?= $_item['product_image'] ?>">
+                                </span>
+                            </span>
+                            <div class="product-item-info">
+                                <strong class="product name product-item-name"><?= $block->escapeHtml($_item['product_name'] ?? null) ?></strong>
+                                <p class="sku-mobile mobile-device">
+                                    <span class="title"><?= __('Status: ') ?></span>
+                                    <?= $_item['status'] ? __('Reviewed') : __('Not Yet Review') ?>
+                                </p>
+                                <?php if (!$_item['status']) : ?>
+                                    <a class="action mobile-device review" target="_blank" href="<?= $block->escapeUrl($_item['review_url'] ?? null) ?>"><span><?= $block->escapeHtml(__('Review')) ?></span></a>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="col sku" data-th="<?= $block->escapeHtml(__('SKU')) ?>">
+                        <?= /* @noEscape */ $block->escapeHtml($_item['product_sku'] ?? null) ?>
+                    </td>
+                    <td class="col status desktop-device" data-th="<?= $block->escapeHtml(__('status')) ?>">
+                        <?= $_item['status'] ? __('Reviewed') : __('Not Yet Review') ?>
+                    </td>
+                    <?php if (!$_item['status']) : ?>
+                        <td data-th="<?= $block->escapeHtml(__('Actions')) ?>" class="col actions desktop-device">
+                            <a class="action review" target="_blank" href="<?= $block->escapeUrl($_item['review_url'] ?? null) ?>"><span><?= $block->escapeHtml(__('Review')) ?></span></a>
+                        </td>
+                    <?php endif; ?>
+                </tr>
+            <?php endforeach; ?>
+        <?php endif; ?>
+        </tbody>
+    </table>
+</div>

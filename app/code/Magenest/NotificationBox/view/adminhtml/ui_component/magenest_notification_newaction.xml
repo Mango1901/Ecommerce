@@ -1,0 +1,647 @@
+<?xml version="1.0" ?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">magenest_notification_newaction.notification_form_data_source</item>
+            <item name="deps" xsi:type="string">magenest_notification_newaction.notification_form_data_source</item>
+        </item>
+        <item name="label" translate="true" xsi:type="string">General Information</item>
+        <item name="config" xsi:type="array">
+            <item name="dataScope" xsi:type="string">data</item>
+            <item name="namespace" xsi:type="string">magenest_notification_newaction</item>
+        </item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+        <item name="buttons" xsi:type="array">
+            <item name="back" xsi:type="string">Magenest\NotificationBox\Block\Adminhtml\Notification\Edit\BackButton</item>
+            <item name="save" xsi:type="string">Magenest\NotificationBox\Block\Adminhtml\Notification\Edit\SaveButton</item>
+            <item name="save_and_continue" xsi:type="string">Magenest\NotificationBox\Block\Adminhtml\Notification\Edit\SaveAndContinueButton</item>
+        </item>
+    </argument>
+    <dataSource name="notification_form_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">Magenest\NotificationBox\Model\Notification\DataProvider</argument>
+            <argument name="name" xsi:type="string">notification_form_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="submit_url" path="*/*/save" xsi:type="url"/>
+                </item>
+            </argument>
+        </argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+    </dataSource>
+    <fieldset name="general">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string"/>
+            </item>
+        </argument>
+        <field name="is_active" formElement="checkbox" sortOrder="0"
+               component="Magento_Ui/js/form/element/single-checkbox-toggle-notice">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">sales_rule</item>
+                </item>
+            </argument>
+            <settings>
+                <label translate="true">Enabled</label>
+            </settings>
+            <formElements>
+                <checkbox>
+                    <settings>
+                        <prefer>toggle</prefer>
+                        <valueMap>
+                            <map name="false" xsi:type="number">0</map>
+                            <map name="true" xsi:type="number">1</map>
+                        </valueMap>
+                    </settings>
+                </checkbox>
+            </formElements>
+        </field>
+        <field name="name">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" translate="true" xsi:type="string">Name</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">name</item>
+                    <item name="sortOrder" xsi:type="number">20</item>
+                    <item name="dataScope" xsi:type="string">name</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="description">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" translate="true" xsi:type="string">Description</item>
+                    <item name="formElement" xsi:type="string">textarea</item>
+                    <item name="source" xsi:type="string">name</item>
+                    <item name="sortOrder" xsi:type="number">40</item>
+                    <item name="dataScope" xsi:type="string">description</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">false</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="store_view">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Magento\Cms\Ui\Component\Listing\Column\Cms\Options</item>
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">int</item>
+                    <item name="label" xsi:type="string" translate="true">Store View</item>
+                    <item name="formElement" xsi:type="string">multiselect</item>
+                    <item name="source" xsi:type="string">block</item>
+                    <item name="default" xsi:type="string">0</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="customer_group">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Magenest\NotificationBox\Ui\Component\Notification\ListCustomerGroup</item>
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Customer Group</item>
+                    <item name="componentType" xsi:type="string">field</item>
+                    <item name="formElement" xsi:type="string">multiselect</item>
+                    <item name="dataType" xsi:type="string">string</item>
+                    <item name="sortOrder" xsi:type="number">61</item>
+                    <item name="required" xsi:type="boolean">true</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="redirect_url">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" translate="true" xsi:type="string">Redirect Url</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">name</item>
+                    <item name="sortOrder" xsi:type="number">62</item>
+                    <item name="dataScope" xsi:type="string">redirect_url</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="validate-url" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="order_status_review">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Magenest\NotificationBox\Ui\Component\Notification\OrderStatusReview</item>
+                <item name="config" xsi:type="array">
+                    <item name="visible" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true">Set order status for review reminders</item>
+                    <item name="componentType" xsi:type="string">field</item>
+                    <item name="formElement" xsi:type="string">multiselect</item>
+                    <item name="dataType" xsi:type="string">string</item>
+                    <item name="sortOrder" xsi:type="number">90</item>
+                    <item name="required" xsi:type="boolean">true</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="order_status">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Magenest\NotificationBox\Ui\Component\Notification\OrderStatus</item>
+                <item name="config" xsi:type="array">
+                    <item name="visible" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true">Send notification when the order status obtain</item>
+                    <item name="componentType" xsi:type="string">field</item>
+                    <item name="formElement" xsi:type="string">multiselect</item>
+                    <item name="dataType" xsi:type="string">string</item>
+                    <item name="sortOrder" xsi:type="number">100</item>
+                    <item name="required" xsi:type="boolean">true</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="set_abandoned_cart_time">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="visible" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true">Set abandoned cart time (hours)</item>
+                    <item name="componentType" xsi:type="string">field</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="dataType" xsi:type="string">string</item>
+                    <item name="sortOrder" xsi:type="number">100</item>
+                    <item name="required" xsi:type="boolean">true</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="validate-digits" xsi:type="boolean">true</item>
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                        <item name="validate-greater-than-zero" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="set_notification_sent_before">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="visible" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true">Set notification sent before (day)</item>
+                    <item name="componentType" xsi:type="string">field</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="dataType" xsi:type="string">string</item>
+                    <item name="sortOrder" xsi:type="number">100</item>
+                    <item name="required" xsi:type="boolean">true</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="validate-digits" xsi:type="boolean">true</item>
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                        <item name="validate-greater-than-zero" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="set_time_after_login">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="visible" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true">Set time after login (Day)</item>
+                    <item name="componentType" xsi:type="string">field</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="dataType" xsi:type="string">string</item>
+                    <item name="sortOrder" xsi:type="number">100</item>
+                    <item name="required" xsi:type="boolean">true</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="validate-digits" xsi:type="boolean">true</item>
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                        <item name="validate-greater-than-zero" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="set_time_after_buy">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="visible" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true">Set time after buy (Day)</item>
+                    <item name="componentType" xsi:type="string">field</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="dataType" xsi:type="string">string</item>
+                    <item name="sortOrder" xsi:type="number">100</item>
+                    <item name="required" xsi:type="boolean">true</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="validate-digits" xsi:type="boolean">true</item>
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                        <item name="validate-greater-than-zero" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="notification_type">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Magenest\NotificationBox\Ui\Component\NotificationType\CustomerNotificationType</item>
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magenest_NotificationBox/js/form/element/changeNotificationType</item>
+                    <item name="elementTmpl" xsi:type="string">Magenest_NotificationBox/form/element/changeNotificationType</item>
+                    <item name="componentType" xsi:type="string">field</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" translate="true" xsi:type="string">Notification Type</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="source" xsi:type="string">name</item>
+                    <item name="sortOrder" xsi:type="number">80</item>
+                    <item name="dataScope" xsi:type="string">notification_type</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+            <settings>
+                <switcherConfig>
+                    <rules>
+                        <rule name="0">
+                            <value>order_status_update</value>
+                            <actions>
+                                <action name="0">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.order_status</target>
+                                    <callback>show</callback>
+                                </action>
+                                <action name="1">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.order_status_review</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="2">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.set_abandoned_cart_time</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="3">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.set_notification_sent_before</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="4">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.set_time_after_login</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="5">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.set_time_after_buy</target>
+                                    <callback>hide</callback>
+                                </action>
+                            </actions>
+                        </rule>
+                        <rule name="1">
+                            <value>review_reminders</value>
+                            <actions>
+                                <action name="0">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.order_status_review</target>
+                                    <callback>show</callback>
+                                </action>
+                                <action name="1">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.order_status</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="2">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.set_abandoned_cart_time</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="3">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.set_notification_sent_before</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="4">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.set_time_after_login</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="5">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.set_time_after_buy</target>
+                                    <callback>hide</callback>
+                                </action>
+                            </actions>
+                        </rule>
+                        <rule name="2">
+                            <value>abandoned_cart_reminds</value>
+                            <actions>
+                                <action name="0">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.order_status_review</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="1">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.order_status</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="2">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.set_abandoned_cart_time</target>
+                                    <callback>show</callback>
+                                </action>
+                                <action name="3">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.set_notification_sent_before</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="4">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.set_time_after_login</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="5">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.set_time_after_buy</target>
+                                    <callback>hide</callback>
+                                </action>
+                            </actions>
+                        </rule>
+                        <rule name="3">
+                            <value>birthday</value>
+                            <actions>
+                                <action name="0">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.order_status_review</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="1">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.order_status</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="2">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.set_abandoned_cart_time</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="3">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.set_notification_sent_before</target>
+                                    <callback>show</callback>
+                                </action>
+                                <action name="4">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.set_time_after_login</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="5">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.set_time_after_buy</target>
+                                    <callback>hide</callback>
+                                </action>
+                            </actions>
+                        </rule>
+                        <rule name="4">
+                            <value>store_credit_reminds</value>
+                            <actions>
+                                <action name="0">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.order_status_review</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="1">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.order_status</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="2">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.set_abandoned_cart_time</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="3">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.set_notification_sent_before</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="4">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.set_time_after_login</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="5">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.set_time_after_buy</target>
+                                    <callback>hide</callback>
+                                </action>
+                            </actions>
+                        </rule>
+                        <rule name="5">
+                            <value>reward_point_reminds</value>
+                            <actions>
+                                <action name="0">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.order_status_review</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="1">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.order_status</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="2">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.set_abandoned_cart_time</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="3">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.set_notification_sent_before</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="4">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.set_time_after_login</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="5">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.set_time_after_buy</target>
+                                    <callback>hide</callback>
+                                </action>
+                            </actions>
+                        </rule>
+                        <rule name="6">
+                            <value>customer_login</value>
+                            <actions>
+                                <action name="0">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.order_status_review</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="1">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.order_status</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="2">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.set_abandoned_cart_time</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="3">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.set_notification_sent_before</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="4">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.set_time_after_login</target>
+                                    <callback>show</callback>
+                                </action>
+                                <action name="5">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.set_time_after_buy</target>
+                                    <callback>hide</callback>
+                                </action>
+                            </actions>
+                        </rule>
+                        <rule name="7">
+                            <value>maintenance</value>
+                            <actions>
+                                <action name="0">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.order_status_review</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="1">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.order_status</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="2">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.set_abandoned_cart_time</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="3">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.set_notification_sent_before</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="4">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.set_time_after_login</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="5">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.set_time_after_buy</target>
+                                    <callback>show</callback>
+                                </action>
+                            </actions>
+                        </rule>
+                    </rules>
+                    <enabled>true</enabled>
+                </switcherConfig>
+            </settings>
+        </field>
+
+        <field name="send_time">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Magenest\NotificationBox\Ui\Component\Notification\SendTimeOptions</item>
+                <item name="config" xsi:type="array">
+                    <item name="componentType" xsi:type="string">field</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" translate="true" xsi:type="string">Send Time</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="source" xsi:type="string">name</item>
+                    <item name="sortOrder" xsi:type="number">300</item>
+                    <item name="dataScope" xsi:type="string">send_time</item>
+                </item>
+            </argument>
+            <settings>
+                <switcherConfig>
+                    <rules>
+                        <rule name="0">
+                            <value>send_immediately</value>
+                            <actions>
+                                <action name="0">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.schedule_to</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="1">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.send_after</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="2">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.unit</target>
+                                    <callback>hide</callback>
+                                </action>
+                            </actions>
+                        </rule>
+                        <rule name="1">
+                            <value>schedule_time</value>
+                            <actions>
+                                <action name="0">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.schedule_to</target>
+                                    <callback>show</callback>
+                                </action>
+                                <action name="1">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.send_after</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="2">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.unit</target>
+                                    <callback>hide</callback>
+                                </action>
+                            </actions>
+                        </rule>
+                        <rule name="2">
+                            <value>send_after_the_trigger_condition</value>
+                            <actions>
+                                <action name="0">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.schedule_to</target>
+                                    <callback>hide</callback>
+                                </action>
+                                <action name="1">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.send_after</target>
+                                    <callback>show</callback>
+                                </action>
+                                <action name="2">
+                                    <target>magenest_notification_newaction.magenest_notification_newaction.general.unit</target>
+                                    <callback>show</callback>
+                                </action>
+                            </actions>
+                        </rule>
+                    </rules>
+                    <enabled>true</enabled>
+                </switcherConfig>
+            </settings>
+        </field>
+
+        <field name="schedule_to">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="visible" xsi:type="boolean">false</item>
+                    <item name="dataType" xsi:type="string">string</item>
+                    <item name="label" xsi:type="string" translate="true">Schedule to</item>
+                    <item name="formElement" xsi:type="string">date</item>
+                    <item name="source" xsi:type="string">page</item>
+                    <item name="sortOrder" xsi:type="number">310</item>
+                    <item name="dataScope" xsi:type="string">schedule_to</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                    <item name="options" xsi:type="array">
+                        <item name="dateFormat" xsi:type="string">Y-m-d</item>
+                        <item name="timeFormat" xsi:type="string">HH:mm</item>
+                        <item name="showsTime" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="send_after">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="visible" xsi:type="boolean">false</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" translate="true" xsi:type="string">Send after</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">name</item>
+                    <item name="sortOrder" xsi:type="number">320</item>
+                    <item name="dataScope" xsi:type="string">send_after</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="validate-digits" xsi:type="boolean">true</item>
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                        <item name="validate-greater-than-zero-entry" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="unit">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Magenest\NotificationBox\Ui\Component\Notification\Unit</item>
+                <item name="config" xsi:type="array">
+                    <item name="visible" xsi:type="boolean">false</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" translate="true" xsi:type="string">Unite</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="source" xsi:type="string">name</item>
+                    <item name="sortOrder" xsi:type="number">330</item>
+                    <item name="dataScope" xsi:type="string">unit</item>
+                </item>
+            </argument>
+        </field>
+
+    </fieldset>
+</form>

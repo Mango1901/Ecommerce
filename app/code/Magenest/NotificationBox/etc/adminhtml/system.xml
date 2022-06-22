@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="magenest" translate="label" sortOrder="200">
+            <label>Magenest</label>
+        </tab>
+        <section id="magenest_notification_box" translate="label" type="button" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>noti-box</class>
+            <label>Notification Box</label>
+            <tab>magenest</tab>
+            <resource>Magenest_NotiBox::config_notibox</resource>
+            <!--General config-->
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>General</label>
+                <field id="enable" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable module</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>
+                        <![CDATA[
+                           Note: Web push notifications are available only on HTTPS sites.
+                        ]]>
+                    </comment>
+                </field>
+                <field id="api_key" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Server key</label>
+                    <validate>required-entry</validate>
+                    <comment>
+                        <![CDATA[
+                           For detailed instructions, please read our <a target="_blank" href="https://confluence.izysync.com/display/DOC/Notification+Box+-+User+Guide">User Guide</a>
+                        ]]>
+                    </comment>
+                </field>
+                <field id="sender_id" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sender Id</label>
+                    <validate>required-entry</validate>
+                </field>
+
+                <field id="maximum_notification_in_my_notifications_on_my_account_page" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Maximum notifications in My Notifications on My Account Page</label>
+                    <validate>required-entry validate-number validate-zero-or-greater</validate>
+                </field>
+
+            </group>
+            <!--Subscriptions Popup-->
+            <group id="subscription_popup" translate="label" type="text" sortOrder="16" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Subscriptions Popup</label>
+                <field id="allow_web_push" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Ask customers to allow Web Push subscriptions</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="content_popup" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Content</label>
+                </field>
+                <field id="time_show_popup" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show popup on page after (seconds)</label>
+                    <validate>required-entry validate-number validate-zero-or-greater</validate>
+                </field>
+                <field id="time_resend_popup" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Set time to resend popup (seconds) </label>
+                    <validate>required-entry validate-number validate-zero-or-greater</validate>
+                </field>
+            </group>
+            <!--Web Push Notifications-->
+            <group id="web_push_notification" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Web Push Notifications</label>
+                <field id="maximun_notification" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
+                    <label>Maximum numbers of web push for customer per day</label>
+                    <validate>required-entry validate-number validate-zero-or-greater</validate>
+                </field>
+            </group>
+            <!--Notification Box-->
+            <group id="notification_box" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Notification Box</label>
+                <field id="maximum_notification_on_notification_box" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Number of notifications on box</label>
+                    <validate>required-entry validate-number validate-zero-or-greater</validate>
+                </field>
+
+                <field id="maximum_notification_description" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Maximum character number of description on box</label>
+                    <validate>required-entry validate-number validate-zero-or-greater</validate>
+                </field>
+                <field id="theme_color" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Theme color</label>
+                    <frontend_model>Magenest\NotificationBox\Block\Adminhtml\System\Config\Color</frontend_model>
+                </field>
+
+                <field id="color_unread_notification" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Unread notification color</label>
+                    <frontend_model>Magenest\NotificationBox\Block\Adminhtml\System\Config\Color</frontend_model>
+                </field>
+
+                <field id="box_position" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Box Position</label>
+                    <source_model>Magenest\NotificationBox\Model\Config\Source\Config\BoxPosition</source_model>
+                </field>
+
+                <field id="box_width" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Box Width</label>
+                    <validate>required-entry validate-number validate-zero-or-greater</validate>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

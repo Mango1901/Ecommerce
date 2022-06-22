@@ -1,0 +1,140 @@
+<style>
+    #templateMultipleContent {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    #templateMultipleContent td, #templateMultipleContent th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    #templateMultipleContent .magenest-multiple-content-content {
+        width: 60%;
+        text-align: center;
+    }
+
+    .magenest-multiple-content-content {
+        z-index: 3;
+    }
+
+    #templateMultipleContent .magenest-multiple-content-button-delete {
+        width: 10%;
+        text-align: center;
+    }
+
+    #templateMultipleContent .magenest-multiple-content-select-button {
+        width: 30%;
+        text-align: center;
+    }
+
+    #templateMultipleContent tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    #templateMultipleContent tr:hover {
+        background-color: #ddd;
+    }
+
+    #templateMultipleContent th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: center;
+        background-color: #514943;
+        color: white;
+    }
+
+    #templateMultipleContent .magenest-multiple-content-content input {
+        width: 100%;
+    }
+
+    .add-option{
+        float: right;
+    }
+
+    .save-content{
+        float: right;
+        margin-left: 12px;
+    }
+    .magenest-multiple-content-button-delete .action-select-wrap .action-select{
+        border: none;
+        background-color: transparent;
+        position: relative;
+        color: #41362f;
+    }
+
+    .magenest-multiple-content-button-delete .action-select-wrap .action-select:before{
+        content: none;
+    }
+    .magenest-multiple-content-button-delete .action-menu a.action-menu-item{
+        color:#41362f;
+        cursor: pointer;
+        display: block;
+        padding: .6875em 1em;
+    }
+
+    .admin__field-control input[readonly] {
+        cursor: pointer;
+        border-color: unset;
+        opacity: unset;
+        background-color: #ffff;
+    }
+
+    .disabled {
+        pointer-events:none;
+    opacity:0.6;
+    }
+</style>
+<div>
+    <div class="admin__field-control" data-role="grid-wrapper" style="margin-bottom: 20px;">
+        <table style="border-collapse: collapse;" id="templateMultipleContent">
+            <thead>
+            <tr>
+                <th class="table-multiple-content-title">Multiple Content</th>
+                <th class="table-multiple-content-title">Select Button</th>
+                <th class="table-multiple-content-title">Action</th>
+            </tr>
+            </thead>
+            <tbody data-bind="foreach: $root.templateMultipleContent">
+            <tr class="table-multiple-content-row" data-bind="attr:{id: id()}">
+                <td class="magenest-multiple-content-content">
+                    <span data-bind="html: content_text,attr:{id: 'content-'+id()}"></span>
+                    <input type="hidden"
+                           data-bind="textInput: content(),attr:{name: 'multiple_content['+id()+'][content]'}"/>
+                </td>
+                <td class="magenest-multiple-content-select-button">
+                    <span data-bind="text: button_title,attr:{id: 'button-'+id()}"></span>
+                    <input type="hidden"
+                           data-bind="textInput: button(),attr:{name: 'multiple_content['+id()+'][button]'}"/>
+                </td>
+                <td class="magenest-multiple-content-button-delete">
+                    <div class="action-select-wrap" data-bind="collapsible, event:{click:$root.clickSelect}">
+                        <button class="action-select" data-bind="i18n: 'Select', toggleCollapsible,attr:{id:'select-'+id()}">Select</button>
+                        <ul class="action-menu" data-bind="css: {_active: $collapsible.opened}">
+                            <li>
+                                <a class="action-menu-item action-edit " title="Edit"
+                                data-bind="attr:{id:'edit-'+id()}, event:{click:$root.clickEdit}">
+                                Edit
+                                </a>
+                            </li>
+                            <li>
+                                <a class="action-menu-item  action-delete" title="Delete"
+                                data-bind="attr:{id:'delete-'+id()}, event:{click:$root.deleteMultipleContent}" >
+                                Delete
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<button type="button" id="0" class="add-option"
+        data-bind="click: $root.addMultipleContent,with: $root.valueMultipleContent">
+    <span>Add Slider</span>
+</button>
+<button type="button" id="review-slider" class="preview-slider">
+    <span>Preview</span>
+</button>

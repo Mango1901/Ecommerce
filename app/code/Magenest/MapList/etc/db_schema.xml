@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="inventory_source">
+        <column xsi:type="text" name="city_id" nullable="true" comment="City Id"/>
+        <column xsi:type="text" name="district" nullable="true" comment="District"/>
+        <column xsi:type="text" name="district_id" nullable="true" comment="District Id"/>
+        <column xsi:type="text" name="ward" nullable="true" comment="Ward"/>
+        <column xsi:type="text" name="ward_id" nullable="true" comment="Ward Id"/>
+        <column xsi:type="smallint" name="is_visible" nullable="false" default="1" comment="Visible"/>
+        <column xsi:type="text" name="store_map_img" nullable="false" comment="Image Store Map" />
+    </table>
+</schema>

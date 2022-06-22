@@ -1,0 +1,97 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var \Magento\Customer\Block\Address\Grid $block */
+$customerAddressView = $block->getData('customer_address');
+$defaultShippingAddress = $block->getDefaultShippingAddress();
+?>
+
+<div class="block block-address-default mobile-device">
+    <div class="page-title">
+        <span><?= __('Default shipping address') ?></span>
+    </div>
+    <?php if ($defaultShippingAddress): ?>
+    <table>
+        <tbody>
+        <tr>
+            <td data-th="<?= $block->escapeHtml(__('Full Name')) ?>" class="col fullname">
+                <?= $block->escapeHtml($block->getNameCustomerAddress($defaultShippingAddress)) ?>
+            </td>
+            <td data-th="<?= $block->escapeHtml(__('Address')) ?>" class="col address">
+                <?= $block->escapeHtml($block->getCustomerAddress($defaultShippingAddress)) ?>
+            </td>
+            <td data-th="<?= $block->escapeHtml(__('Telephone')) ?>" class="col phone"><a href="tel:<?= $defaultShippingAddress->getTelephone() ?>"><?= $block->escapeHtml($defaultShippingAddress->getTelephone()) ?></a></td>
+            <td data-th="<?= $block->escapeHtml(__('Actions')) ?>" class="col actions">
+                <a class="action edit" href="<?= $block->escapeUrl($block->getAddressEditUrl($defaultShippingAddress->getId())) ?>"><span><?= $block->escapeHtml(__('Edit Address Action')) ?></span></a>
+                <a class="action delete" href="<?= $block->escapeUrl($block->getDeleteUrl()) ?>" role="delete-address" data-address="<?= $block->escapeHtmlAttr($defaultShippingAddress->getId()) ?>"><span><?= $block->escapeHtml(__('Delete')) ?></span></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <?php endif ?>
+</div>
+
+<div class="actions-toolbar">
+    <div class="primary">
+        <button type="button" role="add-address" title="<?= $block->escapeHtmlAttr(__('Add New Address')) ?>" class="action primary add"><span><?= $block->escapeHtml(__('Add Address')) ?></span></button>
+    </div>
+</div>
+
+<div class="block block-addresses-list">
+    <div class="block-content">
+        <?php if ($_pAddsses = $block->getAdditionalAddresses()) : ?>
+
+            <div class="table-wrapper additional-addresses">
+                <table class="data table table-additional-addresses-items history" id="additional-addresses-table">
+                    <caption class="table-caption"><?= $block->escapeHtml(__('Additional addresses')) ?></caption>
+                    <thead>
+                    <tr>
+                        <th scope="col" class="col fullname">
+                            <?= $block->escapeHtml(__('Full Name')) ?>
+                        </th>
+                        <th scope="col" class="col phone"><?= $block->escapeHtml(__('Phone')) ?></th>
+                        <th scope="col" class="col address"><?= $block->escapeHtml(__('Street Address')) ?></th>
+                        <th scope="col" class="col actions"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($_pAddsses as $address) : ?>
+                        <tr>
+                            <td data-th="<?= $block->escapeHtml(__('Full Name')) ?>" class="col fullname">
+                                <?= $block->escapeHtml($block->getNameCustomerAddress($address)) ?>
+                            </td>
+                            <td data-th="<?= $block->escapeHtml(__('Phone')) ?>" class="col phone"><?= $block->escapeHtml($address->getTelephone()) ?></td>
+                            <td data-th="<?= $block->escapeHtml(__('Address')) ?>" class="col address">
+                                <?= $block->escapeHtml($block->getCustomerAddress($address)) ?>
+                            </td>
+                            <td data-th="<?= $block->escapeHtml(__('Actions')) ?>" class="col actions">
+                                <a class="action edit" href="<?= $block->escapeUrl($block->getAddressEditUrl($address->getId())) ?>"><span><?= $block->escapeHtml(__('Edit Address Action')) ?></span></a>
+                                <a class="action delete" href="<?= $block->escapeUrl($block->getDeleteUrl()) ?>" role="delete-address" data-address="<?= $block->escapeHtmlAttr($address->getId()) ?>"><span><?= $block->escapeHtml(__('Delete')) ?></span></a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+            <?php if ($block->getChildHtml('pager')) : ?>
+                <div class="customer-addresses-toolbar toolbar bottom"><?= $block->getChildBlock('pager')->setData('toolbar_number_title', 'Address')->toHtml() ?></div>
+            <?php endif ?>
+        <?php endif ?>
+    </div>
+</div>
+
+<script type="text/x-magento-init">
+    {
+        ".page-main": {
+            "address": {
+                "deleteAddress": "td a[role='delete-address']",
+                "deleteUrlPrefix": "<?= $block->escapeJs($block->escapeUrl($block->getDeleteUrl())) ?>id/",
+                "addAddress": "button[role='add-address']",
+                "addAddressLocation": "<?= $block->escapeJs($block->escapeUrl($block->getAddAddressUrl())) ?>"
+            }
+        }
+    }
+</script>

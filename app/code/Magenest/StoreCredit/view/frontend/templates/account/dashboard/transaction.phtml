@@ -1,0 +1,74 @@
+<?php
+/**
+ * Magenest
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magenest.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.magenest.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Magenest
+ * @package     Magenest_StoreCredit
+ * @copyright   Copyright (c) Magenest (https://www.magenest.com/)
+ * @license     https://www.magenest.com/LICENSE.txt
+ */
+
+/** @var \Magenest\StoreCredit\Block\Account\Dashboard\Transaction $block */
+$transactions = $block->getTransactions();
+?>
+<div class="block block-dashboard-transaction">
+    <div class="block-title order">
+        <strong><?php echo __('Transactions') ?></strong>
+    </div>
+    <div class="block-content">
+        <?php if ($transactions->getSize()): ?>
+            <div class="table-wrapper transactions-recent">
+                <table class="data table table-transaction-items">
+                    <caption class="table-caption"><?php echo __('Transactions') ?></caption>
+                    <thead>
+                    <tr>
+                        <th scope="col" class="col id"><?php echo __('#') ?></th>
+                        <th scope="col" class="col created"><?php echo __('Created Date') ?></th>
+                        <th scope="col" class="col title"><?php echo __('Title') ?></th>
+                        <th scope="col" class="col status"><?php echo __('Status') ?></th>
+                        <th scope="col" class="col amount"><?php echo __('Amount') ?></th>
+                        <th scope="col" class="col balance"><?php echo __('Balance') ?></th>
+                        <th scope="col" class="col note"><?php echo __('Note') ?></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($transactions as $transaction): ?>
+                        <tr>
+                            <td data-th="<?php echo $block->escapeHtml(__('#')) ?>"
+                                class="col id"><?php echo $transaction->getId() ?></td>
+                            <td data-th="<?php echo $block->escapeHtml(__('Created Date')) ?>"
+                                class="col created"><?php echo $block->formatDate($transaction->getCreatedAt(), \IntlDateFormatter::MEDIUM) ?></td>
+                            <td data-th="<?php echo $block->escapeHtml(__('Title')) ?>"
+                                class="col title"><?php echo $transaction->getTitle() ?></td>
+                            <td data-th="<?php echo $block->escapeHtml(__('Status')) ?>"
+                                class="col status"><?php echo $block->getStatusLabel($transaction->getStatus()) ?></td>
+                            <td data-th="<?php echo $block->escapeHtml(__('Amount')) ?>"
+                                class="col amount"><?php echo $block->convertPrice($transaction->getAmount()) ?></td>
+                            <td data-th="<?php echo $block->escapeHtml(__('Balance')) ?>"
+                                class="col balance"><?php echo $block->convertPrice($transaction->getBalance()) ?></td>
+                            <td data-th="<?php echo $block->escapeHtml(__('Note')) ?>"
+                                class="col note"><?php echo $transaction->getCustomerNote() ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+            <?php if ($block->getPagerHtml()): ?>
+                <div class="transactions-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); ?></div>
+            <?php endif ?>
+        <?php else: ?>
+            <div class="message info empty"><span><?php echo __('You have created no transactions.'); ?></span></div>
+        <?php endif; ?>
+    </div>
+</div>

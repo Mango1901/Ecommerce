@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <group id="default">
+        <job name="reminder_abandoned_cart" instance="Magenest\NotificationBox\Model\Cron" method="reminderAbandonedCart">
+            <schedule>0 0 * * *</schedule>
+        </job>
+
+        <job name="reset_limit_number_of_notification" instance="Magenest\NotificationBox\Model\Cron" method="resetLimitNumberOfNotification">
+            <schedule>0 0 * * *</schedule>
+        </job>
+
+        <job name="send_notification" instance="Magenest\NotificationBox\Model\Cron" method="sendNotification">
+            <schedule>* * * * *</schedule>
+        </job>
+
+        <job name="send_notification_after_save" instance="Magenest\NotificationBox\Model\Cron" method="sendNotificationAfterSave">
+            <schedule>* * * * *</schedule>
+        </job>
+
+        <job name="send_notification_customer_birthday" instance="Magenest\NotificationBox\Model\Cron" method="reminderCustomerBirthday">
+            <schedule>0 7 * * *</schedule>
+        </job>
+
+        <job name="send_notification_product_wishlist_promotions" instance="Magenest\NotificationBox\Model\Cron" method="reminderProductWishlistPromotions">
+            <schedule>* */6 * * *</schedule>
+        </job>
+
+        <job name="send_notification_customer_login" instance="Magenest\NotificationBox\Model\Cron" method="reminderCustomerLogin">
+            <schedule>0 0 * * *</schedule>
+        </job>
+
+        <job name="send_notification_maintenance" instance="Magenest\NotificationBox\Model\Cron" method="reminderMaintenanceProduct">
+            <schedule>0 0 * * *</schedule>
+        </job>
+    </group>
+</config>

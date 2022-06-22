@@ -1,0 +1,66 @@
+<?php
+/** @var \Magenest\ViettelPost\Block\Adminhtml\Shipment\Inventory $block */
+$shipment = $block->getShipment();
+$order = $shipment->getOrder();
+$shippingCarrierCode = 'viettel_post';
+?>
+<?php if($shippingCarrierCode){ ?>
+    <?php
+    $carrierModel = $block->getCarrierModel($shippingCarrierCode);
+    $orderData = $carrierModel->getOrderData($order->getId());
+    ?>
+    <div class="admin__page-section-item-title">
+        <span class="title"><?= ucwords(str_replace("_", " ", $shippingCarrierCode))?></span>
+    </div>
+    <?php if(count($orderData) > 0){ ?>
+        <table class="data-table admin__table-secondary" style="width: 40%;">
+            <thead style="font-weight: bold;">
+            <tr>
+                <td><?= __("Name") ?></td>
+                <td><?= __("Value") ?></td>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($orderData as $k=>$v){ ?>
+                <tr>
+                    <td><?= ucwords(str_replace("_", " ", $k)) ?></td>
+                    <td><?= $v ?></td>
+                </tr>
+            <?php } ?>
+            </tbody>
+        </table>
+    <?php } else { ?>
+        <div class="admin__page-section-item-title">
+            <span class="title">Order Note</span>
+        </div>
+        <div class="admin__page-section-item-content">
+            <textarea id="shipment_order_note" name="shipment[shipment_order_note]" rows="6" cols="80"><?= $order->getCustomerNote()?></textarea>
+        </div>
+        <br>
+        <a href="#" id="request_shipment_button" class="button">Request Shipment</a>
+        <script>
+            require(['jquery'], function ($) {
+                $('#request_shipment_button').on("click", function (e) {
+                    e.preventDefault();
+                    $.post(
+                        '<?= $block->getUrl('tnshipping/shipment/request') ?>',
+                        {
+                            order_id: '<?= $block->getOrderId() ?>',
+                            carrier: 'viettel_post',
+                            order_note: $('#shipment_order_note').val()
+                        },
+                        function (resp) {
+                            if(resp.success){
+                                location.reload();
+                            }
+                            if(resp.error){
+                                alert(resp.message)
+                            }
+                        },
+                        'json'
+                    )
+                });
+            });
+        </script>
+    <?php }?>
+<?php } ?>

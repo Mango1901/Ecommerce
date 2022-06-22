@@ -1,0 +1,311 @@
+& when (@media-common = true) {
+    .affiliate-account-index {
+        .box-account {
+            margin-bottom: 20px;
+        }
+
+        .box-head {
+            .lib-vendor-prefix-display(flex);
+            justify-content: space-between;
+            -webkit-justify-content: space-between;
+            margin-bottom: 8px;
+
+            h2 {
+                font-weight: 500;
+                color: #383E4F;
+                margin-bottom: 0;
+            }
+
+            .box-filter {
+                .label {
+                    position: relative;
+
+                    &:before {
+                        content: "\e92b";
+                        font-family: 'kangaroo-icon';
+                        position: absolute;
+                        color: #8F9AA5;
+                        top: calc(~'50% - 1px');
+                        transform: translateY(-50%);
+                        left: 11px;
+                    }
+                }
+
+                #daterange {
+                    border: 1px solid #E0E6EC;
+                    border-radius: 2px;
+                    font-size: 12px;
+                    line-height: 20px;
+                    font-weight: normal;
+                    color: #34373D;
+                    padding-left: 30px;
+                    padding-top: 2px;
+                }
+            }
+        }
+
+        .info-account-summary {
+            .lib-vendor-prefix-display(flex);
+            justify-content: space-between;
+
+            .info-account-item {
+                border: 1px solid #E0E6EC;
+                float: unset;
+                text-align: center;
+
+                .title {
+                    line-height: 20px;
+                    font-weight: normal;
+                    color: #383E4F;
+                }
+
+                .value {
+                    line-height: 20px;
+                    font-weight: 500;
+                    color: #383E4F;
+                }
+
+                &.active {
+                    background: linear-gradient(65deg, #5EB845 0%, #158C43 100%);
+                    background: -moz-linear-gradient(65deg, #5EB845 0%, #158C43 100%);
+                    background: -o-linear-gradient(65deg, #5EB845 0%, #158C43 100%);
+                    background: -ms-linear-gradient(65deg, #5EB845 0%, #158C43 100%);
+                    border-color: @primary-color;
+
+                    .title, .value {
+                        color: #fff;
+                    }
+                }
+            }
+        }
+
+        .box-affiliate-transaction {
+            .box-head {
+                margin-bottom: 11px;
+            }
+
+            tbody td {
+                &.amount-plus {
+                    color: @primary-color !important;
+                }
+
+                .price {
+                    font-weight: 300;
+                }
+            }
+
+            .toolbar.bottom {
+                .toolbar-amount, .limiter {
+                    font-size: 12px;
+                }
+            }
+        }
+
+        .credit-balance-chart {
+            padding-top: 10px;
+
+            .select-month-number {
+                background-color: #fff;
+                border: 1px solid #E0E6EC;
+                border-radius: 2px;
+                height: 34px;
+                font-size: 13px;
+                line-height: 25px;
+            }
+        }
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    .affiliate-account-index {
+        .info-account-summary {
+            .info-account-item {
+                width: calc(~'25% - 7px');
+            }
+        }
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__l) {
+    @media (min-width: 768px) {
+        .affiliate-account-index {
+            .info-account-summary {
+                .lib-vendor-prefix-flex-wrap(wrap);
+
+                .info-account-item {
+                    width: calc(~'50% - 7px');
+                    margin-bottom: 10px;
+                }
+            }
+        }
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    body.account.affiliate-account-index {
+        .column.main {
+            .block {
+                table {
+                    &:not(.cart):not(.totals) > thead {
+                        > tr > th {
+                            border-top: 1px solid #E0E6EC;
+                        }
+                    }
+
+                    &:not(.cart):not(.totals) > tbody,
+                    &:not(.cart):not(.totals) > thead {
+                        > tr {
+                            > th, > td {
+                                padding: 15px 10px 14px;
+                                font-size: 12px;
+                                line-height: 20px;
+
+                                &.no-transaction {
+                                    text-align: center;
+                                }
+
+                                &.id {
+                                    width: 8%;
+                                }
+
+                                &.title {
+                                    width: 20%;
+                                }
+
+                                &.amount {
+                                    width: 12%;
+                                }
+
+                                &.transactions {
+                                    width: 25%;
+                                }
+
+                                &.status {
+                                    width: 12%;
+                                }
+
+                                &.created_at {
+                                    width: 20%;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .box-head {
+            .lib-vendor-box-align(center);
+
+            h2 {
+                font-size: 14px;
+                line-height: 21px;
+            }
+        }
+
+        .info-account-summary {
+            .info-account-item {
+                padding: 20px 10px 18px;
+                border-radius: 8px;
+
+                .title {
+                    font-size: 12px;
+                    padding-bottom: 5px;
+                }
+
+                .value {
+                    font-size: 24px;
+                }
+            }
+        }
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    body.account.affiliate-account-index {
+        .page-title-wrapper:not(.mobile-device) {
+            display: none;
+        }
+
+        .box-head {
+            .lib-vendor-prefix-flex-direction(column);
+
+            h2 {
+                font-size: 18px;
+                line-height: 27px;
+            }
+        }
+
+        .box-affiliate-summary {
+            border-bottom: 1px solid #E0E6EC;
+            padding-bottom: 26px;
+        }
+
+        .box-affiliate-transaction {
+            .box-head {
+                .box-filter {
+                    margin-top: 5px;
+                }
+            }
+
+            tbody {
+                display: block;
+            }
+        }
+
+        .column.main {
+            .block {
+                table {
+                    &:not(.cart):not(.totals) > tbody {
+                        > tr > td {
+                            &:last-child {
+                                padding: 0 0 12px 0;
+                            }
+
+                            &.id {
+                                justify-content: space-between;
+                                -webkit-justify-content: space-between;
+                                font-weight: normal;
+                                border-bottom: 0;
+                                margin-bottom: 0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .info-account-summary {
+            .lib-vendor-prefix-flex-direction(column);
+            background-color: #FFFFFF;
+            border-radius: 4px;
+            padding: 20px 12px;
+            border: 1px solid #E0E6EC;
+
+            .info-account-item {
+                .lib-vendor-prefix-display(flex);
+                justify-content: space-between;
+                -webkit-justify-content: space-between;
+                padding: 14px 10px 12px;
+                border-radius: 3px;
+
+                &:not(:last-child) {
+                    margin-bottom: 12px;
+                }
+
+                .title {
+                    font-size: 14px;
+                }
+
+                .value {
+                    font-size: 18px;
+                }
+
+            }
+        }
+
+        .credit-balance-chart {
+            display: none;
+        }
+    }
+}

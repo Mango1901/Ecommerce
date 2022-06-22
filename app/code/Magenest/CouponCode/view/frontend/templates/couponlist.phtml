@@ -1,0 +1,165 @@
+<?php
+/**
+ * @var \Magenest\CouponCode\Block\Coupon $block
+ */
+$coupon = $block->getCoupon();
+/**
+ * @var \Magenest\CouponCode\ViewModel\Coupon $viewModel
+ */
+$viewModel = $block->getViewModel();
+$today = $viewModel->getToday();
+if ($coupon->getSize() != 0) {
+    $count = count($coupon);
+    foreach ($coupon as $value) { ?>
+            <div class="coupon-magenest" id="coupon_magenest" >
+                <div id="container_coupon">
+                    <?php
+                    if (!empty($value->getData('images'))) {
+                        $images = $viewModel->handleImage($value->getData('images'));
+                    } else {
+                        $images = $block->getViewFileUrl('Magenest_CouponCode::image/default-coupon.png');
+                    }?>
+                    <div>
+                        <img id="coupon-image" src="<?= $block->escapeHtml($images); ?>"
+                             alt="coupon"/>
+                    </div>
+                    <div id="information_coupon">
+                        <strong><?= $block->escapeHtml($value->getData('name')) ?></strong>
+                        <?php
+                            $description = $value->getData('description');
+                            if (strlen($description) <= 120) { ?>
+                                <div id="description-coupon">
+                                    <?= $block->escapeHtml($description) ?>
+                                </div>
+                            <?php } else {
+                                $description = $viewModel->handleDescription($description) ?>
+                                <div id="description-coupon">
+                                    <div><?= $block->escapeHtml($description['display']) ?>
+                                        <span class="see-more-coupon"
+                                              id="seeMore"
+                                              data-bind="scope:'seeMore'">
+                                            <span data-bind='click: seeMore.bind($parent,
+                                                            "<?= $block->escapeHtml($description['fixed']);?>")'>
+                                                            <?= $block->escapeHtml(__('...See more')) ?>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            <?php }?>
+                        <div class = "usage">
+                            <?php
+                            $unlimited = $value->getData('usage_limit');
+                            $usage = $value->getData('usage_limit') - $value->getData('times_used') ;
+                            if ($unlimited == null) { ?>
+                                <div class="usage_limit"><?= $block->escapeHtml(__('Usage limit: ')).
+                                                            $block->escapeHtml(__('Unlimited')); ?>
+                                </div>
+                            <?php } else { ?>
+                                <div class="usage_limit"><?= $block->escapeHtml(__('Usage limit: ')).
+                                                            $block->escapeHtml($usage); ?>
+                                </div>
+                            <?php } ?>
+                            <?php
+                            $customerLimit = $value->getData('usage_per_customer');
+                            if ($customerLimit == null) { ?>
+                                <div class="usage_customer"><?= $block->escapeHtml(__('Awarded: ')).
+                                                                $block->escapeHtml(__('Unlimited')); ?>
+                                </div>
+                            <?php } else { ?>
+                                <div class="usage_customer"><?= $block->escapeHtml(__('Awarded: ')).
+                                                                $block->escapeHtml($customerLimit); ?>
+                                </div>
+                            <?php } ?>
+                        </div>
+                        <?php
+                        $exp = $value->getData('to_date');
+                        if ($exp == null) { ?>
+                            <div id="exp-coupon"><?= $block->escapeHtml(__('Exp: ')).
+                                                    $block->escapeHtml(__('Unlimited')); ?>
+                            </div>
+                        <?php } else { ?>
+                            <div id="exp-coupon"><?= $block->escapeHtml(__('Exp: ')).
+                                                    $block->escapeHtml($exp); ?>
+                            </div>
+                        <?php } ?>
+                    </div>
+                    <div class="information-condition">
+                        <a href="<?= $block->escapeUrl($block->getUrl('voucher/details', ['ruleId' => $value->getRuleId(), 'evcode' => $value->getCode()])) ?>" target="_blank">
+                            <?= $block->escapeHtml(__('Condition')) ?>
+                        </a>
+                    </div>
+                    <?php if (!($block->checkClaimedCoupon($value->getData('coupon_id')))) {?>
+                        <?php if ($viewModel->getCustomerGroup() == 0) { ?>
+                            <div id="not-login-button"
+                                 data-bind="scope:'warning'">
+                                <span data-bind="click: warning.bind($parent,
+                                                                '<?= $block->escapeHtml($value->getData('name')) ?>')">
+                                    <button class="button-coupon-claim">
+                                        <?= $block->escapeHtml(__('Save')) ?>
+                                    </button>
+                                </span>
+                            </div>
+                        <?php } else { ?>
+                            <div id="claim-coupon-button"
+                                 data-bind="scope:'claim'">
+                                <span data-bind="click: claimCoupon.bind($parent,
+                                                        '<?= $block->escapeHtml($value->getData('coupon_id')) ?>',
+                                                        '<?= $block->escapeHtml($value->getData('rule_id')) ?>',
+                                                        '<?= $block->escapeHtml($viewModel->getUserId()) ?>')">
+                                    <!-- ko template: getTemplate() --><!-- /ko -->
+                                    <button class="button-coupon-claim"
+                                            id="claim<?= $block->escapeHtml($value->getData('rule_id'))?>">
+                                        <?= $block->escapeHtml(__('Save')) ?>
+                                    </button>
+                                </span>
+                            </div>
+                        <?php } ?>
+                    <?php } else { ?>
+                        <button class ="button-coupon-claimed" disabled>
+                            <?= $block->escapeHtml(__('Saved')) ?>
+                        </button>
+                    <?php } ?>
+                </div>
+            </div>
+        <?php } ?>
+    <?php if ($count%2 == 1) { ?>
+        <div class="coupon-magenest" id="coupon_magenest_blank"></div>
+    <?php } ?>
+<?php } ?>
+<?php if ($block->getPagerHtml()): ?>
+    <?= $block->getPagerHtml(); ?>
+<?php endif ?>
+<script type="text/x-magento-init">
+    {
+                "#seeMore": {
+                    "Magento_Ui/js/core/app": {
+                        "components": {
+                            "seeMore": {
+                                "component": "Magenest_CouponCode/js/coupon/action"
+                            }
+                        }
+                    }
+                },
+                "#not-login-button": {
+                    "Magento_Ui/js/core/app": {
+                        "components": {
+                            "warning": {
+                                "component": "Magenest_CouponCode/js/coupon/action"
+                            }
+                        }
+                    }
+                },
+                "#claim-coupon-button": {
+                    "Magento_Ui/js/core/app": {
+                        "components": {
+                            "claim": {
+                                "component": "Magenest_CouponCode/js/coupon/action"
+                            }
+                        }
+                    }
+                }
+    }
+</script>
+
+
+

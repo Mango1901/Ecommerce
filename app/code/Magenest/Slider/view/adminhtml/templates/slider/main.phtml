@@ -1,0 +1,47 @@
+<?php
+/**
+ * @var Magenest\Slider\Block\Adminhtml\Template\Main $block
+ */
+$slider_id = $block->getSliderId();
+$child_slider_id = $block->getChildSliderId();
+$frontNameAdmin   = $this->helper('Magento\Backend\Helper\Data')->getAreaFrontName();
+?>
+
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ * @var MagenestEdit $block
+ */
+-->
+<div id="main-slider" data-bind="scope: 'main-slider'">
+    <!-- ko template: getTemplate() --><!-- /ko -->
+</div>
+
+<!--</form>-->
+<script type="text/x-magento-init">
+    {
+        "#main-slider": {
+            "Magento_Ui/js/core/app": {
+                "components": {
+                    "main-slider": {
+                        "component": "Magenest_Slider\/js\/view\/maineditor",
+                        "magentoVersion": "<?php /* @escapeNotVerified */ echo $block->getMagentoVersion(); ?>",
+                        "baseUrl": "<?php /* @escapeNotVerified */ echo $block->getBaseUrl() ?>",
+                        "previewUrl": "<?php /* @escapeNotVerified */ echo $block->getPreviewUrl() ?>",
+                        "wysiwygConfig": <?php /* @escapeNotVerified */ echo $block->getWysiwygConfig(); ?>,
+                        "sliderId": "<?php /* @escapeNotVerified */ echo $slider_id; ?>",
+                        "sliderData": <?php /* @escapeNotVerified */ echo $block->getSliderData($slider_id); ?>,
+                        "childSliderId": "<?php /* @escapeNotVerified */ echo $child_slider_id; ?>",
+                        "childSliderData": <?php /* @escapeNotVerified */ echo $block->getSliderData($child_slider_id); ?>,
+                        "listProducts": <?php /* @escapeNotVerified */ echo $block->getCategoriesTree() ?>,
+                        "frontNameAdmin": "<?php /* @escapeNotVerified */ echo $frontNameAdmin ?>"
+                    }
+                }
+            }
+        },
+        "*": {
+            "Magento_Ui/js/block-loader": "<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('images/loader-1.gif'); ?>"
+        }
+    }
+</script>

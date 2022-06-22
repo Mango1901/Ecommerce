@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <order_cancel>
+            <cancel_reason>
+                <cancel_reason_options>
+                    <item1>
+                        <cancel_reason_option>Muốn thay đổi thông tin đơn hàng</cancel_reason_option>
+                        <apply_to>0</apply_to>
+                    </item1>
+                    <item2>
+                        <cancel_reason_option>Đổi ý không muốn mua nữa</cancel_reason_option>
+                        <apply_to>0</apply_to>
+                    </item2>
+                    <item3>
+                        <cancel_reason_option>Không áp dụng được mã giảm giá</cancel_reason_option>
+                        <apply_to>0</apply_to>
+                    </item3>
+                    <item4>
+                        <cancel_reason_option>Không liên hệ được với người bán</cancel_reason_option>
+                        <apply_to>1</apply_to>
+                    </item4>
+                    <item5>
+                        <cancel_reason_option>Phí giao hàng cao</cancel_reason_option>
+                        <apply_to>0</apply_to>
+                    </item5>
+                    <item6>
+                        <cancel_reason_option>Tìm được địa chỉ mua hàng giá rẻ hơn</cancel_reason_option>
+                        <apply_to>0</apply_to>
+                    </item6>
+                    <item7>
+                        <cancel_reason_option>Lý do khác</cancel_reason_option>
+                        <apply_to>0</apply_to>
+                    </item7>
+                    <item8>
+                        <cancel_reason_option>Không liên hệ được với khách hàng</cancel_reason_option>
+                        <apply_to>2</apply_to>
+                    </item8>
+                    <item9>
+                        <cancel_reason_option>Hết hàng</cancel_reason_option>
+                        <apply_to>2</apply_to>
+                    </item9>
+                </cancel_reason_options>
+            </cancel_reason>
+            <cancelation_sms>
+                <enabled>1</enabled>
+                <brand_name>LACHONG</brand_name>
+                <username>test1</username>
+                <password>1234567</password>
+                <phone>0987654321</phone>
+                <message>Order with Id = %s have been cancelled. Reason: %s</message>
+            </cancelation_sms>
+        </order_cancel>
+    </default>
+</config>

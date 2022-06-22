@@ -1,0 +1,78 @@
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="magenest_activity" resource="default" engine="innodb" comment="This is master table of admin activity extension">
+        <column xsi:type="int" name="entity_id"  unsigned="true" nullable="false" identity="true" comment="Primary key for the Table"/>
+        <column xsi:type="varchar" name="username" length="40" nullable="false" default="" comment="Store admin username"/>
+        <column xsi:type="varchar" name="name" length="64" nullable="false"  default="" comment="Full name of admin"/>
+        <column xsi:type="int" name="admin_id" nullable="false" unsigned="true" default="1" comment="Store id of admin user"/>
+        <column xsi:type="int" name="store_id" nullable="true" unsigned="true" default="0" comment="Insert store id"/>
+        <column xsi:type="varchar" name="scope" length="15" nullable="true" comment="Scope of activity"/>
+        <column xsi:type="varchar" name="action_type" length="32" nullable="false"  default="" comment="Action type like New, Edit, View, Delete, Mass Delete, etc"/>
+        <column xsi:type="varchar" name="remote_ip" length="32" nullable="false"  default="" comment="IP address of logged in admin user"/>
+        <column xsi:type="varchar" name="forwarded_ip" length="32" nullable="false"  default="" comment="Real ip address if visitor used proxy"/>
+        <column xsi:type="text" name="user_agent" comment="Store browser’s user agent"/>
+        <column xsi:type="text" name="request" comment="Data in $_REQUEST"/>
+        <column xsi:type="varchar" name="module" length="50" nullable="false"  default="" comment="Name of module in which action performed"/>
+        <column xsi:type="varchar" name="fullaction" length="200" nullable="false"  default="" comment="Full Action Name"/>
+        <column xsi:type="varchar" name="item_name" length="255" nullable="false"  default="" comment="Name of item which is effected like product, user, order, etc"/>
+        <column xsi:type="varchar" name="item_url" length="255" nullable="false"  default="" comment="Url of item if possible"/>
+        <column xsi:type="boolean" name="is_revertable" nullable="true" default="0" comment="0 = Not able revert activity, 1= Able to revert activity"/>
+        <column xsi:type="varchar" name="revert_by" length="64" nullable="false"  default="" comment="Name of admin user who reverted the activity"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="The date when the activity was created"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP" comment="The date when the activity was modified or reverted"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <index referenceId="INDEX_ID" indexType="btree">
+            <column name="admin_id"/>
+            <column name="store_id"/>
+        </index>
+    </table>
+    <table name="magenest_activity_log" resource="default" engine="innodb" comment="This is activity log table of admin activity extension">
+        <column xsi:type="int" name="entity_id"  unsigned="true" nullable="false" identity="true" comment="Primary key for the Table"/>
+        <column xsi:type="int" name="activity_id" unsigned="true" nullable="true" comment="Entity id of magenest_activity table"/>
+        <column xsi:type="varchar" name="field_name" length="32" nullable="false"  default="" comment="Name of field which is effected"/>
+        <column xsi:type="text" name="old_value" comment="Old value of field"/>
+        <column xsi:type="text" name="new_value" comment="New value of field"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="FOREIGN_KEY"
+                    table="magenest_activity_log" column="activity_id"
+                    referenceTable="magenest_activity" referenceColumn="entity_id" onDelete="CASCADE"/>
+        <index referenceId="INDEX_ID" indexType="btree">
+            <column name="activity_id"/>
+        </index>
+    </table>
+    <table name="magenest_activity_detail" resource="default" engine="innodb" comment="This is activity log details table of admin activity extension">
+        <column xsi:type="int" name="entity_id"  unsigned="true" nullable="false" identity="true" comment="Primary key for the Table"/>
+        <column xsi:type="int" name="activity_id" unsigned="true" nullable="true" comment="Entity id of magenest_activity table"/>
+        <column xsi:type="varchar" name="model_class" length="255" nullable="false"  default="" comment="Name of field which is effected"/>
+        <column xsi:type="int" name="item_id" nullable="true" comment="Old value of field"/>
+        <column xsi:type="varchar" name="status" length="16" nullable="false" default="" comment="Status of revert process"/>
+        <column xsi:type="text" name="response" comment="Error message faced during revert process"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="FOREIGN_KEY"
+                    table="magenest_activity_detail" column="activity_id"
+                    referenceTable="magenest_activity" referenceColumn="entity_id" onDelete="CASCADE"/>
+        <index referenceId="INDEX_ID" indexType="btree">
+            <column name="activity_id"/>
+        </index>
+    </table>
+    <table name="magenest_login_activity" resource="default" engine="innodb" comment="Log all login/logout activity of admin user">
+        <column xsi:type="int" name="entity_id"  unsigned="true" nullable="false" identity="true" comment="Primary key for the Table"/>
+        <column xsi:type="varchar" name="username" length="40" nullable="false" default="" comment="Store admin username"/>
+        <column xsi:type="varchar" name="name" length="64" nullable="false"  default="" comment="Full name of admin"/>
+        <column xsi:type="varchar" name="remote_ip" length="32" nullable="false"  default="" comment="IP address of logged in admin user"/>
+        <column xsi:type="varchar" name="forwarded_ip" length="32" nullable="false"  default="" comment="Real ip address if visitor used proxy"/>
+        <column xsi:type="text" name="user_agent" comment="Store browser’s user agent"/>
+        <column xsi:type="varchar" name="type" length="8" nullable="false"  default="" comment="'Is it Login/Logout?"/>
+        <column xsi:type="boolean" name="status" nullable="true" comment="0 = Faild, 1= Success"/>
+        <column xsi:type="text" name="remarks" comment="Reason for failed"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="The date when the activity was created"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+</schema>

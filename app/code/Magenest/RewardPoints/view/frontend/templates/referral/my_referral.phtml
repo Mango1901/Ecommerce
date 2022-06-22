@@ -1,0 +1,53 @@
+<?php
+$myReferrals = $block->getCollection();
+if($myReferrals && count($myReferrals)):?>
+    <style>
+        .limiter{
+            display: inline-block !important;
+        }
+    </style>
+    <table>
+        <thead>
+        <tr>
+            <th><?= __('STT'); ?></th>
+            <th><?= __('Email Referred'); ?></th>
+            <th><?= __('Status'); ?></th>
+            <th><?= __('Created At'); ?></th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php
+        $count = 1;
+        foreach ($myReferrals as $referral): ?>
+            <tr>
+                <td><?= $count ?></td>
+                <td><?= $referral->getEmailReferred() ?></td>
+                <td><?php
+                    if($referral->getStatus() == 0):
+                        echo __('Invited');
+                    elseif ($referral->getStatus() == 1):
+                        echo __('Signed up');
+                    else:
+                        echo __('Signed up and made a purchase');
+                    endif;
+                    ?>
+                </td>
+                <td>
+                    <?= date('Y-m-d', strtotime($referral->getCreatedAt())) ?>
+                </td>
+            </tr>
+            <?php
+            $count++;
+        endforeach;
+        ?>
+        </tbody>
+    </table>
+    <?php if ($block->getPagerHtml()): ?>
+        <div class="order-products-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); ?></div>
+    <?php endif ?>
+<?php
+else:
+    ?>
+    <div class="rl-noti-myreferral"><?= __('We couldn\'t find any records.'); ?></div>
+<?php
+endif;

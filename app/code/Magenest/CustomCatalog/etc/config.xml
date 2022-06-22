@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2019 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ *
+ * Magenest_Kangaroo extension
+ * NOTICE OF LICENSE
+ *
+ * @category Magenest
+ * @package Magenest_Kangaroo
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <catalog>
+            <related_generate>
+                <enabled>0</enabled>
+                <generate_amount>5</generate_amount>
+            </related_generate>
+            <product_discount_label>
+                <enabled>0</enabled>
+                <type>0</type>
+                <sale_label>Sale</sale_label>
+            </product_discount_label>
+        </catalog>
+    </default>
+</config>

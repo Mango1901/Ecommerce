@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magento_Backend::marketing">
+                    <resource id="Magenest_RewardPoints::system_rewardpoints_settings" title="Magenest Reward Points Admin Config" >
+                        <resource id="Magenest_RewardPoints::system_rewardpoints_account" title="Magenest Reward Points Customer Points" />
+                        <resource id="Magenest_RewardPoints::system_rewardpoints_points_transaction" title="Magenest Reward Points Points Transaction" />
+                        <resource id="Magenest_RewardPoints::system_rewardpoints_earning_rule" title="Magenest Reward Points Earning Rule" />
+                        <resource id="Magenest_RewardPoints::system_rewardpoints_membership" title="Magenest Reward Points Membership" />
+                        <resource id="Magenest_RewardPoints::system_rewardpoints_configuration" title="Magenest Reward Points Configuration" />
+                    </resource>
+                </resource>
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Magenest_RewardPoints::config_rewardpoints" title="Magenest Reward Points Store Config" />
+                        </resource>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

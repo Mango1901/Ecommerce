@@ -1,0 +1,27 @@
+<?php
+/**
+* Copyright 2016 aheadWorks. All rights reserved.
+* See LICENSE.txt for license details.
+*/
+
+// @codingStandardsIgnoreFile
+
+/** @var $block \Aheadworks\AdvancedReports\Block\Adminhtml\View\Breadcrumbs */
+?>
+<?php if ($crumbs = $block->getCrumbs()) : ?>
+    <div class="<?php /* @noEscape */ echo $block->getClassName() ?>">
+        <ul class="items">
+            <?php foreach ($crumbs as $crumbName => $crumbInfo) : ?>
+                <li class="item">
+                    <?php if ($crumbInfo['url'] && !$crumbInfo['last']): ?>
+                        <a href="<?php /* @noEscape */ echo $crumbInfo['url'] ?>">
+                            <?= $block->escapeHtml($crumbInfo['label']) ?>
+                        </a>
+                    <?php else: ?>
+                        <?= $block->escapeHtml($crumbInfo['label']) ?>
+                    <?php endif; ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+<?php endif; ?>

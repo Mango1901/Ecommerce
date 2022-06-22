@@ -1,0 +1,32 @@
+<?php
+/**
+* Copyright 2016 aheadWorks. All rights reserved.
+* See LICENSE.txt for license details.
+*/
+
+// @codingStandardsIgnoreFile
+
+/** @var \Aheadworks\AdvancedReports\Block\Adminhtml\View $block */
+?>
+<div class="messages">
+    <div class="message message-notice notice">
+        <div data-ui-id="messages-message-notice">
+            <?= $block->escapeHtml($block->showLastIndexUpdate()) ?>
+        </div>
+    </div>
+</div>
+<div class="page-main-actions">
+    <div class="aw-arep-report_left-position"><?= /* @noEscape */ $block->getChildHtml('menu') ?></div>
+    <div class="aw-arep-report_right-position">
+        <?php /* @noEscape */ echo $block->getChildHtml('store') ?>
+        <?php /* @noEscape */ echo $block->getChildHtml('period') ?>
+    </div>
+</div>
+<div class="aw-arep-report_content-top">
+    <div class="aw-arep-report_left-position"><?php /* @noEscape */ echo $block->getChildHtml('breadcrumbs') ?></div>
+    <div class="aw-arep-report_right-position"><?php /* @noEscape */ echo $block->getChildHtml('groupby') ?></div>
+    <div class="aw-arep-report_clear"></div>
+</div>
+<div class="aw-arep-report_grid">
+    <?php /* @noEscape */ echo $block->getChildHtml('grid') ?>
+</div>

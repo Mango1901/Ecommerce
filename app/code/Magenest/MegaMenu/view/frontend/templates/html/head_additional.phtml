@@ -1,0 +1,7 @@
+<?php
+$configHelper = $this->helper(\Magenest\MegaMenu\Helper\DefaultConfig::class);
+$conf = $configHelper->getDisableOwlCarousel();
+?>
+<?php if(!$conf): ?>
+	<link rel="stylesheet" type="text/css" href="<?= $this->getViewFileUrl('Magenest_MegaMenu::owl-carousel/owl.carousel.css') ?>">
+<?php endif; ?>

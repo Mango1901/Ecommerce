@@ -1,0 +1,74 @@
+<?php
+
+
+/** @var Magenest\Affiliate\Block\Account\Withdraw\View $block */
+$withdraw = $block->getWithdraw();
+?>
+<div class="fieldset affiliate-view-withdraw">
+    <h2 class="legend"><?= __('Withdraw Information') ?></h2>
+    <div class="field amount">
+        <label class="label">
+            <span><?= __('Requested Amount') ?></span>
+        </label>
+        <div class="control">
+            <?= $block->formatPrice($withdraw->getAmount()) ?>
+        </div>
+    </div>
+    <div class="field fee">
+        <label class="label"><span><?= __('Fee') ?></span></label>
+        <div class="control">
+            <?= $block->formatPrice($withdraw->getFee()) ?>
+        </div>
+    </div>
+    <div class="field transfer-amount">
+        <label class="label"><span><?= __('Deducted Amount') ?></span></label>
+        <div class="control">
+            <?= $block->formatPrice($withdraw->getTransferAmount()) ?>
+        </div>
+    </div>
+    <div class="field status">
+        <label class="label">
+            <span><?= __('Status') ?></span>
+        </label>
+        <div class="control">
+            <?= $withdraw->getStatusLabel() ?>
+        </div>
+    </div>
+    <?php $detail = $block->getPaymentDetail(); ?>
+    <?php if (count($detail)) : ?>
+        <div class="field payment-detail">
+            <label class="label">
+                <span><?= __('Payment Detail') ?></span>
+            </label>
+            <div class="control">
+                <?php foreach ($detail as $key => $value) : ?>
+                    <?= $value['label'] . ': ' . $block->escapeHtml($value['value']) . '</br>' ?>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <div class="field created-at">
+        <label class="label">
+            <span><?= __('Requested Date') ?></span>
+        </label>
+        <div class="control">
+            <?= $block->formatDate($withdraw->getCreatedAt(), \IntlDateFormatter::MEDIUM, true) ?>
+        </div>
+    </div>
+    <?php if ($withdraw->getResolvedAt()) : ?>
+        <div class="field resolved-at">
+            <label class="label">
+                <span><?= __('Resolve Date') ?></span>
+            </label>
+            <div class="control">
+                <?= $block->formatTime($withdraw->getResolvedAt(), \IntlDateFormatter::MEDIUM, true) ?>
+            </div>
+        </div>
+    <?php endif; ?>
+</div>
+<div class="buttons-set">
+    <p class="back-link"><a href="<?= $block->escapeUrl($block->getUrl('*/account/withdraw')) ?>">
+            <small>«</small><?= __('Back') ?></a>
+    </p>
+</div>

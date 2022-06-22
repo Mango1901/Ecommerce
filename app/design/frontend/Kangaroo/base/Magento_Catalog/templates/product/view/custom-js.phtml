@@ -1,0 +1,160 @@
+
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer */
+?>
+
+<div class="addtocart-mobile-backdrop"></div>
+<div class="addtocart-mobile">
+    <button type="button"
+            title="<?= $block->escapeHtml(__('Add to Cart')) ?>"
+            class="action primary tocart">
+        <span><?= $block->escapeHtml(__('Add to Cart')) ?></span>
+    </button>
+    <button type="button"
+            title="<?= $block->escapeHtml(__('Buy now')) ?>"
+            class="action primary buynow">
+        <span><?= $block->escapeHtml(__('Buy now')) ?></span>
+    </button>
+</div>
+
+<?php $scriptString = <<<script
+	require(['jquery','slick'], function ($) {
+
+		function slickInitialize(){
+			jQuery('.block.related .product-items:not(.slick-slider)').slick({
+		    	prevArrow: '<span class="slick-prev"><span></span></span>',
+		        nextArrow: '<span class="slick-next"><span></span></span>',
+		        infinite: false,
+		        speed: 300,
+		        autoplay: false,
+		        autoplaySpeed: 2000,
+		        centerMode: false,
+		        centerPadding: '0px',
+		        arrows: false,
+		        dots: false,
+		        slidesToShow: 5,
+		        slidesToScroll: 5,
+		        responsive: [
+
+		            {
+		              breakpoint: 992,
+		              settings: {
+		                slidesToShow: 4,
+		                slidesToScroll: 4,
+		                variableWidth: true
+		              }
+		            },
+		            {
+		              breakpoint: 768,
+		              settings: {
+		              	infinite: true,
+		                slidesToShow: 1,
+		                slidesToScroll: 1,
+		                variableWidth: true,
+		                arrows: true
+		              }
+		            },
+		            {
+		              breakpoint: 640,
+		              settings: {
+		              	infinite: true,
+		                slidesToShow: 1,
+		                slidesToScroll: 1,
+		                variableWidth: true,
+		                arrows: true
+		              }
+		            }
+		        ]
+	    	});
+            if(jQuery(window).width()<767){
+
+                jQuery('.product-page-mind-right .product-items:not(.slick-slider)').slick({
+                    infinite: true,
+                    speed: 300,
+                    centerMode: false,
+                    centerPadding: '0px',
+                    slidesToShow:3,
+                    slidesToScroll: 3,
+                    arrows: true,
+                    dots: false,
+                    prevArrow: '<span class="slick-prev"></span>',
+                    nextArrow: '<span class="slick-next"></span>',
+                    responsive: [
+                        {
+                            breakpoint: 574,
+                            settings: {
+                                slidesToShow: 2,
+                                slidesToScroll: 2,
+                            }
+		                },
+		                {
+                            breakpoint: 374,
+                            settings: {
+                                slidesToShow: 1,
+                                slidesToScroll: 1,
+                            }
+		                }
+                    ]
+                });
+
+                jQuery('.product-page-policy .pagebuilder-column-group:not(.slick-slider)').slick({
+                    infinite: true,
+                    speed: 300,
+                    centerMode: false,
+                    centerPadding: '0px',
+                    arrows: false,
+                    dots: true,
+                    prevArrow: '<span class="slick-prev"></span>',
+                    nextArrow: '<span class="slick-next"></span>',
+                    slidesToShow:1,
+                    slidesToScroll: 1,
+
+                });
+
+            }else{
+                $('.product-page-policy .pagebuilder-column-group.slick-slider,.product-page-mind-right .product-items.slick-slider').slick('unslick');
+            }
+        }
+
+    	jQuery(document).ready(function(e){
+            slickInitialize();
+        });
+
+        jQuery(window).resize(function(){
+            slickInitialize();
+        });
+
+        $(document).on('click', '.addtocart-mobile .action.buynow',function(){
+            $(this).parent().addClass('hide');
+            $('.product-add-form').addClass('active active-buynow');
+            $('.addtocart-mobile-backdrop').addClass('active');
+
+            return false;
+        });
+
+        $(document).on('click', '.addtocart-mobile .action.tocart',function(){
+            $(this).parent().addClass('hide');
+            $('.product-add-form').addClass('active active-tocart');
+            $('.addtocart-mobile-backdrop').addClass('active');
+            return false;
+        });
+
+        $(document).on('click', '.addtocart-mobile-backdrop',function(){
+            $(this).removeClass('active');
+            $('.product-add-form').removeClass('active active-tocart active-buynow');
+            $('.addtocart-mobile').removeClass('hide');
+            return false;
+        });
+
+
+
+
+	});
+script;
+?>
+<?= /* @noEscape */ $secureRenderer->renderTag('script', [], $scriptString, false); ?>

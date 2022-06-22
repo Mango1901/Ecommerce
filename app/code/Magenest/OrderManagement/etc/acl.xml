@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magento_Sales::sales">
+                    <resource id="Magento_Sales::sales_operation">
+                        <resource id="Magento_Sales::sales_order">
+                            <resource id="Magenest_OrderManagement::general" title="Orders Management" translate="title" sortOrder="30">
+                                <resource id="Magenest_OrderManagement::customer_service_orders"  title="Customer Service Orders" translate="title" sortOrder="10">
+                                    <resource id="Magenest_OrderManagement::customer_service_wfs" title="Wait for Supplier" translate="title" sortOrder="10" />
+                                    <resource id="Magenest_OrderManagement::customer_service_confirm" title="Confirm Warehouse &amp; Sales" translate="title" sortOrder="20" />
+                                </resource>
+                                <resource id="Magenest_OrderManagement::accounting_orders"  title="Accounting Orders" translate="title" sortOrder="20">
+                                    <resource id="Magenest_OrderManagement::accounting_confirm" title="Accounting Confirm Paid" translate="title" sortOrder="10" />
+                                    <resource id="Magenest_OrderManagement::accounting_confirm_reimbursed" title="Accounting Confirm Reimbursed" translate="title" sortOrder="20" />
+                                </resource>
+                                <resource id="Magenest_OrderManagement::supplier_orders"  title="Supplier Orders" translate="title" sortOrder="30">
+                                    <resource id="Magenest_OrderManagement::supplier_action" title="Supplier Confirm Delivery" translate="title" sortOrder="10" />
+                                </resource>
+                                <resource id="Magenest_OrderManagement::warehouse_orders"  title="Warehouse Orders" translate="title" sortOrder="40">
+                                    <resource id="Magenest_OrderManagement::warehouse_received_goods" title="Warehouse Receive Goods" translate="title" sortOrder="10" />
+                                    <resource id="Magenest_OrderManagement::warehouse_received_returned_goods" title="Warehouse Receive Returned Goods" translate="title" sortOrder="10" />
+                                    <resource id="Magenest_OrderManagement::warehouse_complete_shipment" title="Warehouse Complete Shipment" translate="title" sortOrder="10" />
+                                </resource>
+                            </resource>
+                        </resource>
+                    </resource>
+                </resource>
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Magenest_OrderManagement::config" title="Order Management" translate="title" sortOrder="10"/>
+                        </resource>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

@@ -1,0 +1,32 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<div class="admin__scope-old">
+    <form id="om-confirm-form">
+        <div class="form-inline">
+            <div class="admin__field field required _required">
+                <label class="label admin__field-label" for="warehouse"><span>Warehouse</span></label>
+                <div class="admin__field-control control">
+                    <select name="warehouse" id="warehouse" class="input-select admin__control-select required-entry _required">
+                        <% _.each(warehouse, function(name, code) { %>
+                            <% if(code == 'default') { %>
+                                <option value="<%- code %>" selected><%- name %></option>
+                            <% } else { %>
+                                <option value="<%- code %>"><%- name %></option>
+                            <% } %>
+                        <% }); %>
+                    </select>
+                </div>
+            </div>
+            <div class="admin__field field field-company-name required _required">
+                <label class="label admin__field-label" for="order_creator"><span>Order Creator</span></label>
+                <div class="admin__field-control control">
+                    <input id="order_creator"name="order_creator" class="required-entry _required input-text admin__control-text" type="text">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

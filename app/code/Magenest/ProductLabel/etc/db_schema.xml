@@ -1,0 +1,144 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="magenest_product_label" resource="default" engine="innodb" comment="ProductLabels" >
+        <column xsi:type="int" name="label_id" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
+        <column xsi:type="varchar" name="name" nullable="true" length="255" comment="Name"/>
+        <column xsi:type="varchar" name="description" nullable="true" length="255" comment="Description"/>
+        <column xsi:type="smallint" name="status" unsigned="true" nullable="false" default="0" comment="Is Active"/>
+        <column xsi:type="mediumtext" name="conditions_serialized" nullable="true" comment="Conditions Serialized"/>
+        <column xsi:type="int" name="priority" unsigned="true" nullable="true" comment="Sort Order"/>
+        <column xsi:type="date" name="from_date" comment="From"/>
+        <column xsi:type="date" name="to_date" comment="To"/>
+        <column xsi:type="int" name="label_type" comment="Label Type"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="label_id"/>
+        </constraint>
+    </table>
+
+    <table name="magenest_product_label_option_product" resource="default" engine="innodb" comment="Label DataSource">
+        <column xsi:type="int" name="option_id" unsigned="true" nullable="false" identity="true" comment="Option ID"/>
+        <column xsi:type="int" name="label_id" unsigned="true" nullable="false" identity="false" comment="Label ID"/>
+        <column xsi:type="smallint" name="display" unsigned="true" nullable="false" default="0" comment="Display or not"/>
+        <column xsi:type="varchar" name="position" nullable="false" length="20" comment="Label Position"/>
+        <column xsi:type="int" name="type" unsigned="true" nullable="false" comment="Type label: Text, Shape, Image"/>
+        <column xsi:type="text" name="text" nullable="true" comment="Label text"/>
+        <column xsi:type="varchar" name="text_font" nullable="true" length="15" comment="Label font text"/>
+        <column xsi:type="smallint" name="text_size" unsigned="true" default="16" nullable="true" comment="Label size text"/>
+        <column xsi:type="varchar" name="text_color" nullable="true" length="15" comment="Label text color"/>
+        <column xsi:type="varchar" name="shape_type" length="15" nullable="true" comment="Shape type"/>
+        <column xsi:type="varchar" name="shape_color" nullable="true" length="15" comment="Shape color"/>
+        <column xsi:type="text" name="image" nullable="true" comment="Image url"/>
+        <column xsi:type="varchar" name="label_size" nullable="true" length="15" comment="Label size"/>
+        <column xsi:type="text" name="custom_css" nullable="true" comment="Custom Css"/>
+        <column xsi:type="smallint" name="use_default" nullable="true" default="0" comment="Same as category data"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="option_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="MAGENEST_LABEL_DATA_PRODUCT_FOREIGN_LABEL_ID"
+                    table="magenest_product_label_option_product" column="label_id" referenceTable="magenest_product_label"
+                    referenceColumn="label_id" onDelete="CASCADE"/>
+        <index referenceId="MAGENEST_PRODUCTLABELS_PRODUCT_OPTION" indexType="btree">
+            <column name="label_id"/>
+        </index>
+    </table>
+
+    <table name="magenest_product_label_option_category" resource="default" engine="innodb" comment="Label DataSource">
+        <column xsi:type="int" name="option_id" unsigned="true" nullable="false" identity="true" comment="Option ID"/>
+        <column xsi:type="int" name="label_id" unsigned="true" nullable="false" identity="false" comment="Label ID"/>
+        <column xsi:type="smallint" name="display" unsigned="true" nullable="false" default="0" comment="Display or not"/>
+        <column xsi:type="varchar" name="position" nullable="false" length="20" comment="Label Position"/>
+        <column xsi:type="int" name="type" unsigned="true" nullable="false" comment="Type label: Text, Shape, Image"/>
+        <column xsi:type="text" name="text" nullable="true" comment="Label text"/>
+        <column xsi:type="varchar" name="text_font" nullable="true" length="15" comment="Label font text"/>
+        <column xsi:type="smallint" name="text_size" unsigned="true" default="16" nullable="true" comment="Label size text"/>
+        <column xsi:type="varchar" name="text_color" nullable="true" length="15" comment="Label text color"/>
+        <column xsi:type="varchar" name="shape_type" length="15" nullable="true" comment="Shape type"/>
+        <column xsi:type="varchar" name="shape_color" nullable="true" length="15" comment="Shape color"/>
+        <column xsi:type="text" name="image" nullable="true" comment="Image url"/>
+        <column xsi:type="varchar" name="label_size" nullable="true" length="15" comment="Label size"/>
+        <column xsi:type="text" name="custom_css" nullable="true" comment="Custom Css"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="option_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="MAGENEST_LABEL_DATA_CATEGORY_FOREIGN_LABEL_ID"
+                    table="magenest_product_label_option_category" column="label_id" referenceTable="magenest_product_label"
+                    referenceColumn="label_id" onDelete="CASCADE"/>
+        <index referenceId="MAGENEST_PRODUCTLABELS_CATEGORY_OPTION" indexType="btree">
+            <column name="label_id"/>
+        </index>
+    </table>
+
+    <table name="magenest_product_label_store" resource="default" engine="innodb" comment="Product Labels To Store Linkage Table">
+        <column xsi:type="int" name="label_id" unsigned="true" nullable="false" identity="false" comment="Label ID"/>
+        <column xsi:type="smallint" name="store_id" padding="5" unsigned="true" nullable="false" identity="false"
+                comment="Store ID"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="label_id"/>
+            <column name="store_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="MAGENEST_LABEL_STORE_FOREIGN_LABEL_ID" table="magenest_product_label_store"
+                    column="label_id" referenceTable="magenest_product_label" referenceColumn="label_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="MAGENEST_LABEL_STORE_FOREIGN_STORE_ID" table="magenest_product_label_store"
+                    column="store_id" referenceTable="store" referenceColumn="store_id" onDelete="CASCADE"/>
+        <index referenceId="MAGENEST_LABEL_STORE_STORE_ID" indexType="btree">
+            <column name="store_id"/>
+        </index>
+    </table>
+
+    <table name="magenest_product_label_customer_group" resource="default" engine="innodb"
+           comment="Product Labels To Customer Groups Relations">
+        <column xsi:type="int" name="label_id" unsigned="true" nullable="false" identity="false" comment="Label ID"/>
+        <column xsi:type="int" name="customer_group_id" padding="10" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Customer Group ID"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="label_id"/>
+            <column name="customer_group_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="MAGENEST_LABEL_CUSTOMER_GROUP_FOREIGN_LABEL_ID"
+                    table="magenest_product_label_customer_group" column="label_id" referenceTable="magenest_product_label"
+                    referenceColumn="label_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="MAGENEST_LABEL_CUSTOMER_GROUP_FOREIGN_GROUP_ID"
+                    table="magenest_product_label_customer_group" column="customer_group_id" referenceTable="customer_group"
+                    referenceColumn="customer_group_id" onDelete="CASCADE"/>
+        <index referenceId="CATALOGRULE_CUSTOMER_GROUP_CUSTOMER_GROUP_ID" indexType="btree">
+            <column name="customer_group_id"/>
+        </index>
+    </table>
+
+    <table name="magenest_product_label_product" resource="default" engine="innodb" comment="Product Label Product">
+        <column xsi:type="int" name="label_product_id" unsigned="true" nullable="false" identity="true"
+                comment="Label Product ID"/>
+        <column xsi:type="int" name="label_id" unsigned="true" nullable="false" identity="false" comment="Label ID"/>
+        <column xsi:type="int" name="customer_group_id" padding="10" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Customer Group ID"/>
+        <column xsi:type="int" name="product_id" padding="10" unsigned="true" nullable="false" identity="false" comment="Entity ID"/>
+        <column xsi:type="smallint" name="store_id" padding="5" unsigned="true" nullable="false" identity="false"
+                comment="Store ID"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="label_product_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="MAGENEST_LABEL_INDEX_FOREIGN_LABEL_ID"
+                    table="magenest_product_label_product" column="label_id"
+                    referenceTable="magenest_product_label" referenceColumn="label_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="MAGENEST_LABEL_INDEX_FOREIGN_PRODUCT_ID"
+                    table="magenest_product_label_product" column="product_id"
+                    referenceTable="catalog_product_entity" referenceColumn="entity_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="MAGENEST_LABEL_INDEX_FOREIGN_STORE_ID"
+                    table="magenest_product_label_product" column="store_id"
+                    referenceTable="store" referenceColumn="store_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="MAGENEST_LABEL_CUSTOMER_GROUP_FOREIGN_GROUP_ID"
+                    table="magenest_product_label_product" column="customer_group_id"
+                    referenceTable="customer_group" referenceColumn="customer_group_id" onDelete="CASCADE"/>
+        <index referenceId="MAGENEST_LABEL_PRODUCT_CUSTOMER_GROUP_ID" indexType="btree">
+            <column name="customer_group_id"/>
+        </index>
+        <index referenceId="MAGENEST_LABEL_PRODUCT_WEBSITE_ID" indexType="btree">
+            <column name="store_id"/>
+        </index>
+        <index referenceId="MAGENEST_LABEL_PRODUCT_PRODUCT_ID" indexType="btree">
+            <column name="product_id"/>
+        </index>
+    </table>
+
+</schema>

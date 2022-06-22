@@ -1,0 +1,22 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<div class="admin__scope-old">
+    <form id="om-confirm-form-assigned-to-person">
+        <div class="form-inline">
+            <div class="admin__field field required _required">
+                <label class="label admin__field-label" for="assigned_to_person"><span><%= _.i18n('Assigned To Person') %></span></label>
+                <div class="admin__field-control control">
+                    <select name="assigned_to_person" id="assigned_to_person" class="input-select admin__control-select required-entry _required">
+                        <% _.each(assignedToPerson, function(option) { %>
+                        <option value="<%- option.value %>"><%- option.label %></option>
+                        <% }); %>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

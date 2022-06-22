@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2019 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ *
+ * Magenest_Kangaroo extension
+ * NOTICE OF LICENSE
+ *
+ * @category Magenest
+ * @package Magenest_Kangaroo
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="order_cancel_after">
+        <observer name="magenest_order_management" instance="Magenest\OrderManagement\Observer\OrderCanceled"/>
+    </event>
+    <event name="sales_order_creditmemo_save_after">
+        <observer name="magenest_notify_warehouse_when_creditmemo_create" instance="Magenest\OrderManagement\Observer\NotifyWarehouse" />
+    </event>
+    <event name="sales_quote_item_qty_set_after">
+        <observer name="check_order_item_is_backorder" instance="Magenest\OrderManagement\Observer\BackorderValidatorObserver"/>
+    </event>
+    <event name="sales_model_service_quote_submit_before">
+        <observer name="set_is_pos_order_attribute" instance="Magenest\OrderManagement\Observer\QuoteSubmitBefore" />
+    </event>
+    <event name="checkout_submit_all_after">
+        <observer name="sent_email_to_cs" instance="Magenest\OrderManagement\Observer\SuccessAction"/>
+    </event>
+    <event name="pos_order_save_after">
+        <observer name="sent_email_to_accounting" instance="Magenest\OrderManagement\Observer\PosOrderSaveAfter"/>
+    </event>
+    <event name="order_management_action_dispatch_save_comment_history">
+        <observer name="magenest_order_management" instance="Magenest\OrderManagement\Observer\OrderSaveHistory" />
+    </event>
+</config>

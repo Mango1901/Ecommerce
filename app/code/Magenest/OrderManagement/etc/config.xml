@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <trans_email>
+            <ident_customer_service>
+                <name>Customer Service</name>
+                <email>tn_customer_service@gmail.com</email>
+            </ident_customer_service>
+            <ident_supplier>
+                <name>Supplier</name>
+                <email>tn_supplier@gmail.com</email>
+            </ident_supplier>
+            <ident_accounting>
+                <name>Accounting</name>
+                <email>tn_accounting@gmail.com</email>
+            </ident_accounting>
+            <ident_warehouse>
+                <name>Warehouse</name>
+                <email>tn_warehouse@gmail.com</email>
+            </ident_warehouse>
+        </trans_email>
+        <email_communication>
+            <customer_service>
+                <enabled>1</enabled>
+                <identity>general</identity>
+                <supplier_reject_delivery_email_template>email_communication_customer_service_supplier_reject_delivery_email_template</supplier_reject_delivery_email_template>
+            </customer_service>
+            <warehouse>
+                <enabled>1</enabled>
+                <identity>general</identity>
+            </warehouse>
+            <accountant>
+                <enabled>1</enabled>
+                <identity>general</identity>
+                <customer_service_confirm_email_template>email_communication_accountant_customer_service_confirm_email_template</customer_service_confirm_email_template>
+            </accountant>
+        </email_communication>
+    </default>
+</config>

@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">report_order_light.report_order_listing_data_source</item>
+        </item>
+    </argument>
+    <settings>
+        <spinner>sales_order_export_columns</spinner>
+        <deps>
+            <dep>report_order_light.report_order_listing_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="report_order_listing_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">entity_id</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render"/>
+            <filterUrlParams>
+                <param name="type">*</param>
+            </filterUrlParams>
+        </settings>
+        <dataProvider class="Magenest\Report\Ui\Component\DataProvider\DataProvider" name="report_order_listing_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>order_item.item_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <settings>
+            <sticky>true</sticky>
+        </settings>
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls"/>
+        <exportButton name="export_button" class="Magento\Ui\Component\ExportButton">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="options" xsi:type="array">
+                        <item name="cvs" xsi:type="array">
+                            <item name="value" xsi:type="string">csv</item>
+                            <item name="label" xsi:type="string" translate="true">CSV</item>
+                            <item name="url" xsi:type="string">report/export/gridToCsv</item>
+                        </item>
+                        <item name="xml" xsi:type="array">
+                            <item name="value" xsi:type="string">xml</item>
+                            <item name="label" xsi:type="string" translate="true">Excel XML</item>
+                            <item name="url" xsi:type="string">mui/export/gridToXml</item>
+                        </item>
+                        <item name="xls" xsi:type="array">
+                            <item name="value" xsi:type="string">xls</item>
+                            <item name="label" xsi:type="string" translate="true">Excel XLS</item>
+                            <item name="url" xsi:type="string">report/export/GridToXls</item>
+                        </item>
+                    </item>
+                </item>
+            </argument>
+        </exportButton>
+        <filterSearch name="increment_id" />
+        <filters name="listing_filters">
+            <filterSelect name="store_id" provider="${ $.parentName }">
+                <settings>
+                    <options class="Magento\Store\Ui\Component\Listing\Column\Store\Options"/>
+                    <caption translate="true">All Store Views</caption>
+                    <label translate="true">Purchase Point</label>
+                    <dataScope>store_id</dataScope>
+                    <imports>
+                        <link name="visible">ns = ${ $.ns }, componentType = column, index = ${ $.index }:visible</link>
+                    </imports>
+                </settings>
+            </filterSelect>
+        </filters>
+
+<!--        <filters name="listing_filters" />-->
+        <paging name="listing_paging"/>
+    </listingToolbar>
+
+    <columns name="sales_order_export_columns">
+        <selectionsColumn name="ids">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="indexField" xsi:type="string">item_id</item>
+                </item>
+            </argument>
+        </selectionsColumn>
+
+
+        <column name="increment_id"  class="Magenest\Report\Ui\Component\Listing\Column\Render" >
+            <settings>
+                <filter>text</filter>
+                <label translate="true">ID Order</label>
+            </settings>
+        </column>
+
+        <column name="customer_email">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Customer Email</label>
+            </settings>
+        </column>
+
+        <column name="customer_id">
+            <settings>
+                <filter>numberRange</filter>
+                <label translate="true">Customer ID</label>
+            </settings>
+        </column>
+
+        <column name="subtotal">
+            <settings>
+                <label translate="true">Subtotal</label>
+                <filter>textRange</filter>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+            </settings>
+        </column>
+
+        <column name="customer_group">
+            <settings>
+                <filter>select</filter>
+                <options class="Magento\Customer\Ui\Component\Listing\Column\Group\Options"/>
+                <dataType>select</dataType>
+                <label translate="true">Customer Group</label>
+                <visible>false</visible>
+            </settings>
+        </column>
+
+        <column name="warehouse">
+            <settings>
+                <filter>select</filter>
+                <label translate="true">Warehouse</label>
+                <dataType>select</dataType>
+                <sortable>false</sortable>
+                <options class="Magenest\Report\Model\Config\SourceOption"/>
+            </settings>
+        </column>
+
+        <column name="status">
+            <settings>
+                <filter>select</filter>
+                <label translate="true">Status</label>
+                <dataType>select</dataType>
+                <sortable>false</sortable>
+                <options class="Magento\Sales\Ui\Component\Listing\Column\Status\Options"/>
+            </settings>
+        </column>
+
+        <column name="total_refunded" >
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Total Refunded</label>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+            </settings>
+        </column>
+
+        <column name="shipping_information">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Shipping Information</label>
+            </settings>
+        </column>
+
+        <column name="payment_method" >
+            <settings>
+                <filter>select</filter>
+                <options class="Magento\Payment\Ui\Component\Listing\Column\Method\Options"/>
+                <dataType>select</dataType>
+                <label translate="true">Payment Method</label>
+                <visible>false</visible>
+            </settings>
+        </column>
+
+        <column name="affiliate_customer_id" >
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Affiliate Customer ID</label>
+            </settings>
+        </column>
+
+        <column name="order_creator" >
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Order Creator</label>
+            </settings>
+        </column>
+
+        <column name="grand_total" >
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Grand Total(Purchased)</label>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+            </settings>
+        </column>
+
+        <column name="base_grand_total" >
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Grand Total(Base)</label>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+            </settings>
+        </column>
+
+        <column name="billing_name" >
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Bill-to Name</label>
+            </settings>
+        </column>
+
+        <column name="shipping_name" >
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Ship-to Name</label>
+            </settings>
+        </column>
+
+        <column name="confirmed_person_name" >
+            <settings>
+                <label translate="true">Confirmed Person Name</label>
+            </settings>
+        </column>
+
+        <column name="alepay_subscription_id" >
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Subscription ID</label>
+
+            </settings>
+        </column>
+
+        <column name="created_at" >
+            <settings>
+                <filter>dateRange</filter>
+                <dataType>date</dataType>
+                <label translate="true">Purchase Date</label>
+                <sorting>desc</sorting>
+            </settings>
+        </column>
+
+        <column name="store_id" class="Magento\Store\Ui\Component\Listing\Column\Store">
+            <settings>
+                <label translate="true">Purchase Point</label>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+                <sortable>false</sortable>
+            </settings>
+        </column>
+
+
+        <column name="customer_firstname">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Customer Name</label>
+            </settings>
+        </column>
+
+        <!--   table collection     -->
+        <!--table sales_order-->
+        <column name="shipping_amount">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Shipping and Handling</label>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+            </settings>
+        </column>
+
+        <column name="tax_code" >
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Tax Code</label>
+            </settings>
+        </column>
+        <!--table sales_order_address-->
+        <column name="telephone" >
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Telephone</label>
+            </settings>
+        </column>
+
+        <column name="street" >
+            <settings>
+                <label translate="true">Street</label>
+            </settings>
+        </column>
+
+        <column name="city" >
+            <settings>
+                <label translate="true">City</label>
+            </settings>
+        </column>
+
+        <column name="district_ward" >
+            <settings>
+                <label translate="true">District Ward</label>
+            </settings>
+        </column>
+        <!--table sales_order_item-->
+        <column name="sku">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Skus</label>
+            </settings>
+        </column>
+
+        <column name="qty_ordered">
+            <settings>
+                <filter>false</filter>
+                <label translate="true">Qty</label>
+            </settings>
+        </column>
+
+        <column name="mailchimp_sync">
+            <settings>
+                <label translate="true">Mailchimp Sync</label>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+                <sortable>false</sortable>
+                <filter>false</filter>
+            </settings>
+        </column>
+
+    </columns>
+</listing>

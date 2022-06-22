@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\User\Block\User\Edit\Tab\Main" type="Magenest\SalesPerson\Rewrite\Magento\User\Block\User\Edit\Tab\Main"/>
+    <preference for="Magento\Sales\Model\ResourceModel\Order\Grid\Collection" type="Magenest\SalesPerson\Rewrite\Magento\Sales\Model\ResourceModel\Order\Grid\Collection"/>
+    <type name="Magento\Sales\Api\OrderRepositoryInterface">
+        <plugin name="order_state_plugin"
+                type="Magenest\SalesPerson\Plugin\Magento\Sales\Api\OrderStatePlugin"/>
+    </type>
+</config>

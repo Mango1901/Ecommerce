@@ -1,0 +1,57 @@
+<?php
+
+/** @var \Magenest\AffiliateOpt\Block\Account\Home\CreditChart $block */
+
+?>
+<div class="credit-balance-chart">
+    <div class="box-head">
+        <h2><?= /* @noEscape */
+            __('Statistics of balances') ?>
+        </h2>
+        <div class="months">
+            <select class="select-month-number">
+                <?php foreach ($block->getSelectedMonthNumber() as $month) : ?>
+                    <option value="<?= /* @noEscape  */ $month['value'] ?>" >
+                        <?= /* @noEscape  */ $month['label']  ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+    </div>
+    <div class="dashboard-item-content-chart">
+        <canvas id="<?= /* @noEscape  */ $block->getComponentName() ?>"></canvas>
+    </div>
+</div>
+<script type="text/javascript">
+    require(['jquery',  'mage/translate', 'Magenest_AffiliateOpt/js/create-chart'], function($, $t){
+        $(document).ready(function(){
+            ajaxChart(6);
+            $('.select-month-number').change(function (){
+                ajaxChart(this.value);
+            });
+        });
+
+        function ajaxChart(month) {
+            $.ajax({
+                url: '<?= /* @noEscape */ $block->getUrl('*/account/credit') ?>',
+                type: 'POST',
+                data: {'month' : month},
+                dataType: 'json',
+                showLoader: true,
+                success: function (response) {
+                    $.magenest.affiliateChart(
+                        {
+                            'chartData' : response,
+                            'chartElement' : '<?= /* @noEscape  */ $block->getComponentName() ?>'}
+                    )
+                },
+                error: function (error) {
+                    alert({
+                        title: $t('Request Error'),
+                        content: error.status + ' ' + error.statusText
+                    });
+                }
+            });
+        }
+    });
+</script>

@@ -1,0 +1,64 @@
+<?php
+/**
+ * @var \Magenest\CouponCode\Block\History\View $block
+ * @var Magento\Framework\Escaper $escaper
+ */
+
+$isActiveExpired = $block->isActiveTabExpired();
+$isActiveUsed = $block->isActiveTabUsed();
+$couponsHistory = $block->getHistoryCollection();
+/**
+ * @var \Magenest\CouponCode\ViewModel\Coupon $viewModel
+ */
+$viewModel = $block->getViewModel();
+$today = $viewModel->getToday();
+?>
+
+<ul class="orders-history-tab">
+    <li class="orders-tab-item <?= $isActiveExpired ? 'active' : '' ?>">
+        <a class="" href="<?= !$isActiveExpired ? $block->getUrl('voucher/wallet/history') : '' ?>"><?= __('Expired') ?></a>
+    </li>
+    <li class="orders-tab-item <?= $isActiveUsed ? 'active' : '' ?>">
+        <a class="" href="<?= !$isActiveUsed ? $block->getUrl('voucher/wallet/history', ['status' => 2]) : '' ?>"><?= __('Used') ?></a>
+    </li>
+</ul>
+
+<?php if ($couponsHistory->getSize() != 0): ?>
+    <?php foreach ($couponsHistory as $item): ?>
+        <div id="coupon_magenest">
+            <div id="container_coupon">
+                <?php
+                    $images = !empty($item->getData('images')) ? $viewModel->handleImage($item->getData('images')) :
+                        $block->getViewFileUrl('Magenest_CouponCode::image/default-coupon.png');
+                ?>
+                <div>
+                    <img id="coupon-image" src="<?= $block->escapeHtml($images); ?>" alt="coupon"/>
+                    <div class="label-history" style="position: relative; bottom: 200px">
+                        <p class="text-history" style="border: 1px solid #E0E6EC; display: inline-block; background-color: #8a6d3b"><?= $isActiveExpired ? $escaper->escapeHtml(__('Out of date')) : $escaper->escapeHtml(__('Used')); ?></p>
+                    </div>
+                </div>
+                <div id="information_mycoupon">
+                    <div>
+                        <div id="exp-coupon">
+                            <?= $block->escapeHtml(__('Exp: ') . $block->formatDate($item->getData('to_date'))); ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="information-condition">
+                    <a href="<?= $block->escapeUrl($block->getUrl('voucher/details', ['ruleId' => $item->getRuleId(), 'evcode' => $item->getCode()])) ?>" target="_blank">
+                        <?= $block->escapeHtml(__('Condition')) ?>
+                    </a>
+                </div>
+            </div>
+        </div>
+    <?php endforeach; ?>
+    <?php if ($block->getPagerHtml()): ?>
+        <div class="order-products-toolbar toolbar bottom">
+            <?= $block->getPagerHtml() ?>
+        </div>
+    <?php endif ?>
+<?php else: ?>
+    <div class="message info empty">
+        <span><?= $block->escapeHtml(__('You have no history in table.')) ?></span>
+    </div>
+<?php endif; ?>

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="MGS\Ajaxlayernavigation\Block\Navigation\RenderLayered" type="Magenest\CustomizePriceFilter\Block\Navigation\RenderLayered" />
+    <type name="Magento\Catalog\Model\Layer\Filter\Dynamic\AlgorithmFactory">
+        <arguments>
+            <argument name="algorithms" xsi:type="array">
+                <item name="auto" xsi:type="string">Magento\Catalog\Model\Layer\Filter\Dynamic\Auto</item>
+                <item name="improved" xsi:type="string">Magento\Catalog\Model\Layer\Filter\Dynamic\Improved</item>
+                <item name="manual" xsi:type="string">Magento\Catalog\Model\Layer\Filter\Dynamic\Manual</item>
+                <item name="manual_price_range" xsi:type="string">Magenest\CustomizePriceFilter\Model\Layer\Filter\Dynamic\ManualPriceRange</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\Search\Dynamic\Algorithm\Repository">
+        <arguments>
+            <argument name="algorithms" xsi:type="array">
+                <item name="auto" xsi:type="string">Magento\Framework\Search\Dynamic\Algorithm\Auto</item>
+                <item name="manual" xsi:type="string">Magento\Framework\Search\Dynamic\Algorithm\Manual</item>
+                <item name="improved" xsi:type="string">Magento\Framework\Search\Dynamic\Algorithm\Improved</item>
+                <item name="manual_price_range" xsi:type="string">Magenest\CustomizePriceFilter\Search\Dynamic\Algorithm\ManualPriceRange</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Model\Config\Source\Price\Step">
+        <plugin name="add_manual_price_range" type="Magenest\CustomizePriceFilter\Plugin\AddManualPriceRange" />
+    </type>
+    <preference for="Magento\CatalogSearch\Model\Layer\Filter\Price" type="Magenest\CustomizePriceFilter\Model\Layer\Filter\Price"/>
+</config>

@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="magenest" translate="label" sortOrder="500">
+            <label>Magenest</label>
+        </tab>
+        <section id="sell_on_instagram" translate="label" type="text"
+                 sortOrder="100" showInDefault="1" showInWebsite="1"
+                 showInStore="1">
+            <label>Sell On Instagram</label>
+            <tab>magenest</tab>
+            <resource>Magenest_SellOnInstagram::sell_on_instagram</resource>
+            <group id="connect_instagram" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10"
+                   translate="label comment">
+                <label>Facebook(Instagram) Connection</label>
+                <field id="enable" translate="label comment" type="select" showInDefault="1" showInWebsite="1"
+                       showInStore="0" sortOrder="5">
+                    <label>Enable Sell On Instagram</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enable/Disable Sell On Instagram module</comment>
+                </field>
+                <field id="catalog_id" translate="label comment" type="text" sortOrder="6" showInDefault="1"
+                       showInWebsite="1" showInStore="0">
+                    <label>Catalog Id</label>
+                    <comment>
+                        <![CDATA[ Facebook catalog manager. <a target="_blank" href="https://www.facebook.com/products/">Assets catalogs</a>]]></comment>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+                <field id="page_id" translate="label comment" type="text" sortOrder="10" showInDefault="1"
+                       showInWebsite="1" showInStore="0">
+                    <label>Page Id</label>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+                <field id="client_id" translate="label comment" type="text" sortOrder="15" showInDefault="1"
+                       showInWebsite="1" showInStore="0">
+                    <label>App Id</label>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+                <field id="app_secret" translate="label comment" type="text" sortOrder="20" showInDefault="1"
+                       showInWebsite="1" showInStore="0">
+                    <label>App secret</label>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+                <field id="redirect_uri" translate="label" type="text" sortOrder="25" showInDefault="1"
+                       showInWebsite="1" showInStore="0">
+                    <label>Redirect Uri</label>
+                    <frontend_model>Magenest\SellOnInstagram\Block\Adminhtml\System\Config\RedirectConfig</frontend_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="access_token" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label> Page Access Token</label>
+<!--                    <frontend_model>Magenest\SellOnInstagram\Block\Adminhtml\System\Config\Form\ReadonlyField</frontend_model>-->
+                    <comment><![CDATA[ Get page access token <a target="_blank" href="https://developers.facebook.com/tools/explorer">here</a>]]></comment>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+                <field id="auth_button" translate="label comment" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="0" type="button">
+                    <frontend_model>Magenest\SellOnInstagram\Block\Adminhtml\System\Config\Form\GetPageAccessToken</frontend_model>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="sync_config" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20"
+                   translate="label">
+                <label>Synchronization Configuration</label>
+                <depends>
+                    <field id="sell_on_instagram/connect_instagram/enable">1</field>
+                </depends>
+                <field id="sync_out_of_stock" translate="label comment" type="select" showInDefault="1" showInWebsite="1"
+                       showInStore="0" sortOrder="15">
+                    <label>Allow sync out of stock product</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="special_price_product" translate="label comment" type="select" showInDefault="1" showInWebsite="1"
+                       showInStore="0" sortOrder="20">
+                    <label>Display special price of product</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="tracking_order" translate="label comment" type="select" showInDefault="1" showInWebsite="1"
+                       showInStore="0" sortOrder="20">
+                    <label>Enable Tracking Order</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="product_in_shop" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="25"
+                   translate="label">
+                <label>Product In Shop</label>
+                <depends>
+                    <field id="sell_on_instagram/connect_instagram/enable">1</field>
+                </depends>
+                <field id="product_condition" translate="label comment" type="select" showInDefault="1" showInWebsite="1"
+                       showInStore="0" sortOrder="15">
+                    <label>Product Condition</label>
+                    <source_model>Magenest\SellOnInstagram\Model\Config\Source\ProductCondition</source_model>
+                    <validate>required-entry</validate>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

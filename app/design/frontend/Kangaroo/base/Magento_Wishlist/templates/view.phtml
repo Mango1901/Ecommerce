@@ -1,0 +1,105 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// phpcs:disable PHPCompatibility.Miscellaneous.RemovedAlternativePHPTags.MaybeASPOpenTagFound
+/** @var \Magento\Wishlist\Block\Customer\Wishlist $block */
+/** @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer */
+/** @var \Magento\Framework\Escaper $escaper */
+if ($page = $block->getRequest()->getParam('p')) {
+    $pageNumber = (int) filter_var($page, FILTER_SANITIZE_NUMBER_INT) + 1;
+} else {
+    $pageNumber = 2;
+}
+
+$block->setData('page', $pageNumber);
+?>
+
+<?php if ($this->helper(\Magento\Wishlist\Helper\Data::class)->isAllow()) : ?>
+    <div class="toolbar wishlist-toolbar"><?= $block->getChildHtml('wishlist_item_pager'); ?></div>
+    <?= ($block->getChildHtml('wishlist.rss.link')) ?>
+    <form class="form-wishlist-items" id="wishlist-view-form"
+          data-mage-init='{"wishlist":{
+          "addToCartUrl":<?= /* @noEscape */ $block->getItemAddToCartParams("%item%") ?>,
+          "addAllToCartUrl":<?= /* @noEscape */ $block->getAddAllToCartParams() ?>,
+          "commentString":""},
+          "validation": {}}' action="<?= $block->escapeUrl($block->getUrl('wishlist/index/update', ['wishlist_id' => $block->getWishlistInstance()->getId()])) ?>" method="post">
+        <?= $block->getChildHtml('top') ?>
+        <?php if ($block->hasWishlistItems()) : ?>
+            <?= $block->getBlockHtml('formkey') ?>
+            <?php $block->getChildBlock('items')->setItems($block->getWishlistItems()); ?>
+            <?= $block->getChildHtml('items') ?>
+        <?php else : ?>
+            <div class="message info empty"><span><?= $block->escapeHtml(__('You have no items in your wish list.')) ?></span></div>
+        <?php endif ?>
+        <?= $block->getChildHtml('bottom') ?>
+        <div class="actions-toolbar grid-wishlist">
+            <div class="primary">
+                <?= $block->getChildHtml('control_buttons') ?>
+            </div>
+            <div class="secondary">
+                <a href="<?= $block->escapeUrl($block->getBackUrl()) ?>" class="action back">
+                    <span><?= $block->escapeHtml(__('Back')) ?></span>
+                </a>
+            </div>
+            <?php if ($block->getPage() <= $block->getWishlistItems()->getLastPageNumber()) :?>
+                <div class="view-more" id="view-more" data-view-more-param="<?= $escaper->escapeHtmlAttr(json_encode(
+                    [
+                        'originalRequest' => [
+                            'route'      => $this->getRequest()->getRouteName(),
+                            'controller' => $this->getRequest()->getControllerName(),
+                            'action'     => $this->getRequest()->getActionName(),
+                            'uri'        => $this->getRequest()->getRequestUri()
+                        ],
+                        'blocks' => json_encode(['customer.wishlist']),
+                        'handles' => json_encode($block->getLayout()->getUpdate()->getHandles())
+                    ])
+                ) ?>">
+                    <a><?= __('View more'); ?></a>
+                </div>
+            <?php endif; ?>
+            <?php
+            $url = $block->getUrl('page_cache/block/render?p=' . $block->getData('page'));
+            $scriptString =  <<<script
+                require([
+                    'jquery'
+                ], function ($) {
+                    $('#view-more').on('click', function () {
+                        var self = $(this);
+                        var data = self.data('view-more-param');
+                        $.ajax({
+                            url: '{$url}',
+                            type: 'get',
+                            showLoader: true,
+                            data: data,
+                        }).done(function (data) {
+                            data = JSON.parse(data)['customer.wishlist'];
+                            $(data).find('.product-item').appendTo("ol.product-items.grid-wishlist");
+                            $('.actions-toolbar.grid-wishlist').replaceWith($(data).find('.actions-toolbar'));
+                        }.bind(this));
+                    });
+                })
+            script;
+            ?>
+            <?= /* @noEscape */ $secureRenderer->renderTag('script', [], $scriptString, false) ?>
+        </div>
+    </form>
+    <script id="form-tmpl" type="text/x-magento-template">
+        <form id="wishlist-hidden-form" method="post" action="<%- data.url %>" class="no-display">
+            <% if (data.qty) { %>
+            <input name="qty" value="<%- data.qty %>">
+            <% } %>
+
+            <% if (data.item) { %>
+            <input name="item" value="<%- data.item %>">
+            <% } %>
+
+            <% if (data.entity) { %>
+            <input name="entity" value="<%- data.entity %>">
+            <% } %>
+        </form>
+    </script>
+<?php endif ?>
+

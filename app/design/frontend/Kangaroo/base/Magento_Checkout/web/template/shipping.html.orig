@@ -1,0 +1,324 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<li class="checkout-delivery-address">
+    <div class="step-title delivery-address-title" data-bind="i18n: 'Delivery address'"></div>
+    <div class="delivery-address-list not-delivery-address">
+        <p class="delivery-address-desc"
+           data-bind="i18n: 'You do not have a shipping address. Please enter the address now'"></p>
+        <button class="btn-add-address" type="button" data-trigger="delivery-address-trigger"
+                data-bind="i18n: 'Add address'"></button>
+        <div data-bind="mageInit: {
+        'Magento_Ui/js/modal/modal':{
+            'type': 'popup',
+            'title': jQuery.mage.__('Delivery address'),
+            'trigger': '[data-trigger=delivery-address-trigger]',
+            'modalClass': 'modal-add-address',
+            'responsive': true,
+            'buttons': [{
+                text: jQuery.mage.__('Apply'),
+                class: 'action primary'
+            },
+            {
+                text: jQuery.mage.__('Back'),
+                class: 'action secondary',
+                click: function () {
+                    this.closeModal();
+                }
+            }
+            ]
+        }}">
+            <div id="shipping" class="checkout-shipping-address">
+                <!-- ko ifnot: isCustomerLoggedIn -->
+                <div class="authentication-wrapper login-btn-container">
+                    <button
+                        type="button"
+                        class="action action-auth-toggle"
+                        data-bind="click: toggleLoginForm">
+                        <span data-bind="i18n: 'Sign In'"></span>
+                    </button>
+                </div>
+                <!-- /ko -->
+                <div id="checkout-step-shipping"
+                     class="step-content"
+                     data-role="content" css="'address-selected': isCustomerLoggedIn">
+                    <!-- ko if: isCustomerLoggedIn -->
+                    <div class="shipping-action">
+                        <!-- Address form pop up -->
+                        <if args="!isFormInline">
+                            <div class="new-address-popup">
+                                <button type="button"
+                                        class="action action-show-popup"
+                                        click="showFormPopUp"
+                                        visible="!isNewAddressAdded()">
+                                    <span translate="'New Address'"/>
+                                </button>
+                            </div>
+                            <div id="opc-new-shipping-address"
+                                 visible="isFormPopUpVisible()"
+                                 render="shippingFormTemplate"/>
+                        </if>
+                        <button type="button"
+                                class="setup-address action"
+                                click="openAddressPage"
+                                visible="!isNewAddressAdded()">
+                            <span translate="'Set up address'"/>
+                        </button>
+                        <input type="text" placeholder="Search" id="search-address-input" class="search-address-input"/>
+                        <button type="button"
+                                class="search-address-button"
+                                click="searchAddressData">
+                            <span translate="'Search'"/>
+                        </button>
+                    </div>
+                    <!-- /ko -->
+                    <each if="!quoteIsVirtual" args="getRegion('customer-email')" render=""/>
+                    <each args="getRegion('address-list')" render=""/>
+                    <each args="getRegion('address-list-additional-addresses')" render=""/>
+
+                    <each args="getRegion('before-form')" render=""/>
+
+                    <!-- Inline address form -->
+                    <render if="isFormInline" args="shippingFormTemplate"/>
+                    <each args="getRegion('after-form')" render=""/>
+                </div>
+            </div>
+        </div>
+    </div>
+</li>
+
+<li class="checkout-cart-summary">
+<<<<<<< HEAD
+    <each args="getRegion('cart-items')" render=""/>
+=======
+    <div class="table-wrapper">
+        <table>
+            <thead>
+            <tr>
+                <td class="col product" data-bind="i18n: 'Product'"></td>
+                <td class="col sub-total" data-bind="i18n: 'Price'"></td>
+                <td class="col qty" data-bind="i18n: 'Qty'"></td>
+                <td class="col order-total" data-bind="i18n: 'Order Total'"></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="col product">
+                    <div class="product-item-detail">
+                        <span class="product-image-container">
+                            <span class="product-image-wrapper">
+                                <img
+                                    src="http://kangaroo.local/media/catalog/product/cache/77f684ec600755c122bc488b6b57f062/r/m/rm373batch3-27-03.jpg"
+                                    alt=""/>
+                            </span>
+                        </span>
+                        <div class="product-item-inner">
+                            <span class="product-item-name">Đèn sưởi Halogen Kangaroo KG1012C</span>
+                            <div class="product-item-options">
+                                <span>Xanh</span>
+                                <span>6 tháng bảo hành</span>
+                            </div>
+                            <div class="subtotal mobile-device">
+                                <span class="price-including-tax"
+                                      data-label="Incl. Tax">
+                                    <span class="cart-price">
+                                        <span class="price">5.980.000&nbsp;₫</span>
+                                    </span>
+                                </span>
+                                <div class="old-price">
+                                    <span class="price-container price-final_price tax weee">
+                                        <span class="price-wrapper ">
+                                            <span class="price">5.980.000&nbsp;₫</span>
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td class="col sub-total desktop-device">
+                    <div class="item-price">
+                        <span class="price">2.990.000&nbsp;₫</span>
+                        <div class="discount-list">
+                            <div class="discount-item left"><span class="price">3.390.000&nbsp;₫</span></div>
+                            <div class="discount-item right">-11.8%</div>
+                        </div>
+                    </div>
+                </td>
+                <td class="col qty desktop-device">
+                    1
+                </td>
+                <td class="col order-total desktop-device">
+                    <span class="price">1.000.000&nbsp;₫</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col product">
+                    <div class="product-item-detail">
+                        <span class="product-image-container">
+                            <span class="product-image-wrapper">
+                                <img
+                                    src="http://kangaroo.local/media/catalog/product/cache/77f684ec600755c122bc488b6b57f062/r/m/rm373batch3-27-03.jpg"
+                                    alt=""/>
+                            </span>
+                        </span>
+                        <div class="product-item-inner">
+                            <span class="product-item-name">Đèn sưởi Halogen Kangaroo KG1012C</span>
+                            <div class="product-item-options">
+                                <span>Xanh</span>
+                                <span>6 tháng bảo hành</span>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td class="col price desktop-device">
+                    <div class="item-price">
+                        <span class="price">2.990.000&nbsp;₫</span>
+                        <div class="discount-list">
+                            <div class="discount-item left"><span class="price">3.390.000&nbsp;₫</span></div>
+                            <div class="discount-item right">-11.8%</div>
+                        </div>
+                    </div>
+                </td>
+                <td class="col qty desktop-device">
+                    1
+                </td>
+                <td class="col order-total desktop-device">
+                    1.000.000&nbsp;₫
+                </td>
+            </tr>
+            <tr>
+                <td class="col product">
+                    <div class="product-item-detail">
+                        <span class="product-image-container">
+                            <span class="product-image-wrapper">
+                                <img
+                                    src="http://kangaroo.local/media/catalog/product/cache/77f684ec600755c122bc488b6b57f062/r/m/rm373batch3-27-03.jpg"
+                                    alt=""/>
+                            </span>
+                        </span>
+                        <div class="product-item-inner">
+                            <span class="product-item-name">Đèn sưởi Halogen Kangaroo KG1012C</span>
+                            <div class="product-item-options">
+                                <span>Xanh</span>
+                                <span>6 tháng bảo hành</span>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td class="col price desktop-device">
+                    <div class="item-price">
+                        <span class="price">2.990.000&nbsp;₫</span>
+                        <div class="discount-list">
+                            <div class="discount-item left"><span class="price">3.390.000&nbsp;₫</span></div>
+                            <div class="discount-item right">-11.8%</div>
+                        </div>
+                    </div>
+                </td>
+                <td class="col qty desktop-device">
+                    1
+                </td>
+                <td class="col order-total desktop-device">
+                    1.000.000&nbsp;₫
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="company-invoice-container mobile-device">
+        <div class="step-title"><!-- ko i18n: 'Issue company invoice'--><!-- /ko --></div>
+        <button class="btn-company-invoice" data-trigger="company-invoice-popup" type="button"></button>
+    </div>
+>>>>>>> origin/kgr-345
+    <div class="checkout-shipping-method">
+        <div class="field">
+            <label class="label" data-bind="i18n: 'Order Note'"></label>
+            <textarea data-bind="placeholder: jQuery.mage.__('Leave a message for Kangaroo')"></textarea>
+        </div>
+        <div class="shipping-method-block">
+            <div class="shipping-method-title" data-bind="i18n: 'Form of transportation'"></div>
+            <div class="shipping-method-detail">
+                <div class="shipping-method-info">
+                    <span class="name">Giao hàng tại nhà</span>
+                    <span class="description">
+                    <span>Nhận hàng từ 2-4 ngày</span>
+                    <span>Cho phép Thanh toán khi nhận hàng</span>
+                </span>
+                </div>
+                <div class="shipping-method-inner">
+                    <span class="price">40.000₫</span>
+                    <button class="btn-change-shipping-method" data-bind="i18n: 'Change'"
+                            data-trigger="change-shipping-method"></button>
+                    <div data-bind="mageInit: {
+                        'Magento_Ui/js/modal/modal':{
+                            'type': 'popup',
+                            'title': 'Popup title',
+                            'trigger': '[data-trigger=change-shipping-method]',
+                            'responsive': true,
+                            'buttons': [{
+                                text: jQuery.mage.__('Submit'),
+                                class: 'action'
+                                    }]
+                                }}">
+                        <div id="opc-shipping_method" data-bind="fadeVisible: visible(), blockLoader: isLoading"
+                             role="presentation">
+                            <div class="step-title"
+                                 translate="'Shipping methods'"
+                                 data-role="title"></div>
+
+                            <each args="getRegion('before-shipping-method-form')" render=""/>
+
+                            <div id="checkout-step-shipping_method"
+                                 class="step-content"
+                                 data-role="content"
+                                 role="tabpanel"
+                                 aria-hidden="false">
+                                <form id="co-shipping-method-form"
+                                      class="form methods-shipping"
+                                      if="rates().length"
+                                      submit="setShippingInformation"
+                                      novalidate="novalidate">
+
+                                    <render args="shippingMethodListTemplate"/>
+
+                                    <div id="onepage-checkout-shipping-method-additional-load">
+                                        <each args="getRegion('shippingAdditional')" render=""/>
+                                    </div>
+                                    <div role="alert"
+                                         if="errorValidationMessage().length"
+                                         class="message notice">
+                                        <span text="errorValidationMessage()"/>
+                                    </div>
+                                    <div class="actions-toolbar" id="shipping-method-buttons-container">
+                                        <div class="primary">
+                                            <button data-role="opc-continue" type="submit"
+                                                    class="button action continue primary">
+                                                <span translate="'Next'"/>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="no-quotes-block"
+                                     ifnot="rates().length > 0"
+                                     translate="'Please enter your shipping address'"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="checkout-cart-subtotal">
+        <div class="checkout-cart-subtotal-title">
+            <span class="title" data-bind="i18n: 'Order Total'"></span>
+            <span class="product-qty"><!-- ko text: getTotalItems() --><!-- /ko --><!-- ko i18n: 'Items' --><!-- /ko --></span>
+        </div>
+        <div class="checkout-cart-subtotal-price">
+            <span class="price" data-bind="html: getSubtotal()"></span>
+            <span class="vat-note" data-bind="i18n: '(VAT included if any)'"></span>
+        </div>
+    </div>
+</li>

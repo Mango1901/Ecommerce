@@ -1,0 +1,9 @@
+<!-- ko if: (isCustomerLoggedIn)-->
+<tr class="rewards-points" data-bind="style: { display: isDisplayedPoints() ? 'table-row' : 'none' }">
+    <th class="mark" scope="row" data-bind="text: title"></th>
+    <td class="amount">
+        <span class="price" data-bind="text: pointEarn(), attr:{'data-label': title}"></span><span> </span><span data-bind="text: pointsLabel"></span>
+        <div class="reward-membership" data-bind="text: includeTierReward"></div>
+    </td>
+</tr>
+<!-- /ko -->

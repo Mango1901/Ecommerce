@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <attribute name="class" value="page-product-virtual"/>
+
+        <referenceBlock name="product.info.overview">
+            <arguments>
+                <argument name="at_label" translate="true" xsi:type="string">Document table of contents</argument>
+                <argument name="title" translate="true" xsi:type="string">Document table of contents</argument>
+                <argument name="add_attribute" xsi:type="string">itemprop="description"</argument>
+            </arguments>
+        </referenceBlock>
+
+        <referenceContainer name="product.info.main">
+            <container name="download.document.product.virtual" htmlTag="div" htmlClass="product-download-document-virtual" after="product.info.overview">
+
+                <block class="Magenest\CustomizePdf\Block\DownloadPdf" name="download.document.virtual" template="Magenest_CustomizePdf::download-document.phtml" before="-">
+                    <arguments>
+                        <argument translate="true" name="title" xsi:type="string">Download document</argument>
+                        <argument name="sort_order" xsi:type="string">30</argument>
+                    </arguments>
+                </block>
+            </container>
+
+        </referenceContainer>
+
+        <referenceBlock name="product.price.final" remove="true" />
+        <referenceBlock name="product.info" remove="true" />
+        <referenceBlock name="download.document" remove="true" />
+        <referenceContainer name="product.info.stock.sku">
+            <referenceBlock name="sold.qty">
+                <arguments>
+                    <argument name="is_virtual" xsi:type="boolean">true</argument>
+                </arguments>
+            </referenceBlock>
+        </referenceContainer>
+
+    </body>
+</page>

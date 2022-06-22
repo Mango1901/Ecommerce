@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd" component="Magento_Customer/js/form/components/form">
+    <fieldset name="general">
+        <field name="is_visible" formElement="checkbox" sortOrder="10">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="default" xsi:type="number">1</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>boolean</dataType>
+                <label translate="true">Is Visible On Maplist</label>
+            </settings>
+            <formElements>
+                <checkbox>
+                    <settings>
+                        <valueMap>
+                            <map name="false" xsi:type="number">0</map>
+                            <map name="true" xsi:type="number">1</map>
+                        </valueMap>
+                        <prefer>toggle</prefer>
+                    </settings>
+                </checkbox>
+            </formElements>
+        </field>
+    </fieldset>
+    <fieldset name="contact_info">
+        <field name="store_map_img" formElement="imageUploader" sortOrder="60">
+            <settings>
+                <elementTmpl>ui/form/element/uploader/image</elementTmpl>
+                <dataType>string</dataType>
+                <label translate="true">Store Map Image</label>
+                <visible>true</visible>
+                <required>true</required>
+            </settings>
+            <formElements>
+                <imageUploader>
+                    <settings>
+                        <required>false</required>
+                        <uploaderConfig>
+                            <param xsi:type="url" name="url" path="catalog/category_image/upload"/>
+                        </uploaderConfig>
+                        <previewTmpl>Magento_Catalog/image-preview</previewTmpl>
+                        <openDialogTitle>Media Gallery</openDialogTitle>
+                        <initialMediaGalleryOpenSubpath>catalog/category</initialMediaGalleryOpenSubpath>
+                        <allowedExtensions>jpg jpeg gif png</allowedExtensions>
+                        <maxFileSize>4194304</maxFileSize>
+                    </settings>
+                </imageUploader>
+            </formElements>
+        </field>
+    </fieldset>
+
+    <fieldset name="address" sortOrder="30">
+        <field name="city" formElement="hidden" sortOrder="42">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">City</label>
+            </settings>
+        </field>
+        <field name="region_id"
+               component="Magento_InventoryAdminUi/js/form/element/region"
+               formElement="hidden" sortOrder="20">
+        </field>
+        <field name="country_id" formElement="hidden" sortOrder="10">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="default" xsi:type="string">VN</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Country</label>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <disabled>1</disabled>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <options class="Magento\Directory\Model\Config\Source\Country"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <field name="city_id" component="Magenest_MapList/js/form/element/city" sortOrder="20" formElement="select" >
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>string</dataType>
+                <label translate="true">City</label>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <filterBy>
+                            <field>country_id</field>
+                            <target>${ $.provider }:${ $.parentScope }.country_id</target>
+                        </filterBy>
+                        <options class="Magenest\Directory\Model\ResourceModel\City\Collection"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <field name="district_id" component="Magenest_MapList/js/form/element/district" sortOrder="30" formElement="select" >
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>string</dataType>
+                <label translate="true">District</label>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <filterBy>
+                            <field>city_id</field>
+                            <target>${ $.provider }:${ $.parentScope }.city_id</target>
+                        </filterBy>
+                        <customEntry>district</customEntry>
+                        <options class="Magenest\Directory\Model\ResourceModel\District\Collection"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+        <field name="ward_id" component="Magenest_MapList/js/form/element/ward" sortOrder="40" formElement="select" >
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>string</dataType>
+                <label translate="true">Ward</label>
+            </settings>
+            <formElements>
+                <select>
+                    <settings>
+                        <filterBy>
+                            <field>district_id</field>
+                            <target>${ $.provider }:${ $.parentScope }.district_id</target>
+                        </filterBy>
+                        <customEntry>district</customEntry>
+                        <options class="Magenest\Directory\Model\ResourceModel\Ward\Collection"/>
+                    </settings>
+                </select>
+            </formElements>
+        </field>
+    </fieldset>
+</form>

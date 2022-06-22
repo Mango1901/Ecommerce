@@ -1,0 +1,48 @@
+& when (@media-common = true){
+  .customfrontend-mobile-view{
+    .page-wrapper .bar-mobile ~ .page-main{
+      padding: 78px 0 0;
+    }
+  }
+  .footer-account-menu{
+    .list-menus{
+      .menu-item{
+        border-top: 1px solid rgba(175, 175, 175, 0.5);
+        background-color: var(--white);
+        border-bottom: 1px solid rgba(175, 175, 175, 0.5);
+        margin-bottom: 23px;
+        &.login-signup-info{
+          padding: 12px 16px;
+        }
+        .list-submenu{
+          ul{
+            padding-left: 0;
+            li{
+              border-bottom: 1px solid rgba(175, 175, 175, 0.5);
+              margin-bottom: 0;
+              height: 44px;
+              &:last-child{
+                border-bottom: 0;
+              }
+              a{
+                padding: 13px 16px;
+                display: block;
+                height: 100%;
+                position: relative;
+                &:after{
+                  content: "\f105";
+                  font-family: FontAwesome;
+                  position: absolute;
+                  top: 50%;
+                  right: 13px;
+                  font-size: 20px;
+                  transform: translateY(-50%);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<?php /** @var $block \Magenest\OrderCancel\Block\Order\Info\ReasonCancel */ ?>
+
+<?php if ($reason = $block->getReasonCancel()) : ?>
+    <div class="order-reason-cancel <?= $block->escapeHtml($block->getOrder()->getStatus()) ?>">
+        <span class="label"><?= __('Reason Cancel:') ?></span>
+        <span class="value <?= $block->escapeHtml($block->getOrder()->getStatus()) ?>"><?= $reason ?></span>
+    </div>
+<?php endif; ?>

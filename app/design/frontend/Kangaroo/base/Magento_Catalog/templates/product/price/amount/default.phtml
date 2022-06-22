@@ -1,0 +1,27 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+
+
+<?php /** @var \Magento\Framework\Pricing\Render\Amount $block */ ?>
+<span class="price-container <?= /* @escapeNotVerified */ $block->getAdjustmentCssClasses() ?>"
+        <?= $block->getSchema() ? ' itemprop="offers" itemscope itemtype="http://schema.org/Offer"' : '' ?>>
+<span <?php if ($block->getPriceId()): ?> id="<?= /* @escapeNotVerified */ $block->getPriceId() ?>"<?php endif;?>
+        data-price-amount="<?= /* @escapeNotVerified */ $block->getDisplayValue() ?>"
+        data-price-type="<?= /* @escapeNotVerified */ $block->getPriceType() ?>"
+        class="price-wrapper <?= /* @escapeNotVerified */ $block->getPriceWrapperCss() ?>"
+        ><?= /* @escapeNotVerified */ $block->formatCurrency($block->getDisplayValue(), (bool)$block->getIncludeContainer()) ?></span>
+        <?php if ($block->hasAdjustmentsHtml()): ?>
+        <?= $block->getAdjustmentsHtml() ?>
+        <?php endif; ?>
+        <?php if ($block->getSchema()): ?>
+<meta itemprop="price" content="<?= /* @escapeNotVerified */ $block->getDisplayValue() ?>" />
+<meta itemprop="priceCurrency" content="<?= /* @escapeNotVerified */ $block->getDisplayCurrencyCode() ?>" />
+        <?php endif; ?>
+        </span>

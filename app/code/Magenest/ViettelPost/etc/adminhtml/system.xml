@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="carriers">
+            <group id="viettelpost" translate="label" type="text" sortOrder="1000" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Viettel Post</label>
+                <group id="general" translate="label" type="text" sortOrder="100" showInStore="1" showInWebsite="1" showInDefault="1">
+                    <label>General</label>
+                    <field id="username" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                        <label>Username</label>
+                    </field>
+                    <field id="password" translate="label" type="obscure" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                        <label>Password</label>
+                        <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                    </field>
+                    <field id="token_print" translate="label" type="obscure" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                        <label>Token Print</label>
+                        <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                    </field>
+                    <field id="token_webhook" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                        <label>Token Webhooks</label>
+                    </field>
+                </group>
+                <group id="information" translate="label" type="text" sortOrder="200" showInStore="0" showInWebsite="0" showInDefault="1">
+                    <label>Information</label>
+                    <field id="order_prefix" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="0" showInStore="0">
+                        <label>Order Prefix</label>
+                    </field>
+                    <field id="order_service" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                        <source_model>Magenest\ViettelPost\Model\Config\Source\OrderService</source_model>
+                        <label>Order Service</label>
+                    </field>
+                    <field id="sender_fullname" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                        <label>Sender Fullname</label>
+                    </field>
+                    <field id="sender_address" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                        <label>Sender Address</label>
+                    </field>
+                    <field id="sender_phone" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                        <label>Sender Phone</label>
+                    </field>
+                    <field id="sender_email" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">
+                        <label>Sender Email</label>
+                    </field>
+                </group>
+            </group>
+        </section>
+    </system>
+</config>

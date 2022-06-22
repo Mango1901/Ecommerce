@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Indexer/etc/indexer.xsd">
+    <indexer id="product_label" view_id="product_label"
+             class="Magenest\ProductLabel\Model\Indexer\LabelIndexer">
+        <title>Magenest Product Label</title>
+        <description>Indexed Product Label</description>
+    </indexer>
+    <indexer id="magenest_label_product" view_id="magenest_label_product" class="Magenest\ProductLabel\Model\Indexer\Product\ProductRuleIndexer">
+        <title translate="true">Magenest Product Rule</title>
+        <description translate="true">Magenest Indexed product/rule association</description>
+    </indexer>
+</config>

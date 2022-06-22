@@ -1,0 +1,426 @@
+/**
+* Copyright © 2019 Magenest. All rights reserved.
+* See COPYING.txt for license details.
+*
+* Magenest_Store
+* NOTICE OF LICENSE
+*
+* @category Magenest
+* @package Magenest_Store
+*/
+
+//
+//  Variables
+//  _____________________________________________
+
+@import "variable/_variables.less";
+
+//
+//  Common
+//  _____________________________________________
+
+& when (@media-common = true) {
+    .review-product-view{
+        .product-review{
+            .product-img-box{
+                .product-image {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                }
+            }
+        }
+    }
+    .review-product-list {
+        .magenest {
+            border: 1px solid #ccc;
+            padding: 30px;
+            margin-top: 20px;
+        }
+
+        .magenest-photoreview-popup {
+            display: block;
+        }
+    }
+
+    .magenest {
+        padding-top: 10px;
+
+        .review-item {
+            width: 100%;
+            border-bottom: 1px solid @photoreview-color-19;
+
+            &:first-child {
+                border-top: 1px solid @photoreview-color-19;
+            }
+
+            .review-title {
+                width: 100%;
+                word-break: break-all;
+            }
+
+            .photoreview-container {
+                .lib-vendor-prefix-display();
+                .lib-vendor-prefix-flex-wrap(nowrap);
+            }
+
+            .photoreview-left {
+                width: 250px;
+                margin-right: 30px;
+
+                .photo-item:first-child {
+                    width: 100%;
+                    text-align: center;
+
+                    .image-item {
+                        width: 100%;
+                        height: 250px;
+                        object-fit: cover;
+                    }
+                }
+
+                ~ .photoreview-right {
+                    .lib-vendor-prefix-flex-grow(1);
+                    max-width: calc(~'100% - 280px');
+                }
+            }
+
+            .photoreview-right {
+                .review-author {
+                    .review-details-value {
+                        font-size: 20px;
+                        font-weight: bold;
+                        word-break: break-all;
+                    }
+                }
+
+                .review-date {
+                    margin: 8px 0;
+
+                    .review-details-value {
+                        font-size: 14px;
+                        font-weight: 400;
+                        color: @photoreview-color-10;
+                        letter-spacing: 0.1px;
+                    }
+                }
+
+                .review-ratings {
+                    float: none;
+                    margin: 8px 0;
+
+                    .rating-label {
+                        display: none;
+                    }
+                }
+
+                .review-content {
+                    margin: 8px 0;
+
+                    span {
+                        word-break: break-all;
+                    }
+                }
+            }
+        }
+    }
+
+    //Advantages and disadvantages
+    .pros-cons {
+        margin: 8px 0;
+    }
+
+    .pros-container, .cons-container {
+        .lib-vendor-prefix-display();
+
+        .left-icon {
+            margin-right: 8px;
+            font-size: 16px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+    }
+
+    .pros-container {
+        margin-bottom: 5px;
+    }
+
+    .photo-review.photo-items {
+        .lib-vendor-prefix-display();
+        .lib-vendor-prefix-flex-wrap();
+        position: relative;
+
+        .image-item {
+            width: 48px;
+            height: 48px;
+            cursor: pointer;
+            -webkit-background-size: cover;
+            background-size: cover;
+            background-position: center;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+    }
+
+
+    // Social sharing
+    .social-share {
+        margin: 12px 0 0;
+        .lib-vendor-prefix-display();
+
+        .social-title {
+            margin-right: 10px;
+            padding-right: 10px;
+            position: relative;
+
+            &:after {
+                content: '';
+                width: 1px;
+                height: 12px;
+                right: 0;
+                .lib-review-center-Y();
+                background: @photoreview-color-7;
+            }
+        }
+
+        .social-items {
+            .lib-vendor-prefix-display();
+
+            .social-item {
+                margin-right: 10px;
+                position: relative;
+                border: 1px solid @photoreview-color-20;
+                text-transform: uppercase;
+                padding: 5px 10px;
+
+                a {
+                    color: @photoreview-color-10;
+                    .lib-vendor-prefix-display();
+                    align-items: center;
+
+                    .iconmoon-facebook-1, .iconmoon-twitter {
+                        margin-right: 5px;
+                    }
+
+                    &:hover {
+                        text-decoration: none;
+                    }
+                }
+            }
+        }
+    }
+
+    //Style filter ratings
+    .catalog-product-view {
+        .magenest-photoreview-filters {
+            margin-bottom: 10px;
+
+            .magenest-photoreview-action {
+                vertical-align: top;
+                display: inline-block;
+
+                .filter {
+                    width: auto;
+                    height: 40px;
+                    .lib-css(box-shadow, none);
+                    .lib-css(border-radius, 0);
+                    background: @photoreview-color-1;
+                    border: 1px solid @photoreview-color-21;
+                }
+            }
+
+            .magenest-photoreview-filter-options {
+                display: inline-block;
+
+                .magenest-photoreview-filter {
+                    width: auto;
+                    height: 40px;
+                    margin-right: 5px;
+                    display: inline-block;
+                    vertical-align: top;
+                }
+            }
+        }
+    }
+
+
+    //Admin comment
+    .admin-comment {
+        background: @photoreview-color-11;
+        padding: 15px;
+        margin: 8px 0;
+
+        .admin-comment-title {
+            font-size: 16px;
+            color: @photoreview-color-2;
+            margin-bottom: 5px;
+        }
+
+        .comment-content {
+            color: @photoreview-color-12;
+            word-break: break-all;
+        }
+    }
+
+    .review-details .review-date {
+        display: block;
+    }
+
+    .review-recommend {
+        color: @photoreview-color-18;
+        font-weight: 400;
+        margin: 8px 0;
+    }
+}
+
+//Mobile
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .review-items {
+        .pros-cons {
+            display: block;
+
+        }
+
+        .pros-container, .cons-container {
+            width: 100%;
+        }
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__s) {
+    .magenest {
+        .review-item {
+            .photoreview-left {
+                width: 200px;
+                margin-right: 15px;
+
+                .photo-item:first-child {
+                    .image-item {
+                        height: 200px;
+                    }
+                }
+
+                ~ .photoreview-right {
+                    max-width: calc(~'100% - 215px');
+                }
+            }
+
+            .photoreview-right {
+                .review-author {
+                    .review-details-value {
+                        font-size: 20px;
+                        font-weight: bold;
+                    }
+                }
+
+                .review-date {
+                    margin: 8px 0;
+
+                    .review-details-value {
+                        font-size: 14px;
+                        font-weight: 400;
+                        color: @photoreview-color-10;
+                        letter-spacing: 0.1px;
+                    }
+                }
+
+                .review-ratings {
+                    float: none;
+                    margin: 8px 0;
+
+                    .rating-label {
+                        display: none;
+                    }
+                }
+
+                .review-content {
+                    margin: 8px 0;
+                }
+            }
+        }
+    }
+
+    .review-items {
+        .pros-cons {
+            display: block;
+            margin: 0;
+        }
+
+        .photo-review.photo-items {
+            margin: 15px 0;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .pros-container, .cons-container {
+            width: 100%;
+        }
+
+        .admin-comment {
+            margin: 0;
+        }
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__xs) {
+    .magenest {
+        .review-item {
+            .photoreview-container {
+                .lib-vendor-prefix-flex-wrap(wrap);
+            }
+
+            .photoreview-left {
+                width: 100%;
+                margin: 0;
+
+                .photo-item:first-child {
+
+                    .image-item {
+                        width: 250px;
+                        height: 250px;
+                    }
+                }
+
+                ~ .photoreview-right {
+                    max-width: 100%;
+                }
+            }
+        }
+    }
+
+    //Style filter ratings
+    .catalog-product-view {
+        .magenest-photoreview-filters {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 10px;
+
+            .magenest-photoreview-filter-options {
+                width: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: flex-start;
+                float: left;
+                padding-bottom: 10px;
+                padding-left: 10px;
+                padding-right: 10px;
+                margin-bottom: 10px;
+
+                .magenest-photoreview-filter {
+                    margin: 5px;
+                    font-size: 11px;
+                }
+            }
+
+            .magenest-photoreview-action {
+                .filter {
+                    width: 100%;
+                    height: 40px;
+                    font-size: 11px;
+                }
+            }
+        }
+    }
+}

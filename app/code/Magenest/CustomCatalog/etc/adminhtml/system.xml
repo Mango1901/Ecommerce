@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2019 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ *
+ * Magenest_Kangaroo extension
+ * NOTICE OF LICENSE
+ *
+ * @category Magenest
+ * @package Magenest_Kangaroo
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="catalog">
+            <group id="related_generate" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Related Product Generation</label>
+                <field id="enable" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enable Auto Generate Related Product</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="generate_amount" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Number of Related Product Generation</label>
+                    <comment>Number of Related Product Generation in Product Detail Page.</comment>
+                    <depends>
+                        <field id="catalog/related_generate/enable">1</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="product_discount_label" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Product Discount Label</label>
+                <field id="enable" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="type" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Type Label</label>
+                    <source_model>Magenest\CustomCatalog\Model\Config\Source\TypeSaleLabel</source_model>
+                    <depends>
+                        <field id="catalog/product_discount_label/enable">1</field>
+                    </depends>
+                </field>
+
+                <field id="sale_label" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sale Label</label>
+                    <depends>
+                        <field id="catalog/product_discount_label/enable">1</field>
+                        <field id="catalog/product_discount_label/type">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

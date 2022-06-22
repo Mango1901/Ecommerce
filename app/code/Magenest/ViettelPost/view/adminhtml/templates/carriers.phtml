@@ -1,0 +1,85 @@
+<?php
+/** @var \Magenest\ViettelPost\Block\Adminhtml\Shipment\Inventory $block */
+$shipment = $block->getShipment();
+$order = $shipment->getOrder();
+$shippingCarriers = $block->getShippingCarrier();
+$shippingCarrierCode = $order->getData('shipping_carrier');
+?>
+<?php if($shippingCarrierCode){ ?>
+    <?php
+        $carrierModel = $block->getCarrierModel($shippingCarrierCode);
+        $orderData = $carrierModel->getOrderData($order->getId());
+    ?>
+    <div class="admin__page-section-item-title">
+        <span class="title"><?= ucwords(str_replace("_", " ", $shippingCarrierCode))?></span>
+    </div>
+    <?php if(count($orderData) > 0){ ?>
+        <table class="data-table admin__table-secondary" style="width: 40%;">
+            <thead style="font-weight: bold;">
+                <tr>
+                    <td><?= __("Name") ?></td>
+                    <td><?= __("Value") ?></td>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($orderData as $k=>$v){ ?>
+                    <tr>
+                        <td><?= ucwords(str_replace("_", " ", $k)) ?></td>
+                        <td><?= $v ?></td>
+                    </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+    <?php } else {
+        echo __("There are no shipping information");
+    }?>
+
+<?php } else { ?>
+    <?php if ($block->isDisplayed()){ ?>
+        <div class="admin__page-section-item shipment-carrier">
+            <div class="admin__page-section-item-title">
+                <span class="title">Select shipping carrier</span>
+            </div>
+            <div class="admin__page-section-item-content">
+                <select id="carrier_select" name="shipment[carrier_select]">
+                    <option value="">Select shipping carrier</option>
+                    <?php foreach ($shippingCarriers as $carrierCode => $v){?>
+                        <option value="<?= $carrierCode?>"><?= ucwords(str_replace("_", " ", $carrierCode))?></option>
+                    <?php } ?>
+                </select>
+            </div>
+            <div class="admin__page-section-item-title">
+                <span class="title">Order Note</span>
+            </div>
+            <div class="admin__page-section-item-content">
+                <textarea id="shipment_order_note" name="shipment[shipment_order_note]" rows="6" cols="80"><?= $order->getCustomerNote()?></textarea>
+            </div>
+            <br>
+            <a href="#" id="request_shipment_button" class="button">Request Shipment</a>
+        </div>
+        <script>
+            require(['jquery'], function ($) {
+                $('#request_shipment_button').on("click", function (e) {
+                    e.preventDefault();
+                    $.post(
+                        '<?= $block->getUrl('viettelpost/shipment/request') ?>',
+                        {
+                            order_id: '<?= $block->getOrderId() ?>',
+                            carrier: $('#carrier_select').val(),
+                            order_note: $('#shipment_order_note').val()
+                        },
+                        function (resp) {
+                            if(resp.success){
+                                location.reload();
+                            }
+                            if(resp.error){
+                                alert(resp.message)
+                            }
+                        },
+                        'json'
+                    )
+                });
+            });
+        </script>
+    <?php } ?>
+<?php } ?>

@@ -1,0 +1,99 @@
+& when (@media-common = true){
+    .progress-bar {
+        width: 80%;
+        height: 10px;
+        margin: 50px 0;
+        background-color: @progessbar_background-color1;
+        border-radius: 99em;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        border-top: 3px solid @progessbar_background-color1;
+        border-bottom: 3px solid @progessbar_background-color1;
+        .progress {
+            background-color: @progessbar_background-color2;
+            top: 0;
+            left: 3px;
+            bottom: 0;
+            position: absolute;
+            max-width: calc(~'100% - 6px');
+            border-radius: 9em;
+            z-index: 9;
+        }
+        .milestone {
+            position: relative;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 3px solid @progessbar_background-color1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: @progessbar_background-color1;
+            .rank{
+                display: flex;
+                flex-wrap: nowrap;
+                position: absolute;
+                z-index: 9;
+                top: -30px;
+                text-align: right;
+                > span{
+                    vertical-align: top;
+                    margin-right: 10px;
+                }
+                > img{
+                    width: 20px;
+                    height: 20px;
+                    object-fit: cover;
+                }
+            }
+            .rank-total{
+                position: absolute;
+                z-index: 9;
+                top: 30px;
+                white-space: nowrap;
+            }
+            &:first-of-type{
+                .rank{
+                    left: 0;
+                    text-align: left;
+                }
+            }
+            &:last-of-type{
+                .rank{
+                    right: 20px;
+                }
+            }
+            &--reached {
+                background-color: @progessbar_background-color2;
+            }
+        }
+    }
+
+    .reward-membership {
+        white-space: initial;
+    }
+}
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__xs) {
+    .progress-bar {
+        width: 100%;
+        .milestone {
+            .rank{
+                text-align: center;
+                > span{
+                    display: none;
+                }
+            }
+            &:last-of-type{
+                .rank{
+                    right: 0;
+                    text-align: right;
+                }
+            }
+            &--reached {
+                background-color: @progessbar_background-color2;
+            }
+        }
+    }
+}

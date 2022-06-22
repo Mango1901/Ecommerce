@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Customer\Block\Form\Login">
+        <plugin name="module_magenest_customer_view_override_template"
+                type="Magenest\Customer\Plugin\Block\Form\Login" />
+    </type>
+
+    <type name="Magento\Checkout\Model\CompositeConfigProvider">
+        <arguments>
+            <argument name="configProviders" xsi:type="array">
+                <item name="checkout_config_custom_data" xsi:type="object">Magenest\Customer\Model\CustomConfigProvider</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <preference for="Magento\Customer\Block\Address\Grid" type="Magenest\Customer\Block\Address\Grid" />
+    <preference for="Magento\Customer\Controller\Account\EditPost" type="Magenest\Customer\Controller\Account\EditPost" />
+
+    <type name="Magento\Customer\Controller\Account\Logout">
+        <plugin name="navigation_homepage_when_logout" type="Magenest\Customer\Plugin\Controller\Account\LogoutAfter" />
+    </type>
+
+    <type name="Magento\Checkout\Block\Checkout\LayoutProcessor">
+        <plugin name="add_full_name_to_checkout" type="Magenest\Customer\Plugin\Block\Checkout\NameLayoutProcessor" sortOrder="10"/>
+    </type>
+</config>

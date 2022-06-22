@@ -1,0 +1,189 @@
+<?php
+/**
+ * Copyright © 2020 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ * @category  Magenest
+ */
+/** @var  $block \Magenest\RewardPoints\Block\Customer\Points */
+$_data = $block->getTransactions();
+$_rule = $block->getRule();
+$customer = $block->getAccount();
+/**
+ * @var \Magenest\RewardPoints\Helper\MembershipData $membershipHelper
+ */
+$membershipHelper = $this->helper('\Magenest\RewardPoints\Helper\MembershipData');
+$customerTier = $membershipHelper->getCustomerTier($customer->getCustomerId());
+$imageHelper = $this->helper('\Magenest\RewardPoints\Helper\ImageHelper');
+
+?>
+<div>
+    <?php echo $block->getDescription(); ?>
+    <?php
+    if (empty($block->getDescription())) {
+        echo $block->getLandingPageLink();
+    } else {
+        echo '<br>' . $block->getLandingPageLink();
+    }
+    ?>
+</div>
+<?php if ($_data && count($_data)): ?>
+    <h3><?php echo __('Points Summary') ?></h3>
+    <?php if ($membershipHelper->isEnableMembership()) : ?>
+    <div class="customer-membership-info">
+        <div class="progress-bar">
+            <span class="progress" style="width: <?= $membershipHelper->getProgressPercent($customer) ?>%"></span>
+            <div class="milestone milestone--reached">
+                <div class="rank"><span><?= __('Beginner') ?></span></div>
+                <span class="rank-total">0</span>
+            </div>
+            <?php
+            foreach ($membershipHelper->getActiveTier() as $tier) {
+                ?>
+                <div class="milestone <?= $block->isReachTier($tier, $customerTier) ? 'milestone--reached' : '' ?>">
+                    <div class="rank rank-<?= $tier->getData(\Magenest\RewardPoints\Api\Data\MembershipInterface::GROUP_CODE) ?>">
+                        <span><?= $tier->getData(\Magenest\RewardPoints\Api\Data\MembershipInterface::GROUP_NAME) ?></span>
+                        <img src="<?php echo $imageHelper->getRewardPointsViewFileUrl($tier->getData(\Magenest\RewardPoints\Api\Data\MembershipInterface::TIER_LOGO)); ?>"
+                             alt="<?= $tier->getData(\Magenest\RewardPoints\Api\Data\MembershipInterface::GROUP_NAME) ?>"/>
+                    </div>
+                    <span class="rank-total"><?= $block->getShortCondition($tier) ?></span>
+                </div>
+                <?php
+            }
+            ?>
+        </div>
+        <div class="customer-reward-point">
+            <?php if ($customerTier->getId()): ?>
+                <p><span><?= __('Your current tier is %1', $block->escapeHtml($customerTier->getData(\Magenest\RewardPoints\Api\Data\MembershipInterface::GROUP_NAME)))?></span></p>
+            <?php else: ?>
+                <p><span><?= __('You don\'t belong to any Tier') ?></span></p>
+            <?php endif; ?>
+            <p><?= $membershipHelper->getNextTierCondition($customer->getCustomerId()) ?></p>
+        </div>
+    </div>
+    <?php endif; ?>
+
+    <div class="table-wrapper account-info" id="account-info">
+        <table id="account-info" class="data table table-collection-account">
+            <thead>
+            <tr class="headings">
+                <th class="col-points-total"><span><?php /* @escapeNotVerified */
+                        echo __('Total Points') ?></span></th>
+                <th class="col-points-current"><span><?php /* @escapeNotVerified */
+                        echo __('Current Points') ?></span></th>
+                <th class="col-points-lost"><span><?php /* @escapeNotVerified */
+                        echo __('Spent Points') ?></span></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td data-th="<?php echo $block->escapeHtml(__('Total Points')) ?>" class="col-points-total">
+                    <?php echo $customer->getPointsTotal(); ?>
+                </td>
+                <td data-th="<?php echo $block->escapeHtml(__('Current Points')) ?>" class="col-points-total">
+                    <?php echo $customer->getPointsCurrent(); ?>
+                </td>
+                <td data-th="<?php echo $block->escapeHtml(__('Spent Points')) ?>" class="col-points-lost">
+                    <?php echo $customer->getPointsSpent(); ?>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <h3><?php echo __('Transaction History') ?></h3>
+    <div class="table-wrapper transaction-history" id="transaction_history">
+        <table id="my-collection-products-table" class="data table table-collection-transaction">
+            <thead>
+            <tr class="headings">
+                <th class="col-id"><span><?php /* @escapeNotVerified */
+                        echo __('Id') ?></span></th>
+                <th class="col-rule-id"><span><?php /* @escapeNotVerified */
+                        echo __('Event') ?></span></th>
+                <th class="col-rule-comment"><span><?php /* @escapeNotVerified */
+                        echo __('From') ?></span></th>
+                <th class="col-change-points"><span><?php /* @escapeNotVerified */
+                        echo __('Points Change') ?></span></th>
+                <th class="col-current-points"><span><?php /* @escapeNotVerified */
+                        echo __('Points After') ?></span></th>
+                <th class="col-insertion-date"><span><?php /* @escapeNotVerified */
+                        echo __('Updated at') ?></span></th>
+                <th class="col-expiry-date"><span><?php /* @escapeNotVerified */
+                        echo __('Expire at') ?></span></th>
+            </tr
+            </thead>
+            <tbody>
+            <?php foreach ($_data as $data) : ?>
+                <tr>
+                    <td data-th="<?php echo $block->escapeHtml(__('Id')) ?>" class="col-id">
+                        <?php echo $data->getId(); ?>
+                    </td>
+                    <td data-th="<?php echo $block->escapeHtml(__('Event')) ?>" class="col-rule-id">
+                        <?php if ($data->getRuleId() == 0)
+                            echo __('Redeem points');
+                        elseif ($data->getRuleId() == -1)
+                            echo __('Points from admin');
+                        elseif ($data->getRuleId() == -2)
+                            echo __('Referral code points');
+                        elseif ($data->getRuleId() == -3)
+                            echo __('Points Expired');
+                        elseif ($data->getRuleId() == -4)
+                            echo __("Deduct received points");
+                        elseif ($data->getRuleId() == -5)
+                            echo __("Return applied points");
+                        elseif ($data->getRuleId() == -6)
+                            echo __("Convert Kpoint To Kcoin");
+                        else echo $_rule->load($data->getRuleId())->getTitle();
+
+                        ?>
+                    </td>
+                    <td data-th="<?php echo $block->escapeHtml(__('From')) ?>" class="col-rule-id">
+                        <?php if ($data->getRuleId() == -1 and !$data->getComment()) echo 'Points from admin';
+                        else echo $data->getComment() ? $data->getComment() : $_rule->load($data->getRuleId())->getTitle();
+                        ?>
+                    </td>
+                    <td align="center" data-th="<?php echo $block->escapeHtml(__('Points Change')) ?>"
+                        class="col-change-points">
+                        <?php if (($pointsChange = $data->getPointsChange()) > 0)
+                            echo '<span style="color:green">+' . $pointsChange . '</span>';
+                        else echo '<span style="color:red">' . $pointsChange . '</span>'; ?>
+                    </td>
+                    <td align="center" data-th="<?php echo $block->escapeHtml(__('Points After')) ?>"
+                        class="col-current-points">
+                        <?php echo $data->getPointsAfter(); ?>
+                    </td>
+                    <td data-th="<?php echo $block->escapeHtml(__('Updated at')) ?>" class="col-insertion-date">
+                        <?php echo date('Y-m-d', strtotime($data->getInsertionDate())) ?>
+                    </td>
+                    <td data-th="<?php echo $block->escapeHtml(__('Expire at')) ?>" class="col-expiry-date">
+                        <?php if ($data->getPointsChange() > 0 && !$block->getExpiryType($data['id'])) {
+                            echo __('Never');
+                        } else {
+                            $date = $block->getExpiryDate($data->getId());
+                            if ($date != null) {
+                                echo date('Y-m-d', strtotime($date));
+                            }
+                        }
+                        ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+        <?php if ($block->getPagerHtml()): ?>
+            <div
+                class="order-products-toolbar toolbar bottom custom-pager"><?php echo $block->getPagerHtml(); ?></div>
+            <style>
+                .order-products-toolbar .limiter {
+                    float: right;
+                }
+            </style>
+        <?php endif ?>
+    </div>
+<?php else: ?>
+    <div class="message info empty"><span><?php /* @escapeNotVerified */
+            echo __('You have no Reward Points.'); ?></span></div>
+<?php endif ?>
+
+
+
+
+

@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Magenest_SellOnInstagram::sell_on_instagram"
+             title="Sell On Instagram"
+             translate="title"
+             module="Magenest_SellOnInstagram"
+             sortOrder="15"
+             resource="Magenest_SellOnInstagram::sell_on_instagram"
+             parent="Magenest_Backend::Magenest"/>
+
+        <add id="Magenest_SellOnInstagram::instagram_mapping"
+             title="Mapping Attributes"
+             translate="title"
+             module="Magenest_SellOnInstagram"
+             sortOrder="15"
+             parent="Magenest_SellOnInstagram::sell_on_instagram"
+             action="instagramshop/mapping/index"
+             resource="Magenest_SellOnInstagram::instagram_mapping"/>
+
+        <add id="Magenest_SellOnInstagram::instagram_feed"
+             title="Manage Feeds"
+             translate="title"
+             module="Magenest_SellOnInstagram"
+             sortOrder="12"
+             parent="Magenest_SellOnInstagram::sell_on_instagram"
+             action="instagramshop/feed/index"
+             resource="Magenest_SellOnInstagram::instagram_feed"/>
+
+        <add id="Magenest_SellOnInstagram::configuration"
+             title="Configuration"
+             translate="title"
+             module="Magenest_SellOnInstagram"
+             sortOrder="25"
+             parent="Magenest_SellOnInstagram::sell_on_instagram"
+             resource="Magenest_SellOnInstagram::configuration"
+             action="adminhtml/system_config/edit/section/sell_on_instagram"/>
+    </menu>
+</config>
+

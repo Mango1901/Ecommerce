@@ -1,0 +1,250 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+use Magenest\CustomCatalog\Helper\Helper;
+use Magento\Framework\App\Action\Action;
+
+/** @var \Magento\CatalogWidget\Block\Product\ProductsList $block */
+/** @var \Magento\Framework\Escaper $escaper */
+/** @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer */
+/** @var Helper $helper */
+$helper =  $this->helper(Helper::class);
+// phpcs:disable Generic.Files.LineLength.TooLong
+// phpcs:disable Magento2.Templates.ThisInTemplate.FoundHelper
+?>
+<?php if ($exist = ($block->getProductCollection() && $block->getProductCollection()->getSize())): ?>
+    <?php
+    $type = 'widget-product-grid';
+
+    $mode = 'grid';
+
+    $image             = 'new_products_content_widget_grid';
+    $items             = $block->getProductCollection()->setCurPage($block->getPage() ?? 1)->getItems();
+    $lastPage          = $block->getProductCollection()->getLastPageNumber();
+    $isViewMoreVisible = $block->getPage() < $lastPage && $lastPage > 1;
+    $showWishlist      = true;
+    $showCompare       = true;
+    $showCart          = true;
+    $templateType      = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+    $description       = false;
+    if (!($id = $block->getIdentifierKey())) {
+        $id = $block->getNameInLayout();
+        $id = preg_replace("/[^A-Za-z0-9 ]/", '_', $id);
+        $block->setIdentifierKey($id);
+    }
+
+    $sortOptions = [
+        'name_ascending'    => __('Product Name'),
+        'price_low_to_high' => __('Price (Low To High)'),
+        'price_high_to_low' => __('Price (High To Low)'),
+        'date_newest_top'   => __('Newest Product'),
+        'best_seller'       => __('Best Seller'),
+    ];
+    ?>
+    <?php if ((int)$block->getData('display_sort_by')) : ?>
+        <div class="sorter-list">
+            <select class="admin__control-select" name="sort_order" id="<?= $id ?>">
+                <option value="position"
+                        data-widget-post="<?= $escaper->escapeHtmlAttr(json_encode($block->getData())) ?>"><?= __(
+                        'Sort by'
+                    ) ?></option>
+                <?php $original = $block->getSortOrder();
+                foreach ($sortOptions as $key => $label): ?>
+                    <?php $block->setSortOrder($key); ?>
+                    <option value="<?= $key ?>" data-widget-post="<?= $escaper->escapeHtmlAttr(
+                        json_encode($block->getData())
+                    ) ?>" <?= $original == $key ? "selected" : "" ?>><?= $label ?></option>
+                <?php endforeach;
+                $block->setSortOrder($original);
+                ?>
+            </select>
+        </div>
+    <?php endif; ?>
+    <div class="block widget block-products-list <?= /* @noEscape */
+    $mode ?>">
+        <?php if ($block->getTitle()): ?>
+            <div class="block-title">
+                <strong><?= $block->escapeHtml(__($block->getTitle())) ?></strong>
+            </div>
+        <?php endif ?>
+        <div class="block-content">
+            <?= /* @noEscape */
+            '<!-- ' . $image . '-->' ?>
+            <div class="products-<?= /* @noEscape */
+            $mode ?> <?= /* @noEscape */
+            $mode ?>">
+                <ol class="product-items <?= /* @noEscape */
+                $id . " " . $type ?>">
+                    <?php $iterator = 1; ?>
+                    <?php foreach ($items as $_item): ?>
+                        <?= /* @noEscape */
+                        ($iterator++ == 1) ? '<li class="product-item">' : '</li><li class="product-item">' ?>
+                        <div class="product-item-info">
+                            <a href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
+                               class="product-item-photo">
+                                <?= $block->getImage($_item, $image)->toHtml() ?>
+                            </a>
+                            <div class="product-item-details">
+                                <?php if ($sale = \Magenest\Core\Helper\CatalogHelper::getSalesPercent($_item)): ?>
+                                    <span class="label label-discount">
+                                        <span class="text-sm-mi-des-wh"><?= '' . $sale . '%' ?></span>
+                                    </span>
+                                <?php endif; ?>
+                                <?php if ($helper->isSalableInArea($_item->getSku())): ?>
+                                    <p><?= __("Out of Stock") ?></p>
+                                <?php endif; ?>
+                                <?= $block->getLayout()->createBlock(
+                                    \Magenest\CustomCatalog\Block\Product\LabelDiscount::class
+                                )->setData('product', $_item)->toHtml(); ?>
+                                <strong class="product-item-name">
+                                    <a title="<?= $block->escapeHtml($_item->getName()) ?>"
+                                       href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
+                                       class="product-item-link">
+                                        <?= $block->escapeHtml($_item->getName()) ?>
+                                    </a>
+                                </strong>
+
+
+                                <?= $block->getProductPriceHtml($_item, $type) ?>
+
+
+                                <div class="product-item-bottom">
+                                    <?php if ($showWishlist || $showCompare): ?>
+                                        <?php if ($this->helper(\Magento\Wishlist\Helper\Data::class)->isAllow()
+                                            && $showWishlist): ?>
+                                            <a href="#"
+                                               data-post='<?= /* @noEscape */
+                                               $block->getAddToWishlistParams($_item) ?>' class="action towishlist"
+                                               data-action="add-to-wishlist"
+                                               data-product-id="<?= $_item->getId() ?>"
+                                               title="<?= $block->escapeHtmlAttr(__('Add to Wish List')) ?>">
+                                                <span><?= $block->escapeHtml(__('Add to Wish List')) ?></span>
+                                            </a>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+
+                                    <?php if ($templateType): ?>
+                                        <?= $block->getReviewsSummaryHtml($_item, $templateType) ?>
+                                    <?php endif; ?>
+                                    <?php $soldQty = $_item->getFinalSoldQty() ?? 0 ?>
+                                    <div class="product-item-buy"><?= __(
+                                            'Sold %1',
+                                            Magenest\QuantitySold\Block\Product\SoldQuantity::numberPrefixEncode(
+                                                (int)$soldQty
+                                            )
+                                        ) ?></div>
+                                </div>
+                            </div>
+                        </div>
+                        <?= ($iterator == count($items) + 1) ? '</li>' : '' ?>
+                    <?php endforeach ?>
+                </ol>
+            </div>
+            <?= $block->getPagerHtml() ?>
+        </div>
+    </div>
+    <?php if ((int)$block->getData('enable_view_more') && $isViewMoreVisible): ?>
+        <?php
+        $block->unsetData('product_collection');
+        $block->setData('page', ($block->getData('page') ?? 1) + 1);
+        ?>
+        <div class="row-full-width-inner btn-custom-viewmore">
+            <div class="pagebuilder-button-primary <?= $id ?>"
+                 data-widget-post="<?= $escaper->escapeHtmlAttr(json_encode($block->getData())) ?>">
+                <span><?= __('View more'); ?></span>
+            </div>
+        </div>
+        <?php
+        $url          = $block->getUrl('cms/widget/render');
+        $scriptString = <<<script
+    require([
+        'jquery'
+    ], function ($) {
+        $('.pagebuilder-button-primary.{$id}').on('click', function () {
+            var self = $(this);
+            var data = self.data('widget-post');
+            $.ajax({
+                url: '{$url}',
+                type: 'get',
+                showLoader: true,
+                data: data,
+            }).done(function (data) {
+                data = JSON.parse(data);
+                $(data).find('.product-item').appendTo("ol.product-items.{$id}");
+                var widgetPost = $(data).find('.pagebuilder-button-primary').data('widget-post');
+                if (widgetPost) {
+                    self.data('widget-post', widgetPost);
+                    self.show();
+                } else {
+                    self.hide();
+                }
+            }.bind(this));
+        });
+    })
+script;
+        ?>
+        <?= /* @noEscape */
+        $secureRenderer->renderTag('script', [], $scriptString, false) ?>
+    <?php endif; ?>
+    <?php
+    $url          = $block->getUrl('cms/widget/render');
+    $scriptString = <<<script
+    require([
+        'jquery'
+    ], function ($) {
+        $('#{$id}').on('change', function () {
+            var self = $(this).find(":selected");
+            var data = self.data('widget-post');
+            $.ajax({
+                url: '{$url}',
+                type: 'get',
+                showLoader: true,
+                data: data,
+            }).done(function (data) {
+                data = JSON.parse(data);
+                $('.product-items.{$id}').replaceWith($(data).find('.product-items.{$id}'));
+                var widgetPost = $(data).find('.pagebuilder-button-primary').data('widget-post');
+                var viewMore = $('.pagebuilder-button-primary.{$id}');
+                if (widgetPost) {
+                    viewMore.data('widget-post', widgetPost);
+                    viewMore.show();
+                } else {
+                    viewMore.hide();
+                }
+            }.bind(this));
+        });
+    })
+script;
+    ?>
+    <?= /* @noEscape */
+    $secureRenderer->renderTag('script', [], $scriptString, false) ?>
+    <?php if ($block->getBlockHtml('formkey')): ?>
+        <script type="text/x-magento-init">
+    {
+        ".block.widget [data-role=tocart-form]": {
+            "Magento_Catalog/js/validate-product": {}
+        }
+    }
+
+
+
+
+
+        </script>
+    <?php endif; ?>
+
+    <script type="text/x-magento-init">
+        {
+            "body": {
+                "addToWishlist": {}
+            }
+        }
+
+
+
+
+    </script>
+<?php endif; ?>

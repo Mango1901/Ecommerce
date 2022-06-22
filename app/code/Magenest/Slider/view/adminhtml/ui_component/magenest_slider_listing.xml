@@ -1,0 +1,231 @@
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">magenest_slider_listing.magenest_slider_listing_data_source</item>
+            <item name="deps" xsi:type="string">magenest_slider_listing.magenest_slider_listing_data_source</item>
+        </item>
+        <item name="spinner" xsi:type="string">magenest_slider_columns</item>
+        <item name="buttons" xsi:type="array">
+            <item name="add" xsi:type="array">
+                <item name="name" xsi:type="string">add</item>
+                <item name="label" xsi:type="string" translate="true">Add New Slider</item>
+                <item name="class" xsi:type="string">primary</item>
+                <item name="url" xsi:type="string">*/*/new</item>
+            </item>
+        </item>
+    </argument>
+    <dataSource name="magenest_slider_listing_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">Magenest\Slider\Ui\DataProvider\Slider\SliderDataProvider</argument>
+            <argument name="name" xsi:type="string">magenest_slider_listing_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">slider_id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
+                    <item name="update_url" xsi:type="url" path="mui/index/render"/>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="indexField" xsi:type="string">slider_id</item>
+                    </item>
+                </item>
+            </argument>
+        </argument>
+    </dataSource>
+     <!--Container Listing Top -->
+    <container name="listing_top">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="template" xsi:type="string">ui/grid/toolbar</item>
+            </item>
+        </argument>
+        <!-- Button to manage views -->
+        <bookmark name="bookmarks">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/controls/bookmarks/bookmarks</item>
+                    <item name="displayArea" xsi:type="string">dataGridActions</item>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="saveUrl" xsi:type="url" path="mui/bookmark/save"/>
+                        <item name="deleteUrl" xsi:type="url" path="mui/bookmark/delete"/>
+                        <item name="namespace" xsi:type="string">magenest_slider_listing</item>
+                    </item>
+                </item>
+            </argument>
+        </bookmark>
+        <!-- Button to manage columns -->
+        <container name="columns_controls">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="columnsData" xsi:type="array">
+                        <item name="provider" xsi:type="string">magenest_slider_listing.magenest_slider_listing.magenest_slider_columns</item>
+                    </item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/controls/columns</item>
+                    <item name="displayArea" xsi:type="string">dataGridActions</item>
+                </item>
+            </argument>
+        </container>
+
+        <!-- Filters -->
+        <filters name="listing_filters">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="columnsProvider" xsi:type="string">magenest_slider_listing.magenest_slider_listing.magenest_slider_columns</item>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="provider" xsi:type="string">magenest_slider_listing.magenest_slider_listing.listing_top.bookmarks</item>
+                        <item name="namespace" xsi:type="string">current.filters</item>
+                    </item>
+                    <item name="childDefaults" xsi:type="array">
+                        <item name="provider" xsi:type="string">magenest_slider_listing.magenest_slider_listing.listing_top.listing_filters</item>
+                        <item name="imports" xsi:type="array">
+                            <item name="visible" xsi:type="string">magenest_slider_listing.magenest_slider_listing.listing_top.bookmarks:current.columns.${ $.index }.visible</item>
+                        </item>
+                    </item>
+                </item>
+            </argument>
+
+            <!--<filterSelect name="private_group" provider="${ $.parentName }" component="Magento_Ui/js/form/element/ui-select" template="ui/grid/filters/elements/ui-select">-->
+                <!--<settings>-->
+                    <!--<options class="Magenest\Slider\Model\ResourceModel\Slider\TypeSlider"/>-->
+                    <!--<caption translate="true">Select...</caption>-->
+                    <!--<label translate="true">Type</label>-->
+                    <!--<dataScope>private_group</dataScope>-->
+                    <!--<imports>-->
+                        <!--<link name="visible">componentType = column, index = ${ $.index }:visible</link>-->
+                    <!--</imports>-->
+                <!--</settings>-->
+            <!--</filterSelect>-->
+        </filters>
+        <!-- Mass action -->
+        <massaction name="listing_massaction">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="selectProvider" xsi:type="string">magenest_slider_listing.magenest_slider_listing.magenest_slider_columns.ids</item>
+                    <item name="indexField" xsi:type="string">ids</item>
+                </item>
+            </argument>
+            <action name="delete">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">delete</item>
+                        <item name="label" xsi:type="string" translate="true">Delete</item>
+                        <item name="url" xsi:type="url" path="slider/slider/massdelete"/>
+                        <item name="confirm" xsi:type="array">
+                            <item name="title" xsi:type="string" translate="true">Delete items</item>
+                            <item name="message" xsi:type="string" translate="true">Are you sure you wan't to delete selected items?</item>
+                        </item>
+                    </item>
+                </argument>
+            </action>
+        </massaction>
+
+        <!-- Paging -->
+        <paging name="listing_paging">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="provider" xsi:type="string">magenest_slider_listing.magenest_slider_listing.listing_top.bookmarks</item>
+                        <item name="namespace" xsi:type="string">current.paging</item>
+                    </item>
+                    <item name="selectProvider" xsi:type="string">magenest_slider_listing.magenest_slider_listing.magenest_slider_columns.ids</item>
+                    <item name="displayArea" xsi:type="string">bottom</item>
+                </item>
+            </argument>
+        </paging>
+    </container>
+    <columns name="magenest_slider_columns">
+        <!--copy paste-->
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <!-- Bookmarks behaviour -->
+                <item name="storageConfig" xsi:type="array">
+                    <item name="provider" xsi:type="string">magenest_slider_listing.magenest_slider_listing.listing_top.bookmarks</item>
+                    <item name="namespace" xsi:type="string">current</item>
+                </item>
+                <item name="childDefaults" xsi:type="array">
+                    <item name="controlVisibility" xsi:type="boolean">true</item>
+                    <!-- Bookmarks behaviour -->
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="provider" xsi:type="string">magenest_slider_listing.magenest_slider_listing.listing_top.bookmarks</item>
+                        <item name="root" xsi:type="string">columns.${ $.index }</item>
+                        <item name="namespace" xsi:type="string">current.${ $.storageConfig.root}</item>
+                    </item>
+                </item>
+            </item>
+        </argument>
+        <selectionsColumn name="ids">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="resizeEnabled" xsi:type="boolean">false</item>
+                    <item name="resizeDefaultWidth" xsi:type="string">55</item>
+                    <item name="indexField" xsi:type="string">slider_id</item>
+                </item>
+            </argument>
+        </selectionsColumn>
+        <column name="slider_id">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="sorting" xsi:type="string">asc</item>
+                    <item name="label" xsi:type="string" translate="true">ID</item>
+                </item>
+            </argument>
+        </column>
+        <column name="name">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="editor" xsi:type="array">
+                        <item name="editorType" xsi:type="string">text</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                    <item name="label" xsi:type="string" translate="true">Name</item>
+                </item>
+            </argument>
+        </column>
+        <column name="type" class="Magenest\Slider\Ui\Component\Listing\Column\SliderType">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Magenest\Slider\Model\ResourceModel\Slider\TypeSlider</item>
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">select</item>
+                    <item name="dataType" xsi:type="string">select</item>
+                    <item name="editor" xsi:type="array">
+                        <item name="editorType" xsi:type="string">select</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                    <item name="label" xsi:type="string" translate="true">Type</item>
+                </item>
+            </argument>
+        </column>
+        <column name="status" class="Magenest\Slider\Ui\Component\Listing\Column\SliderStatus">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Magenest\Slider\Model\ResourceModel\Slider\Status</item>
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">select</item>
+                    <item name="dataType" xsi:type="string">select</item>
+                    <item name="editor" xsi:type="array">
+                        <item name="editorType" xsi:type="string">select</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                    <item name="label" xsi:type="string" translate="true">Status</item>
+                    <item name="bodyTmpl" xsi:type="string">ui/grid/cells/html</item>
+                </item>
+            </argument>
+        </column>
+        <!-- Action columns -->
+        <actionsColumn name="actions" class="Magenest\Slider\Ui\Component\Listing\Column\SliderActions">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="resizeEnabled" xsi:type="boolean">false</item>
+                    <item name="resizeDefaultWidth" xsi:type="string">107</item>
+                    <item name="indexField" xsi:type="string">menu_id</item>
+                </item>
+            </argument>
+        </actionsColumn>
+    </columns>
+</listing>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2019 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ *
+ * Magenest_Kangaroo extension
+ * NOTICE OF LICENSE
+ *
+ * @category Magenest
+ * @package Magenest_Kangaroo
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+	<menu>
+		<add id="Magenest_CustomInventoryReservation::menu" title="Inventory" module="Magenest_CustomInventoryReservation" sortOrder="70"
+			 resource="Magenest_CustomInventoryReservation::menu" parent="Magenest_Backend::Magenest"/>
+		<add id="Magenest_CustomInventoryReservation::list" title="Reservation" module="Magenest_CustomInventoryReservation" sortOrder="10"
+			 parent="Magenest_CustomInventoryReservation::menu" action="inventory/reservation/index" resource="Magenest_CustomInventoryReservation::list"/></menu>
+</config>

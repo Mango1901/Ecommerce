@@ -1,0 +1,17 @@
+<?php
+/**
+ * @var $block \Magenest\MapList\Block\Adminhtml\Map\Edit\Tab\AddSpecialDate
+ */
+$specailDate = $block->getSpecialDateDate();
+?>
+<div id="mapspecialdate" data-bind="scope:'mapspecialdate'">
+    <!-- ko template: 'Magenest_MapList/options' --><!-- /ko -->
+    <script type="text/x-magento-init">
+        {
+            "*":{
+                "Magento_Ui/js/core/app": <?= $block->getSpecialDateDate() ?>
+            }
+        }
+    </script>
+</div>
+

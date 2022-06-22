@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!--Reference-->
+    <preference for="Magenest\OrderExtraInformation\Api\Data\VatInvoiceInterface" type="Magenest\OrderExtraInformation\Model\VatInvoice" />
+    <preference for="Magenest\OrderExtraInformation\Api\Data\CustomerConsignInterface" type="Magenest\OrderExtraInformation\Model\CustomerConsign" />
+    <!--Plugin-->
+    <type name="Magento\Checkout\Model\ShippingInformationManagement">
+        <plugin name="magenest_oei" type="Magenest\OrderExtraInformation\Model\Plugin\ShippingInformationManagement"/>
+    </type>
+    <type name="Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer">
+        <plugin name="magenest_oei" type="Magenest\OrderExtraInformation\Block\Plugin\Order\Item\Renderer\DefaultRenderer"/>
+    </type>
+</config>

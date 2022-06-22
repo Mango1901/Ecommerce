@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <carriers>
+            <tablerate>
+                <active>0</active>
+            </tablerate>
+            <kangaroo_tablerates>
+                <active>1</active>
+                <title>Kangaroo Shipping</title>
+                <name>Kangaroo Shipping</name>
+                <model>Magenest\CustomTableRate\Model\KangarooTableRates</model>
+                <handling_fee>50</handling_fee>
+                <sallowspecific>1</sallowspecific>
+                <specificcountry>VN</specificcountry>
+                <specificerrmsg>This shipping method is currently unavailable. If you would like to ship using this shipping method, please contact us.</specificerrmsg>
+                <showmethod>0</showmethod>
+                <sort_order>0</sort_order>
+            </kangaroo_tablerates>
+        </carriers>
+    </default>
+</config>

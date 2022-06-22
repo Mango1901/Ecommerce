@@ -1,0 +1,125 @@
+.referral-customer-points .social-share-button {
+    margin: 10px auto 60px auto;
+    width: 50%;
+}
+
+.referral-customer-points #rl-a:focus {
+    color: grey;
+}
+
+.referral-customer-points #rl-copy-btn {
+    margin: 7px;
+}
+
+.referral-customer-points .fb-share-button, .referral-customer-points #___plusone_0 {
+    float: left;
+    margin-right: 5px;
+}
+
+.referral-customer-points .action.mailto.friend {
+    float:left;
+    margin:auto 20px auto auto;
+    cursor: pointer;
+    background-color: #3c3e41;
+    padding: 5px;
+    width: 100px;
+    text-align: center;
+    color: #fff;
+    border-radius: 5px;
+}
+.referral-customer-points .action.mailto.friend:hover {
+    cursor: pointer;
+    background-color: #999;
+    padding: 5px;
+    width: 100px;
+    text-align: center;
+    color: #000;
+    border-radius: 5px;
+}
+#rl-referreal-link input{
+    display: inline-block;
+    border-radius: 0;
+    font-size: 14px;
+}
+.styled-select{
+    display: inline-block;
+    position: relative;
+    overflow: unset;
+    background: #000;
+    color: #fff;
+    padding: 10px 25px 10px 15px;
+    cursor: pointer;
+    border: 1px solid #000;
+}
+.styled-select:after{
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #fff;
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+    right: 10px;
+}
+ul.option{
+    position: absolute;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    background: #fff;
+    color: #000;
+    width: 200px;
+    right: 0;
+    box-shadow: 1px 1px 5px #888;
+    display: none;
+    top: 43px;
+    z-index: 1;
+}
+ul.option li{
+    margin: 0;
+    margin-bottom: 0 !important;
+    cursor: pointer;
+    position: relative;
+}
+ul.option a{
+    color: #333;
+}
+ul.option a:hover{
+    color: #333;
+    text-decoration: none;
+}
+ul.option a:focus{
+    color: #333;
+    text-decoration: none;
+}
+ul.option a:active{
+    color: #333;
+    text-decoration: none;
+}
+ul.option a:visited{
+    color: #333;
+    text-decoration: none;
+}
+ul.option li:hover{
+    background: #eee;
+}
+ul.option li i{
+    margin-right: 10px;
+    width: 15px;
+}
+ul.option .social-item{
+    padding: 10px 15px;
+}
+.rl-noti-myreferral {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+    margin: 20px;
+}

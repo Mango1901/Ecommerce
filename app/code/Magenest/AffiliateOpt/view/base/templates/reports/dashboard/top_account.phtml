@@ -1,0 +1,39 @@
+<?php
+?>
+
+<?php
+/** @var \Magenest\AffiliateOpt\Block\Adminhtml\Reports\Dashboard\TopAccount $block */
+?>
+
+<div class="dashboard-item-content">
+    <?php if ($block->getNewAccount()->getSize()): ?>
+        <table class="admin__table-primary dashboard-data" id="lastOrdersGrid_table">
+            <thead>
+            <tr>
+                <th class="data-grid-th  no-link col-customer"><span><?= __('Name') ?></span></th>
+                <th class="data-grid-th  no-link col-items"><span><?= __('Email') ?></span></th>
+                <th class="data-grid-th  no-link col-total"><span><?= __('Sales Amount') ?></span></th>
+                <th class="data-grid-th  no-link col-total"><span><?= __('Number of Orders') ?></span></th>
+                <th class="data-grid-th  no-link col-total"><span><?= __('Balance') ?></span></th>
+                <th class="data-grid-th  no-link col-total"><span><?= __('Commission') ?></span></th>
+                <th class="data-grid-th  no-link col-total"><span><?= __('Status') ?></span></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($block->getNewAccount() as $account): ?>
+                <tr>
+                    <td class=" col-customer "><?= $account->getName() ?></td>
+                    <td class=" col-customer "><?= $account->getEmail() ?></td>
+                    <td class=" col-customer "><?= $block->formatPrice($account->getTotalAmount()) ?></td>
+                    <td class=" col-customer "><?= $account->getTotalOrder() ?></td>
+                    <td class=" col-items col-number "><?= $block->formatPrice($account->getBalance()) ?></td>
+                    <td class=" col-items col-number "><?= $block->formatPrice($account->getTotalCommission()) ?></td>
+                    <td class=" col-items col-number "><?= $block->getStatus($account->getStatus()) ?></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <div class="empty-text"><?= __('We couldn\'t find any records.') ?></div>
+    <?php endif; ?>
+</div>

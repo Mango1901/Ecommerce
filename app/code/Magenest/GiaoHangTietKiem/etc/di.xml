@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magenest\GiaoHangTietKiem\Helper\Logger\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">GHTK</argument>
+            <argument name="handlers" xsi:type="array">
+                <item name="system" xsi:type="object">Magenest\GiaoHangTietKiem\Helper\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magenest\GiaoHangTietKiem\Controller\Webhook\Hook">
+        <arguments>
+            <argument name="logger" xsi:type="object">Magenest\GiaoHangTietKiem\Helper\Logger\Logger</argument>
+        </arguments>
+    </type>
+    <type name="Magenest\GiaoHangTietKiem\Model\Carrier\GiaoHangTietKiem">
+        <arguments>
+            <argument name="logger" xsi:type="object">Magenest\GiaoHangTietKiem\Helper\Logger\Logger</argument>
+        </arguments>
+    </type>
+</config>

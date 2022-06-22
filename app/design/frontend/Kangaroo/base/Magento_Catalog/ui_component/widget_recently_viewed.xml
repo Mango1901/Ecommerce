@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <columns name="widget_columns" component="Magento_Catalog/js/product/list/listing" template="Magento_Catalog/product/list/listing">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="reloadRecentProductDataUrl" xsi:type="url" path="catalog/recentProduct/fetch" />
+            </item>
+        </argument>
+
+        <column name="reviews-summary-btn" component="Magento_Catalog/js/product/reviews-summary" sortOrder="10" displayArea="action-secondary-area">
+            <settings>
+                <label translate="true">Reviews</label>
+                <bodyTmpl>Magento_Catalog/product/reviews-summary</bodyTmpl>
+            </settings>
+        </column>
+        <column name="sold-qty-btn" component="Magento_Catalog/js/product/sold-qty" sortOrder="20" displayArea="action-secondary-area">
+            <settings>
+                <label translate="true">Sold Qty</label>
+                <bodyTmpl>Magento_Catalog/product/sold-qty</bodyTmpl>
+            </settings>
+        </column>
+    </columns>
+</listing>

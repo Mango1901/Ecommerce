@@ -1,0 +1,12 @@
+{
+    "review_detail": {
+        "column": {
+            "title": true
+        }
+    },
+    "magenest_photoreview_photo": {
+        "column": {
+            "type": true
+        }
+    }
+}

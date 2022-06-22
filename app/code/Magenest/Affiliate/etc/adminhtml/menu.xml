@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Magenest_Affiliate::affiliate" title="Affiliate" module="Magenest_Affiliate" sortOrder="100" resource="Magenest_Affiliate::affiliate" parent="Magenest_Backend::Magenest"/>
+        <add id="Magenest_Affiliate::account" title="Manage Accounts" module="Magenest_Affiliate" sortOrder="10" action="affiliate/account" resource="Magenest_Affiliate::account" parent="Magenest_Affiliate::affiliate"/>
+        <add id="Magenest_Affiliate::group" title="Affiliate Groups" module="Magenest_Affiliate" sortOrder="20" action="affiliate/group" resource="Magenest_Affiliate::group" parent="Magenest_Affiliate::affiliate"/>
+        <add id="Magenest_Affiliate::campaign" title="Campaigns" module="Magenest_Affiliate" sortOrder="30" action="affiliate/campaign" resource="Magenest_Affiliate::campaign" parent="Magenest_Affiliate::affiliate"/>
+        <add id="Magenest_Affiliate::withdraw" title="Withdraws" module="Magenest_Affiliate" sortOrder="50" action="affiliate/withdraw" resource="Magenest_Affiliate::withdraw" parent="Magenest_Affiliate::affiliate"/>
+        <add id="Magenest_Affiliate::transaction" title="Transactions" module="Magenest_Affiliate" sortOrder="60" action="affiliate/transaction" resource="Magenest_Affiliate::transaction" parent="Magenest_Affiliate::affiliate"/>
+        <add id="Magenest_Affiliate::configuration" title="Configuration" module="Magenest_Affiliate" sortOrder="100" action="adminhtml/system_config/edit/section/affiliate" resource="Magenest_Affiliate::configuration" parent="Magenest_Affiliate::affiliate"/>
+        <add id="Magenest_Affiliate::banner" title="Banners" module="Magenest_Affiliate" sortOrder="40" action="affiliate/banner" resource="Magenest_Affiliate::banner" parent="Magenest_Affiliate::affiliate"/>
+    </menu>
+</config>

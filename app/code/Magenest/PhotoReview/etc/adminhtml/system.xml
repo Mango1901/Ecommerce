@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="magenest" translate="label" sortOrder="200">
+            <label>Magenest</label>
+        </tab>
+        <section id="photoreview" translate="label" type="text" sortOrder="40" showInDefault="1" showInStore="1" showInWebsite="1">
+            <label>Photo Review Configuration</label>
+            <tab>magenest</tab>
+            <resource>Magenest_PhotoReview::config_photoreview</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInStore="1" showInWebsite="1">
+                <label>General</label>
+                <field id="enable" translate="label" type="select" sortOrder="10" showInDefault="1" showInStore="1" showInWebsite="1">
+                    <label>Enabled Module</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="photo_required" translate="label" type="select" sortOrder="40" showInDefault="1" showInStore="1" showInWebsite="1">
+                    <label>Photo Required</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="max_photo_upload" translate="label" type="select" sortOrder="50" showInDefault="1" showInStore="1" showInWebsite="1">
+                    <label>Max photo number is upload</label>
+                    <source_model>Magenest\PhotoReview\Model\Config\Source\MaxPhotoUpload</source_model>
+                </field>
+                <field id="video_required" translate="label" type="select" sortOrder="55" showInDefault="1" showInStore="1" showInWebsite="1">
+                    <label>Video Required</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="max_video_upload" translate="label" type="text" sortOrder="60" showInDefault="1" showInStore="1" showInWebsite="1">
+                    <label>Max video number is upload</label>
+                </field>
+                <field id="max_video_size_upload" translate="label" type="text" sortOrder="65" showInDefault="1" showInStore="1" showInWebsite="1">
+                    <label>Max video size upload</label>
+                    <validate>required-entry validate-digits validate-zero-or-greater validate-number-range number-range-0-100</validate>
+                    <comment>The data type is MB(Megabytes)</comment>
+                </field>
+                <field id="auto_approved_review" translate="label" type="select" sortOrder="70" showInDefault="1" showInStore="1" showInWebsite="1">
+                    <label>Auto Approved Review</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="summary_options" translate="label" sortOrder="80" showInDefault="1" showInStore="1" showInWebsite="1">
+                    <label>Summary Options</label>
+                    <frontend_model>Magenest\PhotoReview\Block\Adminhtml\Form\Field\SummaryOptions</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

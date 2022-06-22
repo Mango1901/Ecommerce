@@ -1,0 +1,16 @@
+<?php $helper = $this->helper('Magenest\SocialLogin\Helper\SocialLogin'); ?>
+<?php if ($helper->isButtonEnabledCreateAccount()) : ?>
+    <div class="s-network">
+        <span><?= __('OR') ?></span>
+    </div>
+    <div class="s-network-logo-login">
+        <?= isset($secureRenderer) ? $secureRenderer->renderStyleAsTag("margin-bottom: 15px; padding: 5px; font-size: 18px; text-transform: uppercase;", '.s-network.create') : ''?>
+        <center>
+            <div class="btn-snetwork">
+                <?php
+                echo $block->getChildHtml('', true);
+                ?>
+            </div>
+        </center>
+    </div>
+<?PHP endif ?>

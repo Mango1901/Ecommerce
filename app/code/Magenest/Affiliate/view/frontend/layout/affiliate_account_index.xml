@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="customer_account"/>
+    <head>
+        <css src="Magenest_Affiliate::css/daterangepicker.css"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Magenest\Affiliate\Block\Account\Home" name="affiliate.account.home" template="Magenest_Affiliate::account/home.phtml" cacheable="false">
+                <container name="credit.transaction">
+                    <block class="Magenest\Affiliate\Block\Account\Home\Transaction" name="credit_transaction" template="Magenest_Affiliate::account/home/transactions.phtml"/>
+                </container>
+            </block>
+        </referenceContainer>
+        <referenceBlock name="page_description" remove="true" />
+    </body>
+</page>

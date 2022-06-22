@@ -1,0 +1,56 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('../fonts/icomoon.eot?6hjqrr');
+  src:  url('../fonts/icomoon.eot?6hjqrr#iefix') format('embedded-opentype'),
+    url('../fonts/icomoon.ttf?6hjqrr') format('truetype'),
+    url('../fonts/icomoon.woff?6hjqrr') format('woff'),
+    url('../fonts/icomoon.svg?6hjqrr#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="iconmoon-"], [class*=" iconmoon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.iconmoon-facebook-1 .path1:before {
+  content: "\e900";
+  color: rgb(59, 89, 152);
+}
+.iconmoon-facebook-1 .path2:before {
+  content: "\e901";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.iconmoon-twitter .path1:before {
+  content: "\e902";
+  color: rgb(0, 110, 219);
+}
+.iconmoon-twitter .path2:before {
+  content: "\e903";
+  margin-left: -0.8671875em;
+  color: rgb(0, 110, 219);
+}
+.iconmoon-twitter .path3:before {
+  content: "\e904";
+  margin-left: -0.8671875em;
+  color: rgb(255, 255, 255);
+  opacity: 0.25;
+}
+.iconmoon-twitter .path4:before {
+  content: "\e905";
+  margin-left: -0.8671875em;
+  color: rgb(255, 255, 255);
+}

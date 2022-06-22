@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Copyright 2016 aheadWorks. All rights reserved.
+* See LICENSE.txt for license details.
+*/
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Sales\Model\ResourceModel\Order">
+        <plugin disabled="true" name="aw_arep_check_change_order_status" type="\Aheadworks\AdvancedReports\Model\Plugin\OrderSave" />
+    </type>
+    <type name="Magento\Framework\Mview\View\StateInterface">
+        <plugin name="aw_arep_disable_change_mode" type="\Aheadworks\AdvancedReports\Model\Plugin\IndexerMode" />
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="aw_arep_salesoverview_grid_data_source" xsi:type="string">Aheadworks\AdvancedReports\Model\ResourceModel\SalesOverview\Grid\Collection</item>
+                <item name="aw_arep_productperformance_grid_data_source" xsi:type="string">Aheadworks\AdvancedReports\Model\ResourceModel\ProductPerformance\Grid\Collection</item>
+                <item name="aw_arep_productperformance_variantperformance_grid_data_source" xsi:type="string">Aheadworks\AdvancedReports\Model\ResourceModel\ProductVariantPerformance\Grid\Collection</item>
+                <item name="aw_arep_salesdetailed_grid_data_source" xsi:type="string">Aheadworks\AdvancedReports\Model\ResourceModel\SalesDetailed\Grid\Collection</item>
+                <item name="aw_arep_category_grid_data_source" xsi:type="string">Aheadworks\AdvancedReports\Model\ResourceModel\Category\Grid\Collection</item>
+                <item name="aw_arep_couponcode_grid_data_source" xsi:type="string">Aheadworks\AdvancedReports\Model\ResourceModel\CouponCode\Grid\Collection</item>
+                <item name="aw_arep_paymenttype_grid_data_source" xsi:type="string">Aheadworks\AdvancedReports\Model\ResourceModel\PaymentType\Grid\Collection</item>
+                <item name="aw_arep_manufacturer_grid_data_source" xsi:type="string">Aheadworks\AdvancedReports\Model\ResourceModel\Manufacturer\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Aheadworks\AdvancedReports\Model\ResourceModel\SalesOverview\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">aw_arep_sales_overview</argument>
+            <argument name="eventPrefix" xsi:type="string">aw_arep_salesoverview_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">salesoverview_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Aheadworks\AdvancedReports\Model\ResourceModel\SalesOverview</argument>
+        </arguments>
+    </type>
+    <type name="Aheadworks\AdvancedReports\Model\ResourceModel\ProductPerformance\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">aw_arep_product_performance</argument>
+            <argument name="eventPrefix" xsi:type="string">aw_arep_productperformance_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">productperformance_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Aheadworks\AdvancedReports\Model\ResourceModel\ProductPerformance</argument>
+        </arguments>
+    </type>
+    <type name="Aheadworks\AdvancedReports\Model\ResourceModel\ProductVariantPerformance\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">aw_arep_product_variant_performance</argument>
+            <argument name="eventPrefix" xsi:type="string">aw_arep_productperformance_variantperformance_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">productperformance_variantperformance_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Aheadworks\AdvancedReports\Model\ResourceModel\ProductVariantPerformance</argument>
+        </arguments>
+    </type>
+    <type name="Aheadworks\AdvancedReports\Model\ResourceModel\SalesDetailed\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">aw_arep_sales_detailed</argument>
+            <argument name="eventPrefix" xsi:type="string">aw_arep_salesdetailed_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">salesdetailed_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Aheadworks\AdvancedReports\Model\ResourceModel\SalesDetailed</argument>
+        </arguments>
+    </type>
+    <type name="Aheadworks\AdvancedReports\Model\ResourceModel\Category\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">aw_arep_category</argument>
+            <argument name="eventPrefix" xsi:type="string">aw_arep_category_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">category_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Aheadworks\AdvancedReports\Model\ResourceModel\Category</argument>
+        </arguments>
+    </type>
+    <type name="Aheadworks\AdvancedReports\Model\ResourceModel\CouponCode\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">aw_arep_coupon_code</argument>
+            <argument name="eventPrefix" xsi:type="string">aw_arep_coupon_code_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">coupon_code_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Aheadworks\AdvancedReports\Model\ResourceModel\CouponCode</argument>
+        </arguments>
+    </type>
+    <type name="Aheadworks\AdvancedReports\Model\ResourceModel\PaymentType\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">aw_arep_payment_type</argument>
+            <argument name="eventPrefix" xsi:type="string">aw_arep_payment_type_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">payment_type_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Aheadworks\AdvancedReports\Model\ResourceModel\PaymentType</argument>
+        </arguments>
+    </type>
+    <type name="Aheadworks\AdvancedReports\Model\ResourceModel\Manufacturer\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">aw_arep_manufacturer</argument>
+            <argument name="eventPrefix" xsi:type="string">aw_arep_manufacturer_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">manufacturer_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Aheadworks\AdvancedReports\Model\ResourceModel\Manufacturer</argument>
+        </arguments>
+    </type>
+</config>

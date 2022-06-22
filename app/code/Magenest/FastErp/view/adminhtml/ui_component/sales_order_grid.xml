@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <listingToolbar name="listing_top">
+        <massaction name="listing_massaction">
+            <action name="order_delete">
+                <settings>
+                    <url path="fasterp/order/massComplete"/>
+                    <type>order_complete</type>
+                    <label translate="true">Mark As Completed</label>
+                    <confirm>
+                        <title translate="true">Mark As Completed</title>
+                        <message translate="true">Are you sure you want to mark selected order(s) as completed?
+                        </message>
+                    </confirm>
+                </settings>
+            </action>
+            <action name="order_resync">
+                <settings>
+                    <url path="fasterp/order/massSync"/>
+                    <type>order_resync</type>
+                    <label translate="true">Sync Orders to ERP</label>
+                </settings>
+            </action>
+        </massaction>
+    </listingToolbar>
+</listing>

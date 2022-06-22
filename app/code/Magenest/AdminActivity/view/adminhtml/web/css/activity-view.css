@@ -1,0 +1,13 @@
+
+
+textarea.value-container {
+    resize: none;
+    width: 95%;
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    height: auto;
+    outline: none;
+    display:block;
+    overflow:hidden;
+}

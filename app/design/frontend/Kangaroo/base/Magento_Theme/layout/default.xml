@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <css src="css/niceSelect/nice-select.css" />
+    </head>
+    <body>
+        <referenceBlock name="head.additional">
+            <block class="Magenest\CustomFrontend\Block\Html\OpenGraph" name="opengraph.general" template="Magento_Theme::html/opengraph.phtml" />
+        </referenceBlock>
+
+        <referenceContainer name="after.body.start">
+            <container name="header-bannerPrompteur" htmlTag="div" htmlClass="header_bannerPrompteur" after="-">
+                <block class="Magento\Cms\Block\Block" name="header_bannerPrompteur">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">header_bannerPrompteur</argument>
+                    </arguments>
+                </block>
+            </container>
+        </referenceContainer>
+
+        <referenceBlock name="store.menu">
+            <block class="Magenest\MegaMenu\Block\Menu" name="horizontal.menu" after="-"
+                   template="Magenest_MegaMenu::html/topmenu.phtml"
+                   ifconfig="mega_menu/general/enable">
+                <arguments>
+                    <argument name="mega_menu_alias" xsi:type="string">horizontal_menu</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+        <referenceBlock name="header.panel">
+            <block class="Magenest\MegaMenu\Block\Menu" name="top.left.menu" before="-"
+                   template="Magenest_MegaMenu::html/topmenu.phtml"
+                   ifconfig="mega_menu/general/enable">
+                <arguments>
+                    <argument name="mega_menu_alias" xsi:type="string">top_left_menu</argument>
+                </arguments>
+            </block>
+            <container name="header.panel.right" htmlTag="div" htmlClass="header-top-right" after="-">
+<!--                <block class="Magento\Framework\View\Element\Template" name="header.notification" template="Magento_Theme::html/header-notification.phtml" before="-"/>-->
+
+                <block class="Magenest\CustomSource\Block\Element\AreaPopup" name="header-area" as="header-are" ifconfig="directory/areas/enable" template="Magento_Theme::html/container-popup.phtml" />
+
+                <block class="Magento\Customer\Block\Account\Customer" name="customer" template="Magento_Customer::account/customer.phtml" before="-"/>
+            </container>
+
+        </referenceBlock>
+
+        <move element="store_language" destination="header.panel.right" before="-" />
+
+        <referenceContainer name="header-wrapper">
+
+            <container name="header-content-hotline" htmlTag="div" htmlClass="header-hotline" after="-">
+                <block class="Magento\Cms\Block\Block" name="header_hotline">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">header_hotline</argument>
+                    </arguments>
+                </block>
+            </container>
+            <container name="header-content-images" htmlTag="div" htmlClass="header-images" after="-">
+                <block class="Magento\Cms\Block\Block" name="header_images">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">header_images</argument>
+                    </arguments>
+                </block>
+            </container>
+
+        </referenceContainer>
+
+        <referenceContainer name="page.top">
+            <container name="header.menu.bg" htmlTag="div" htmlClass="header-menu-bg">
+                <block class="Magento\Framework\View\Element\Text" name="header.menu.bg.label">
+                    <arguments>
+                        <argument translate="true" name="text" xsi:type="string"><![CDATA[<div class="label">menu</div>]]></argument>
+                    </arguments>
+                </block>
+            </container>
+<!--            <container name="back.to.top" htmlTag="div" htmlClass="back-to-top">-->
+<!--                <block class="Magento\Framework\View\Element\Text" name="back.to.top.label">-->
+<!--                    <arguments>-->
+<!--                        <argument translate="true" name="text" xsi:type="string"><![CDATA[<div class="label">back to top</div>]]></argument>-->
+<!--                    </arguments>-->
+<!--                </block>-->
+<!--            </container>-->
+        </referenceContainer>
+
+        <referenceContainer name="footer-container">
+            <container name="footer.container.top" htmlTag="div" htmlClass="footer-top">
+                <block class="Magento\Cms\Block\Block" name="footer-top">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">footer_top</argument>
+                    </arguments>
+                </block>
+            </container>
+            <container name="footer.container.mid" htmlTag="div" htmlClass="footer-mid">
+                <block class="Magento\Cms\Block\Block" name="footer-mid">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">footer_mid</argument>
+                    </arguments>
+                </block>
+            </container>
+
+            <container name="footer.container.bottom" htmlTag="div" htmlClass="footer-bottom" after="-" />
+        </referenceContainer>
+
+        <referenceContainer name="page.wrapper">
+            <block class="Magenest\MegaMenu\Block\Widget\MenuBottomMobile" name="menu.bottom.mobile" template="Magento_Theme::html/menu-bottom-mobile.phtml" after="-"/>
+            <block name="nav-toggle" template="Magenest_SupportNav::toggle.phtml"/>
+        </referenceContainer>
+
+        <container name="page.header.block" htmlTag="div" htmlClass="page-header-block" />
+
+
+        <referenceBlock name="top.links" remove="true"/>
+        <referenceBlock name="store.links" remove="true"/>
+        <referenceBlock name="store.settings" remove="true"/>
+        <referenceBlock name="catalog.compare.sidebar" remove="true"/>
+<!--        <referenceBlock name="wishlist_sidebar" remove="true"/>-->
+<!--        <referenceBlock name="sale.reorder.sidebar" remove="true"/>-->
+        <referenceBlock name="form.subscribe" remove="true"/>
+        <referenceBlock name="footer_links" remove="true"/>
+        <referenceBlock name="report.bugs" remove="true"/>
+
+        <move element="page.header.block" destination="page.wrapper" before="-" />
+        <move element="navigation.sections" destination="page.header.block" after="-" />
+        <move element="header.container" destination="page.header.block" before="-" />
+        <move element="copyright" destination="footer.container.bottom"/>
+
+    </body>
+</page>

@@ -1,0 +1,10 @@
+<?php
+/**
+ * @var \Magenest\CustomCatalog\Block\Catalog\Product\View\OutOfStockArea $block
+ */
+$isOutOfStockInArea = $block->isOutOfStockInArea();
+?>
+
+<?php if ($isOutOfStockInArea): ?>
+<p class="out-of-stock-label"><?= __('Out Of Stock In Area') ?></p>
+<?php endif; ?>

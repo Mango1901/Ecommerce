@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="magenest" translate="label" sortOrder="100">
+            <label>Magenest</label>
+        </tab>
+        <section id="oei" translate="label" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+            <label>Order Extra Information</label>
+            <tab>magenest</tab>
+            <resource>Magenest_OrderExtraInformation::oei</resource>
+            <group id="vat_invoice" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>VAT Invoice</label>
+                <field id="enable" translate="label" type="select" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Enable VAT Invoice in Checkout Process</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Enable/Disable module block on frontend. Default: Yes]]></comment>
+                </field>
+            </group>
+            <group id="delivery_date" translate="label" type="text" sortOrder="200" showInDefault="0" showInWebsite="0" showInStore="0">
+                <label>Delivery Date</label>
+                <field id="enable" translate="label" type="select" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Enable Delivery Data in Checkout Process</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Enable/Disable module block on frontend. Default: No]]></comment>
+                </field>
+            </group>
+            <group id="delivery_time" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Delivery Time</label>
+                <field id="enable" translate="label" type="select" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Enable Delivery Time in Checkout Process</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Enable/Disable module block on frontend. Default: Yes]]></comment>
+                </field>
+            </group>
+            <group id="customer_note" translate="label" type="text" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Customer Note</label>
+                <field id="enable" translate="label" type="select" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Enable Customer Note</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Enable/Disable module block on frontend. Default: Yes]]></comment>
+                </field>
+                <field id="show_on" translate="label comment" type="multiselect" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Where show on?</label>
+                    <source_model>Magenest\OrderExtraInformation\Model\Config\Source\Place</source_model>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+            </group>
+
+            <group id="customer_consign" translate="label" type="text" sortOrder="400" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Customer Consignee</label>
+                <field id="enable" translate="label" type="select" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Enable Customer Consignee</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Enable/Disable module block on frontend. Default: Yes]]></comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,49 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<div class="table-wrapper">
+    <table>
+        <thead>
+        <tr>
+            <td class="col product" data-bind="i18n: 'Product'"></td>
+            <td class="col sub-total" data-bind="i18n: 'Price'"></td>
+            <td class="col qty" data-bind="i18n: 'Qty'"></td>
+            <td class="col order-total" data-bind="i18n: 'Row Total'"></td>
+        </tr>
+        </thead>
+        <tbody>
+            <!-- ko foreach: items() -->
+            <tr>
+                <td class="col product">
+                    <each args="$parent.elems()" render=""></each>
+                    <span class="qty mobile-device" data-bind="html: qty"></span>
+                </td>
+                <td class="col sub-total desktop-device">
+                    <div class="item-price">
+                        <span class="price" data-bind="html: $parent.getFormattedPrice(price_incl_tax)"></span>
+                        <!-- ko if: price_incl_tax < extension_attributes.product_price -->
+                        <div class="discount-list">
+                            <div class="discount-item left"><span class="price" data-bind="html: $parent.getFormattedPrice(extension_attributes.product_price)"></span></div>
+                            <div class="discount-item right" data-bind="html: $parent.getFormattedDiscountPercentage(price_incl_tax, extension_attributes.product_price)"></div>
+                        </div>
+                        <!-- /ko -->
+                    </div>
+                </td>
+                <td class="col qty desktop-device" data-bind="html: qty">
+                </td>
+                <td class="col order-total desktop-device" data-bind="html: $parent.getFormattedPrice(row_total_incl_tax)">
+                </td>
+            </tr>
+            <!-- /ko -->
+        </tbody>
+    </table>
+</div>

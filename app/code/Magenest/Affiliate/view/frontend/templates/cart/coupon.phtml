@@ -1,0 +1,27 @@
+<?php
+
+
+?>
+
+<!-- ko scope: 'affiliate-discount' -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+<!-- /ko -->
+<script type="text/x-magento-init">
+{
+    "*": {
+        "Magento_Ui/js/core/app": {
+            "components": {
+                "affiliate-discount": {
+                    "component": "Magenest_Affiliate/js/view/coupon",
+                    "children": {
+                        "messages": {
+                            "component": "Magenest_Affiliate/js/view/messages",
+                            "displayArea": "messages"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+</script>

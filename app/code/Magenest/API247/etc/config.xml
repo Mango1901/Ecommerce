@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <carriers>
+            <api247>
+                <model>Magenest\API247\Model\Carrier\API247</model>
+                <password backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
+                <active>1</active>
+                <title>API 247</title>
+                <name>API 247</name>
+                <test_mode>1</test_mode>
+                <fixed_service_types>DE</fixed_service_types>
+                <specificerrmsg>This shipping method is not available. To use this shipping method, please contact us.</specificerrmsg>
+                <max_package_weight>100</max_package_weight>
+                <sallowspecific>0</sallowspecific>
+                <production_api>https://api.247express.vn</production_api>
+                <sandbox_api>http://stg.247post.vn:51099</sandbox_api>
+            </api247>
+        </carriers>
+    </default>
+</config>

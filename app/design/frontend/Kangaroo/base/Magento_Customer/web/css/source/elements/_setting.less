@@ -1,0 +1,118 @@
+& when (@media-common = true) {
+    body.account.affiliate-account-setting {
+        .fieldset {
+            .title {
+                font-size: 14px;
+                line-height: 20px;
+                font-weight: 500;
+                color: #383E4F;
+                display: block;
+                margin-bottom: 8px;
+                padding: 0;
+            }
+
+            .input-text {
+                background-color: #FFFFFF;
+                border: 1px solid #E0E6EC;
+                border-radius: 4px;
+                height: 38px;
+            }
+
+            .field-note {
+                font-size: 12px;
+                line-height: 20px;
+                font-weight: normal;
+                padding-top: 5px;
+                display: block;
+            }
+
+            > .field {
+                margin: 0 0 17px;
+
+                img {
+                    height: auto;
+                    object-fit: contain;
+                    max-width: 300px;
+                    max-height: 200px;
+                }
+            }
+
+            > .field:not(.choice) > .label {
+                font-size: 13px;
+                padding: 0 0 5px 0;
+            }
+        }
+
+        .actions-toolbar {
+            margin-left: 0 !important;
+
+            &:before, &:after {
+                display: none;
+            }
+
+            .primary {
+                display: block;
+                float: unset;
+            }
+
+            .action {
+                height: 40px;
+                padding: 2px 24px 0;
+                font-size: 14px;
+                line-height: 16px;
+                letter-spacing: 0.56px;
+                text-transform: uppercase;
+                width: auto;
+            }
+        }
+
+
+        .box-image {
+            .label {
+                cursor: pointer;
+                &:not(.has-image) {
+                    border: 1px dashed #697180;
+                    border-radius: 2px;
+                    width: 114px;
+                    height: 36px;
+                    display: -webkit-flex;
+                    display: -ms-flexbox;
+                    display: flex;
+                    justify-content: center;
+                    -webkit-justify-content: center;
+                    -webkit-align-items: center;
+                    -ms-align-items: center;
+                    align-items: center;
+                }
+
+                &.has-image {
+                    span {
+                        display: none;
+                    }
+                }
+
+                .affiliate_image {
+                    position: absolute;
+                    width: 0;
+                    height: 0;
+                    opacity: 0;
+                }
+            }
+        }
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    body.account.affiliate-account-setting {
+        .page-title-wrapper:not(.mobile-device) {
+            display: none;
+        }
+
+        .form-affiliate-setting {
+            background-color: #fff;
+            padding: 22px 11px;
+            border: 1px solid #E0E6EC;
+            border-radius: 4px;
+        }
+    }
+}

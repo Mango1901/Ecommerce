@@ -1,0 +1,86 @@
+<style>
+    #templateSpecialDate {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    #templateSpecialDate td, #templateSpecialDate th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    #templateSpecialDate .magenest-special-date, #templateSpecialDate .magenest-special-date-button {
+        width: 10%;
+    }
+
+    #templateSpecialDate tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    #templateSpecialDate tr:hover {
+        background-color: #ddd;
+    }
+
+    #templateSpecialDate th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #514943;
+        color: white;
+    }
+
+    #templateSpecialDate .magenest-special-date-descriptions input {
+        width: 100%;
+    }
+
+    .add-option {
+        float: right;
+    }
+    .admin__field-control input[readonly]{
+        cursor:pointer;
+        border-color: unset;
+        opacity:unset;
+        background-color:#ffff;
+    }
+</style>
+    <div>
+        <div class="admin__field-control" data-role="grid-wrapper" style="margin-bottom: 100px;">
+            <table style="border-collapse: collapse;" id="templateSpecialDate">
+                <thead>
+                <tr>
+                    <th class="table-special-date-title">Date</th>
+                    <th class="table-special-date-title">Description</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody data-bind="foreach: $root.templateSpecialDate">
+                <tr>
+                    <td class="magenest-special-date">
+                        <input  data-validate='{"required":true}'
+                                readonly ="readonly"
+                               data-bind="textInput: special_date(),
+                               attr:{name: 'special_date['+id()+'][special_date]'},
+                               datepicker: $root.defaultDate,
+                               datepickerOptions: { minDate: new Date() },
+                                event:{ change: $root.checkDate },"
+                        />
+                        <input type="hidden" data-bind="textInput: id(),attr:{name: 'special_date['+id()+'][id]'}"/>
+                    </td>
+                    <td class="magenest-special-date-descriptions">
+                        <input type="text"
+                               data-bind="textInput: description(),attr:{name: 'special_date['+id()+'][description]'}"/>
+                    </td>
+                    <td class="magenest-special-date-button">
+                        <button type="button" class="action-delete" title="Delete"
+                                data-bind="event:{click:$root.deleteSpecialDate}">
+                            <span>Delete</span>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <button type="button" class="add-option" data-bind="click: $root.addSpecialDate">
+        <span>Add Special Date</span>
+    </button>

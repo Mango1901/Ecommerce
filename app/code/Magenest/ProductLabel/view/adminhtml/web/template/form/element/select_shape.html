@@ -1,0 +1,29 @@
+<!--
+/**
+ * Copyright © 2020 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ *
+ * Magenest_ProductLabel extension
+ * NOTICE OF LICENSE
+ *
+ * @category Magenest
+ * @package  Magenest_ProductLabel
+ */
+ -->
+<div>
+    <!-- ko foreach: options -->
+    <div name="label-shape">
+        <input type="radio"
+               ko-checked="$parent.value"
+               ko-disabled="$parent.disabled"
+               attr="
+                    id: '#'+value,
+                    value: value"/>
+        <label data-bind="attr: {for: '#'+value}">
+            <svg class="svg-icon" viewBox="0 0 180 60" xml:space="preserve" width="70">
+                <use x="0" y="0" xlink:href="" data-bind="attr:{'xlink:href': '#'+value}"></use>
+            </svg>
+        </label>
+    </div>
+    <!-- /ko -->
+</div>

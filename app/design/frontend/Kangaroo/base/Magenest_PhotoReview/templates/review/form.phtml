@@ -1,0 +1,181 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+/** @var \Magenest\PhotoReview\Block\Review\Form $block */
+/** @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer */
+$number_photo = $block->maxPhotoNumber();
+$isRequired = $block->isRequiredPhoto();
+$maxUploadSize = $block->getMaxUploadSize();
+$isRequiredVideo = $block->isRequiredVideo();
+$number_video = $block->maxVideoNumber();
+$maxUploadVideoSize = $block->getMaxUploadVideoSize();
+$currentProductId = $block->getProductInfo()->getId();
+?>
+<?php if ($block->getAllowWriteReviewFlag()): ?>
+<div class="block review-add">
+    <div class="write-review">
+        <strong class="js-write-review"><?= $block->escapeHtml(__('Write Your Own Review')) ?></strong>
+    </div>
+<div class="block-content">
+<form action="<?= $block->escapeUrl($block->getAction()) ?>" enctype="multipart/form-data" class="review-form" method="post" id="review-form" data-role="product-review-form" data-bind="scope: 'review-form', mageInit: {'validation':{}}">
+    <?= $block->getBlockHtml('formkey') ?>
+    <fieldset class="fieldset review-fieldset" data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) ?>">
+        <legend class="legend review-legend"><span><?= $block->escapeHtml(__("You're reviewing:")) ?></span><strong><?= $block->escapeHtml($block->getProductInfo()->getName()) ?></strong></legend><br />
+        <?php if ($block->getRatings() && $block->getRatings()->getSize()): ?>
+        <span id="input-message-box"></span>
+        <fieldset class="field required review-field-ratings">
+            <legend class="label"><span><?= $block->escapeHtml(__('Your Rating')) ?></span></legend><br/>
+            <div class="control">
+                <div class="nested" id="product-review-table">
+                    <?php foreach ($block->getRatings() as $_rating): ?>
+                        <div class="field choice review-field-rating">
+                            <label class="label" id="<?= $block->escapeHtml($_rating->getRatingCode()) ?>_rating_label"><span><?= $block->escapeHtml($_rating->getRatingCode()) ?></span></label>
+                            <div class="control review-control-vote">
+                            <?php $options = $_rating->getOptions();?>
+                            <?php $iterator = 1; foreach ($options as $_option): ?>
+                                <input
+                                    type="radio"
+                                    name="ratings[<?= $block->escapeHtmlAttr($_rating->getId()) ?>]"
+                                    id="<?= $block->escapeHtmlAttr($_rating->getRatingCode()) ?>_<?= $block->escapeHtmlAttr($_option->getValue()) ?>"
+                                    value="<?= $block->escapeHtmlAttr($_option->getId()) ?>"
+                                    class="radio"
+                                    data-validate="{'rating-required':true}"
+                                    aria-labelledby="<?= $block->escapeHtmlAttr($_rating->getRatingCode()) ?>_rating_label <?= $block->escapeHtmlAttr($_rating->getRatingCode()) ?>_<?= $block->escapeHtmlAttr($_option->getValue()) ?>_label" />
+                                <label
+                                    class="rating-<?= $block->escapeHtmlAttr($iterator) ?>"
+                                    for="<?= $block->escapeHtmlAttr($_rating->getRatingCode()) ?>_<?= $block->escapeHtmlAttr($_option->getValue()) ?>"
+                                    title="<?= $block->escapeHtmlAttr(__('%1 %2', $iterator, $iterator > 1 ? __('stars') : __('star'))) ?>"
+                                    id="<?= $block->escapeHtmlAttr($_rating->getRatingCode()) ?>_<?= $block->escapeHtmlAttr($_option->getValue()) ?>_label">
+                                    <span><?= $block->escapeHtml(__('%1 %2', $iterator, $iterator > 1 ? __('stars') : __('star'))) ?></span>
+                                </label>
+                            <?php $iterator++; ?>
+                            <?php endforeach; ?>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                <input type="hidden" name="validate_rating" class="validate-rating" value="" />
+            </div>
+        </fieldset>
+    <?php endif ?>
+        <div class="field review-field-nickname required">
+            <label for="nickname_field" class="label"><span><?= $block->escapeHtml(__('Nickname')) ?></span></label>
+            <div class="control">
+                <input type="text" name="nickname" id="nickname_field" class="input-text" data-validate="{required:true}" data-bind="value: nickname()" />
+            </div>
+        </div>
+        <div class="field review-field-summary">
+            <label for="summary_field" class="label"><span><?= $block->escapeHtml(__('Summary')) ?></span></label>
+            <?php foreach ($block->getLabelSummaryOptions() as $item): ?>
+                <div class="control">
+                    <input type="checkbox" name="<?= 'title[' . $item['value'] . ']'?>" id="<?= 'summary_field_' . $item['value'] ?>" autocomplete="off" value="<?= $item['value'] ?>">
+                    <label class="custom-check checkbox" for="<?= 'summary_field_' . $item['value'] ?>"><?= $item['label'] ?></label>
+                </div>
+            <?php endforeach; ?>
+        </div>
+        <div class="field review-field-text required">
+            <label for="review_field" class="label"><span><?= $block->escapeHtml(__('Review')) ?></span></label>
+            <div class="control">
+                <textarea name="detail" id="review_field" cols="5" rows="3" data-validate="{required:true}" data-bind="value: review().detail"></textarea>
+            </div>
+        </div>
+        <div class="field photo-field-text <?= $isRequired ? "required" : "" ?>" >
+            <label for="photo_field" class="label"><span><?= $block->escapeHtml(__('Upload Image')) ?></span></label>
+            <span id="error-type-file" style="display:none; display: block; color: red"></span>
+            <?php
+                $i = 0;
+                while ($i < $number_photo){
+                    $scope = "upload_photo_".$i;
+            ?>
+                    <div class="control" style="margin: 0 0 15px;">
+                        <div id="photo-block-<?= $i ?>">
+                            <img id="photo-preview-<?= $i ?>" class="photo-preview"/>
+                            <span id="message-warning-<?= $i ?>" style="display: none;"><?= __("No image chosen");?></span>
+                        </div>
+                        <label id="label-<?= $i ?>" style="<?= $i != 0 ? "display:none" : "" ?>">
+                            <input data-next="<?= $i + 1 ?>" class="upload-photo" <?= $isRequired && $i == 0 ? "data-validate='{required:true}'" : "" ?> id="<?= $scope ?>" name="photo[<?= $i ?>]" type="file"/>
+                            <span><?= $block->escapeHtml(__('Choose a photo')) ?></span>
+                        </label>
+                    </div>
+            <?php
+                    $i++;
+                }
+            ?>
+        </div>
+
+        <div class="field photo-field-text <?= $isRequiredVideo ? "required" : "" ?>" >
+            <label for="photo_field" class="label"><span><?= $block->escapeHtml(__('Upload Video')) ?></span></label>
+            <span id="error-type-file-video" style="display:none; display: block; color: red"></span>
+            <?php
+                $i = 0;
+                while ($i < $number_video){
+                    $scope = "upload_video_".$i;
+            ?>
+                <div class="control" style="margin: 0 0 15px;">
+                    <div id="photo-block-<?= $i ?>">
+                        <video id="video-preview-<?= $i ?>" class="photo-preview" width="230" height="250" style="display: none; padding-bottom: 10px" controls ></video>
+                        <span id="message-warning-<?= $i ?>" style="display: none;"><?= __("No video chosen");?></span>
+                        <label id="label-<?= $i ?>" style="<?= $i != 0 ? "display:none" : "" ?>">
+                            <input data-next="<?= $i + 1 ?>" class="upload-video" <?= $isRequiredVideo && $i == 0 ? "data-validate='{required:true}'" : "" ?> id="<?= $scope ?>" name="video[<?= $i ?>]" type="file" accept=".mp4"/>
+                            <span><?= $block->escapeHtml(__('Choose a video')) ?></span>
+                        </label>
+                    </div>
+                </div>
+                    <?php
+                    $i++;
+                }
+            ?>
+        </div>
+
+
+    </fieldset>
+    <?= $block->getChildHtml('form_fields_before') ?>
+    <div class="actions-toolbar review-form-actions">
+        <div class="primary actions-primary">
+            <button type="submit" class="action submit primary"><span><?= $block->escapeHtml(__('Submit')) ?></span></button>
+        </div>
+        <div class="primary actions-primary">
+            <button type="button" id="cancel-rating-products" class="action submit primary"><span><?= $block->escapeHtml(__('Cancel')) ?></span></button>
+        </div>
+    </div>
+</form>
+<script type="text/x-magento-init">
+{
+    "[data-role=product-review-form]": {
+        "Magento_Ui/js/core/app": <?= /* @noEscape */ $block->getJsLayout() ?>
+    },
+    "#review-form": {
+        "Magento_Review/js/error-placement": {},
+        "Magento_Review/js/validate-review": {}
+    },
+    "*": {
+        "Magenest_PhotoReview/js/preview-photo": {
+            "maxUploadSize" : <?= $block->escapeHtml($maxUploadSize); ?>
+        },
+        "Magenest_PhotoReview/js/preview-video": {
+            "maxUploadSize" : <?= $block->escapeHtml($maxUploadVideoSize); ?>
+        }
+    }
+}
+</script>
+<?php endif ?>
+</div>
+</div>
+
+
+<?php $scriptString = <<<script
+    require(['jquery'], function ($) {
+        $(document).on('click', '.js-write-review',function(){
+            $(this).hide();
+            $(this).parent().parent().find('.block-content').slideDown();
+            return false;
+        });
+        $(document).on('click', '#cancel-rating-products',function(){
+            window.location.reload();
+        });
+    });
+script;
+?>
+<?= /* @noEscape */ $secureRenderer->renderTag('script', [], $scriptString, false); ?>

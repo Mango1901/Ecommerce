@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <!--<head>-->
+        <!--<link src="Magenest_MapList::location-products.js"/>-->
+    <!--</head>-->
+    <head>
+        <link src="Magenest_MapList::js/validation.js"/>
+        <script src="Magenest_MapList::js/validation.js"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Magenest\MapList\Block\Adminhtml\Location\Edit" name="maplist_location_edit"/>
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="Magenest\MapList\Block\Adminhtml\Location\Edit\Tabs" name="maplist_location_tabs">
+                <block class="Magenest\MapList\Block\Adminhtml\Location\Edit\Tab\Setting" name="maplist_location_settings"/>
+
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">setting</argument>
+                    <argument name="block" xsi:type="string">maplist_location_settings</argument>
+                </action>
+
+                <block class="Magenest\MapList\Block\Adminhtml\Location\Edit\Tab\AddProduct" name="maplist_location_add_product"/>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">add_product</argument>
+                    <argument name="block" xsi:type="string">maplist_location_add_product</argument>
+                </action>
+
+                <block class="Magenest\MapList\Block\Adminhtml\Location\Edit\Tab\AddOpeningHours" name="maplist_location_add_opening_hours"/>
+                <block class="Magenest\MapList\Block\Adminhtml\Location\Edit\Tab\AddSpecialDate" name="maplist_location_add_special_date"/>
+
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">add_opening_hours</argument>
+                    <argument name="block" xsi:type="string">maplist_location_add_opening_hours</argument>
+                </action>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">add_special_date</argument>
+                    <argument name="block" xsi:type="string">maplist_location_add_special_date</argument>
+                </action>
+                <block class="Magenest\MapList\Block\Adminhtml\Location\Edit\Tab\AddSeo" name="maplist_location_add_seo"/>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">add_seo</argument>
+                    <argument name="block" xsi:type="string">maplist_location_add_seo</argument>
+                </action>
+                <block class="Magenest\MapList\Block\Adminhtml\Location\Edit\Tab\LocationAttribute" name="maplist_location_add_attribute"/>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">add_attribute</argument>
+                    <argument name="block" xsi:type="string">maplist_location_add_attribute</argument>
+                </action>
+            </block>
+        </referenceContainer>
+
+        <referenceContainer name="js">
+            <block class="Magenest\MapList\Block\Adminhtml\Location\Edit\Js" template="location/js.phtml"/>
+        </referenceContainer>
+    </body>
+
+</page>

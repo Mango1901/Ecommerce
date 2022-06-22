@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2019 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ *
+ * Magenest_Kangaroo extension
+ * NOTICE OF LICENSE
+ *
+ * @category Magenest
+ * @package Magenest_Kangaroo
+ */
+-->
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">inventory_reservation_listing.inventory_reservation_listing_data_source
+            </item>
+        </item>
+    </argument>
+    <settings>
+        <spinner>inventory_reservation_columns</spinner>
+        <deps>
+            <dep>inventory_reservation_listing.inventory_reservation_listing_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="inventory_reservation_listing_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">reservation_id</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+        <dataProvider class="Magenest\CustomInventoryReservation\Ui\Component\DataProvider" name="inventory_reservation_listing_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>reservation_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <settings>
+            <sticky>true</sticky>
+        </settings>
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls"/>
+        <filters name="listing_filters">
+            <settings>
+                <templates>
+                    <filters>
+                        <select>
+                            <param name="template" xsi:type="string">ui/grid/filters/elements/ui-select</param>
+                            <param name="component" xsi:type="string">Magento_Ui/js/form/element/ui-select</param>
+                        </select>
+                    </filters>
+                </templates>
+            </settings>
+        </filters>
+        <paging name="listing_paging"/>
+    </listingToolbar>
+    <columns name="inventory_reservation_columns">
+        <selectionsColumn name="ids">
+            <settings>
+                <indexField>reservation_id</indexField>
+            </settings>
+        </selectionsColumn>
+        <column name="reservation_id">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">ID</label>
+                <sorting>asc</sorting>
+            </settings>
+        </column>
+        <column name="stock_id">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Stock Id</label>
+            </settings>
+        </column>
+        <column name="sku">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Sku</label>
+            </settings>
+        </column>
+        <column name="quantity">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Quantity</label>
+            </settings>
+        </column>
+        <column name="metadata">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Metadata</label>
+            </settings>
+        </column>
+        <column name="area_code">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Area Code</label>
+            </settings>
+        </column>
+    </columns>
+</listing>

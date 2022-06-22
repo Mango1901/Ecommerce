@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Magenest_Slider::slider" title="Banner Slider" translate="title" module="Magenest_Slider" sortOrder="60" parent="Magenest_Backend::Magenest" resource="Magenest_Slider::slider"/>
+        <add id="Magenest_Slider::manage" title="Manage Banners/Sliders" module="Magenest_Slider" sortOrder="10"
+             parent="Magenest_Slider::slider" action="slider/slider/index" resource="Magenest_Slider::manage"/>
+    </menu>
+</config>

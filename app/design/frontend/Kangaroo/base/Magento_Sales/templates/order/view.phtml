@@ -1,0 +1,232 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+use Magenest\CustomFrontend\ViewModel\ProgressOrderDate;
+
+// phpcs:disable Magento2.Templates.ThisInTemplate
+?>
+<?php /** @var  $block \Magento\Sales\Block\Order\View */ ?>
+<?php
+$helper = $this->helper("Magenest\RePaymentVNPTEpay\Helper\RePaymentHelper");
+$configHelper = $this->helper('Magenest\CustomCheckout\Helper\ConfigHelper');
+$_order      = $block->getOrder();
+$isMultiItemOrder = count($_order->getAllItems()) > 1 ? 1 : 0;
+if ($block->getReview()) {
+    $reviewCount = $block->getReview()->fetchSize($_order);
+} else {
+    $reviewCount = 0;
+}
+$pending     = $confirmed = $shipping = $complete = $review = "";
+if (in_array($_order->getStatus(), ["pending", "pending_paid", "pending_payment"])) {
+    $pending = "active";
+} elseif (in_array($_order->getStatus(), ["confirmed", "erp_synced", "packed"])) {
+    $pending   = "completed";
+    $confirmed = "active";
+} elseif ($_order->getStatus() == "processing_shipment") {
+    $pending  = $confirmed = "completed";
+    $shipping = "active";
+} elseif ($_order->getStatus() == "complete") {
+    if ($reviewCount > 0) {
+        $pending = $confirmed = $shipping = $complete = "completed";
+        $review  = "active";
+    } else {
+        $pending  = $confirmed = $shipping = "completed";
+        $complete = "active";
+    }
+}
+$orderCancel = $block->getOrderCancel();
+
+/**
+ * @var ProgressOrderDate $progressOrderDateViewModel
+ */
+$progressOrderDateViewModel = $block->getProgressOrderDate();
+$progressOrderDateData = $progressOrderDateViewModel->getProgressOrderDateOfOrder();
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$customerSession = $objectManager->get('Magento\Customer\Model\Session');
+if ($customerSession->isLoggedIn()) {
+    $getUrlReviewProduct = $block->getReview()->getUrlReviewProduct($_order->getAllItems()[0]);
+} else {
+    $getUrlReviewProduct = '';
+}
+?>
+
+<div class="order-detail-inner order-detail">
+    <div class="order-detail-progress desktop-device">
+        <ul class="progress-bar-list">
+            <li class="progress-bar-item ordered <?= $pending ?>">
+                <span class="progress-bar-icon"></span>
+                <span class="progress-bar-name"><?= __('Ordered order') ?></span>
+                <?= $progressOrderDateData['pending'] ?? null ?>
+            </li>
+            <li class="progress-bar-item wait-confirmation <?= $confirmed ?>">
+                <span class="progress-bar-icon"></span>
+                <span class="progress-bar-name"><?= __('Confirmed') ?></span>
+                <?= $progressOrderDateData['confirmed'] ?? null ?>
+            </li>
+            <li class="progress-bar-item shipping <?= $shipping ?>">
+                <span class="progress-bar-icon"></span>
+                <span class="progress-bar-name"><?= __('Delivering') ?></span>
+                <?= $progressOrderDateData['shipping'] ?? null ?>
+            </li>
+            <li class="progress-bar-item delivered <?= $complete ?>">
+                <span class="progress-bar-icon"></span>
+                <span class="progress-bar-name"><?= __('Delivered') ?></span>
+                <?= $progressOrderDateData['complete'] ?? null ?>
+            </li>
+            <li id="review-order" class="progress-bar-item review <?= $review ?>">
+                <span class="progress-bar-icon"></span>
+                <span class="progress-bar-name"><?= __('Reviews') ?></span>
+            </li>
+        </ul>
+    </div>
+    <div class="order-detail-contact">
+        <div class="order-detail-contact-item">
+            <span><?= __('Thank you for shopping at KangarooShopping') ?></span>
+            <?php if ($this->helper(\Magento\Sales\Helper\Reorder::class)->canReorder($_order->getEntityId())) : ?>
+                <a href="#" data-post='<?= /* @noEscape */
+                $this->helper(\Magento\Framework\Data\Helper\PostHelper::class)
+                    ->getPostData($block->getUrl('sales/order/reorder', ['order_id' => $_order->getId()]))
+                ?>' class="primary action order"><?= $block->escapeHtml(__('Reset order')) ?></a>
+            <?php endif ?>
+        </div>
+        <div class="order-detail-contact-item">
+            <?php if ($orderCancel && $orderCancel->isCancelable($_order)) : ?>
+                <a id="cancel-order" class="cancel secondary action" data-mage-init='{"Magenest_OrderCancel/js/om":{}}'>
+                    <?= __('Cancel Order') ?>
+                </a>
+            <?php endif; ?>
+            <?php if ($helper->isRepayment()): ?>
+            <a id="repayment" class="repayment secondary action">
+                <?= __('RePayment') ?>
+            </a>
+            <form id="megapayForm" class="megapayForm" name="megapayForm" method="POST">
+                <input type="hidden" name="invoiceNo" value="">
+                <input type="hidden" name="amount" value=""/>
+                <input type="hidden" name="currency" value="VND"/>
+                <input type="hidden" name="goodsNm" value=""/>
+                <input type="hidden" name="buyerPhone" value="">
+                <input type="hidden" name="buyerAddr" value="">
+                <input type="hidden" name="buyerCity" value="">
+                <input type="hidden" name="buyerState" value=""/>
+                <input type="hidden" name="buyerPostCd" value=""/>
+                <input type="hidden" name="buyerCountry"/>
+                <input type="hidden" name="fee" value=""/>
+                <input type="hidden" name="receiverFirstNm" value="">
+                <input type="hidden" name="receiverLastNm" value="">
+                <input type="hidden" name="receiverPhone" value="">
+                <input type="hidden" name="receiverAddr" value="">
+                <input type="hidden" name="receiverCity" value="">
+                <input type="hidden" name="receiverState" value=""/>
+                <input type="hidden" name="receiverPostCd" value=""/>
+                <input type="hidden" name="receiverCountry" value="VN"/>
+                <input type="hidden" name="description" value=""/>
+                <!-- Call Back URL -->
+                <input type="hidden" name="callBackUrl" value=""/>
+                <!-- Notify URL -->
+                <input type="hidden" name="notiUrl" value="">
+                <input type="hidden" name="merId" value=""/>
+                <input type="hidden" name="reqDomain" value=""/>
+                <input type="hidden" name="userLanguage" value="VN"/>
+                <input type="hidden" name="merchantToken" value=""/>
+                <input type="hidden" name="payToken" id="payToken" value=""/>
+                <input type="hidden" name="timeStamp" value=""/>
+                <input type="hidden" name="merTrxId"/>
+                <input type="hidden" name="windowType" value="1"/>
+                <input type='hidden' name='windowColor' value='#0B3B39'/>
+                <input type="hidden" name="vaCondition" value="03"/>
+                <input type="hidden" name="userId" id="userId" value=""/>
+                <input type="hidden" name="buyerLastNm" value="">
+                <input type="hidden" name="buyerFirstNm" value="">
+                <input type="hidden" name="buyerEmail" value=""/>
+                <input type="hidden" name="payType" value="NO"/>
+            </form>
+            <?php endif; ?>
+            <a href="<?= $block->getUrl('contact') ?>" class="contact-us secondary action"><?= __('Contact us') ?></a>
+        </div>
+        <?php if($configHelper->getQrCodeCookie()): ?>
+        <img src='data:image/png;base64, <?= $configHelper->getQrCodeCookie()?>'/>
+        <?php endif; ?>
+    </div>
+</div>
+<div class="order-details-items ordered">
+
+    <?= $block->getChildHtml('order_items') ?>
+
+    <?php if ($this->helper(\Magento\GiftMessage\Helper\Message::class)->isMessagesAllowed('order', $_order)
+        && $_order->getGiftMessageId()
+    ) : ?>
+        <div class="block block-order-details-gift-message">
+            <div class="block-title"><strong><?= $block->escapeHtml(__('Gift Message for This Order')) ?></strong></div>
+            <?php
+            $_giftMessage = $this->helper(\Magento\GiftMessage\Helper\Message::class)->getGiftMessageForEntity($_order);
+            ?>
+            <div class="block-content">
+                <dl class="item-options">
+                    <dt class="item-sender">
+                        <strong class="label"><?= $block->escapeHtml(__('From')) ?></strong>
+                        <?= $block->escapeHtml($_giftMessage->getSender()) ?>
+                    </dt>
+                    <dt class="item-recipient">
+                        <strong class="label"><?= $block->escapeHtml(__('To')) ?></strong>
+                        <?= $block->escapeHtml($_giftMessage->getRecipient()) ?>
+                    </dt>
+                    <dd class="item-message">
+                        <?= /* @noEscape */
+                        $this->helper(\Magento\GiftMessage\Helper\Message::class)->getEscapedGiftMessage($_order) ?>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <div class="actions-toolbar">
+        <div class="secondary">
+            <a class="action back" href="<?= $block->escapeUrl($block->getBackUrl()) ?>">
+                <span><?= $block->escapeHtml($block->getBackTitle()) ?></span>
+            </a>
+        </div>
+    </div>
+</div>
+<?php if ($orderCancel && $orderCancel->isCancelable($_order)) : ?>
+    <script>
+        require(['jquery', 'mage/translate'], function ($) {
+            $('#cancel-order').click(function () {
+                $(this).om(
+                    'showConfirmCancelDialog',
+                    $.mage.__('Please confirm reason to cancel this order?'),
+                    '<?= $orderCancel->getCancelUrl() ?>',
+                    '<?= $orderCancel->getReasonOption() ?>'
+                )
+            })
+        })
+    </script>
+<?php endif; ?>
+<script>
+    require(['jquery'], function ($) {
+        $('.title-back-icon').click(function () {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            window.location.href = "<?= $block->getUrl('sales/order/history') ?>";
+        })
+        $('#review-order').click(function (e) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            if (<?= $isMultiItemOrder?>) {
+                window.location.href = "<?= $block->getUrl('photoreview/order/review/order_id/' . $_order->getId()) ?>";
+            } else {
+                window.location.href = '<?= $getUrlReviewProduct ?>';
+            }
+        })
+    })
+</script>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magenest_RePaymentVNPTEpay/js/repayment" : {}
+        }
+    }
+
+</script>

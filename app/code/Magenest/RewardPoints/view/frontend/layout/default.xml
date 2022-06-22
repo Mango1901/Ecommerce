@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Magenest_RewardPoints::css/reward-landing.css"/>
+        <css src="Magenest_RewardPoints::css/font-awesome.css"/>
+    </head>
+    <body>
+        <move element="page.main.title" destination="content" before="-"/>
+        <referenceBlock name="my-account-link">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">Magenest_RewardPoints::customer/link.phtml</argument>
+            </action>
+        </referenceBlock>
+        <referenceContainer name="product.info.main">
+            <block class="Magenest\RewardPoints\Block\PointInfo" ifconfig="rewardpoints/reward_points_display/reward_points_enable" name="product.info.point" template="Magenest_RewardPoints::item/configure/point.phtml"/>
+        </referenceContainer>
+
+        <referenceBlock name="footer_links">
+            <block class="Magenest\RewardPoints\Block\LandingPage" ifconfig="rewardpoints/point_config/landing_page_in_footer" name="rewardpoints_landing_page">
+                <arguments>
+                    <argument name="label" xsi:type="string" translate="true">Landing Page</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="left">
+            <block class="Magento\Backend\Block\Widget\Tabs" name="magenest_label_edit_tabs" template="Magenest_ProductLabel::widget/tabs.phtml">
+                <block class="Magenest\ProductLabel\Block\Adminhtml\Label\Edit\Tab\Preview" name="block-label-preview"/>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">label_preview</argument>
+                    <argument name="block" xsi:type="string">block-label-preview</argument>
+                </action>
+            </block>
+        </referenceContainer>
+        <referenceContainer name="content" >
+            <block class="Magenest\ProductLabel\Block\Adminhtml\Label\Edit" name="label_edit"/>
+            <uiComponent name="label_form"/>
+        </referenceContainer>
+    </body>
+</page>

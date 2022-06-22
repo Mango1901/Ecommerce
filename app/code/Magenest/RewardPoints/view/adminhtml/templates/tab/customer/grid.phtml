@@ -1,0 +1,31 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var CustomerWrapper $block */
+
+/** @var Assign $blockGrid */
+
+use Magenest\RewardPoints\Block\Adminhtml\Membership\Edit\Tab\Customer\Assign;
+use Magenest\RewardPoints\Block\Adminhtml\Membership\Edit\Tab\Customer\CustomerWrapper;
+
+$blockGrid        = $block->getBlockGrid();
+$gridJsObjectName = $blockGrid->getJsObjectName();
+?>
+<?= $block->getGridHtml() ?>
+<input type="hidden" name="assigned_customer" id="in_group_customers" data-form-part="rewardpoints_membership_edit" value=""/>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magenest_RewardPoints/js/membership/edit/assign-customer": {
+                "selectedCustomers": <?= $block->getCustomersJson() ?>,
+                "gridJsObjectName": <?= '"' . $gridJsObjectName . '"' ?: '{}' ?>
+            }
+        }
+    }
+</script>
+<script>
+    require('mage/apply/main').apply();
+</script>

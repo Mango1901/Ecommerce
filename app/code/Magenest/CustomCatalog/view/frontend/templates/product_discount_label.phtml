@@ -1,0 +1,23 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var \Magenest\CustomCatalog\Block\Product\LabelDiscount $block */
+?>
+<div class="product-labels">
+    <?php if ($label = $block->getProductDiscountLabel()): ?>
+        <span class="label label-discount">
+            <span class="text-sm-mi-des-wh"><?= $label ?></span>
+        </span>
+    <?php endif; ?>
+
+    <?php if ($block->isProductNew()): ?>
+        <span class="label label-new">
+            <span class="text-sm-mi-des-wh"><?= __('New') ?></span>
+        </span>
+    <?php endif; ?>
+</div>

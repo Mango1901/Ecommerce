@@ -1,0 +1,35 @@
+<!--@subject You might like this  @-->
+<!--@vars {
+} @-->
+
+{{template config_path="design/email/header_template"}}
+<div class="customer_change">
+    <p>{{trans "Hi %name," name=$name}}</p>
+    <p>{{trans "Your point balance has been updated recently."}}</p>
+    <table>
+        <tr>
+            <td><strong>{{trans "Points Change"}}</strong></td>
+            <td>{{trans "%quote_point point(s)" quote_point=$quote_point}}</td>
+        </tr>
+        <tr>
+            <td><strong>{{trans "Details"}}</strong></td>
+            <td>
+                {{trans "%comment" comment=$comment}}
+                {{trans "%increment_id" increment_id=$increment_id}}
+            </td>
+        </tr>
+        <tr>
+            <td><strong>{{trans "Current Point Balance"}}</strong></td>
+            <td>{{trans "%current_point point(s)" current_point=$current_point}}</td>
+        </tr>
+        <tr>
+            <td><strong>{{trans "Member Tier"}}</strong></td>
+            <td>{{trans "%current_tier" current_tier=$current_tier}}</td>
+        </tr>
+    </table>
+    <div class="view_more">
+        <a href="{{var account_dashboard}}">{{trans "view more"}}</a>
+    </div>
+    <p>{{trans "Please contact us if anything got you confused, we would be willing to help as soon as possible."}}</p>
+</div>
+{{template config_path="design/email/footer_template"}}

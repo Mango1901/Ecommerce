@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magenest
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magenest.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.magenest.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Magenest
+ * @package     Magenest_StoreCredit
+ * @copyright   Copyright (c) Magenest (https://www.magenest.com/)
+ * @license     https://www.magenest.com/LICENSE.txt
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="customer_account"/>
+    <head>
+        <css src="Magenest_StoreCredit::css/grid-magenest.css"/>
+        <css src="Magenest_StoreCredit::css/dashboard.css"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Magenest\StoreCredit\Block\Account\Dashboard" name="mpstorecredit_dashboard" template="Magenest_StoreCredit::account/dashboard.phtml" cacheable="false">
+                <block class="Magenest\StoreCredit\Block\Account\Dashboard\Balance" name="mpstorecredit_dashboard_balance" template="Magenest_StoreCredit::account/dashboard/balance.phtml"/>
+                <block class="Magenest\StoreCredit\Block\Account\Dashboard\Transaction" name="mpstorecredit_dashboard_transaction" template="Magenest_StoreCredit::account/dashboard/transaction.phtml"/>
+                <block class="Magenest\StoreCredit\Block\Account\Dashboard\Setting" name="mpstorecredit_dashboard_setting" template="Magenest_StoreCredit::account/dashboard/setting.phtml"/>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

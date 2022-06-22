@@ -1,0 +1,79 @@
+<?php
+
+namespace Magenest\SellOnInstagram\Controller\Adminhtml\Feed;
+
+use Magenest\SellOnInstagram\Model\ProductBatch;
+
+class SyncCreateNow extends AbstractFeed
+{
+    const PAGE_SIZE = 1500;
+
+    public function execute()
+    {
+        try {
+            $feed = $this->initCurrentFeed();
+            $feed->generateProduct();
+            $feed->syncByFeedId();
+            $status = $feed->getStatus();
+            if ($status) {
+                $productIds = $feed->getProductIds();
+                $feedId = $feed->getId();
+                $templateId = $feed->getTemplateId();
+                $storeId = $feed->getStoreId();
+                if (!empty($productIds)) {
+                    $this->addToHistoryDetail($productIds, $feedId);
+                    $this->processSync($productIds, $templateId, $feedId, $storeId);
+                    $this->messageManager->addSuccessMessage(__("Please check status of sync product in View History"));
+                } else {
+                    $this->messageManager->addErrorMessage(__("Not found product with your condition, Please check your condition"));
+                }
+            } else {
+                $this->messageManager->addErrorMessage(__("Your Feed is inactive, not ready for sync"));
+            }
+        } catch (\Exception $exception) {
+            $this->logger->error("Error Sync Product " . $exception->getMessage());
+        }
+
+        if ($this->getRequest()->getParam('edit_page') == true) {
+            return $this->_redirect("*/*/edit", ['id' => $feed->getId()]);
+        }
+        return $this->_redirect("*/*");
+    }
+
+    protected function addToHistoryDetail($productIds, $feedId)
+    {
+        $productBatch = $this->productBatch->setCountItemsSuccess($productIds)->setAction(ProductBatch::CREATE);
+        $history = $this->historyModel->updateReport($productBatch, $feedId);
+        $history->setLastId($history->getId());
+    }
+
+    protected function processSync($productIds, $templateId, $feedId, $storeId)
+    {
+        $pageSize = self::PAGE_SIZE;
+        $requests = [];
+        $productCollection = $this->productCollectionFactory->create()->addFieldToSelect('*')->addFieldToFilter('entity_id', ['in' => $productIds]);
+//        get product with store view
+        $productCollection->setStoreId($storeId);
+        $productCollectionSize = $productCollection->getSize();
+        $pages = ceil($productCollectionSize / $pageSize);
+        $productCollection->setPageSize($pageSize);
+        for ($i = 1; $i <= $pages; $i++) {
+            $requests = [];
+            $productCollection->setCurPage($i);
+            $productCollection->load();
+            foreach ($productCollection as $collection) {
+                if (!$this->helper->isAllowOutOfStock()) {
+                    $status = $this->stockRegistry->getStockItem($collection->getId())->getIsInStock();
+                    if ($status) {
+                        $requests[] = $this->batchBuilder->requestCreateProductAction($collection, $templateId);
+                    }
+                } else {
+                    $requests[] = $this->batchBuilder->requestCreateProductAction($collection, $templateId);
+                }
+            }
+            $data = $this->batchBuilder->createProductItemTemplate($this->helper->getAccessToken(), $requests);
+            $this->productBatch->syncProductToFbShop($data, $feedId);
+            $productCollection->clear();
+        }
+    }
+}

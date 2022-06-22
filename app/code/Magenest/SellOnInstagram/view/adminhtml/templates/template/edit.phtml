@@ -1,0 +1,20 @@
+<?php
+/** @var $block Edit */
+
+use Magenest\SellOnInstagram\Block\Adminhtml\Mapping\Edit;
+
+?>
+<div style="display: none">
+	<input type="hidden" name="template_id" id="template_id" value="<?= $block->escapeHtml($block->getMappingTemplateId()) ?>">
+</div>
+<div id="template_attributes" data-bind="scope: 'template_attributes'">
+	<!-- ko template: getTemplate() --><!-- /ko -->
+	<script type="text/x-magento-init">
+        {
+            "#template_attributes":{
+                "Magento_Ui/js/core/app": <?= $block->getMappingTemplateData() ?>
+            }
+        }
+
+	</script>
+</div>

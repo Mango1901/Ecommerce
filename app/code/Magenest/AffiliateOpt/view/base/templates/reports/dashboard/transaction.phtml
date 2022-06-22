@@ -1,0 +1,23 @@
+<?php
+?>
+<?php if ($block->isEnabledChart()): ?>
+    <div class="dashboard-item-content-chart">
+        <?php if ($block->mpAffiliateChartData()): ?>
+            <canvas id="<?= $block->getComponentName() ?>"
+                    data-mage-init='{
+                    "Magenest_AffiliateOpt/js/create-chart": {
+                            "chartData":<?= $block->mpAffiliateChartData() ?>,
+                            "chartElement" : "<?= $block->getComponentName() ?>"
+                        }}'>
+            </canvas>
+        <?php else: ?>
+            <div class="ar-empty-text empty-text">
+                <?= __("We couldn't find any records.") ?>
+            </div>
+        <?php endif; ?>
+    </div>
+<?php else: ?>
+    <div class="ar-empty-text empty-text">
+        <?= __("Chart is disabled. To enable the chart, click <a href='%1'>here</a>", $block->getUrl('adminhtml/system_config/edit', ['section' => 'magenest_reports', 'store' => $this->getRequest()->getParam('store')])) ?>
+    </div>
+<?php endif; ?>

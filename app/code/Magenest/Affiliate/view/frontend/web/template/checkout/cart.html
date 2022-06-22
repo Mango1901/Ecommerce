@@ -1,0 +1,45 @@
+<!--
+
+ -->
+
+<div class="block discount" id="block-affiliate-coupon-discount"
+     data-bind="mageInit: {'collapsible':{'openedState': 'active', 'saveState': false}}">
+    <div class="title" data-role="title">
+        <strong id="block-affiliate-coupon-discount-heading" role="heading" aria-level="2"
+                data-bind="i18n: 'Apply Affiliate Discount Code'"></strong>
+    </div>
+    <div class="content" data-role="content" aria-labelledby="block-affiliate-coupon-discount-heading"
+         data-bind="blockLoader: isLoading">
+        <!-- ko foreach: getRegion('messages') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!--/ko-->
+
+        <form id="affiliate-coupon-discount-form" method="post">
+            <div class="fieldset coupon">
+                <div class="field">
+                    <div class="control">
+                        <input type="text" class="input-text" id="affiliate-coupon-code" name="affiliate_coupon_code"
+                               data-bind="value: affiliateCouponCode,
+                                          valueUpdate: 'keyUp',
+                                          attr: {placeholder: $t('Apply Affiliate Coupon Code'), disabled: isApplied()}"
+                               data-validate="{required:true}">
+                    </div>
+                </div>
+                <div class="actions-toolbar">
+                    <div class="primary">
+                        <!-- ko ifnot: isApplied() -->
+                        <button class="action apply primary" type="submit" data-bind="'value': $t('Apply Discount'), click: apply">
+                            <span><!-- ko i18n: 'Apply Discount'--><!-- /ko --></span>
+                        </button>
+                        <!-- /ko -->
+                        <!-- ko if: isApplied() -->
+                        <button class="action cancel primary" type="submit" data-bind="'value': $t('Cancel'), click: cancel">
+                            <span><!-- ko i18n: 'Cancel coupon'--><!-- /ko --></span>
+                        </button>
+                        <!-- /ko -->
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

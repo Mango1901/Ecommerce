@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\Review\Block\Adminhtml\Edit\Form" type="Magenest\PhotoReview\Block\Adminhtml\Edit\Form" />
+    <type name="Magento\Review\Model\Review">
+        <plugin name="magenest_photoreview_summary_review" type="Magenest\PhotoReview\Plugin\SummaryReview" sortOrder="0"/>
+    </type>
+
+    <type name="Magento\Review\Block\Adminhtml\Grid">
+        <plugin name="change_column_title_grid_review" type="Magenest\PhotoReview\Plugin\Block\Adminhtml\Grid" sortOrder="0"/>
+    </type>
+
+    <type name="Magento\Review\Controller\Adminhtml\Product">
+        <plugin name="change_value_post_title" type="Magenest\PhotoReview\Plugin\Controller\Adminhtml\Review\Save" sortOrder="0"/>
+    </type>
+
+    <type name="Magento\Review\Block\Adminhtml\Add\Form">
+        <plugin name="change_field_title_new_review_form" type="Magenest\PhotoReview\Plugin\Block\Adminhtml\Add\Form" sortOrder="0"/>
+    </type>
+</config>

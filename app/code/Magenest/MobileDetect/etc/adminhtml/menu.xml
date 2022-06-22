@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+    	<add id="Magenest_MobileDetect::main"
+             title="Mobile Detect"
+             module="Magenest_MobileDetect"
+             sortOrder="10"
+             resource="Magenest_MobileDetect::main"
+             parent="Magenest_Backend::Magenest"/>
+
+        <add id="Magenest_MobileDetect::menus"
+             title="Settings"
+             module="Magenest_MobileDetect"
+             sortOrder="10"
+             parent="Magenest_MobileDetect::main"
+             action="adminhtml/system_config/edit/section/magenest_mobiledetect"
+             resource="Magenest_MobileDetect::config_system"/>
+
+        <add id="Magenest_MobileDetect::themes"
+             title="Theme Settings"
+             module="Magenest_MobileDetect"
+             sortOrder="1"
+             parent="Magenest_MobileDetect::main"
+             action="theme/design_config/index"
+             resource="Magento_Backend::design"/>
+    </menu>
+</config>

@@ -1,0 +1,114 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/**
+ * @var \Magento\Checkout\Block\Cart\Coupon $block
+ */
+
+// We should use strlen function because coupon code could be "0", converted to bool will lead to false
+$hasCouponCode = (bool)strlen($block->getCouponCode());
+$couponApplied = false;
+if ($hasCouponCode) {
+    $couponApplied = $block->getCouponCode();
+}
+
+/**
+ * @var \Magenest\CouponCode\ViewModel\Coupon $viewModel
+ */
+$viewModel = $block->getViewModel();
+?>
+<div class="block discount"
+     id="block-discount"
+     data-mage-init='{"collapsible":{"active": <?= $hasCouponCode ? 'true'
+         : 'false' ?>, "openedState": "active", "saveState": false}}'
+>
+    <div class="head-title"><?= $block->escapeHtml(__('Discount Code')) ?></div>
+    <div id="buttonClick" class="title" data-role="title">
+        <div id="block-discount-heading" class="title-discount" role="heading" aria-level="2">
+            <?= $block->escapeHtml($hasCouponCode ? $block->getCouponCode() : __('Enter discount Code')) ?>
+        </div>
+    </div>
+
+    <div class="modal" id="modal">
+        <div class="content" data-role="content" aria-labelledby="block-discount-heading">
+            <form id="discount-coupon-form" class="discount-coupon-form"
+                  action="<?= $block->escapeUrl($block->getUrl('checkout/cart/couponPost')) ?>"
+                  method="post"
+                  data-mage-init='{"discountCode":{"couponCodeSelector": "#coupon_code",
+                                               "removeCouponSelector": "#remove-coupon",
+                                               "applyButton": "button.action.apply",
+                                               "cancelButton": "button.action.cancel"}}'>
+                <div class="fieldset coupon<?= $hasCouponCode ? ' applied' : '' ?>">
+                    <input type="hidden" name="remove" id="remove-coupon" value="0"/>
+                    <div class="field">
+                        <div class="form-group">
+                            <label for="coupon_code" class="label"><span><?= $block->escapeHtml(
+                                        __('Code voucher')
+                                    ) ?></span></label>
+                            <div class="control">
+                                <input type="text"
+                                       class="input-text"
+                                       id="coupon_code"
+                                       name="coupon_code"
+                                       value="<?= $block->escapeHtmlAttr($block->getCouponCode()) ?>"
+                                       placeholder="<?= $block->escapeHtml(__('Enter code discount of you')) ?>"
+                                    <?php if ($hasCouponCode) : ?>
+                                        disabled="disabled"
+                                    <?php endif; ?>
+                                />
+                            </div>
+                        </div>
+                        <div class="actions-toolbar">
+                            <?php if (!$hasCouponCode) : ?>
+                                <div class="primary">
+                                    <button id="apply_coupon" class="action apply primary" type="button"
+                                            value="<?= $block->escapeHtmlAttr(__('Apply Discount')) ?>">
+                                        <span><?= $block->escapeHtml(__('Apply Discount')) ?></span>
+                                    </button>
+                                </div>
+                            <?php else : ?>
+                                <div class="primary">
+                                    <button id="cancel_coupon" type="button" class="action cancel primary"
+                                            value="<?= $block->escapeHtmlAttr(__('Cancel coupon')) ?>">
+                                        <span><?= $block->escapeHtml(__('Cancel coupon')) ?></span></button>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+                <?php if (!$hasCouponCode) : ?>
+                    <?= $block->getChildHtml('captcha') ?>
+                <?php endif; ?>
+            </form>
+            <div class="content" data-role="content" aria-labelledby="block-discount-heading" data-bind="scope: 'coupon-listing'">
+                <!-- ko template: getTemplate() --><!-- /ko -->
+            </div>
+            <script type="text/x-magento-init">
+                {
+                    "*" : {
+                        "Magento_Checkout/js/init-coupon-handler": {},
+                        "Magento_Ui/js/core/app": {
+                             "components": {
+                                 "coupon-listing": {
+                                     "component": "Magenest_CouponCode/js/view/codeList",
+                                     "current_page" : "<?= $block->escapeHtml($block->getRequest()->getFullActionName())?>"
+                                 }
+                             }
+                         }
+                    }
+                }
+            </script>
+        </div>
+    </div>
+</div>
+
+<script type="text/x-magento-init">
+    {
+       "*": {
+            "Magento_Checkout/js/popup-cartdiscount": {}
+       }
+    }
+</script>

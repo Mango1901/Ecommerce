@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\InventoryAdminUi\Ui\DataProvider\SourceDataProvider">
+        <plugin name="set_value_address" type="Magenest\MapList\Plugin\Source\HandelValueAddress" sortOrder="10" />
+    </type>
+    <type name="Magento\InventoryApi\Api\SourceRepositoryInterface">
+        <plugin name="load_address_custom_field" type="Magenest\MapList\Plugin\InventoryApi\SourceRepository\LoadCustomFieldAddress"/>
+    </type>
+
+    <type name="Magento\InventoryDistanceBasedSourceSelectionAdminUi\Model\Config\Source\DistanceProvider">
+        <arguments>
+            <argument name="distanceProviderDescriptions" xsi:type="array">
+                <item name="goong" xsi:type="string">Goong</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

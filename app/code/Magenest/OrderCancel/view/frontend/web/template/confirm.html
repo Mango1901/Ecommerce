@@ -1,0 +1,22 @@
+<div class="admin__scope-old">
+    <form id="om-confirm-form">
+        <div class="form-inline">
+            <div class="admin__field field required _required">
+                <label class="label admin__field-label" for="cancel_reason"><span><%= _.i18n('Cancel Reason') %></span></label>
+                <div class="admin__field-control control">
+                    <select name="cancel_reason" id="cancel_reason" class="input-select admin__control-select required-entry _required">
+                        <% _.each(cancelReason, function(option) { %>
+                        <option value="<%- option.value %>"><%- option.label %></option>
+                        <% }); %>
+                    </select>
+                </div>
+            </div>
+            <div class="admin__field field">
+                <label class="label admin__field-label" for="other_reason"><span><%= _.i18n('Note') %></span></label>
+                <div class="admin__field-control control">
+                    <textarea id="other_reason" name="other_reason" class="admin__control-textarea"></textarea>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,6 @@
+<?php
+/** @var $block \Magenest\CustomFrontend\Block\Html\OpenGraph */
+?>
+<meta property="og:image"
+      content="<?= $block->escapeUrl($block->getMetaImageUrl()) ?>" />
+<meta property="og:image:url" content="<?= $this->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]) ?>">

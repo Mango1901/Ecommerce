@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <magenest_notification_box>
+            <subscription_popup>
+                <allow_web_push>1</allow_web_push>
+                <content_popup>Would you like to subscribe to the newsletter?</content_popup>
+                <time_show_popup>3</time_show_popup>
+                <time_resend_popup>300</time_resend_popup>
+            </subscription_popup>
+            <web_push_notification>
+                <maximun_notification>30</maximun_notification>
+            </web_push_notification>
+            <notification_box>
+                <maximum_notification_on_notification_box>10</maximum_notification_on_notification_box>
+                <maximum_notification_in_my_notifications_on_my_account_page>10</maximum_notification_in_my_notifications_on_my_account_page>
+                <maximum_notification_description>200</maximum_notification_description>
+                <theme_color>#ffffff</theme_color>
+                <color_unread_notification>#f0f0f0</color_unread_notification>
+                <box_position>magenest-notification-box--center</box_position>
+                <box_width>400</box_width>
+            </notification_box>
+        </magenest_notification_box>
+    </default>
+</config>

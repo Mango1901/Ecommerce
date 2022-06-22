@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magenest
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magenest.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.magenest.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Magenest
+ * @package     Magenest_StoreCredit
+ * @copyright   Copyright (c) Magenest (https://www.magenest.com/)
+ * @license     https://www.magenest.com/LICENSE.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="adminhtml_customer_save_after">
+        <observer name="mpstorecredit_customer_save_after" instance="Magenest\StoreCredit\Observer\CustomerSaveAfter"/>
+    </event>
+    <event name="adminhtml_sales_order_create_process_data">
+        <observer name="mpstorecredit_order_create_add" instance="Magenest\StoreCredit\Observer\OrderCreateProcessData"/>
+    </event>
+    <event name="order_cancel_after">
+        <observer name="mpstorecredit_order_cancel_after" instance="Magenest\StoreCredit\Observer\OrderCancelAfter"/>
+    </event>
+</config>

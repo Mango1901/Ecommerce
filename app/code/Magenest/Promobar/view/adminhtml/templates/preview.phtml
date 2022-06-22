@@ -1,0 +1,432 @@
+<?php if ($id = $this->getRequest()->getParam('id')): ?>
+    <?php
+    $bar = $this->getBarById($id);
+    $promobarId = $bar->getData('promobar_id');
+    $mobileBar = $block->getMobileBarById($promobarId);
+    if ($mobileBar) {
+        $breakpoint = $mobileBar->getData('breakpoint');
+        $useSameConfig = $mobileBar->getData('use_same_config');
+        $mobileEditBackground = $mobileBar->getData('mobile_edit_background');
+        $mobileEditBackground = json_decode($mobileEditBackground,true);
+        $mobileMultipleContent = $mobileBar->getData('mobile_multiple_content');
+        $mobileHeightProBar = $mobileBar->getData('mobile_height_pro_bar');
+        if($useSameConfig == 1){
+            $mobileHeightProBar = $bar->getData('height-pro-bar');
+        }
+    }
+
+    $backgroundImage = $this->getBarImageUrl($bar);
+    $editBackground = $this->getInfoEditBackground($bar);
+    $dataProBar = $this->getDataPromoBar($bar);
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $resultRedirect = $objectManager->create(\Magento\Backend\Model\View\Result\Redirect::class);
+    $heightProBar = $bar->getData('height-pro-bar');
+    $height = $editBackground['height'];
+    $width = $editBackground['width'];
+    $left_right = $editBackground['left-right'];
+    $up_down = $editBackground['up-down'];
+    $opacity = $editBackground['opacity'];
+    $mobileHeight = $mobileEditBackground['mobile-height'];
+    $mobileWdith = $mobileEditBackground['mobile-width'];
+    $mobileLeftRight = $mobileEditBackground['mobile-left-right'];
+    $mobileUpDown = $mobileEditBackground['mobile-up-down'];
+    $mobileOpacity = $mobileEditBackground['mobile-opacity'];
+    $margin_left = ((int)($width) - 100) * (-(int)($left_right) / 100); //unit: %
+    $margin_top = (((int)($height) - 100) / 100) * (-(int)($up_down) / 100) * (int)($heightProBar); //unit: px
+    $mobile_margin_left = ((int)($mobileWdith) - 100) * (-(int)($mobileLeftRight) / 100); //unit: %
+    $mobile_margin_top = (((int)($mobileHeight) - 100) / 100) * (-(int)($mobileUpDown) / 100) * (int)($mobileHeightProBar); //unit: px
+    $imgTop = 50 + (int)($up_down);
+    $mobileImgTop = 50 + (int)($mobileUpDown);
+    $imgTransform = -$imgTop;
+    $mobileImgTransform = -$mobileImgTop;
+    ?>
+
+    <div class="area-bar-preview" id="area-preview">
+        <h2 id="mobile_section_title"><strong>Mobile Promobar</strong></h2>
+        <div class="mobile-section-promobar" style="height: <?= $mobileHeightProBar . 'px'; ?>; width: 768px;">
+            <div class="mobile-promobar" style="height: <?= $mobileHeightProBar . 'px'; ?>;">
+                <span class="mobile-promobar-close"></span>
+                <a href="#" class="mobile-promobar-image" style="
+                        height:<?= $mobileHeight . '%'; ?>;
+                        width:<?= $mobileWdith . '%'; ?>;
+                        margin-top:<?= $mobile_margin_top . 'px'; ?>;
+                        margin-left:<?= $mobile_margin_left . '%'; ?>;
+                        opacity:<?= $mobileOpacity; ?>;">
+                    <img src="<?= $backgroundImage ?>" alt=""
+                         style="top:<?= $mobileImgTop . '%'; ?>;
+                                 -webkit-transform: translate(-50%, <?= $mobileImgTransform . '%'; ?>);
+                                 -moz-transform: translate(-50%, <?= $mobileImgTransform . '%'; ?>);
+                                 -ms-transform: translate(-50%, <?= $mobileImgTransform . '%'; ?>);
+                                 -o-transform: translate(-50%, <?= $mobileImgTransform . '%'; ?>);
+                                 transform: translate(-50%, <?= $mobileImgTransform . '%'; ?>);
+                                 ">
+                </a>
+                <div class="mobile-promobar-container">
+                    <div class="mobile-promobar-content">
+                        <div class="mobile-promoCarousel">
+                            <div class="mobile-promoItem" style="display: table; width: 100%;">
+                                <div style="display: table-cell; width: 100%; height: <?= $mobileHeightProBar . 'px'; ?>; vertical-align: middle;">
+                                    <div class="mobile-promoItemContainer"
+                                         style="position: relative;">
+                                        <div class="mobile-promoItemContent">
+                                            <div style="max-height: <?= $mobileHeightProBar . 'px'; ?>;">
+                                            </div>
+                                        </div>
+                                        <div class="mobile-promoItemButton">
+                                            <div style="max-height: <?= $mobileHeightProBar . 'px'; ?>;">
+                                                <a href="" style="text-decoration: none;">
+                                                    <div class="mobile-dv-content-button" style="">
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h2 id="desktop_section_title"><strong>Promobar</strong></h2>
+        <div class="section-promobar" style="height: <?= $heightProBar . 'px'; ?>;">
+            <div class="promobar" style="height: <?= $heightProBar . 'px'; ?>;">
+                <span class="promobar-close"></span>
+                <a href="#" class="promobar-image" style="height:<?= $height . '%'; ?>;
+                        width:<?= $width . '%'; ?>;
+                        margin-top:<?= $margin_top . 'px'; ?>;
+                        margin-left:<?= $margin_left . '%'; ?>;
+                        opacity:<?= $opacity; ?>;">
+                    <img src="<?= $backgroundImage ?>" alt=""
+                         style="top:<?= $imgTop . '%'; ?>;
+                                 -webkit-transform: translate(-50%, <?= $imgTransform . '%'; ?>);
+                                 -moz-transform: translate(-50%, <?= $imgTransform . '%'; ?>);
+                                 -ms-transform: translate(-50%, <?= $imgTransform . '%'; ?>);
+                                 -o-transform: translate(-50%, <?= $imgTransform . '%'; ?>);
+                                 transform: translate(-50%, <?= $imgTransform . '%'; ?>);
+                                 ">
+                </a>
+                <div class="promobar-container">
+                    <div class="promobar-content">
+                        <div class="promoCarousel">
+                            <div class="promoItem" style="display: table; width: 100%;">
+                                <div style="display: table-cell; width: 100%; height: <?= $heightProBar . 'px'; ?>; vertical-align: middle;">
+                                    <div class="promoItemContainer"
+                                         style="position: relative;">
+                                        <div class="promoItemContent">
+                                            <div style="max-height: <?= $heightProBar . 'px'; ?>;">
+
+                                            </div>
+                                        </div>
+                                        <div class="promoItemButton">
+                                            <div style="max-height: <?= $heightProBar . 'px'; ?>;">
+                                                <a href="" style="text-decoration: none;">
+                                                    <div class="dv-content-button" style="">
+
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- The Modal -->
+    <div id="error_submit" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content-error">
+            <span class="close_error_submit">&times;</span>
+            <p>Not correct value some field</p>
+        </div>
+    </div>
+<?php else: ?>
+    <div class="area-bar-preview" id="area-preview">
+        <div class="mobile-section-promobar" style="width: 768px; margin-bottom: 10px;">
+            <div class="mobile-promobar">
+                <span class="mobile-promobar-close"></span>
+                <a href="#" class="mobile-promobar-image">
+                    <img src="" alt="">
+                </a>
+                <div class="mobile-promobar-container">
+                    <div class="mobile-promobar-content">
+                        <div class="mobile-promoCarousel">
+                            <div class="mobile-promoItem" style="display: table; width: 100%;">
+                                <div style="display: table-cell; width: 100%; vertical-align: middle;">
+                                    <div class="mobile-promoItemContainer"
+                                         style="position: relative;">
+                                        <div class="mobile-promoItemContent">
+                                            <div></div>
+                                        </div>
+                                        <div class="mobile-promoItemButton">
+                                            <div>
+                                                <a href="">
+                                                    <div class="mobile-dv-content-button" style="">
+
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section-promobar">
+            <div class="promobar">
+                <span class="promobar-close"></span>
+                <a href="#" class="promobar-image">
+                    <img src="" alt="">
+                </a>
+                <div class="promobar-container">
+                    <div class="promobar-content">
+                        <div class="promoCarousel">
+                            <div class="promoItem" style="display: table; width: 100%;">
+                                <div style="display: table-cell; width: 100%; vertical-align: middle;">
+                                    <div class="promoItemContainer"
+                                         style="position: relative;">
+                                        <div class="promoItemContent">
+                                            <div></div>
+                                        </div>
+                                        <div class="promoItemButton">
+                                            <div>
+                                                <a href="">
+                                                    <div class="dv-content-button" style="">
+
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div id="error_submit" class="modal">
+        <div class="modal-content-error">
+            <span class="close_error_submit">&times;</span>
+            <p>Not correct value some field</p>
+        </div>
+    </div>
+<?php endif; ?>
+<script type="text/javascript">
+    require([
+        'jquery',
+        'jquery/validate',
+        'mage/validation',
+        'mage/translate'
+    ], function ($) {
+
+        $(".admin__control-wysiwig .action-add-image").remove();
+        $('.promobar-close').hide();
+        $('.mobile-promobar-close').hide();
+        if ($("#use_same_config").val() == 1) {
+            $(".mobile-section-promobar").hide();
+            $("#mobile_section_title").hide();
+        }else{
+            $(".mobile-section-promobar").show();
+            $("#mobile_section_title").show();
+        }
+        var id = '#content-0';
+        $(document).on('click', '.action-edit', function (i) {
+            var idEdit = i.target.id;
+            id = '#content-' + idEdit.replace("edit-", "");
+        });
+        $(document).on('click', 'button.add-option', function () {
+            var idLastRow = $('.add-option').attr('id');
+            id = '#content-' + idLastRow;
+        });
+        // if ($("#promobar_id").length) {
+        //     $("#theme").prop('disabled', 'disabled');
+        // }
+
+
+        $(window).load(function () {
+
+            $("#content").change(function () {
+                updateContent(id);
+            });
+
+            $("#url").change(function () {
+                updateUrl();
+            });
+
+            $("#size").change(function () {
+                updateSize();
+            });
+
+            $("#mobile_bar_text_size").change(function () {
+                updateSize();
+            });
+
+            $("#use_same_config").change(function () {
+                if ($("#use_same_config").val() == 1) {
+                    $(".mobile-section-promobar").hide();
+                    $("#mobile_section_title").hide();
+                }else{
+                    $(".mobile-section-promobar").show();
+                    $("#mobile_section_title").show();
+                }
+            });
+
+            $("#allow_closed").change(function () {
+                updateButtonClose();
+            });
+
+            $("#background_text").change(function () {
+                updateTextColor();
+            });
+
+            $("#background_color").change(function () {
+                updateBackgroundColor();
+            });
+
+
+            <?php if($this->getRequest()->getParam('id')): ?>
+            updateContent();
+            updateUrl();
+            updateSize();
+            updateButtonClose();
+            updateBackgroundColor();
+            updateTextColor();
+            <?php endif ?>
+
+            //change position of field preview when admin scroll page
+            var previewOffset = $('#area-preview').offset();
+            var topOffset = previewOffset.top - 57.58522033691406;
+
+            $(window).scroll(function () {
+                var checkbox_right = document.getElementById('check-range-right');
+                var checkbox_left = document.getElementById('check-range-left');
+                $('.mce-btn-group .mce-i-image').parent('button').remove();
+                if ($(this).scrollTop() >= topOffset) {
+                    $('#container').addClass('preview-move');
+                    if (checkbox_left.checked) {
+                        var margin_left1 = $('.input-range-left').val();
+                        $('.bar-button').css('margin-left', margin_left1 + '%');
+                    }
+                    if (checkbox_right.checked) {
+                        var margin_right1 = $('.input-range-right').val();
+                        $('.bar-button').css('margin-right', margin_right1 + '%');
+                    }
+                } else {
+                    $('#container').removeClass('preview-move');
+                    if (checkbox_left.checked) {
+                        var margin_left = $('.input-range-left').val();
+                        var value_left = parseInt(margin_left) - 3;
+                        $('.bar-button').css('margin-left', value_left + '%');
+                    }
+                    if (checkbox_right.checked) {
+                        var margin_right = $('.input-range-right').val();
+                        var value_right = parseInt(margin_right) - 3;
+                        $('.bar-button').css('margin-right', value_right + '%');
+                    }
+                }
+            });
+        });
+        $.validator.addMethod(
+            'range',
+            function (value, element, param) {
+                param = $(element).attr('range').split(',');
+                return parseInt(value) >= parseInt(param[0]) && value <= parseInt(param[1]);
+            },
+            $.mage.__($.validator.format("Please enter a value between {0} and {1}."))
+        );
+    });
+
+    function updateTextColor() {
+        require([
+            'jquery',
+        ], function ($) {
+            var color = $("#background_text").val();
+            $('.promoItemContent > div').css('color', color);
+            $('.mobile-promoItemContent > div').css('color', color);
+            $('#background_text').css('background-color', color);
+        });
+    }
+
+    function updateBackgroundColor() {
+        require([
+            'jquery',
+        ], function ($) {
+            var color = $("#background_color").val();
+            $('.promoItem > div').css('background-color', color);
+            $('.mobile-promoItem > div').css('background-color', color);
+            $('#background_color').css('background-color', color);
+        });
+    }
+
+    function updateContent(idContent) {
+        require([
+            'jquery',
+        ], function ($) {
+            var size = $("#size").val();
+            var textSize = $("#content").val();
+            if (size) {
+                size = size + 'px';
+            }
+            $('.promoItemContent > div').html(textSize);
+            $('.mobile-promoItemContent > div').html(textSize);
+            $(idContent).html(textSize);
+        });
+    }
+
+
+    function updateUrl() {
+        require([
+            'jquery',
+        ], function ($) {
+            var url = $("#url").val();
+            $('.promoItemButton a').attr('href', url);
+
+        });
+    }
+
+    function updateSize() {
+        require([
+            'jquery',
+        ], function ($) {
+            var size = $("#size").val() + 'px';
+            var mobileTextSize = $("#mobile_bar_text_size").val() + "px";
+            var textSize = $("#content").val();
+            $('.promoItemContent > div').html(textSize);
+            $('.promoItemContent > div').css('font-size', size);
+            $('.mobile-promoItemContent > div').html(textSize);
+            $('.mobile-promoItemContent > div').css('font-size', mobileTextSize);
+        });
+    }
+
+    function updateButtonClose() {
+        require([
+            'jquery',
+        ], function ($) {
+            var statusButton = $("#allow_closed").val();
+            if (statusButton == 0) {
+                $('.promobar-close').hide();
+                $('.mobile-promobar-close').hide();
+                $('.promoItem > div').css('padding-right', '10px');
+                $('.mobile-promoItem > div').css('padding-right', '10px');
+            } else {
+                $('.promobar-close').show();
+                $('.mobile-promobar-close').show();
+                $('.promoItem > div').css('padding-right', '30px');
+                $('.mobile-promoItem > div').css('padding-right', '30px');
+            }
+
+        });
+    }
+
+
+</script>

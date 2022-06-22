@@ -1,0 +1,213 @@
+<?php
+/**
+ * @copyright Copyright (c) magenest.com, Inc. (https://www.magenest.com)
+ */
+
+namespace Magenest\Report\Model\Export;
+
+use Magento\Framework\Api\Search\DocumentInterface;
+use Magento\Framework\Api\Search\SearchResultInterface;
+use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\App\ObjectManager;
+use Magento\Framework\Convert\Excel;
+use Magento\Framework\Convert\ExcelFactory;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Filesystem;
+use Magento\Framework\Filesystem\Directory\WriteInterface;
+use Magento\Ui\Component\MassAction\Filter;
+use Magento\Ui\Model\Export\MetadataProvider;
+use Magento\Ui\Model\Export\SearchResultIteratorFactory;
+
+/**
+ * Class ConvertToXls
+ */
+class ConvertToXls
+{
+    /**
+     * @var WriteInterface
+     */
+    protected $directory;
+
+    /**
+     * @var MetadataProvider
+     */
+    protected $metadataProvider;
+
+    /**
+     * @var ExcelFactory
+     */
+    protected $excelFactory;
+
+    /**
+     * @var array
+     */
+    protected $options;
+
+    /**
+     * @var SearchResultIteratorFactory
+     */
+    protected $iteratorFactory;
+
+    /**
+     * @var array
+     */
+    protected $fields;
+    /**
+     * @var Filter
+     */
+    private $filter;
+    private $providerItems;
+
+    /**
+     * @param Filesystem $filesystem
+     * @param Filter $filter
+     * @param MetadataProvider $metadataProvider
+     * @param ExcelFactory $excelFactory
+     * @param SearchResultIteratorFactory $iteratorFactory
+     */
+    public function __construct(
+        Filesystem $filesystem,
+        Filter $filter,
+        MetadataProvider $metadataProvider,
+        ExcelFactory $excelFactory,
+        SearchResultIteratorFactory $iteratorFactory
+    ) {
+        $this->filter           = $filter;
+        $this->directory        = $filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
+        $this->metadataProvider = $metadataProvider;
+        $this->excelFactory     = $excelFactory;
+        $this->iteratorFactory  = $iteratorFactory;
+    }
+
+    /**
+     * Returns row data
+     *
+     * @param DocumentInterface $document
+     * @return array
+     */
+    public function getRowData(DocumentInterface $document)
+    {
+        return $this->metadataProvider->getRowData($document, $this->getFields(), $this->getOptions());
+    }
+
+    /**
+     * Returns DB fields list
+     *
+     * @return array
+     */
+    protected function getFields()
+    {
+        if (!$this->fields) {
+            $component    = $this->filter->getComponent();
+            $this->fields = $this->metadataProvider->getFields($component);
+        }
+        return $this->fields;
+    }
+
+    /**
+     * Returns Filters with options
+     *
+     * @return array
+     */
+    protected function getOptions()
+    {
+        if (!$this->options) {
+            $this->options = $this->metadataProvider->getOptions();
+        }
+        return $this->options;
+    }
+
+    /**
+     * Returns XML file
+     *
+     * @return array
+     * @throws LocalizedException
+     */
+    public function getXlsFile()
+    {
+        $component = $this->filter->getComponent();
+
+        $name = hash('sha-256', microtime());
+        $file = 'export/' . $component->getName() . $name . '.xls';
+
+        $this->filter->prepareComponent($component);
+        $this->filter->applySelectionOnTargetProvider();
+
+        $component->getContext()->getDataProvider()->setLimit(0, 0);
+
+        /** @var SearchResultInterface $searchResult */
+        $searchResult = $component->getContext()->getDataProvider()->getSearchResult();
+
+        /** @var DocumentInterface[] $searchResultItems */
+        $searchResultItems = $searchResult->getItems();
+        $providerData       = $component->getContext()->getDataProvider()->getData();
+        foreach ($providerData['items'] ?? [] as $item) {
+            $this->providerItems[$item['entity_id'] ?? 0] = $item;
+        }
+
+        $this->prepareItems($component->getName(), $searchResultItems);
+
+        /** @var SearchResultIterator $searchResultIterator */
+        $searchResultIterator = $this->iteratorFactory->create(['items' => $searchResultItems]);
+
+        /** @var Excel $excel */
+        $excel = $this->excelFactory->create([
+            'iterator' => $searchResultIterator,
+            'rowCallback' => [$this, 'getRowData'],
+        ]);
+
+        $this->directory->create('export');
+        $stream = $this->directory->openFile($file, 'w+');
+        $stream->lock();
+
+        $excel->setDataHeader($this->metadataProvider->getHeaders($component));
+        $excel->write($stream, $component->getName() . '.xls');
+
+        $stream->unlock();
+        $stream->close();
+
+        return [
+            'type' => 'filename',
+            'value' => $file,
+            'rm' => true  // can delete file after use
+        ];
+    }
+
+    /**
+     * @param string $componentName
+     * @param array $items
+     * @return void
+     */
+    protected function prepareItems($componentName, array $items = [])
+    {
+        foreach ($items as $document) {
+            $providerItem = $this->providerItems[$document->getId()] ?? [];
+            if ($componentName == 'sales_order_grid' && !empty($providerItem)) {
+                $billingAddress = $providerItem['billing_address'] ?? null;
+                $street = explode(',',$billingAddress);
+
+                $document->setData('customer_group', $this->getGroupNameByGroupId((int)$document->getData('customer_group')));
+                $document->setData('district_id',$providerItem['district_id'] ?? null);
+                $document->setData('district',$providerItem['district'] ?? null);
+                $document->setData('ward_id',$providerItem['ward_id'] ?? null);
+                $document->setData('ward',$providerItem['ward'] ?? null);
+                $document->setData('sku',$providerItem['sku'] ?? null);
+                $document->setData('total_item_count',$providerItem['total_item_count'] ?? null);
+                $document->setData('street', $street[0] ?? null);
+            }
+            $this->metadataProvider->convertDate($document, $componentName);
+        }
+    }
+
+    private function getGroupNameByGroupId($groupId)
+    {
+        $objectManager = ObjectManager::getInstance();
+        $groupRepository = $objectManager->create('\Magento\Customer\Api\GroupRepositoryInterface');
+        try {
+            $group = $groupRepository->getById($groupId);
+        } catch (\Exception $exception){
+            return $groupId;
+        }
+        return $group->getCode();
+    }
+}

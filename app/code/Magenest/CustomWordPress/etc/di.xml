@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!--Preference-->
+    <preference for="FishPig\WordPress\Block\Homepage\View" type="Magenest\CustomWordPress\Block\Homepage\View" />
+    <preference for="FishPig\WordPress\Block\Search\View" type="Magenest\CustomWordPress\Block\Search\View" />
+    <preference for="FishPig\WordPress\Block\Post\ListPost" type="Magenest\CustomWordPress\Block\Post\ListPost" />
+    <type name="FishPig\WordPress\Model\Search">
+        <plugin name="custom_wp_search" type="Magenest\CustomWordPress\Plugin\Model\Search" sortOrder="10" />
+    </type>
+</config>

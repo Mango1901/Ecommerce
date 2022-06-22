@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <fb_support>
+            <general_setting>
+                <display_timeout>0</display_timeout>
+            </general_setting>
+        </fb_support>
+    </default>
+</config>

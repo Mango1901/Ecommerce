@@ -1,0 +1,26 @@
+&when (@media-common=true){
+    .customer-account-index,.checkout-cart-index{
+        .reward-point.message.notice{
+            padding: 15px;
+            > *:first-child:before{
+                content: none;
+            }
+            .close-notification{
+                a{
+                    font-size: 0;
+                    float: right;
+                    &:hover{
+                        text-decoration: none;
+                    }
+                    &:before{
+                        font-size: 20px;
+                        line-height: 20px;
+                        font-family: 'FontAwesome';
+                        content: '\f057';
+                        color: #c07600;
+                    }
+                }
+            }
+        }
+    }
+}

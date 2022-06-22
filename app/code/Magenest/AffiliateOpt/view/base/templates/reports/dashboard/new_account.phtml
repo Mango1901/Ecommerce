@@ -1,0 +1,29 @@
+<?php
+
+?>
+<div class="dashboard-item-content">
+    <?php if ($block->getNewAccount()->getSize() > 0): ?>
+        <table class="admin__table-primary dashboard-data" id="lastOrdersGrid_table">
+            <thead>
+            <tr>
+                <th class="data-grid-th  no-link col-customer"><span><?= __('Name') ?></span></th>
+                <th class="data-grid-th  no-link col-items"><span><?= __('Email') ?></span></th>
+                <th class="data-grid-th  no-link col-total"><span><?= __('Status') ?></span></th>
+                <th class="data-grid-th  no-link col-total"><span><?= __('Register At') ?></span></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($block->getNewAccount() as $account): ?>
+                <tr title="<?= $block->getUrl('affiliate/account/edit', ['id' => $account->getId()]) ?>" class="even _clickable">
+                    <td class=" col-customer "><?= $block->getCustomerName($account->getCustomerId()) ?></td>
+                    <td class=" col-customer "><?= $account->getEmail() ?></td>
+                    <td class=" col-items col-number "><?= $block->getStatus($account->getStatus()) ?></td>
+                    <td class=" col-total a-right last"><?= $block->formatDate($account->getCreatedAt()) ?></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <div class="empty-text"><?= __('We couldn\'t find any records.') ?></div>
+    <?php endif; ?>
+</div>

@@ -1,0 +1,249 @@
+<?php
+/** @var $block \Magenest\RewardPoints\Block\Adminhtml\Order\RedeemPoints */
+$customerPoint            = $block->getCustomerRewardPoint();
+$quoteSession             = $block->getSessionQuote();
+$enableDisplayInputRedeem = $block->enableDisplayInputRedeem();
+$spendingConfigurationEnable = $block->spendingConfigurationEnable();
+$percentMaxOrder = $block->percentMaxOrder();
+$spendingPoint = $block->spendingPoint();
+$maximumPoint = $block->maximumPoint();
+$md5Str                   = \Magenest\RewardPoints\Block\Adminhtml\Order\RedeemPoints::$md5checksum;
+$md5Checksum              = sha1($md5Str);
+?>
+<?php if ($quoteSession->getCustomerId() AND !$block->getTierEnable()): ?>
+    <form>
+        <h4>Redeem Reward Points</h4>
+        <?php if ($customerPoint >= 0): ?>
+            <p id="point"></p>
+            <p id="noti_maximum_point"></p>
+        <?php endif; ?>
+        <input class="redeem-reward-points" type="text">
+        <input type="button" id="redeem-reward-apply" value="Apply">
+        <input type="button" id="redeem-reward-apply-all" value="Apply All">
+        <input type="button" id="redeem-reward-cancel" value="Cancel" hidden="hidden">
+        <div class="message" id="message-rewardpoint" style="border-style: none">
+            <span class="message-for-rw"> </span>
+        </div>
+    </form>
+    <script>
+        require([
+            'jquery',
+            'mage/storage',
+            'Magento_Sales/order/create/form'
+        ], function ($) {
+            // var maxAppliedPoint = 0;
+            $('#message-rewardpoint').hide();
+            var maxAppliedPoint = 0;
+            var currentPoint = parseFloat('<?= $customerPoint?>');
+            var enableDisplayInput = '<?= $enableDisplayInputRedeem?>';
+            var spendingConfigurationEnable = '<?= $spendingConfigurationEnable ?>';
+            var percentMaxOrder = '<?= $percentMaxOrder ?>';
+            var spendingPoint = '<?= $spendingPoint ?>';
+            var maximumPoint = '<?= $maximumPoint ?>';
+            var redeemRewardPoint = $('.redeem-reward-points');
+            var redeemRewardApply = $('#redeem-reward-apply');
+            var redeemRewardApplyAll = $('#redeem-reward-apply-all');
+            var redeemRewardCancel = $('#redeem-reward-cancel');
+
+            if (enableDisplayInput == false) {
+                redeemRewardPoint.attr('value', '<?= $block->rewardPointHaveRedeemed()?>');
+                redeemRewardPoint.prop('disabled', true);
+                redeemRewardApply.hide();
+                redeemRewardApplyAll.hide();
+                redeemRewardCancel.show();
+            } else {
+                redeemRewardCancel.hide();
+                redeemRewardApply.show();
+                redeemRewardApplyAll.show();
+                if (typeof (redeemRewardPoint.disable) !== 'undefined') redeemRewardPoint.removeAttrs('disabled');
+                if (typeof (redeemRewardPoint.value) !== 'undefined') redeemRewardPoint.removeAttrs('value');
+            }
+
+            //money corresponding to the point value
+            //ratio to convert point to money
+            var convertRatio = parseFloat('<?= $block->getConfigPoint()?>');
+            if (convertRatio == 0 || isNaN(convertRatio)) convertRatio = 1;
+            var covertedMoney = currentPoint / convertRatio;
+
+            var grandTotal = parseFloat('<?= $quoteSession->getBaseGrandTotal()?>');
+            var rewardAmount = parseFloat('<?= $quoteSession->getRewardAmount() ?: 0 ?>');
+            grandTotal = grandTotal + rewardAmount;
+
+            if (covertedMoney >= grandTotal) {
+                //The number of points in percent
+                if (spendingConfigurationEnable == 1 && percentMaxOrder != 0 && spendingPoint == 2) {
+                    var percent = percentMaxOrder / 100;
+                    var grandTotalPoints = Math.ceil(grandTotal * percent);
+                    maxAppliedPoint = grandTotalPoints * convertRatio;
+                } else {
+                    maxAppliedPoint = grandTotal * convertRatio;
+                }
+                //Point Config Hard
+                if (spendingConfigurationEnable == 1 && maximumPoint != 0 && spendingPoint == 1) {
+                    if (maxAppliedPoint > maximumPoint) {
+                        maxAppliedPoint = maximumPoint
+                    }
+                }
+                if (!Number.isInteger(maxAppliedPoint)) {
+                    maxAppliedPoint = Math.ceil(maxAppliedPoint);
+                }
+            } else if (covertedMoney < grandTotal) {
+                maxAppliedPoint = currentPoint;
+            }
+            if (parseFloat('<?= $quoteSession->getBaseGrandTotal()?>') < 0) {
+                $.ajax({
+                        url: '<?php echo $block->getCancelRedeemPointsUrl()?>',
+                        type: 'post',
+                        data: {'checksum': '<?= $md5Checksum?>'},
+                        showLoader: true
+                    }
+                ).done(
+                    function (response) {
+                        // console.log(response);
+                        window.order.loadArea(['items', 'totals'], true, {});
+                    }
+                );
+            }
+
+            $(window).load(function(){
+                if (parseFloat('<?= $quoteSession->getRewardAmount()?>') > 0) {
+                    $.ajax({
+                            url: '<?php echo $block->getCancelRedeemPointsUrl()?>',
+                            type: 'post',
+                            data: {'checksum': '<?= $md5Checksum?>'},
+                            showLoader: true
+                        }
+                    ).done(
+                        function (response) {
+                            // console.log(response);
+                            window.order.loadArea(['items', 'totals'], true, {});
+                        }
+                    );
+                }
+            });
+
+            if ($('#noti_maximum_point'.length > 0))
+                $('#noti_maximum_point').html('You can apply maximum ' + maxAppliedPoint + ' points for this order.');
+
+            if ($('#point'.length > 0))
+                if (isNaN(currentPoint)) {
+                    currentPoint = 0;
+                }
+                $('#point').html('You have ' + currentPoint + ' points.');
+
+            // this.maxAppliedPoint = maxAppliedPoint;
+
+            //update the spend point and the discount label
+            //update the spent point
+            redeemRewardApply.click(function () {
+                // var redeemPoints = redeemRewardPoint.val();
+
+                if ($.isNumeric(redeemRewardPoint.val())) {
+                    var value = parseFloat(redeemRewardPoint.val());
+                } else value = -1;
+                var currentPoint = parseFloat('<?= $customerPoint?>');
+                var convertRatio = parseFloat('<?= $block->getConfigPoint()?>');
+                if (convertRatio == 0 || isNaN(convertRatio)) convertRatio = 1;
+                var covertedMoney = value / convertRatio;
+                var grandTotal = parseFloat('<?= $quoteSession->getBaseGrandTotal()?>');
+                if (value > maxAppliedPoint) {
+                    $('.message-for-rw').html('You applied an invalid point amount.');
+                    $('#message-rewardpoint').show();
+                    return;
+                }
+                if ((value <= 0) || (value > currentPoint)) {
+                    this.isLoading(false);
+                    this.hasRewardPoint(false);
+                    $('.message-for-rw').html('You applied an invalid point amount.');
+                    $('#message-rewardpoint').show();
+                    return;
+                }
+
+                if (value > 0 && (value <= currentPoint)) {
+                    var redeemPoints = redeemRewardPoint.val();
+                    $('.message-for-rw').html();
+                    $('#message-rewardpoint').hide();
+                    // fullScreenLoader.startLoader();
+                    $.ajax({
+                            url: '<?php echo $block->getApplyRedeemPointsUrl()?>',
+                            type: 'post',
+                            data: {redeemPoints: redeemPoints},
+                            showLoader: true
+                        }
+                    ).done(
+                        function (response) {
+                            // console.log(response);
+                            // order.loadArea([ 'item','totals'], true, {})
+                            window.order.loadArea(['items', 'totals'], true, {});
+
+                        }
+                    );
+                }//end of ajax calling
+            });
+
+            redeemRewardApplyAll.click(function () {
+                $('.message-for-rw').html();
+                $('#message-rewardpoint').hide();
+                // fullScreenLoader.startLoader();
+
+                var appliedPoint = 0;
+                if(maxAppliedPoint > currentPoint) {
+                    appliedPoint = maxAppliedPoint = currentPoint;
+                } else {
+                    appliedPoint = maxAppliedPoint;
+                }
+                $.ajax({
+                        url: '<?php echo $block->getApplyRedeemPointsUrl()?>',
+                        type: 'post',
+                        data: {redeemPoints: appliedPoint},
+                        showLoader: true
+                    }
+                ).done(
+                    function (response) {
+                        // console.log(response);
+                        // order.loadArea([ 'item','totals'], true, {})
+                        window.order.loadArea(['items', 'totals'], true, {});
+
+                    }
+                );
+            });
+
+            redeemRewardCancel.click(function () {
+                $.ajax({
+                        url: '<?php echo $block->getCancelRedeemPointsUrl()?>',
+                        type: 'post',
+                        data: {'checksum': '<?= $md5Checksum?>'},
+                        showLoader: true
+                    }
+                ).done(
+                    function (response) {
+                        // console.log(response);
+                        window.order.loadArea(['items', 'totals'], true, {});
+                    }
+                );
+            });
+        })
+    </script>
+<?php endif; ?>
+<?php if ($block->getTierEnable()): ?>
+    <script>
+        require([
+            'jquery',
+            'mage/storage',
+            'Magento_Sales/order/create/form'
+        ], function ($) {
+            //if (parseFloat('<?//= $quoteSession->getBaseGrandTotal()?>//') < 0) {
+            $.ajax({
+                    url: '<?php echo $block->getProcessTierUrl()?>',
+                    type: 'post',
+                    data: {'checksum': '<?= $md5Checksum?>'},
+                    showLoader: true
+                }
+            ).done(
+                function (response) {
+                    window.order.loadArea(['totals', 'item'], true, {});
+                }
+            )
+        })
+    </script>
+<?php endif; ?>

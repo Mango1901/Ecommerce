@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @copyright Copyright (c) Eten.com, Inc. (http://www.eten.com)
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="magenest_slider_item_entity" resource="default" engine="innodb">
+        <column xsi:type="int" name="item_id" identity="true" padding="10" nullable="false" unsigned="true" comment="Item Id"/>
+        <column xsi:type="int" name="slider_id" padding="11" nullable="false" comment="Slider Id"/>
+        <column xsi:type="text" name="data_source" nullable="true" comment="Data in Form"/>
+        <column xsi:type="int" name="order_number" padding="10" nullable="false" unsigned="true" comment="Order Number"/>
+        <column xsi:type="int" name="sort_order" comment="Sort Order"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="item_id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="magenest_slider_item_entity_order_number">
+            <column name="slider_id"/>
+            <column name="order_number"/>
+        </constraint>
+    </table>
+</schema>

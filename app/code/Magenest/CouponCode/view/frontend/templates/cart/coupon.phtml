@@ -1,0 +1,48 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/**
+ * @var \Magento\Framework\View\Element\AbstractBlock $block
+ */
+
+// We should use strlen function because coupon code could be "0", converted to bool will lead to false
+$hasCouponCode = (bool) strlen($block->getCouponCode());
+/**
+ * @var \Magenest\CouponCode\ViewModel\Coupon $viewModel
+ */
+$viewModel = $block->getViewModel();
+?>
+<div class="block discount"
+     id="block-discount"
+     data-mage-init='{"collapsible":{"active": <?= $hasCouponCode ? 'true' : 'false' ?>,
+     "openedState": "active", "saveState": false}}'>
+    <div class="page-title-wrapper">
+        <div class="title-voucher-icon"></div>
+        <h1 class="page-title">
+            <span class="base" data-ui-id="page-title-wrapper"><?= $block->escapeHtml(__('Apply Discount Code')) ?></span>
+        </h1>
+    </div>
+    <div class="content" data-role="content" aria-labelledby="block-discount-heading">
+        <div data-bind="scope: 'coupon-listing'" class="scalable">
+            <!-- ko template: getTemplate() --><!-- /ko -->
+        </div>
+    </div>
+</div>
+
+<script type="text/x-magento-init">
+             {
+                 "*": {
+                     "Magento_Ui/js/core/app": {
+                         "components": {
+                             "coupon-listing": {
+                                 "component": "Magenest_CouponCode/js/view/codeList",
+                                 "current_page" : "<?= $block->escapeHtml($block->getRequest()->getFullActionName())?>"
+                             }
+                         }
+                     }
+                 }
+             }
+</script>

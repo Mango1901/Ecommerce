@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="aheadworks" translate="label" sortOrder="200">
+            <label>Aheadworks Extensions</label>
+        </tab>
+        <section id="aw_advancedreports" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Advanced Reports</label>
+            <tab>aheadworks</tab>
+            <resource>Aheadworks_AdvancedReports::settings</resource>
+            <group id="category_group" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Category Group Configuration</label>
+                <field id="field" translate="label" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Group</label>
+                    <frontend_model>Magenest\CustomAdvancedReports\Block\Adminhtml\Form\Field\Group</frontend_model>
+                    <backend_model>Magenest\CustomAdvancedReports\Model\Adminhtml\System\Config\Group</backend_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

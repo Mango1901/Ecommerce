@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2019 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ *
+ * Magenest_MegaMenu extension
+ * NOTICE OF LICENSE
+ *
+ * @category Magenest
+ * @package Magenest_MegaMenu
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <mega_menu>
+            <general>
+                <enable>0</enable>
+                <effect>btt</effect>
+            </general>
+            <default_conf>
+                <txt_color/>
+                <hov_txt_color/>
+                <btn_bg_color/>
+                <hov_btn_bg_color>#25bce9</hov_btn_bg_color>
+                <drd_bg_color/>
+                <drd_bg_opacity/>
+            </default_conf>
+            <backup>
+                <enable>0</enable>
+                <backup_times>7</backup_times>
+            </backup>
+        </mega_menu>
+    </default>
+</config>

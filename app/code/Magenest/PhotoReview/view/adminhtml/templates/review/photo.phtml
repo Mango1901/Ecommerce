@@ -1,0 +1,13 @@
+<?php
+/** @var \Magenest\PhotoReview\Block\Adminhtml\Review\Photo $block */
+$collections = $block->getAllPhoto();
+foreach ($collections as $collection):
+    ?>
+    <?php if ($collection->getType() == \Magenest\PhotoReview\Observer\Review\Detail::TYPE_IMAGE) : ?>
+    <div class="photo_review">
+        <img src="<?= $block->getPhotoUrl($collection->getPath()) ?>"/>
+    </div>
+<?php
+    endif;
+endforeach;
+?>

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <dataSource name="sales_order_grid_data_source">
+        <settings>
+            <filterUrlParams>
+                <param name="type">*</param>
+            </filterUrlParams>
+        </settings>
+        <dataProvider class="Magenest\OrderManagement\Ui\Component\DataProvider\OrderDataProvider" name="sales_order_grid_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>main_table.entity_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <exportButton name="export_button" class="Magento\Ui\Component\ExportButton">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="options" xsi:type="array">
+                        <item name="cvs" xsi:type="array">
+                            <item name="value" xsi:type="string">csv</item>
+                            <item name="label" xsi:type="string" translate="true">CSV</item>
+                            <item name="url" xsi:type="string">mui/export/gridToCsv</item>
+                        </item>
+                        <item name="xls" xsi:type="array">
+                            <item name="value" xsi:type="string">xls</item>
+                            <item name="label" xsi:type="string" translate="true">Excel XLS</item>
+                            <item name="url" xsi:type="string">salesom/export/gridToXls</item>
+                        </item>
+                    </item>
+                </item>
+            </argument>
+        </exportButton>
+        <massaction name="listing_massaction" class="Magenest\OrderManagement\Block\Adminhtml\Ui\Component\OrderGrid\MassAction">
+            <action name="complete_shipment">
+                <settings>
+                    <url path="salesom/order/masscompleteshipment"/>
+                    <type>complete_shipment</type>
+                    <label translate="true">Confirm Shipment Complete</label>
+                    <confirm>
+                        <title translate="true">Confirm Shipment Complete?</title>
+                        <message translate="true">Are you sure you want to confirm the selected orders?</message>
+                    </confirm>
+                </settings>
+            </action>
+<!--            <action name="confirm_paid">-->
+<!--                <settings>-->
+<!--                    <url path="salesom/order/massconfirmpaid"/>-->
+<!--                    <type>confirm_paid</type>-->
+<!--                    <label translate="true">Confirm Payment</label>-->
+<!--                    <confirm>-->
+<!--                        <title translate="true">Confirm Payment for Orders?</title>-->
+<!--                        <message translate="true">Are you sure you want to confirm paid the selected orders?</message>-->
+<!--                    </confirm>-->
+<!--                </settings>-->
+<!--            </action>-->
+<!--            <action name="received_goods">-->
+<!--                <settings>-->
+<!--                    <url path="salesom/order/massreceivedgoods"/>-->
+<!--                    <type>received_goods</type>-->
+<!--                    <label translate="true">Confirm Received Goods</label>-->
+<!--                    <confirm>-->
+<!--                        <title translate="true">Confirm Received Goods Orders?</title>-->
+<!--                        <message translate="true">Are you sure you want to confirm received goods the selected orders?</message>-->
+<!--                    </confirm>-->
+<!--                </settings>-->
+<!--            </action>-->
+<!--            <action name="reimbursed">-->
+<!--                <settings>-->
+<!--                    <url path="salesom/order/massreimbursed"/>-->
+<!--                    <type>reimbursed</type>-->
+<!--                    <label translate="true">Confirm Reimbursed</label>-->
+<!--                    <confirm>-->
+<!--                        <title translate="true">Confirm Reimbursed Orders?</title>-->
+<!--                        <message translate="true">Are you sure you want to confirm reimbursed goods the selected orders?</message>-->
+<!--                    </confirm>-->
+<!--                </settings>-->
+<!--            </action>-->
+<!--            <action name="wait_supplier">-->
+<!--                <settings>-->
+<!--                    <url path="salesom/order/masswaitsupplier"/>-->
+<!--                    <type>wait_supplier</type>-->
+<!--                    <label translate="true">Wait for Supplier</label>-->
+<!--                    <confirm>-->
+<!--                        <title translate="true">Wait for Supplier Orders?</title>-->
+<!--                        <message translate="true">Are you sure you want to wait for supplier the selected orders?</message>-->
+<!--                    </confirm>-->
+<!--                </settings>-->
+<!--            </action>-->
+<!--            <action name="supplier_action">-->
+<!--                <argument name="data" xsi:type="array">-->
+<!--                    <item name="config" xsi:type="array">-->
+<!--                        <item name="type" xsi:type="string">supplier_action</item>-->
+<!--                        <item name="label" xsi:type="string" translate="true">Confirm Delivery Goods</item>-->
+<!--                    </item>-->
+<!--                </argument>-->
+<!--                <argument name="actions" xsi:type="array">-->
+<!--                    <item name="0" xsi:type="array">-->
+<!--                        <item name="type" xsi:type="string">confirm</item>-->
+<!--                        <item name="label" xsi:type="string" translate="true">Confirm</item>-->
+<!--                        <item name="url" xsi:type="url" path="salesom/order/masssupplieraction">-->
+<!--                            <param name="is_confirmed">true</param>-->
+<!--                        </item>-->
+<!--                    </item>-->
+<!--                    <item name="1" xsi:type="array">-->
+<!--                        <item name="type" xsi:type="string">reject</item>-->
+<!--                        <item name="label" xsi:type="string" translate="true">Reject</item>-->
+<!--                        <item name="url" xsi:type="url" path="salesom/order/masssupplieraction">-->
+<!--                            <param name="is_confirm">false</param>-->
+<!--                        </item>-->
+<!--                    </item>-->
+<!--                </argument>-->
+<!--            </action>-->
+        </massaction>
+    </listingToolbar>
+    <columns name="sales_order_columns">
+        <column name="confirmed_person_name" component="Magento_Ui/js/grid/columns/select">
+            <settings>
+                <filter>select</filter>
+                <options class="Magenest\OrderManagement\Ui\Component\Listing\Column\ConfirmedPersonName\Options"/>
+                <visible>false</visible>
+                <dataType>select</dataType>
+                <label translate="true">Confirmed Person Name</label>
+                <sortable>false</sortable>
+            </settings>
+        </column>
+        <column name="skus">
+            <settings>
+                <filter>false</filter>
+                <sortable>false</sortable>
+                <visible>true</visible>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+                <label translate="true">Sku(s)</label>
+                <resizeEnabled>false</resizeEnabled>
+                <resizeDefaultWidth>180</resizeDefaultWidth>
+            </settings>
+        </column>
+        <column name="telephone">
+            <settings>
+                <filter>text</filter>
+                <dataType>text</dataType>
+                <label translate="true">Telephone</label>
+                <visible>true</visible>
+            </settings>
+        </column>
+        <column name="comment">
+            <settings>
+                <filter>text</filter>
+                <dataType>text</dataType>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+                <label translate="true">Comment</label>
+                <visible>true</visible>
+            </settings>
+        </column>
+        <column name="user_id" component="Magento_Ui/js/grid/columns/select">
+            <settings>
+                <filter>select</filter>
+                <options class="Magenest\OrderManagement\Model\Config\AdminUser"/>
+                <dataType>select</dataType>
+                <label translate="true">Last Handler</label>
+                <visible>true</visible>
+            </settings>
+        </column>
+        <column name="order_creator">
+            <settings>
+                <filter>text</filter>
+                <dataType>text</dataType>
+                <label translate="true">Order Creator</label>
+                <visible>false</visible>
+            </settings>
+        </column>
+<!--        <column name="warehouse" component="Magento_Ui/js/grid/columns/select">-->
+<!--            <settings>-->
+<!--                <filter>select</filter>-->
+<!--                <options class="Magenest\OrderManagement\Model\Config\SourceOption"/>-->
+<!--                <visible>true</visible>-->
+<!--                <dataType>select</dataType>-->
+<!--                <label translate="true">Warehouse</label>-->
+<!--                <sortable>false</sortable>-->
+<!--            </settings>-->
+<!--        </column>-->
+        <column name="province">
+            <settings>
+                <filter>text</filter>
+                <dataType>text</dataType>
+                <label translate="true">Province</label>
+                <visible>false</visible>
+            </settings>
+        </column>
+        <column name="street">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Street</label>
+                <visible>false</visible>
+            </settings>
+        </column>
+        <column name="district_ward">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">District Ward</label>
+                <visible>false</visible>
+            </settings>
+        </column>
+        <column name="city">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">City</label>
+                <visible>false</visible>
+            </settings>
+        </column>
+    </columns>
+</listing>

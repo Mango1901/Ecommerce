@@ -1,0 +1,17 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="controller_action_catalog_product_save_entity_after">
+        <observer name="get_products_after_save"
+                  instance="Magenest\MapList\Observer\ProductSave\SaveStoreId" />
+    </event>
+
+    <event name="add_store_to_product_after_save_location">
+        <observer name="add_store_to_product"
+                  instance="Magenest\MapList\Observer\LocationSave\SaveStoreToProduct" />
+    </event>
+    <event name="store_add">
+        <observer name="add_url_rewrite" instance="Magenest\MapList\Observer\Location\AddUrl" />
+    </event>
+    <event name="controller_action_inventory_populate_source_with_data">
+        <observer name="set_custom_address" instance="Magenest\MapList\Observer\Source\CustomAddressValue"/>
+    </event>
+</config>

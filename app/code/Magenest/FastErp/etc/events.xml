@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+<!--    <event name="sales_order_shipment_save_commit_after">-->
+<!--        <observer name="sync_erp_order" instance="Magenest\FastErp\Observer\SyncErpOrder"/>-->
+<!--    </event>-->
+    <event name="sales_quote_item_set_product">
+        <observer name="set_dimension_attribute_to_quote_item" instance="Magenest\FastErp\Observer\SetItemDimensionAttribute" />
+    </event>
+</config>

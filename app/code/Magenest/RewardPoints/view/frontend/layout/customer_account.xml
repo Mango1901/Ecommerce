@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="customer_account_navigation">
+            <block class="Magenest\RewardPoints\Block\RewardPointNavigation" name="customer-account-offer-link" ifconfig="rewardpoints/reward_points_display/reward_points_enable">
+                <arguments>
+                    <argument name="css_class" xsi:type="string">nav child</argument>
+                    <argument name="path" xsi:type="string">rewardpoints/</argument>
+                    <argument name="label" xsi:type="string">Discount And Point</argument>
+                    <argument name="sortOrder" xsi:type="number">700</argument>
+                </arguments>
+                <block class="Magenest\RewardPoints\Block\Link" template="link.phtml" cacheable="false" name="customer-account-navigation-rewardpoints" before="customer-account-navigation-referral">
+                    <arguments>
+                        <argument name="path" xsi:type="string">rewardpoints/customer/points/</argument>
+                        <argument name="label" xsi:type="string">My Reward Points</argument>
+                    </arguments>
+                </block>
+                <block class="Magenest\RewardPoints\Block\RewardProgram" name="customer-account-navigation-reward-program" after="customer-account-navigation-rewardpoints">
+                    <arguments>
+                        <argument name="path" xsi:type="string">rewardpoints/customer/rewardProgram</argument>
+                        <argument name="label" xsi:type="string">Reward Program(s)</argument>
+                    </arguments>
+                </block>
+<!--                <block class="Magenest\RewardPoints\Block\Referral" name="customer-account-navigation-referral">-->
+<!--                    <arguments>-->
+<!--                        <argument name="path" xsi:type="string">rewardpoints/customer/referral</argument>-->
+<!--                        <argument name="label" xsi:type="string">Referral Dashboard</argument>-->
+<!--                    </arguments>-->
+<!--                </block>-->
+            </block>
+        </referenceBlock>
+    </body>
+</page>

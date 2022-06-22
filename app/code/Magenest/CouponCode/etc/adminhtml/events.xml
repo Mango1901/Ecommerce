@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="salesrule_rule_save_before">
+        <observer name="coupon_images" instance="Magenest\CouponCode\Observer\Coupon\Images"/>
+    </event>
+    <event name="salesrule_rule_save_after">
+        <observer name="coupon_save_after" instance="Magenest\CouponCode\Observer\Coupon\FlushCacheAfterSaveCoupon"/>
+    </event>
+    <event name="salesrule_rule_delete_after">
+        <observer name="coupon_delete_after" instance="Magenest\CouponCode\Observer\Coupon\FlushCacheAfterSaveCoupon"/>
+    </event>
+</config>

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <catalog>
+            <layered_navigation>
+                <price_options>{"_1637552905217_217":{"price_option":"5000000","price_option_label":"D\u01b0\u1edbi 5 tri\u1ec7u"},"_1637552906032_32":{"price_option":"7000000","price_option_label":"5 tri\u1ec7u - 7 tri\u1ec7u"},"_1637552906657_657":{"price_option":"9000000","price_option_label":"7 tri\u1ec7u - 9 tri\u1ec7u"},"_1637552958705_705":{"price_option":"11000000","price_option_label":"9 tri\u1ec7u - 11 tri\u1ec7u"},"_1637565859529_529":{"price_option":"15000000","price_option_label":"11 tri\u1ec7u - 15 tri\u1ec7u"},"_1637565894185_185":{"price_option":"20000000","price_option_label":"15 tri\u1ec7u - 20 tri\u1ec7u"},"_1637565908977_977":{"price_option":"999999999999","price_option_label":"tr\u00ean 20 tri\u1ec7u"}}</price_options>
+            </layered_navigation>
+        </catalog>
+    </default>
+</config>

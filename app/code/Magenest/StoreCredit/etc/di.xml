@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magenest
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magenest.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.magenest.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Magenest
+ * @package     Magenest_StoreCredit
+ * @copyright   Copyright (c) Magenest (https://www.magenest.com/)
+ * @license     https://www.magenest.com/LICENSE.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magenest\StoreCredit\Api\SpendingManagementInterface" type="Magenest\StoreCredit\Model\Api\SpendingManagement"/>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="mpstorecredit_transaction_grid_data_source" xsi:type="string">Magenest\StoreCredit\Model\ResourceModel\Transaction\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!-- Run this command before remove module -->
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="mpstorecredit_uninstall" xsi:type="object">Magenest\StoreCredit\Console\Command\Uninstall</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magenest\StoreCredit\Model\ActionFactory">
+        <arguments>
+            <argument name="map" xsi:type="array">
+                <item name="admin_update" xsi:type="string">Magenest\StoreCredit\Model\Action\Admin</item>
+                <item name="earning_order" xsi:type="string">Magenest\StoreCredit\Model\Action\Earning\Order</item>
+                <item name="earning_refund" xsi:type="string">Magenest\StoreCredit\Model\Action\Earning\Refund</item>
+                <item name="spending_order" xsi:type="string">Magenest\StoreCredit\Model\Action\Spending\Order</item>
+                <item name="spending_refund" xsi:type="string">Magenest\StoreCredit\Model\Action\Spending\Refund</item>
+                <item name="revert" xsi:type="string">Magenest\StoreCredit\Model\Action\Revert</item>
+                <item name="affiliate_admin" xsi:type="string">Magenest\StoreCredit\Model\Action\Affiliate\Admin</item>
+                <item name="affiliate_order_invoice" xsi:type="string">Magenest\StoreCredit\Model\Action\Affiliate\OrderInvoice</item>
+                <item name="affiliate_order_refund" xsi:type="string">Magenest\StoreCredit\Model\Action\Affiliate\OrderRefund</item>
+                <item name="affiliate_withdraw_create" xsi:type="string">Magenest\StoreCredit\Model\Action\Affiliate\WithdrawCreate</item>
+                <item name="convert_kpoint_kcoint" xsi:type="string">Magenest\StoreCredit\Model\Action\ConvertKpointKcoin</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Quote\Model\Quote\Item\ToOrderItem">
+        <plugin name="mpstorecredit_move_item_option_to_order_item" type="Magenest\StoreCredit\Plugin\Quote\ToOrderItem"/>
+    </type>
+
+    <type name="Magenest\PdfInvoice\Block\PdfItems">
+        <plugin name="mpstorecredit_add_store_credit_custom_options" type="Magenest\StoreCredit\Plugin\Block\PdfItems"/>
+    </type>
+
+    <preference for="Magenest\StoreCredit\Api\Data\StoreCreditCustomerInterface" type="Magenest\StoreCredit\Model\Customer"/>
+    <preference for="Magenest\StoreCredit\Api\Data\StoreCreditCustomerSearchResultInterface" type="Magenest\StoreCredit\Model\ResourceModel\Customer\Collection"/>
+    <preference for="Magenest\StoreCredit\Api\StoreCreditCustomerRepositoryInterface" type="Magenest\StoreCredit\Model\StoreCreditCustomerRepository"/>
+
+    <preference for="Magenest\StoreCredit\Api\TransactionRepositoryInterface" type="Magenest\StoreCredit\Model\TransactionRepository"/>
+    <preference for="Magenest\StoreCredit\Api\Data\TransactionInterface" type="Magenest\StoreCredit\Model\Transaction"/>
+    <preference for="Magenest\StoreCredit\Api\Data\TransactionSearchResultInterface" type="Magenest\StoreCredit\Model\ResourceModel\Transaction\Collection"/>
+
+    <preference for="Magenest\StoreCredit\Api\Data\OrderInterface" type="Magenest\StoreCredit\Model\Order"/>
+    <type name="Magento\Sales\Api\OrderRepositoryInterface">
+        <plugin name="mp_store_credit_order" type="Magenest\StoreCredit\Plugin\Api\OrderGet"/>
+    </type>
+
+    <preference for="Magenest\StoreCredit\Api\Data\InvoiceInterface" type="Magenest\StoreCredit\Model\Invoice"/>
+    <type name="Magento\Sales\Api\InvoiceRepositoryInterface">
+        <plugin name="mp_store_creditinvoice" type="Magenest\StoreCredit\Plugin\Api\InvoiceGet"/>
+    </type>
+
+    <preference for="Magenest\StoreCredit\Api\Data\CreditmemoInterface" type="Magenest\StoreCredit\Model\Creditmemo"/>
+    <type name="Magento\Sales\Api\CreditmemoRepositoryInterface">
+        <plugin name="mp_store_credit_creditmeo" type="Magenest\StoreCredit\Plugin\Api\CreditmemoGet"/>
+    </type>
+
+    <type name="Magento\Quote\Model\Quote\Item\Repository">
+        <arguments>
+            <argument name="cartItemProcessors" xsi:type="array">
+                <item name="mpstorecredit" xsi:type="object">Magenest\StoreCredit\Model\Quote\Item\CartItemProcessor\Proxy</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

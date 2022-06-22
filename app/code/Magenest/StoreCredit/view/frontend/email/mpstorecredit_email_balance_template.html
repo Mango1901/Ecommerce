@@ -1,0 +1,73 @@
+<!--
+/**
+ * Magenest
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magenest.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.magenest.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Magenest
+ * @package     Magenest_StoreCredit
+ * @copyright   Copyright (c) Magenest (https://www.magenest.com/)
+ * @license     https://www.magenest.com/LICENSE.txt
+ */
+-->
+
+<!--@subject {{trans "Credit Balance Updated at %store_name" store_name=$store.getFrontendName()}} @-->
+<!--@vars {
+"var title":"Transaction Title",
+"var status":"Transaction Status",
+"var amount":"Transaction Amount",
+"var balance":"Customer Balance",
+"var formatted_amount":"Formatted Transaction Amount",
+"var formatted_balance":"Formatted Transaction Balance",
+"var current_balance":"Current Customer Balance",
+"var customer_note":"Customer Note",
+"var customer_name":"Customer Name"
+} @-->
+
+{{template config_path="design/email/header_template"}}
+
+<div>
+    <span>{{trans "Dear %name," name=$customer_name}}</span><br/>
+    <span>{{trans "Your credit balance has been updated."}}</span>
+    <span>{{trans 'Please click <a href="%credit_url" target="_blank">here</a> for more details.' credit_url=$this.getUrl($store,'mpstorecredit',[_nosid:1]) |raw}}</span>
+</div>
+<br/>
+<table cellspacing="0" cellpadding="0" border="0" height="100%" width="100%">
+    <tr>
+        <td valign="top">
+            <strong>{{trans "Transaction:"}}</strong>&nbsp;
+            <span>{{trans "%title" title=$title}}</span><br/>
+
+            <strong>{{trans "Status:"}}</strong>&nbsp;
+            <span>{{trans "%status" status=$status}}</span><br/>
+
+            <strong>{{trans "Amount:"}}</strong>&nbsp;
+            <span>{{var formatted_amount}}</span><br/>
+
+            <strong>{{trans "Balance:"}}</strong>&nbsp;
+            <span>{{var formatted_balance}}</span><br/>
+
+            {{depend customer_note}}
+            <strong>{{trans "Note:"}}</strong>&nbsp;<span>{{var customer_note}}</span><br/>
+            {{/depend}}
+
+            <br/><strong>{{trans "Your Current Balance:"}}</strong>&nbsp;
+            <span>{{var current_balance}}</span><br/>
+
+            <br/>
+            <p>{{trans "Please update us if anything makes you confused, we would be willing to help as soon as
+                possible."}}</p>
+        </td>
+    </tr>
+</table>
+
+{{template config_path="design/email/footer_template"}}

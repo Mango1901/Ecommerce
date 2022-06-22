@@ -1,0 +1,162 @@
+& when (@media-common = true) {
+    .affiliate-index-index {
+        color: #383E4F;
+
+        h3 {
+            font-size: 14px;
+            line-height: 20px;
+            font-weight: 500;
+            margin: 0 0 7px;
+        }
+
+        p {
+            font-size: 14px;
+            line-height: 20px;
+            font-weight: normal;
+            margin: 0 0 15px;
+            color: #000;
+        }
+
+        .coupon {
+            margin-bottom: 20px;
+            .lib-vendor-prefix-display(flex);
+            .lib-vendor-box-align(flex-end);
+
+            input {
+                min-width: 220px;
+            }
+
+            .action {
+                height: 40px;
+                .lib-vendor-prefix-display(flex);
+                .lib-vendor-box-align(center);
+                justify-content: center;
+                -webkit-justify-content: center;
+                min-width: 100px;
+                margin-top: 10px;
+            }
+        }
+
+        .data-table {
+            margin-bottom: 12px;
+
+            strong {
+                font-weight: 500;
+            }
+
+            > tbody > tr {
+                > td {
+                    font-size: 12px;
+                    line-height: 20px;
+                    font-weight: 400;
+
+                    strong {
+                        font-weight: 500;
+                    }
+
+                    p {
+                        font-size: 12px;
+                        line-height: 20px;
+                        font-weight: 400;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .affiliate-index-index {
+        .data-table {
+            .content {
+                .title {
+                    width: 25%;
+                }
+
+                td {
+                    &:not(.title) {
+                        background-color: #F5F5F5;
+                        border-radius: 4px;
+                    }
+                }
+            }
+
+            .box-title {
+                width: 23%;
+            }
+
+            > tbody > tr {
+                > td {
+                    padding: 10px 22px;
+                }
+            }
+        }
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .affiliate-index-index {
+        .page-title-wrapper:not(.mobile-device) {
+            display: none;
+        }
+
+        .column.main {
+            background-color: #fff;
+            border: 1px solid #E0E6EC;
+            border-radius: 4px;
+            padding: 22px 12px;
+            margin-bottom: 40px !important;
+        }
+
+        table, tbody, tr, td {
+            display: block;
+        }
+
+        .data-table {
+            > tbody {
+                > tr {
+
+                    &:not(:first-child) {
+                        background-color: #F5F5F5;
+                        border-radius: 4px;
+                        padding: 0 14px 5px;
+                    }
+
+                    &:nth-child(2) {
+                        padding-top: 17px;
+                    }
+
+                    &:last-child {
+                        padding-top: 0;
+                        padding-bottom: 17px;
+                    }
+
+                    > td {
+                        padding: 0;
+
+                        &[rowspan="1"], &.box-title {
+                            float: left;
+                        }
+
+                        &:not([rowspan], .box-title) {
+                            width: calc(~'100% - 140px');
+                            margin-left: auto;
+                            word-break: break-word;
+                        }
+                    }
+
+                    strong {
+                        width: 120px;
+                        display: inline-block;
+                        margin-right: 20px;
+                        margin-bottom: 5px;
+                    }
+
+                    p {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+}

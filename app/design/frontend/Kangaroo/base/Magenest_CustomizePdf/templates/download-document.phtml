@@ -1,0 +1,26 @@
+<?php
+/** @var \Magenest\CustomizePdf\Block\DownloadPdf $block */
+
+use Magento\Catalog\Model\Product\Type;
+
+?>
+<?php if ($canShowDownloadableLink = $block->canShowDownloadableLink()):?>
+    <?php
+        $currentProduct = $block->getProduct();
+     ?>
+    <div id="pdf" class="product-download-document">
+        <span><?= __('Download document') ?></span>
+        <a id="downloadable-link" href="<?= $block->getDownloadableLink() ?>" target="_blank"><?php echo  $currentProduct->getName(); ?></a>
+    </div>
+    <?php if ($currentProduct->getTypeId() === Type::TYPE_VIRTUAL) : ?>
+        <script type="text/x-magento-init">
+            {
+                "*": {
+                    "Magenest_CustomizePdf/js/init-sold-qty" : {
+                        "productId" : <?= $currentProduct->getId() ?>
+                    }
+                }
+            }
+        </script>
+    <?php endif; ?>
+<?php endif; ?>

@@ -1,0 +1,75 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+/**  @var $block \Magenest\OrderExtraInformation\Block\Cart\CustomerNote */
+$item = $block->getParentBlock()->getItem();
+?>
+<div class="cart-item-note-container" data-bind="scope:'cart-item-note'">
+    <div id="item-note-<?= $item->getId() ?>" class="cart-item-note item-note-<?= $item->getId() ?>">
+        <input type="hidden" data-bind="value: noteContent" name="cart[<?= $item->getId() ?>][customer_note]" class="input"/>
+        <!-- ko if: !visible() -->
+        <div class="cart-item-note-content" data-bind="click: action.bind(this,true)">
+            <!-- ko if: !noteContent().length -->
+            <a href="javascript:void(0)" data-bind="text: 'Add note'"></a>
+            <!-- /ko -->
+            <p data-bind="html: noteContent().replace(/(\r\n|\n|\r)/gm, '</br>')"></p>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: visible() -->
+        <textarea title="Customer Note" style="display: none" data-bind="event: {blur: action.bind(this,false)}, value: noteContent" class="input-text
+        cart-item-note-edit-<?= $item->getId() ?>" aria-required="true"><?= $item->getCustomerNote() ?></textarea>
+        <!-- /ko -->
+    </div>
+</div>
+<script>
+    require([
+        'jquery',
+        'ko'
+    ], function ($, ko) {
+        ko.applyBindings({
+                noteContent: ko.observable(null),
+                visible: ko.observable(false),
+                textArea: null,
+
+                /**
+                 * Initialize
+                 */
+                initialize: function() {
+                    this.noteContent(this.getTextArea().innerHTML);
+                    this.getTextArea().style.display = "block";
+                    console.log(this.noteContent())
+                    return this;
+                },
+
+                /**
+                 * Action
+                 *
+                 * @param edit
+                 * @param $this
+                 */
+                action: function(edit, $this) {
+                    $this.visible(edit);
+                    if($this.visible()){
+                        $this.getTextArea(true).focus();
+                    }
+                },
+
+                /**
+                 * Get text area
+                 *
+                 * @param reset
+                 * @returns {string}
+                 */
+                getTextArea: function (reset) {
+                    if(!this.textArea || reset || false){
+                      this.textArea = document.getElementsByClassName('cart-item-note-edit-<?= $item->getId() ?>')[0];
+                    }
+
+                    return this.textArea;
+                }
+            }.initialize(),
+            document.getElementById('item-note-<?= $item->getId() ?>'));
+    });
+</script>

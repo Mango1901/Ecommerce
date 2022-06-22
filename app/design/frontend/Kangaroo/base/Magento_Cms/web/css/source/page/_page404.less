@@ -1,0 +1,114 @@
+& when (@media-common = true) {
+    .cms-no-route {
+        .page.messages {
+            padding: 0 15px;
+        }
+
+        .sidebar {
+            display: none;
+        }
+
+        .page-wrapper {
+            background-color: #F5F5F5;
+        }
+
+        .page-main {
+            .page-title-wrapper {
+                display: none;
+            }
+        }
+        .page-404 {
+            text-align: center;
+            padding: 100px 0;
+
+            .text-404 {
+                line-height: 125px;
+                font-weight: 500;
+                color: #00AD44;
+            }
+
+            .page-title {
+                letter-spacing: 0;
+                color: #231F20;
+                padding: 0 0 14px 0;
+                font-weight: 800;
+            }
+
+            .page-des {
+                color: #231F20;
+                font-weight: 400;
+                padding: 0 0 35px 0;
+
+                span {
+                    display: block;
+                }
+            }
+
+            .back-home {
+                margin: 0 0 20px 0;
+                display: inline-block;
+                font-size: 16px;
+                color: #fff;
+                font-weight: 500;
+                padding: 11px 24px 9px;
+                border-radius: 4px;
+                background: linear-gradient(78deg, #3AAB3D 0%, #008242 100%);
+                background: -moz-linear-gradient(78deg, #3AAB3D 0%, #008242 100%);
+                background: -o-linear-gradient(78deg, #3AAB3D 0%, #008242 100%);
+                background: -ms-linear-gradient(78deg, #3AAB3D 0%, #008242 100%);
+                border: 1px solid @primary-color;
+
+                &:hover {
+                    background: rgba(0, 0, 0, 0);
+                    color: @primary-color;
+                }
+            }
+        }
+
+        .widget-coupon {
+            display: none;
+        }
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .cms-no-route {
+        .page-404 {
+            .text-404 {
+                font-size: 93px;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+
+            .page-des {
+                font-size: 16px;
+            }
+
+            .back-home {
+                a {
+                    font-size: 18px;
+                }
+            }
+        }
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .cms-no-route {
+        .page-404 {
+            .text-404 {
+                font-size: 80px;
+            }
+
+            .page-title {
+                font-size: 20px;
+            }
+
+            .page-des {
+                font-size: 14px;
+            }
+        }
+    }
+}

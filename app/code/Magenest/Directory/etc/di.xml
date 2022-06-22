@@ -1,0 +1,152 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!--Grid collection-->
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="city_listing_data_source" xsi:type="string">Magenest\Directory\Model\ResourceModel\City\Grid\Collection</item>
+                <item name="district_listing_data_source" xsi:type="string">Magenest\Directory\Model\ResourceModel\District\Grid\Collection</item>
+                <item name="ward_listing_data_source" xsi:type="string">Magenest\Directory\Model\ResourceModel\Ward\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="Magenest\Directory\Model\ResourceModel\City\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">directory_city_entity</argument>
+            <argument name="resourceModel" xsi:type="string">Magenest\Directory\Model\ResourceModel\City</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magenest\Directory\Model\ResourceModel\District\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">directory_district_entity</argument>
+            <argument name="resourceModel" xsi:type="string">Magenest\Directory\Model\ResourceModel\District</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magenest\Directory\Model\ResourceModel\Ward\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">directory_ward_entity</argument>
+            <argument name="resourceModel" xsi:type="string">Magenest\Directory\Model\ResourceModel\Ward</argument>
+        </arguments>
+    </virtualType>
+    <!--Plugin-->
+    <type name="Magento\Sales\Model\Order\Address">
+        <plugin name="magenest_directory" type="Magenest\Directory\Model\Plugin\Order\Address" sortOrder="10" />
+    </type>
+    <type name="Magento\Quote\Model\Quote\Address">
+        <plugin name="magenest_directory" type="Magenest\Directory\Model\Plugin\Quote\Address" sortOrder="10" />
+    </type>
+    <type name="Magento\Shipping\Model\Shipping">
+        <plugin name="magenest_directory" type="Magenest\Directory\Model\Plugin\Shipping" />
+    </type>
+    <type name="Magento\Customer\Model\Address">
+        <plugin name="update_address" type="Magenest\Directory\Model\Plugin\Customer\Model\Address" />
+    </type>
+    <!--Type-->
+    <type name="Magento\Customer\Model\Address\CompositeValidator">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="country" xsi:type="object">Magenest\Directory\Model\Address\Validator\Country</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Checkout\Api\ShippingInformationManagementInterface">
+        <plugin name="directory_shipping_information_management" type="Magenest\Directory\Plugin\ShippingInformationManagement" sortOrder="2"/>
+    </type>
+    <type name="Magento\Checkout\Api\PaymentInformationManagementInterface">
+        <plugin name="directory_payment_information_management" type="Magenest\Directory\Plugin\PaymentInformationManagement" sortOrder="2" />
+    </type>
+    <type name="Magento\Checkout\Api\GuestPaymentInformationManagementInterface">
+        <plugin name="directory_guest_payment_information_management" type="Magenest\Directory\Plugin\GuestPaymentInformationManagement" sortOrder="2" />
+    </type>
+    <type name="Magento\Checkout\Api\GuestShippingInformationManagementInterface">
+        <plugin name="directory_guest_shipping_information_management" type="Magenest\Directory\Plugin\GuestShippingInformationManagement" sortOrder="2" />
+    </type>
+    <virtualType name="Magento\Sales\Model\ResourceModel\Order\Grid" type="Magento\Sales\Model\ResourceModel\Grid">
+        <arguments>
+            <argument name="columns" xsi:type="array">
+                <item name="billing_address" xsi:type="object">BillingAddressAggregatorPlugin</item>
+                <item name="shipping_address" xsi:type="object">ShippingAddressAggregatorPlugin</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="ShipmentGridAggregator" type="Magento\Sales\Model\ResourceModel\Grid">
+        <arguments>
+            <argument name="columns" xsi:type="array">
+                <item name="billing_address" xsi:type="object">BillingAddressAggregatorPlugin</item>
+                <item name="shipping_address" xsi:type="object">ShippingAddressAggregatorPlugin</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="CreditmemoGridAggregator" type="Magento\Sales\Model\ResourceModel\Grid">
+        <arguments>
+            <argument name="columns" xsi:type="array">
+                <item name="billing_address" xsi:type="object">BillingAddressAggregatorPlugin</item>
+                <item name="shipping_address" xsi:type="object">ShippingAddressAggregatorPlugin</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\Sales\Model\ResourceModel\Order\Invoice\Grid" type="Magento\Sales\Model\ResourceModel\Grid">
+        <arguments>
+            <argument name="columns" xsi:type="array">
+                <item name="billing_address" xsi:type="object">BillingAddressAggregatorPlugin</item>
+                <item name="shipping_address" xsi:type="object">ShippingAddressAggregatorPlugin</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="BillingAddressAggregatorPlugin" type="Magento\Framework\DB\Sql\ConcatExpression">
+        <arguments>
+            <argument name="columns" xsi:type="array">
+                <item name="street" xsi:type="array">
+                    <item name="tableAlias" xsi:type="string">sales_billing_address</item>
+                    <item name="columnName" xsi:type="string">street</item>
+                </item>
+                <item name="ward" xsi:type="array">
+                    <item name="tableAlias" xsi:type="string">sales_billing_address</item>
+                    <item name="columnName" xsi:type="string">ward</item>
+                </item>
+                <item name="district" xsi:type="array">
+                    <item name="tableAlias" xsi:type="string">sales_billing_address</item>
+                    <item name="columnName" xsi:type="string">district</item>
+                </item>
+                <item name="city" xsi:type="array">
+                    <item name="tableAlias" xsi:type="string">sales_billing_address</item>
+                    <item name="columnName" xsi:type="string">city</item>
+                </item>
+            </argument>
+            <argument name="separator" xsi:type="string">, </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="ShippingAddressAggregatorPlugin" type="Magento\Framework\DB\Sql\ConcatExpression">
+        <arguments>
+            <argument name="columns" xsi:type="array">
+                <item name="street" xsi:type="array">
+                    <item name="tableAlias" xsi:type="string">sales_shipping_address</item>
+                    <item name="columnName" xsi:type="string">street</item>
+                </item>
+                <item name="ward" xsi:type="array">
+                    <item name="tableAlias" xsi:type="string">sales_shipping_address</item>
+                    <item name="columnName" xsi:type="string">ward</item>
+                </item>
+                <item name="district" xsi:type="array">
+                    <item name="tableAlias" xsi:type="string">sales_shipping_address</item>
+                    <item name="columnName" xsi:type="string">district</item>
+                </item>
+                <item name="city" xsi:type="array">
+                    <item name="tableAlias" xsi:type="string">sales_shipping_address</item>
+                    <item name="columnName" xsi:type="string">city</item>
+                </item>
+            </argument>
+            <argument name="separator" xsi:type="string">, </argument>
+        </arguments>
+    </virtualType>
+    <preference for="Magento\SalesRule\Model\Rule\Condition\Address"
+                type="Magenest\Directory\Model\Rule\Condition\Address"/>
+</config>

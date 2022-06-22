@@ -1,0 +1,109 @@
+<?php
+// @codingStandardsIgnoreFile
+$arrTime = [];
+$viewUrl = $this->getBaseUrl().$this->getRequest()->getRouteName()."/view/index/id/";
+$locationListId = $block->getSelectedLocation();
+$scopeConfig = \Magento\Framework\App\ObjectManager::getInstance()->create('Magento\Framework\App\Config\ScopeConfigInterface');
+$valueSunday = $scopeConfig->getValue('maplist/default_opening_time/default_opening_time_sunday');
+$arrTime[] = $valueSunday;
+$valueMonday = $scopeConfig->getValue('maplist/default_opening_time/default_opening_time_monday');
+$arrTime[] = $valueMonday;
+$valueTuesday = $scopeConfig->getValue('maplist/default_opening_time/default_opening_time_tuesday');
+$arrTime[] = $valueTuesday;
+$valueWednesday = $scopeConfig->getValue('maplist/default_opening_time/default_opening_time_wednesday');
+$arrTime[] = $valueWednesday;
+$valueThursday = $scopeConfig->getValue('maplist/default_opening_time/default_opening_time_thursday');
+$arrTime[] = $valueThursday;
+$valueFriday = $scopeConfig->getValue('maplist/default_opening_time/default_opening_time_friday');
+$arrTime[] = $valueFriday;
+$valueSaturday = $scopeConfig->getValue('maplist/default_opening_time/default_opening_time_saturday');
+$arrTime[] = $valueSaturday;
+?>
+
+<script>
+    require([
+        'jquery',
+        'Magento_Ui/js/modal/alert'
+    ], function ($,alert) {
+        $('.col-location_image').each(function(index){
+            $(this).on('click', function(){
+                var src = $(this).find('img').attr("org_src");
+                var title = $(this).parent().find('.col-location_title').html();
+                var id = $(this).parent().find('.col-location_id').html();
+                var viewlink = '<strong><a target="_blank" href="'+'<?= $viewUrl ?>'+id.trim()+'">View location detail</a></strong>';
+                alert({
+                    title: title,
+                    content: '<img src="'+src+'"/></br></br>'+viewlink,
+                    clickableOverlay: true,
+                    actions: {
+                        always: function(){
+
+                        }
+                    }
+                })
+            })
+        })
+    });
+</script>
+
+<script>
+    var locationArr=[];
+    <?php foreach ($locationListId as $id){ ?>
+    locationArr.push("<?= $id ?>");
+    <?php } ?>
+    require([
+        'jquery'
+    ], function ($) {
+        'use strict';
+
+        $(document).ajaxStart(function() {
+            checkLocationCheckbox();
+        });
+        $( document ).ajaxComplete(function() {
+            var i;
+            for(i=0;i<locationArr.length;i++){
+                $('#maplistMapGrid_table').find('#id_'+locationArr[i]).prop('checked', true);
+            }
+        });
+
+
+        $('#map_location_categories').find('option').mousedown(function(e) {
+            e.preventDefault();
+            $(this).prop('selected', $(this).prop('selected') ? false : true);
+            return false;
+        });
+
+        $(function(){
+            //append hidden input to store the location list
+            $('#edit_form').append('<input type="hidden" name="location_list" id="in_location_list"value="">');
+            $('#save-and-continue').click(function(){
+                checkLocationCheckbox();
+                $('#in_location_list').val(JSON.stringify(locationArr));
+            });
+            $('#save').click(function(){
+                checkLocationCheckbox();
+                $('#in_location_list').val(JSON.stringify(locationArr));
+            });
+
+        });
+
+        function checkLocationCheckbox(){
+            var id, status, index;
+            $('#maplistMapGrid_table').find('tbody').find('input[type="checkbox"]').each(function(){
+                id = $(this).attr('id');
+                id = id.replace('id_',"");
+                status = $(this).is(":checked");
+                if(status) {
+                    if(locationArr.indexOf(id)<0){
+                        locationArr.push(id);
+                    }
+                }else{
+                    if((index = locationArr.indexOf(id)) >- 1){
+                        delete locationArr[index];
+                    }
+                }
+            });
+        }
+
+    });
+</script>

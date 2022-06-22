@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="page.top">
+            <referenceBlock name="breadcrumbs">
+                <action method="addCrumb">
+                    <argument name="crumbName" xsi:type="string" translate="true">Home</argument>
+                    <argument name="crumbInfo" xsi:type="array">
+                        <item name="title" xsi:type="string" translate="true">Home</item>
+                        <item name="label" xsi:type="string" translate="true">Home</item>
+                        <item name="link" xsi:type="string">{{baseUrl}}</item>
+                    </argument>
+                </action>
+                <action method="addCrumb">
+                    <argument name="crumbName" xsi:type="string" translate="true">Cart</argument>
+                    <argument name="crumbInfo" xsi:type="array">
+                        <item name="title" xsi:type="string" translate="true">Cart</item>
+                        <item name="label" xsi:type="string" translate="true">Cart</item>
+                    </argument>
+                </action>
+            </referenceBlock>
+        </referenceContainer>
+        <referenceContainer name="content">
+            <container name="cart.discount.wrapper" htmlTag="div" htmlClass="cart-discount-wrapper">
+                <block class="Magento\Checkout\Block\Cart\Coupon" name="checkout.cart.coupon" as="coupon" template="Magento_Checkout::cart/coupon.phtml">
+                    <arguments>
+                        <argument name="view_model" xsi:type="object">Magenest\CouponCode\ViewModel\Coupon</argument>
+                    </arguments>
+                </block>
+            </container>
+
+            <container name="cart.policy.cms" htmlTag="div" htmlClass="cart-policy-cms">
+                <block class="Magento\Cms\Block\Block" name="cart.policy">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">cart.policy</argument>
+                    </arguments>
+                </block>
+            </container>
+
+            <container name="sidebar.bottom.cart-wrapper" htmlTag="div" htmlClass="sidebar-bottom-cart-wrapper hidden">
+                <block class="Magento\Checkout\Block\Cart\Totals" name="sidebar.bottom.cart" template="Magento_Checkout::sidebar-bottom-cart.phtml"/>
+            </container>
+        </referenceContainer>
+        <referenceBlock name="additional.product.info" remove="true"/>
+        <referenceBlock name="nav-toggle" remove="true" />
+        <move element="breadcrumbs" destination="main.content" before="-"/>
+        <move element="cart.discount.wrapper" destination="cart.summary" before="-"/>
+    </body>
+</page>

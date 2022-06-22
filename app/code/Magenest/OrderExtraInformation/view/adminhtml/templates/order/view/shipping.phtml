@@ -1,0 +1,92 @@
+<?php
+/**
+ * Copyright © 2019 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ * Magenest_Kangaroo extension
+ * NOTICE OF LICENSE
+ * @category Magenest
+ * @package  Magenest_Kangaroo
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php /** @var $block \Magento\Shipping\Block\Adminhtml\View */ ?>
+<?php $order = $block->getOrder() ?>
+<?php $helper = $this->helper("Magenest\SalesPerson\Helper\AssignedToSales"); ?>
+<?php if ($order->getIsVirtual()) : return '';endif; ?>
+
+<?php /* Shipping Method */ ?>
+<div class="admin__page-section-item order-shipping-method">
+    <div class="admin__page-section-item-title">
+        <span class="title"><?= __('Shipping &amp; Handling Information') ?></span>
+    </div>
+    <div class="admin__page-section-item-content">
+        <?php if ($order->getTracksCollection()->count()) : ?>
+            <p><a href="#" id="linkId"
+                  onclick="popWin('<?= $this->helper('Magento\Shipping\Helper\Data')->getTrackingPopupUrlBySalesModel(
+                      $order
+                  ) ?>','trackorder','width=800,height=600,resizable=yes,scrollbars=yes')"
+                  title="<?= /* @escapeNotVerified */
+                  __('Track Order') ?>"><?= /* @escapeNotVerified */
+                    __('Track Order') ?></a></p>
+        <?php endif; ?>
+        <?php if ($order->getShippingDescription()): ?>
+            <strong><?= $block->escapeHtml($order->getShippingDescription()) ?></strong>
+
+            <?php if ($this->helper('Magento\Tax\Helper\Data')->displayShippingPriceIncludingTax()): ?>
+                <?php $_excl = $block->displayShippingPriceInclTax($order); ?>
+            <?php else: ?>
+                <?php $_excl = $block->displayPriceAttribute('shipping_amount', false, ' '); ?>
+            <?php endif; ?>
+            <?php $_incl = $block->displayShippingPriceInclTax($order); ?>
+
+            <?= $_excl ?>
+            <?php if ($this->helper('Magento\Tax\Helper\Data')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                (<?= __('Incl. Tax') ?> <?= $_incl ?>)
+            <?php endif; ?>
+        <?php else: ?>
+            <?= __('No shipping information available') ?>
+        <?php endif; ?>
+        <?php if ($order->getData('api_order_id')) : ?>
+            <br>
+            <strong><?= __('Shipment ID') ?>: </strong><?= $order->getData('api_order_id') ?>
+        <?php endif; ?>
+        <br>
+        <strong><?= __('Shipping Fee') ?></strong>
+        <?= $shippingFee = $block->displayPrices($order->getShippingFee(), $order->getShippingFee()); ?>
+        <?php if ($helper->authorizationRole($order) == false): ?>
+        <?php if (\Magenest\OrderExtraInformation\Model\OrderUtility::canChangeShippingFee($order)): ?>
+            <a class="change-shipping-fee-button" href="javascript:void(0)"><?= __("Change Shipping Fee") ?></a>
+        <?php endif; ?>
+        <?php endif; ?>
+    </div>
+    <br>
+    <?php if (\Magenest\OrderExtraInformation\Model\OrderUtility::canChangeShippingFee($order)): ?>
+        <div class="admin__page-section-item-content change-shipping-section hidden">
+            <form id="shipping-form" class="admin__field" type="POST"
+                  action="<?= $block->getUrl('oei/order/changeshippingfee') ?>" data-mage-init='{"validation":{}}'>
+                <div class="admin__field-label _required">
+                    <label for="change-shipping-fee">
+                        <span><?= __("Shipping Adjustment") ?></span>
+                    </label>
+                </div>
+                <div class="admin__field-control">
+                    <input class="admin__control-text required validate-number" type="text" name="shipping_fee"
+                           id="change-shipping-fee"
+                           data-validate='{"required":true, "integer":true, "validate-zero-or-greater":true}'
+                           maxlength="255">
+                </div>
+                <input type="hidden" name="order_id" value="<?= $order->getId() ?>"/>
+                <button type="submit" class="submit-form action submit secondary"><?= __("Change") ?></button>
+            </form>
+        </div>
+    <?php endif; ?>
+</div>
+<script type="text/javascript">
+    require(['jquery'], function ($) {
+        $('.change-shipping-fee-button').click(function () {
+            $('.change-shipping-section').toggleClass('hidden');
+        });
+    });
+</script>

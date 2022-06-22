@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <attribute name="class" value="sales-order-view" />
+        <attribute name="class" value="account" />
+
+        <referenceContainer name="content">
+            <block class="Magento\Theme\Block\Html\Title" name="page.main.title.mobile" template="Magento_Theme::html/title-mobile.phtml" before="-"/>
+        </referenceContainer>
+
+        <referenceContainer name="content">
+            <block class="Magenest\CustomSource\Block\Element\SetAreaQuote" name="auto.area.quote" as="auto.area.quote" template="Magenest_CustomSource::set_area_quote.phtml"/>
+        </referenceContainer>
+        <referenceBlock name="sales.order.view">
+            <arguments>
+                <argument name="order_cancel" xsi:type="object">Magenest\OrderCancel\ViewModel\FrontendCancel</argument>
+                <argument name="progress_order_date" xsi:type="object">Magenest\CustomFrontend\ViewModel\ProgressOrderDate</argument>
+            </arguments>
+        </referenceBlock>
+        <move element="order.actions.container" destination="page.main.title" before="order.status" />
+        <move element="page.main.title" destination="content" />
+    </body>
+</page>

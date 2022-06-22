@@ -1,0 +1,160 @@
+<?php
+/** @var \Magenest\MegaMenu\Block\Label $block */
+$html = $block->getLabel();
+?>
+
+<div class="label-preview">
+    <div class="menu-item">
+        <span style=" position: relative; display: inline-block;">
+            <span>MENU ITEM</span>
+            <?= $html ?>
+        </span>
+    </div>
+</div>
+<style>
+    .label-preview{
+        background-color: #f0f0f0;
+        text-align: center;
+        padding: 5px 0;
+        margin: 0 0 3rem;
+    }
+    .page-main-actions._hidden ~ .page-columns .label-preview{
+        left: 8.800000000000001rem;
+        position: fixed;
+        right: 0;
+        top: 77px;
+        z-index: 501;
+    }
+    .label-preview .menu-item{
+        position: relative;
+        display: inline-block;
+        margin: 3px auto;
+        padding: 8px 20px;
+        cursor: pointer;
+        -webkit-transition: all 0.5s ease-out 0s;
+        -moz-transition: all 0.5s ease-out 0s;
+        -o-transition: all 0.5s ease-out 0s;
+        transition: all 0.5s ease-out 0s;
+    }
+    .label-preview .menu-item:hover{
+        background: #25bce9;
+        color: #fff;
+    }
+    .megamenu-label{
+        position: absolute;
+        display: inline-block;
+        padding: 1px 5px;
+        -webkit-box-sizing: content-box;
+        -moz-box-sizing: content-box;
+        box-sizing: content-box;
+        color: #000;
+        font-size: 9px;
+        font-family: cursive;
+        font-style: italic;
+        text-align: center;
+        text-transform: none;
+        border-width: 0;
+        border-style: none;
+        border-color: transparent;
+    }
+    .megamenu-label.label-position-top{
+        position: absolute;
+        bottom: calc(100% + 3px);
+        left: 50%;
+        -webkit-transform: translateX(-50%);
+        -moz-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        -o-transform: translateX(-50%);
+        transform: translateX(-50%);
+    }
+    .megamenu-label.label-position-left{
+        position: absolute;
+        top: 50%;
+        right: calc(100% + 8px);
+        -webkit-transform: translateY(-50%);
+        -moz-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        -o-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+    .megamenu-label.label-position-right{
+        position: absolute;
+        top: 50%;
+        left: calc(100% + 8px);
+        -webkit-transform: translateY(-50%);
+        -moz-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        -o-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+    .megamenu-label.label-position-top-left{
+        position: absolute;
+        bottom: calc(100% + 3px);
+        left: -10px;
+    }
+    .megamenu-label.label-position-top-right{
+        position: absolute;
+        bottom: calc(100% + 3px);
+        right: -10px;
+    }
+    .megamenu-label .label-arrow{
+        display: none;
+    }
+    .megamenu-label.arrow .label-arrow{
+        display: block;
+        position: absolute;
+        width: 0;
+        height: 0;
+        border: 3px solid transparent;
+    }
+    .megamenu-label.arrow.label-position-top .label-arrow{
+        border-bottom-color: transparent !important;
+        border-left-color: transparent !important;
+        border-right-color: transparent !important;
+        top: 100%;
+        left: 50%;
+        -webkit-transform: translateX(-50%);
+        -moz-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        -o-transform: translateX(-50%);
+        transform: translateX(-50%);
+    }
+    .megamenu-label.arrow.label-position-left .label-arrow{
+        border-top-color: transparent !important;
+        border-bottom-color: transparent !important;
+        border-right-color: transparent !important;
+        left: 100%;
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        -moz-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        -o-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+    .megamenu-label.arrow.label-position-right .label-arrow{
+        border-top-color: transparent !important;
+        border-bottom-color: transparent !important;
+        border-left-color: transparent !important;
+        right: 100%;
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        -moz-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        -o-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+    .megamenu-label.arrow.label-position-top-left .label-arrow{
+        border-bottom-color: transparent !important;
+        border-left-color: transparent !important;
+        border-right-color: transparent !important;
+        top: 100%;
+        left: 70%;
+    }
+    .megamenu-label.arrow.label-position-top-right .label-arrow{
+        border-bottom-color: transparent !important;
+        border-left-color: transparent !important;
+        border-right-color: transparent !important;
+        top: 100%;
+        right: 70%;
+    }
+</style>

@@ -1,0 +1,105 @@
+<?php
+/**
+ * @var \Magento\Framework\View\Element\Template $block
+ * @var Magento\Framework\Escaper $escaper
+ * @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
+ */
+
+$ruleId = $escaper->escapeHtml($block->getData('rule_id'));
+$evCode = $escaper->escapeHtml($block->getData('evcode'));
+/**
+ * @var \Magenest\CouponCode\ViewModel\VoucherDetails $viewModel
+ */
+$viewModel = $block->getViewModel();
+$dataVoucher = $viewModel->getVoucherByCouponCodeAndRuleId($evCode, $ruleId);
+?>
+
+<?php if ($dataVoucher) : ?>
+<div class="coupon">
+    <?php
+        $discount = $viewModel->getDiscountOfVoucher($dataVoucher['simple_action'], $dataVoucher['discount_amount']);
+        $conditionOffer = $viewModel->getConditionOfferOfVoucher($dataVoucher['rule_id']);
+        $conditionLimit = $viewModel->getConditionLimitUserOfVoucher($dataVoucher['rule_id']);
+        $conditionProduct = $viewModel->getConditionProductOfVoucher($dataVoucher['rule_id']);
+        $offer = $discount. ' ' . $conditionOffer;
+        $detail = __('Coupon %1 %2. Valid until %3', $dataVoucher['code'], $offer, $viewModel->formatDate($dataVoucher['to_date']))
+    ?>
+    <div class="container">
+        <div class="image-coupon">
+            <?php
+            $images = isset($dataVoucher['images']) ? $viewModel->handleImage($dataVoucher['images']) :
+                $block->getViewFileUrl('Magenest_CouponCode::image/default-coupon.png');
+            ?>
+            <img src="<?= $escaper->escapeUrl($images) ?>" alt="Avatar" style="width:100%;">
+        </div>
+        <div class="summary-coupon">
+            <p><?= $discount ?></p>
+            <p><?= $conditionOffer ?></p>
+        </div>
+    </div>
+    <div class="information-container">
+        <h2><b><?= $escaper->escapeHtml(__('Offer')) ?></b></h2>
+        <p><?= $escaper->escapeHtml($conditionLimit) ?></p>
+        <p><?= $escaper->escapeHtml($offer) ?></p>
+        <h2><b><?= $escaper->escapeHtml(__('Effective')) ?></b></h2>
+        <p><?= $escaper->escapeHtml($viewModel->getEffectiveOfVoucher($dataVoucher['from_date'], $dataVoucher['to_date'])) ?></p>
+        <h2><b><?= $escaper->escapeHtml(__('Device')) ?></b></h2>
+        <p><?= $escaper->escapeHtml(__('Android, iOS, Browser')) ?></p>
+        <h2><b><?= $escaper->escapeHtml(__('Product')) ?></b></h2>
+        <p><?= $escaper->escapeHtml($conditionProduct) ?></p>
+        <h2><b><?= $escaper->escapeHtml(__('Payment')) ?></b></h2>
+        <p><?= $escaper->escapeHtml($viewModel->getConditionPaymentMethodOfVoucher($dataVoucher['rule_id'])) ?></p>
+        <h2><b><?= $escaper->escapeHtml(__('Shipping unit')) ?></b></h2>
+        <p><?= $escaper->escapeHtml($viewModel->getConditionShippingMethodOfVoucher($dataVoucher['rule_id'])) ?></p>
+        <h2><b><?= $escaper->escapeHtml(__('See details')) ?></b></h2>
+        <p><?= $escaper->escapeHtml($detail) ?></p>
+    </div>
+</div>
+<?php else: ?>
+    <div><?= $escaper->escapeHtml(__('Voucher doest not exists in system') )?></div>
+<?php endif; ?>
+<?php
+$styles = <<<STYLE
+.coupon {
+  border: 5px solid #bbb;
+  width: 60%;
+  height: 80%;
+  border-radius: 15px;
+  margin: 0 auto;
+  max-width: 600px;
+}
+
+.container {
+  padding: 2px 16px;
+  background-color: #f1f1f1;
+  background-color:white;
+  display: flex;
+  margin: 20px;
+}
+
+.image-coupon {
+  width: 30%;
+}
+
+.information-container {
+  height: 70%;
+  overflow: scroll;
+  margin: 20px;
+}
+
+.summary-coupon {
+  width: 70%;
+}
+
+.promo {
+  background: #ccc;
+  padding: 3px;
+}
+
+.expire {
+  color: red;
+}
+
+STYLE;
+?>
+<?= /* @noEscape */ $secureRenderer->renderTag('style', [], $styles, false) ?>

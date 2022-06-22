@@ -1,0 +1,146 @@
+.button-coupon-claim{
+    height: 30px;
+    margin-top: 80%;
+}
+.button-coupon-claimed{
+    height: 30px;
+    margin-top: 10%;
+}
+#coupon_magenest{
+    background-color: white;
+    border: 1px solid black;
+    display: block;
+    float: left;
+    height: 150px;
+    margin: 10px;
+    padding: 5px;
+    width: 580px;
+
+}
+#container_coupon{
+    display: flex;
+}
+#information_coupon{
+    display: block;
+    padding: 10px;
+    width: 330px;
+}
+#information_mycoupon{
+    display: block;
+    padding: 10px;
+    width: 400px;
+}
+#exp-coupon{
+    color: grey;
+    padding-top: 5px;
+}
+
+#description-coupon{
+    padding-top: 10px;
+}
+.see-more-coupon{
+    color: #2b7dbd;
+}
+.see-more-coupon:hover{
+    color: blue;
+}
+.pager {
+     text-align: center;
+}
+#limiter{
+    background-color: #f0f0f0;
+    border-radius: 3px;
+    box-shadow: inset 0 1px 0 0 #ffffff, inset 0 -1px 0 0 rgb(204 204 204);
+    margin: 0 5px 0 7px;
+    width: auto;
+}
+.information-container{
+    display: flex;
+    align-items: center;
+    margin: 25px 10px;
+    border: 3px solid #4b4b4b;
+}
+
+.information-label{
+    display: flex;
+    width: 90%;
+}
+.action-coupon {
+    float: right;
+    margin: 20px;
+}
+.code-and-img{
+    height: 150px;
+    width: 150px;
+}
+.detail-information{
+    padding-left: 20px;
+    width: 70%;
+}
+#use-now{
+    margin-top: 10px;
+}
+.usage_customer{
+    color: grey;
+    padding-left: 10px;
+}
+.usage_limit{
+    color:grey;
+}
+.usage {
+    display:flex;
+    padding-top: 5px;
+}
+#coupon_magenest_blank{
+    background-color: white;
+    border: none;
+    display: block;
+    float: left;
+    height: 150px;
+    margin: 10px;
+    padding: 5px;
+    width: 580px;
+
+}
+#description-coupon{
+    word-break: break-all;
+}
+#coupon-image{
+    width: 150px;
+    height: 150px;
+}
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 150%;
+    left: 50%;
+    margin-left: -60px;
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}

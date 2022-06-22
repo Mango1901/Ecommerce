@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2018 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ *
+ * Magenest_RewardPoints extension
+ * NOTICE OF LICENSE
+ *
+ * @category Magenest
+ * @package Magenest_RewardPoints
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="creditmemo_totals">
+            <block class="Magento\Sales\Block\Adminhtml\Order\Totals\Item" name="mgn_reward_points_refunded" template="Magento_Sales::order/totals/item.phtml">
+                <action method="setSourceField">
+                    <argument name="value" xsi:type="string">customer_mgn_rwp_total_refunded</argument>
+                </action>
+                <action method="setAfterCondition">
+                    <argument name="condition" xsi:type="string">last</argument>
+                </action>
+                <action method="setLabel">
+                    <argument name="value" xsi:type="string">Refunded as Reward Point</argument>
+                </action>
+                <action method="setDisplayArea">
+                    <argument name="value" xsi:type="string">footer</argument>
+                </action>
+                <action method="setStrong">
+                    <argument name="flag" xsi:type="string">true</argument>
+                </action>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

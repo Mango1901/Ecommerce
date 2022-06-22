@@ -1,0 +1,59 @@
+
+
+/* Banner */
+.affiliate-banner-content fieldset {
+    width: 100% !important;
+    font-family: Arial;
+}
+
+.affiliate-banner-content fieldset .link {
+    height: 65px;
+}
+
+.affiliate-banner-content fieldset .preview {
+    height: auto;
+}
+
+.affiliate-banner-content fieldset .preview .control {
+    height: 180px;
+    overflow: auto
+}
+
+.affiliate-banner-content fieldset .preview img {
+    max-height: 175px;
+    max-width: 800px;
+}
+
+.affiliate-banner-content fieldset .content textarea {
+    width: 100%;
+}
+
+.affiliate-banner-content fieldset legend {
+    font-family: Arial;
+}
+
+.affiliate-banner-content fieldset .field .link {
+    font-family: Arial;
+}
+
+.affiliate-banner-content fieldset .field .content {
+    font-family: Arial;
+}
+
+#banner-title {
+    font-size: 18px;
+    font-family: Arial;
+}
+
+.bnlink-refer-content {
+    height: 200px;
+}
+
+#bn-link-refer {
+    display: none;
+    height: auto;
+}
+
+#link-bn {
+    margin-bottom: 20px;
+}

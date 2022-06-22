@@ -1,0 +1,23 @@
+<?php /** @var \Magento\Customer\Block\Widget\Telephone $block */ ?>
+
+<div class="field telephone <?= $block->isRequired() ? 'required' : '' ?>" data-container="change-telephone">
+    <label for="telephone" class="label">
+        <span>
+            <?= $block->escapeHtml(__('Phone Number')) ?>
+        </span>
+    </label>
+    <div class="control">
+        <input type="tel"
+               name="telephone"
+               id="telephone"
+               data-input="change-telephone"
+               data-validate='{<?= $block->isRequired() ? "required:true, " : "" ?>"validate-telephone-require":true}'
+               value="<?= $block->escapeHtmlAttr($block->getTelephone()) ?>"
+               title="<?= $block->escapeHtmlAttr(__('Phone Number')) ?>"
+               placeholder="<?= __('Please enter your telephone') ?>"
+               class="input-text <?= $block->escapeHtmlAttr(
+                   $block->getAttributeValidationClass('telephone')
+               ) ?>"
+        >
+    </div>
+</div>

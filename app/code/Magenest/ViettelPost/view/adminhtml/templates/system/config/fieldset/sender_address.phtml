@@ -1,0 +1,76 @@
+<?php
+
+/**
+ * @var $block \Magenest\ViettelPost\Block\Adminhtml\System\Config\Fieldset\SenderAddress
+ */
+
+$proviceData = $block->getProvinceData();
+$districtData = $block->getDistrictData();
+$wardsData = $block->getWardsData();
+$provinceCurrentData = $block->getCurrentProvince();
+$districtCurrentData = $block->getCurrentDistrict();
+$wardsCurrentData = $block->getCurrentWards();
+?>
+
+<strong>Sender info:</strong>
+<br>
+<ul>
+    <li>Thành phố(Tỉnh): <?=$provinceCurrentData['label']?></li>
+    <li>Quận(Huyện): <?=$districtCurrentData['label']?></li>
+    <li>Phường(Xã): <?=$wardsCurrentData['label']?></li>
+</ul>
+
+<script type="text/x-magento-init">
+            {
+                 "#vt_form": {
+                        "Magento_Ui/js/core/app": {
+                            "components": {
+                                "vt_form": {
+                                    "component": "Magenest_ViettelPost/js/address",
+                                    "province": "<?=$block->escapeJs(json_encode($proviceData))?>",
+                                    "district": "<?=$block->escapeJs(json_encode($districtData))?>",
+                                    "wards": "<?=$block->escapeJs(json_encode($wardsData))?>"
+                                }
+                            }
+                        }
+                 }
+            }
+</script>
+
+<div data-bind="scope: 'vt_form'" id="vt_form">
+    <!-- ko template: getTemplate() --><!-- /ko -->
+</div>
+
+<button id="update_sender_address">Update sender address</button>
+<script>
+    require(['jquery'], function ($) {
+        $('#update_sender_address').on("click", function (e) {
+            var province_id = $('#city_id').val();
+            var district_id = $('#district_id').val();
+            var wards_id = $('#ward_id').val();
+            if(!province_id || !district_id || !wards_id){
+                alert("Please validate input form");
+                return;
+            }
+            e.preventDefault();
+            $.ajax({
+                url: '<?= $block->getUrl('viettelpost/shipment/update') ?>',
+                data: {
+                    province_id: province_id,
+                    district_id: district_id,
+                    wards_id: wards_id,
+                },
+                success: function (resp) {
+                    if(resp.success){
+                        alert("Updated");
+                    }
+                    if(resp.error){
+                        alert(resp.message)
+                    }
+                },
+                dataType: 'json',
+                showLoader: true,
+            });
+        });
+    });
+</script>

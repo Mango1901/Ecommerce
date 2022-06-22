@@ -1,0 +1,53 @@
+<?php
+/** @var \Magenest\OrderExtraInformation\Block\Adminhtml\Order\AdditionalInformation $block */
+$order = $block->getOrder();
+$customerNote = $block->getOrder()->getCustomerNote();
+$deliveryTime = $block->getOrder()->getDeliveryTime();
+$companyName = $block->getOrder()->getCompanyName();
+$taxCode = $block->getOrder()->getTaxCode();
+$companyAddress = $block->getOrder()->getCompanyAddress();
+$companyEmail = $block->getOrder()->getCompanyEmail();
+$isWholeSale = (bool)$block->getOrder()->getIsWholesaleOrder();
+$telephoneCustomerConsign = $block->getOrder()->getTelephoneCustomerConsign();
+$helper = $this->helper("Magenest\SalesPerson\Helper\AssignedToSales");
+?>
+<?php if($customerNote || $deliveryTime || $companyName || isset($isWholeSale) || $telephoneCustomerConsign): ?>
+<section id="session-additional-information" style="margin-top: 30px" class="admin__page-section" data-bind="scope: 'session-additional-information'">
+    <div class="admin__page-section-title">
+        <span class="title"><?= /* @escapeNotVerified */ __('Additional Information') ?></span>
+        <?php if ($helper->authorizationRole($order) == false): ?>
+	    <?php if ($block->isAllowEditAction()): ?>
+        <div class="actions"><a href="javascript:void(0)" data-bind="click: openEditForm"><?= /* @escapeNotVerified */ __('Edit') ?></a></div>
+	    <?php endif; ?>
+        <?php endif; ?>
+    </div>
+    <div class="admin__page-section-content">
+        <!-- ko template: getTemplate() --><!-- /ko -->
+    </div>
+</section>
+<script type="text/x-magento-init">
+    {
+        "#session-additional-information": {
+            "Magento_Ui/js/core/app": {
+               "components": {
+                    "session-additional-information": {
+                        "component": "Magenest_OrderExtraInformation/js/view/additional-information",
+                        "additionalData": <?= \Zend_Json::encode([
+                        		'customer_note' => $customerNote,
+//		                        'delivery_date' => $deliveryDate,
+                                'delivery_time' => $deliveryTime,
+                                'company_name' => $companyName,
+		                        'tax_code' => $taxCode,
+		                        'company_address' => $companyAddress,
+		                        'company_email' => $companyEmail,
+		                        'is_wholesale_order' => $isWholeSale,
+		                        'telephone_customer_consign' => $telephoneCustomerConsign,
+                            ]) ?>,
+                        "actionUrl": "<?= $block->getUrl('oei/order/infosave', array('order_id' => $block->getOrder()->getEntityId())) ?>"
+                    }
+                }
+            }
+        }
+    }
+</script>
+<?php endif; ?>

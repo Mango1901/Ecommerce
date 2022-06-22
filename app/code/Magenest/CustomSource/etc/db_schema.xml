@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="inventory_source">
+        <column xsi:type="boolean" name="is_online" nullable="true" default="0" comment="Is Online"/>
+        <column xsi:type="text" name="shipping_address" nullable="true" comment="Source Shipping Address Management"/>
+        <column xsi:type="boolean" name="is_salable" nullable="true" default="0" comment="Is Salable"/>
+        <column xsi:type="varchar" name="area_code" nullable="true" length="255" comment="Area Code When Shipping"/>
+    </table>
+    <table name="quote" resource="checkout" comment="Sales Flat Quote">
+        <column xsi:type="varchar" name="area_code" nullable="true" length="255" comment="Area Code When Shipping"/>
+    </table>
+    <table name="sales_order" resource="sales" comment="Sales Flat Order">
+        <column xsi:type="varchar" name="area_code" nullable="true" length="255" comment="Area Code When Shipping"/>
+    </table>
+</schema>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="catalog.leftnav" template="Magenest_LayeredNavigation::layer/view.phtml">
+        </referenceBlock>
+        <referenceBlock name="catalog.navigation.renderer" template="Magenest_LayeredNavigation::layer/filter.phtml">
+        </referenceBlock>
+    </body>
+</page>

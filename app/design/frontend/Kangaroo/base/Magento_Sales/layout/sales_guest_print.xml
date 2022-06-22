@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="logo">
+            <arguments>
+                <argument name="logoPathResolver" xsi:type="object">Magenest\CustomCheckout\ViewModel\Block\Html\Header\LogoPathResolver</argument>
+            </arguments>
+        </referenceBlock>
+
+        <referenceBlock name="sales.order.print" template="Magento_Sales::order/print/view.phtml" />
+        <referenceBlock name="order.status" template="Magento_Sales::order/print/order_status.phtml" />
+
+        <referenceContainer name="header-bannerPrompteur" remove="true" />
+        <referenceContainer name="page.header.block" remove="true" />
+        <referenceContainer name="menu.bottom.mobile" remove="true" />
+    </body>
+</page>

@@ -1,0 +1,107 @@
+<?php
+
+/** @var \Magenest\PaymentEPay\Block\Customer\InstallmentPayment $block */
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$cart = $objectManager->get('Magento\Checkout\Model\Session');
+if (isset($cart->getQuote()->getData()["grand_total"])) {
+    $amount = (int)$cart->getQuote()->getData()["grand_total"];
+    $getLists = $block->getInstallmentPaymentList($amount);
+}
+
+$getMinAmount = ceil(($amount / 10000) * 10 / 100) * 10000;
+$getMaxValue  = ceil(($amount / 10000) * 90 / 100) * 10000;
+
+?>
+<select class="form-select" id="select-installment-amount">
+    <option selected value="<?= $amount ?>" id="installment-amount-option">All</option>
+    <?php for ($a = $getMinAmount; $a < $getMaxValue; $a += 1000000): ?>
+        <option value="<?= $a ?>" id="installment-amount-option"><?= $a ?></option>
+    <?php endfor; ?>
+</select>
+<?php if (!empty($getLists)): ?>
+    <form action="<?php echo $block->getFormAction() ?>" method="post">
+<?php foreach ($getLists as $key => $getList): ?>
+            <div class="form-check-inline">
+                <label class="form-check-label">
+                    <input type="radio" id="is-bank-code-<?= $getList['bankId']?>" name="bankCode" value="<?= $getList["bankId"] ?>" required="required"><?= $getList["bankId"] ?>
+                </label>
+                <table id="is-bank-code-<?= $getList['bankId']?>-table" class="is-bank-code-table" style="display: none">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th scope="col"><?= $block->escapeHtml(__('Terms')) ?></th>
+                        <th scope="col"><?= $block->escapeHtml(__('Installment conversion fee')) ?></th>
+                        <th scope="col"><?= $block->escapeHtml(__('Initial amount')) ?></th>
+                        <th scope="col"><?= $block->escapeHtml(__('Total amount')) ?></th>
+                        <th scope="col"><?= $block->escapeHtml(__('Amount to be paid first by terms')) ?></th>
+                        <th scope="col"><?= $block->escapeHtml(__('Amount to be paid for the following months according to the terms')) ?></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($getList["listDuration"] as $key1 => $one): ?>
+                        <tr>
+                            <td><input type="radio" name="termIs" value="<?= $one['termIs'] ?>" required="required"/></td>
+                            <td scope="row"><?= $one["termIs"] . " Tháng" ?></td>
+                            <td id="user-fee-is-<?= $key . '-' . $key1?>"><?= $one["userFeeIs"] . " VND" ?></td>
+                            <td id="amount-<?= $key . '-' . $key1?>"><?= $amount . " VND" ?></td>
+                            <td id="amountIs-<?= $key . '-' . $key1?>"><?= $one["amountIs"] . " VND" ?></td>
+                            <td id="firstAmount-<?= $key . '-' . $key1?>"><?= $one["firstAmount"] . " VND" ?></td>
+                            <td id="nextAmount-<?= $key . '-' . $key1?>"><?= $one["nextAmount"] . " VND" ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+<script>
+    require(['jquery', 'jquery/ui'], function ($) {
+        $("#is-bank-code-<?= $getList['bankId']?>").click(function () {
+            $(".is-bank-code-table").css("display","none");
+            $("#is-bank-code-<?= $getList['bankId']?>-table").css("display", "");
+        });
+    });
+</script>
+    <?php endforeach; ?>
+        <input type="submit"
+               value="<?= $block->escapeHtml(__('Go To Checkout')) ?>"
+               class="action primary go-to-checkout"
+               id="go-to-checkout"/>
+    </form>
+<?php else: ?>
+<div class="form-check-inline">
+    <span><?= $block->escapeHtml(__('Cart is empty')) ?></span>
+</div>
+<?php endif; ?>
+<script>
+    require(['jquery', 'jquery/ui'], function ($) {
+        $("#select-installment-amount").change(function () {
+            var amount = $('#select-installment-amount').val();
+            var url = "<?php echo $block->getBaseUrl() . 'epay/customer/installmentpaymentamount' ?>";
+            $.ajax({
+                url: url,
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    amount: amount,
+                },
+                success: function (response) {
+                    for (const [key, value] of Object.entries(response)) {
+                        for (const [key1, value1] of Object.entries(value.listDuration)) {
+                            $('#user-fee-is-' + key + '-' + key1).html(value1.userFeeIs);
+                            $('#amount-' + key + '-' + key1).html(amount);
+                            $('#amountIs-' + key + '-' + key1).html(value1.amountIs);
+                            $('#firstAmount-' + key + '-' + key1).html(value1.firstAmount);
+                            $('#nextAmount-' + key + '-' + key1).html(value1.nextAmount);
+                        }
+                    }
+                },
+                error: function (xhr, status, errorThrown) {
+                    console.log('Error happens. Try again.');
+                }
+            });
+        });
+    });
+</script>
+
+
+

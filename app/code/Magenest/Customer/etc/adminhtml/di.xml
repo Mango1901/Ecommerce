@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Customer\Model\Customer\DataProviderWithDefaultAddresses">
+        <plugin name="hide_other_field_name_customer_form" type="Magenest\Customer\Plugin\Model\Customer\DataProviderWithDefaultAddresses" />
+    </type>
+
+    <type name="Magento\Customer\Model\Address\DataProvider">
+        <plugin name="hide_other_field_name_customer_address_form" type="Magenest\Customer\Plugin\Model\Address\DataProvider" sortOrder="1000"/>
+    </type>
+
+    <type name="Magento\Sales\Block\Adminhtml\Order\Create\Form\Address">
+        <plugin name="magenest_customer_name_sales_order_address_form" type="Magenest\Customer\Plugin\Block\Adminhtml\Order\Create\Form\Address" />
+    </type>
+
+    <type name="Magento\Sales\Block\Adminhtml\Order\Create\Form\Account">
+        <plugin name="magenest_customer_name_sales_order_customer_information_form" type="Magenest\Customer\Plugin\Block\Adminhtml\Order\Create\Form\Account" />
+    </type>
+
+    <type name="Magento\Sales\Controller\Adminhtml\Order\AddressSave">
+        <plugin name="custom_data_post_value_sales_order_address_save" type="Magenest\Customer\Plugin\Controller\Adminhtml\Order\AddressSave" />
+    </type>
+</config>

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Magenest_MegaMenu::menu" title="Mega Menu" translate="title" module="Magenest_MegaMenu" sortOrder="60" resource="Magenest_MegaMenu::menu" parent="Magenest_Backend::Magenest" />
+        <add id="Magenest_MegaMenu::manage" title="Manage Menus" module="Magenest_MegaMenu" sortOrder="10"
+             parent="Magenest_MegaMenu::menu" action="menu/menu/index" resource="Magenest_MegaMenu::manage"/>
+        <add id="Magenest_MegaMenu::label" title="Manage Labels" module="Magenest_MegaMenu" sortOrder="10"
+             parent="Magenest_MegaMenu::menu" action="menu/label/index" resource="Magenest_MegaMenu::label"/>
+        <add id="Magenest_MegaMenu::configuration" title="Configuration" module="Magenest_MegaMenu" sortOrder="1000" action="adminhtml/system_config/edit/section/mega_menu" resource="Magenest_MegaMenu::configuration" parent="Magenest_MegaMenu::menu"/>
+    </menu>
+</config>

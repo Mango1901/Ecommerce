@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget id="social_login_widget" class="Magenest\SocialLogin\Block\Widget\SocialLoginWidget">
+        <label>Social Login Widget</label>
+        <parameters>
+            <parameter name="title" sort_order="10" visible="true" xsi:type="text" required="true">
+                <label translate="true">Title</label>
+            </parameter>
+            <parameter name="display_type" xsi:type="select" visible="true" sort_order="20" source_model="Magenest\SocialLogin\Model\Config\Widget\DisplayType">
+                <label translate="true">Display Type</label>
+            </parameter>
+        </parameters>
+        <description>Social Login Widget</description>
+    </widget>
+</widgets>

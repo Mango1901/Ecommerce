@@ -1,0 +1,372 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="payment">
+                <group id="vnpt_epay" translate="label" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>VNPT Payment</label>
+                    <field id="active" translate="label comment" sortOrder="1" type="select" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Enable</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="order_status" translate="label" type="select" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                        <label>New Order Status</label>
+                        <source_model>Magento\Sales\Model\Config\Source\Order\Status\NewStatus</source_model>
+                    </field>
+                    <field id="title" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Title</label>
+                    </field>
+                    <field id="is_test" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                        <label>Is Test Environment</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="test_merchant_id" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                        <label>Test Merchant Id</label>
+                        <depends>
+                            <field id="is_test">1</field>
+                        </depends>
+                    </field>
+                    <field id="test_encode_key" translate="label" type="obscure" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                        <label>Test EnCode Key</label>
+                        <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                        <depends>
+                            <field id="is_test">1</field>
+                        </depends>
+                    </field>
+                    <field id="test_cancel_password" translate="label" type="obscure" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                        <label>Test Cancel Password</label>
+                        <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                        <depends>
+                            <field id="is_test">1</field>
+                        </depends>
+                    </field>
+                    <field id="test_key3ds_encrypt" translate="label" type="obscure" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                        <label>Test Key 3DS Encrypt</label>
+                        <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                        <depends>
+                            <field id="is_test">1</field>
+                        </depends>
+                    </field>
+                    <field id="test_key3ds_decrypt" translate="label" type="obscure" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                        <label>Test Key 3DS Decrypt</label>
+                        <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                        <depends>
+                            <field id="is_test">1</field>
+                        </depends>
+                    </field>
+                    <field id="test_domain_url" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                        <label>Test Domain Url</label>
+                        <depends>
+                            <field id="is_test">1</field>
+                        </depends>
+                    </field>
+                    <field id="test_checktrans_url" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                        <label>Test Checktrans Url</label>
+                        <depends>
+                            <field id="is_test">1</field>
+                        </depends>
+                    </field>
+                    <field id="test_canceltrans_url" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                        <label>Test Canceltrans Url</label>
+                        <depends>
+                            <field id="is_test">1</field>
+                        </depends>
+                    </field>
+                    <field id="test_partner_code" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                        <label>Test Partner Code</label>
+                        <depends>
+                            <field id="is_test">1</field>
+                        </depends>
+                    </field>
+                    <field id="test_disbursement_url" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                        <label>Test Disbursement Url</label>
+                        <depends>
+                            <field id="is_test">1</field>
+                        </depends>
+                    </field>
+                    <field id="merchant_id" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                        <label>Merchant Id</label>
+                        <depends>
+                            <field id="is_test">0</field>
+                        </depends>
+                    </field>
+                    <field id="encode_key" translate="label" type="obscure" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                        <label>EnCode Key</label>
+                        <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                        <depends>
+                            <field id="is_test">0</field>
+                        </depends>
+                    </field>
+                    <field id="cancel_password" translate="label" type="obscure" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                        <label>Cancel Password</label>
+                        <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                        <depends>
+                            <field id="is_test">0</field>
+                        </depends>
+                    </field>
+                    <field id="key3ds_encrypt" translate="label" type="obscure" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                        <label>Key 3DS Encrypt</label>
+                        <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                        <depends>
+                            <field id="is_test">0</field>
+                        </depends>
+                    </field>
+                    <field id="key3ds_decrypt" translate="label" type="obscure" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                        <label>Key 3DS Decrypt</label>
+                        <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                        <depends>
+                            <field id="is_test">0</field>
+                        </depends>
+                    </field>
+                    <field id="domain_url" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                        <label>Domain Url</label>
+                        <depends>
+                            <field id="is_test">0</field>
+                        </depends>
+                    </field>
+                    <field id="checktrans_url" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                        <label>Checktrans Url</label>
+                        <depends>
+                            <field id="is_test">0</field>
+                        </depends>
+                    </field>
+                    <field id="canceltrans_url" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                        <label>Canceltrans Url</label>
+                        <depends>
+                            <field id="is_test">0</field>
+                        </depends>
+                    </field>
+                    <field id="partner_code" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                        <label>Partner Code</label>
+                        <depends>
+                            <field id="is_test">0</field>
+                        </depends>
+                    </field>
+                    <field id="disbursement_url" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                        <label>Disbursement Url</label>
+                        <depends>
+                            <field id="is_test">0</field>
+                        </depends>
+                    </field>
+                    <field id="locale" translate="label" type="select" sortOrder="96" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>The language displayed on the payment website</label>
+                        <source_model>Magenest\PaymentEPay\Model\Config\Source\Locale</source_model>
+                    </field>
+                    <field id="min_order_total" translate="label" type="text" sortOrder="98" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Minimum Order Total</label>
+                    </field>
+                    <field id="max_order_total" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Maximum Order Total</label>
+                    </field>
+                    <field id="allowspecific" translate="label" type="allowspecific" sortOrder="30" showInDefault="1" showInWebsite="1" canRestore="1">
+                        <label>Payment from Applicable Countries</label>
+                        <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                    </field>
+                    <field id="specificcountry" translate="label" type="multiselect" sortOrder="40" showInDefault="1" showInWebsite="1">
+                        <label>Payment from Specific Countries</label>
+                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                        <can_be_empty>1</can_be_empty>
+                    </field>
+                </group>
+                <group id="vnpt_epay_is" translate="label" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>VNPT Installment Payment</label>
+                <field id="active" translate="label comment" sortOrder="1" type="select" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="order_status" translate="label" type="select" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>New Order Status</label>
+                    <source_model>Magento\Sales\Model\Config\Source\Order\Status\NewStatus</source_model>
+                </field>
+                <field id="title" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Title</label>
+                </field>
+                <field id="is_test" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Is Test Environment</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="test_merchant_id" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Test Merchant Id</label>
+                    <depends>
+                        <field id="is_test">1</field>
+                    </depends>
+                </field>
+                <field id="test_encode_key" translate="label" type="obscure" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Test EnCode Key</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                    <depends>
+                        <field id="is_test">1</field>
+                    </depends>
+                </field>
+                <field id="test_cancel_password" translate="label" type="obscure" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Test Cancel Password</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                    <depends>
+                        <field id="is_test">1</field>
+                    </depends>
+                </field>
+                <field id="test_domain_url" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Test Domain Url</label>
+                    <depends>
+                        <field id="is_test">1</field>
+                    </depends>
+                </field>
+                <field id="test_partner_code" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Test Partner Code</label>
+                    <depends>
+                        <field id="is_test">1</field>
+                    </depends>
+                </field>
+                <field id="test_installment_bank_listing_url" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Test Installment Bank Listing Url</label>
+                    <depends>
+                        <field id="is_test">1</field>
+                    </depends>
+                </field>
+                <field id="merchant_id" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Merchant Id</label>
+                    <depends>
+                        <field id="is_test">0</field>
+                    </depends>
+                </field>
+                <field id="encode_key" translate="label" type="obscure" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>EnCode Key</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                    <depends>
+                        <field id="is_test">0</field>
+                    </depends>
+                </field>
+                <field id="cancel_password" translate="label" type="obscure" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Cancel Password</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                    <depends>
+                        <field id="is_test">0</field>
+                    </depends>
+                </field>
+                <field id="test_canceltrans_url" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Test Installment Canceltrans Url</label>
+                    <depends>
+                        <field id="is_test">1</field>
+                    </depends>
+                </field>
+                <field id="domain_url" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Domain Url</label>
+                    <depends>
+                        <field id="is_test">0</field>
+                    </depends>
+                </field>
+                <field id="canceltrans_url" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Installment Canceltrans Url</label>
+                    <depends>
+                        <field id="is_test">0</field>
+                    </depends>
+                </field>
+                <field id="partner_code" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Partner Code</label>
+                    <depends>
+                        <field id="is_test">0</field>
+                    </depends>
+                </field>
+                <field id="installment_bank_listing_url" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Installment Bank Listing Url</label>
+                    <depends>
+                        <field id="is_test">0</field>
+                    </depends>
+                </field>
+                <field id="locale" translate="label" type="select" sortOrder="96" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>The language displayed on the payment website</label>
+                    <source_model>Magenest\PaymentEPay\Model\Config\Source\Locale</source_model>
+                </field>
+                <field id="min_order_total" translate="label" type="text" sortOrder="98" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Minimum Order Total</label>
+                </field>
+                <field id="max_order_total" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Maximum Order Total</label>
+                </field>
+                <field id="allowspecific" translate="label" type="allowspecific" sortOrder="30" showInDefault="1" showInWebsite="1" canRestore="1">
+                    <label>Payment from Applicable Countries</label>
+                    <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                </field>
+                <field id="specificcountry" translate="label" type="multiselect" sortOrder="40" showInDefault="1" showInWebsite="1">
+                    <label>Payment from Specific Countries</label>
+                    <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                    <can_be_empty>1</can_be_empty>
+                </field>
+            </group>
+                <group id="vnpt_epay_qrcode" translate="label" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>VNPT QR Payment</label>
+                    <field id="active" translate="label comment" sortOrder="1" type="select" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Enable</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="order_status" translate="label" type="select" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                        <label>New Order Status</label>
+                        <source_model>Magento\Sales\Model\Config\Source\Order\Status\NewStatus</source_model>
+                    </field>
+                    <field id="title" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>Title</label>
+                    </field>
+                    <field id="is_test" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                        <label>Is Test Environment</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    </field>
+                    <field id="test_merchant_id" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                        <label>Test Merchant Id</label>
+                        <depends>
+                            <field id="is_test">1</field>
+                        </depends>
+                    </field>
+                    <field id="test_encode_key" translate="label" type="obscure" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                        <label>Test EnCode Key</label>
+                        <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                        <depends>
+                            <field id="is_test">1</field>
+                        </depends>
+                    </field>
+                    <field id="test_domain_url" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                        <label>Test Domain Url</label>
+                        <depends>
+                            <field id="is_test">1</field>
+                        </depends>
+                    </field>
+                    <field id="merchant_id" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                        <label>Merchant Id</label>
+                        <depends>
+                            <field id="is_test">0</field>
+                        </depends>
+                    </field>
+                    <field id="encode_key" translate="label" type="obscure" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                        <label>EnCode Key</label>
+                        <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                        <depends>
+                            <field id="is_test">0</field>
+                        </depends>
+                    </field>
+                    <field id="domain_url" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                        <label>Domain Url</label>
+                        <depends>
+                            <field id="is_test">0</field>
+                        </depends>
+                    </field>
+                    <field id="locale" translate="label" type="select" sortOrder="96" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                        <label>The language displayed on the payment website</label>
+                        <source_model>Magenest\PaymentEPay\Model\Config\Source\Locale</source_model>
+                    </field>
+                    <field id="min_order_total" translate="label" type="text" sortOrder="98" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Minimum Order Total</label>
+                    </field>
+                    <field id="max_order_total" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="0">
+                        <label>Maximum Order Total</label>
+                    </field>
+                    <field id="allowspecific" translate="label" type="allowspecific" sortOrder="30" showInDefault="1" showInWebsite="1" canRestore="1">
+                        <label>Payment from Applicable Countries</label>
+                        <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                    </field>
+                    <field id="specificcountry" translate="label" type="multiselect" sortOrder="40" showInDefault="1" showInWebsite="1">
+                        <label>Payment from Specific Countries</label>
+                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                        <can_be_empty>1</can_be_empty>
+                    </field>
+                </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,53 @@
+<?php
+/**
+ * @var Magenest\SocialLogin\Block\Share $block
+ */
+?>
+
+<?php if ($block->isShareEnabled()) :
+    $socialShare = $block->getSocialShare();
+    $twitterEnabled = isset($socialShare['twitter']) ? "true" : "false";
+    $facebookEnabled = isset($socialShare['facebook']) ? "true" : "false";
+    $linkedinEnabled = isset($socialShare['linkedin']) ? "true" : "false";
+    $pinterestEnabled = isset($socialShare['pinterest']) ? "true" : "false";
+    $redditEnabled = isset($socialShare['reddit']) ? "true" : "false";
+    $lineEnabled = isset($socialShare['line']) ? "true" : "false";
+    $zaloEnabled = isset($socialShare['zalo']) && $block->getZaloOfficialAccount()
+        ? $block->getZaloOfficialAccount()
+        : "false";
+    if (count($socialShare) > 0) :
+        ?>
+        <div>
+        <span class="share-social-network share">
+            <?= __('Share'); ?>:
+        </span>
+            <?php $scriptString = <<<script
+        require([
+            'jquery',
+            'hideshare'
+        ], function ($) {
+            'use strict';
+            $(".product-info-main .share").hideshare({
+                link: document.URL,
+                title: "{$block->getDescription()}",
+                media:  "{$block->getMedia()}",
+                description: "",
+                twitter: {$twitterEnabled},
+                facebook: {$facebookEnabled},
+                linkedin: {$linkedinEnabled},
+                pinterest: {$pinterestEnabled},
+                reddit: {$redditEnabled},
+                line: {$lineEnabled},
+                zalo: "{$zaloEnabled}",
+                position: "bottom",
+                speed: 50
+            });
+        });
+    script;
+            ?>
+
+            <?= isset($secureRenderer) ? $secureRenderer->renderTag('script', [], $scriptString, false)
+                : '<script>' . $scriptString . '</script>' ?>
+        </div>
+    <?php endif;
+endif; ?>

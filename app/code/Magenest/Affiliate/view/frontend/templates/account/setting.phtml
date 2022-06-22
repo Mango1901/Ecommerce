@@ -1,0 +1,338 @@
+<?php
+
+?>
+<?php
+/** @var Magenest\Affiliate\Block\Account\Setting $block */
+/** @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer */
+
+$cityId = $block->getCityId();
+$districtId = $block->getDistrictId();
+$wardId = $block->getWardId();
+
+?>
+<form class="form form-edit-account form-affiliate form-affiliate-setting" id="affiliate-settings" method="post"
+      enctype="multipart/form-data" data-mage-init='{"validation": {}}'
+      action="<?= $block->getUrl('*/*/settingpost') ?>">
+    <fieldset class="fieldset request">
+        <label class="title"><span><?= __('Affiliate Subscriptions') ?></span></label>
+        <div class="field choice">
+            <input type="checkbox" name="account[email_notification]" id="email-notification" value="1"
+                   title="<?= __('Email Notification') ?>"<?php if ($block->getEmailNotification(
+            )): ?> checked="checked"<?php endif; ?>
+                   class="checkbox"/>
+            <label class="label custom-check checkbox" for="email-notification">
+                <span><?= __('Receive affiliate email.') ?></span>
+            </label>
+        </div>
+    </fieldset>
+    <fieldset class="fieldset bank-info">
+        <label class="title"><span><?= __('Bank Information') ?></span></label>
+        <div class="field acc-type required">
+            <label class="label" for="bank-no">
+                <span><?= __('Choose a bank') ?></span>
+            </label>
+            <select id="bank-no" name="account[bank_no]" title="<?= __('Bank Type') ?>" class="validate-select" required
+                    aria-required="true">
+                <?php foreach ($block->getBankList() as $bank): ?>
+                    <option value="<?= $bank['value'] ?>"
+                            data-acc-type="<?= in_array(0, $bank['type']) !== false ? 0 : 1 ?>"
+                        <?= $bank['value'] == $block->getBankNo() ? 'selected' : '' ?>><?= $bank['label'] ?></option>
+                <?php endforeach; ?>
+            </select>
+            <input type="hidden" name="account[acc_type]" id="acc-type" value="0"/>
+            <span class="field-note"><?= __(
+                    'With BACABANK and COOPBANK, please enter card number instead of bank number!'
+                ) ?></span>
+        </div>
+        <div class="field account-name required">
+            <label class="label" for="account-name">
+                <span><?= __('Bank Owner') ?></span>
+            </label>
+            <input class="input-text" type="text" name="account[account_name]" id="account-name"
+                   value="<?= $block->getAccountName() ?>"
+                   title="<?= __('Bank Owner') ?>" data-validate="{required:true, 'validate-alpha-with-spaces':true}">
+        </div>
+        <div class="field acc-no required">
+            <label class="label" for="acc-no">
+                <span><?= __('Bank Number') ?></span>
+            </label>
+            <input class="input-text" type="text" name="account[acc_no]" id="acc-no" value="<?= $block->getAccNo() ?>"
+                   title="<?= __('Bank Number') ?>" data-validate="{required:true, 'validate-digits':true}">
+        </div>
+    </fieldset>
+    <fieldset class="fieldset information">
+        <label class="title"><span><?= __('Affiliate Information') ?></span></label>
+        <div class="field telephone required">
+            <label for="telephone" class="label">
+                <span><?= $block->escapeHtml(__('Phone Number')) ?></span>
+            </label>
+            <div class="control">
+                <input type="tel" name="telephone" id="telephone" class="input-text"
+                       data-validate='{required:true,"validate-telephone-require":true}'
+                       title="<?= $block->escapeHtmlAttr(__('Phone Number')) ?>"
+                       value="<?= $block->getTelephone() ?>">
+            </div>
+        </div>
+        <div class="field">
+            <label for="employee_id" class="label">
+                <span><?= $block->escapeHtml(__('Employee ID (For Kangaroo\'s employees)')) ?></span>
+            </label>
+            <div class="control">
+                <input type="text" name="employee_id" id="employee_id" class="input-text"
+                       title="<?= $block->escapeHtmlAttr(__('Employee ID')) ?>"
+                       value="<?= $block->getEmployeeId() ?>">
+            </div>
+        </div>
+        <div class="field country required">
+            <div class="control">
+                <input type="hidden" name="country_id" value="VN" title="Country" id="country" class="input-text">
+            </div>
+        </div>
+        <div class="field city required">
+            <label class="label" for="city_id">
+                <span><?= __('City') ?></span>
+            </label>
+            <div class="control">
+                <select id="city_id" name="city_id"
+                        title="<?= __('City') ?>"
+                        class="validate-select district_id">
+                    <option value=""><?= $block->escapeHtml(__('Please select a city.')) ?></option>
+                </select>
+                <input type="text"
+                       id="city"
+                       name="city"
+                       style="display: none"
+                       value=""
+                       title="<?=__('City') ?>"
+                       class="input-text" <?= $block->escapeHtmlAttr($this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('city')) ?>/>
+            </div>
+        </div>
+        <div class="field district required">
+            <label class="label" for="district_id">
+                <span><?= __('District') ?></span>
+            </label>
+            <div class="control">
+                <select id="district_id" name="district_id"
+                        title="<?= __('District') ?>"
+                        class="validate-select district_id">
+                    <option value=""><?= $block->escapeHtml(__('Please select a district.')) ?></option>
+                </select>
+                <input type="text"
+                       id="district"
+                       name="district"
+                       style="display: none"
+                       value=""
+                       title="<?= __('District') ?>"
+                       class="input-text"/>
+            </div>
+        </div>
+        <div class="field ward required">
+            <label class="label" for="ward_id">
+                <span><?= __('Ward') ?></span>
+            </label>
+            <div class="control">
+                <select id="ward_id" name="ward_id"
+                        title="<?= __('Ward') ?>"
+                        class="validate-select ward_id">
+                    <option value=""><?= $block->escapeHtml(__('Please select a ward')) ?></option>
+                </select>
+                <input type="text"
+                       id="ward"
+                       name="ward"
+                       style="display: none"
+                       value=""
+                       title="<?= __('Ward') ?>"
+                       class="input-text"/>
+            </div>
+        </div>
+        <div class="field required">
+            <label for="id_number" class="label">
+                <span><?= $block->escapeHtml(__('ID Number')) ?></span>
+            </label>
+            <div class="control">
+                <input name="id_number" id="id_number" class="input-text" <?php if ($block->getIdNumber()):?> disabled readonly <?php endif;?>
+                       data-validate='{required:true,"integer":true,"validate-greater-than-zero":true,"validate-id-number":true}'
+                       title="<?= $block->escapeHtmlAttr(__('ID Number')) ?>"
+                       value="<?= $block->getIdNumber() ?>">
+            </div>
+        </div>
+        <div class="field required">
+            <label for="license_date" class="label">
+                <span><?= $block->escapeHtml(__('License date')) ?></span>
+            </label>
+            <div class="control">
+                <input name="license_date" id="license_date" class="input-text" <?php if ($block->getLicenseDate()):?> disabled readonly <?php endif;?>
+                       data-validate='{required:true}'
+                       title="<?= $block->escapeHtmlAttr(__('License date')) ?>"
+                       value="<?= $block->getLicenseDate() ?>">
+                <?php if (!$block->getLicenseDate()): ?>
+                <script>
+                    require([
+                        'jquery',
+                        'mage/translate',
+                        'moment',
+                        'daterangepicker',
+                    ], function($, $t, moment){
+                        const formatDate = 'YYYY-MM-DD';
+
+                        $('#license_date').daterangepicker({
+                            singleDatePicker: true,
+                            showDropdowns: true,
+                            timePicker: false,
+                            locale: {
+                                format: formatDate,
+                                applyLabel: $t('Apply'),
+                                cancelLabel: $t('Cancel')
+                            }
+                        });
+                    });
+                </script>
+                <?php endif; ?>
+            </div>
+        </div>
+        <div class="field required">
+            <label for="issued_by" class="label">
+                <span><?= $block->escapeHtml(__('Issued by')) ?></span>
+            </label>
+            <div class="control">
+                <input name="issued_by" id="" class="input-text" <?php if ($block->getIssuedBy()):?> disabled readonly <?php endif;?>
+                       data-validate='{required:true}'
+                       title="<?= $block->escapeHtmlAttr(__('Issued by')) ?>"
+                       value="<?= $block->getIssuedBy() ?>">
+            </div>
+        </div>
+        <?php $idFront = $block->getIdFront(); ?>
+        <div class="field required">
+            <label for="id_front" class="label">
+                <span><?= $block->escapeHtml(__("ID Front")) ?></span>
+            </label>
+            <div class="field-image">
+                <div class="box-image">
+                    <label class="label <?= $idFront ? "has-image" : "" ?>">
+                        <div>
+                            <img id="id_front_preview" <?php if ($idFront): ?> src="<?= $idFront ?>" <?php endif;?>/>
+                        </div>
+                        <?php if (!$idFront): ?>
+                        <input class="affiliate_image" type="file" title="search image" id="id_front" name="id_front" />
+                        <span><?= __('Select image') ?></span>
+                        <?php endif; ?>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <?php $idBack = $block->getIdBack(); ?>
+        <div class="field required">
+            <label for="id_back" class="label">
+                <span><?= $block->escapeHtml(__("ID Back")) ?></span>
+            </label>
+            <div class="field-image">
+                <div class="box-image">
+                    <label class="label <?= $idBack ? "has-image" : "" ?>">
+                        <div>
+                            <img id="id_back_preview" <?php if ($idBack): ?> src="<?= $idBack ?>" <?php endif;?>/>
+                        </div>
+                        <?php if (!$idBack): ?>
+                        <input class="affiliate_image" type="file" title="search image" id="id_back" name="id_back" />
+                        <span><?= __('Select image') ?></span>
+                        <?php endif; ?>
+                    </label>
+                </div>
+            </div>
+
+        </div>
+        <script>
+            require(['jquery', 'Magento_Ui/js/modal/alert'], function ($, alert) {
+                $('.affiliate_image').change(function () {
+                    let validExtensions = ['jpg', 'jpeg', 'png'],
+                        fileName = this.files[0].name,
+                        fileNameExt = fileName.substr(fileName.lastIndexOf('.') + 1);
+                    if ($.inArray(fileNameExt, validExtensions) === -1) {
+                        this.type = '';
+                        this.type = 'file';
+                        $(this).parent().removeClass('has-image');
+                        $('#' + this.id + '_preview').attr('src',"");
+                        alert({
+                            title: $.mage.__("Error"),
+                            content: $.mage.__("Only these file types are accepted : " + validExtensions.join(', '))
+                        });
+                    } else if (this.files && this.files[0]) {
+                        let filerdr = new FileReader(), elementId = this.id;
+                        $(this).parent().addClass('has-image');
+                        filerdr.onload = function (e) {
+                            $('#' + elementId + '_preview').attr('src', e.target.result);
+                        }
+                        filerdr.readAsDataURL(this.files[0]);
+                    }
+                })
+            })
+        </script>
+    </fieldset>
+    <?= $block->getChildHtml('affiliate.setting.extra') ?>
+
+    <div class="actions-toolbar affiliate-clear">
+        <div class="primary">
+            <button type="submit" class="action save primary"
+                    title="<?= __('Save payment information') ?>">
+                <span><?= __('Save payment information') ?></span>
+            </button>
+        </div>
+    </div>
+</form>
+<script type="text/x-magento-init">
+    {
+        ".form-affiliate-setting": {
+            "Magenest_Directory/js/field-updater": {
+                "form": "#affiliate-settings",
+                "defaultCity": "<?= $cityId ??  "" ?>",
+                "defaultDistrict": "<?= $districtId ?? "" ?>",
+                "defaultWard": "<?= $wardId ?? "" ?>",
+                "dataJson": <?= $this->helper(\Magenest\Directory\Helper\Data::class)->getDataJson() ?>
+            }
+        }
+    }
+
+</script>
+<?php
+$bankNumberTrans = __('Bank Number');
+$cardNumberTrans = __('Card Number');
+$validateMessage = __('Please use only letters (a-z or A-Z) or spaces only in this field.');
+
+$scriptString    = <<<script
+require([
+    'jquery',
+    'jquery/validate',
+    'mage/validation',
+    'mage/mage',
+    'mage/translate'
+], function($){
+
+    $.validator.addMethod(
+        'validate-alpha-with-spaces',
+        function (v) {
+            return $.mage.isEmptyNoTrim(v) || /^[a-zA-Z ]+$/.test(v);
+        },
+        $.mage.__("{$validateMessage}")
+    );
+
+    $('#account-name').on('keyup', function () {
+        $(this).val(this.value.toUpperCase());
+    });
+
+    $('#bank-no').on('change', function () {
+        var bankType = $(this).find(":selected").data('acc-type');
+        var title = "{$bankNumberTrans}";
+        if (bankType == 1) {
+            title = "{$cardNumberTrans}";
+        }
+        $('div.acc-no .label > span').html(title);
+        $('#acc-type').val($(this).find(":selected").data('acc-type'));
+    });
+
+    $('#affiliate-settings input').on('keyup', function () {
+        $(this).validation().validation('isValid');
+    });
+});
+script;
+?>
+<?= /* @noEscape */
+$secureRenderer->renderTag('script', [], $scriptString, false) ?>

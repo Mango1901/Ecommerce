@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Magenest_Affiliate::reports" title="Affiliate Reports" module="Magenest_Affiliate" sortOrder="100" resource="Magenest_Affiliate::reports" parent="Magento_Reports::report"/>
+        <add id="Magenest_Affiliate::bestsellers" title="Bestsellers" module="Magenest_Affiliate" sortOrder="10" action="affiliate/reports/bestsellers" resource="Magenest_Affiliate::bestsellers" parent="Magenest_Affiliate::reports"/>
+        <add id="Magenest_Affiliate::reports_accounts" title="Accounts" module="Magenest_Affiliate" sortOrder="20" action="affiliate/reports/accounts" resource="Magenest_Affiliate::reports_accounts" parent="Magenest_Affiliate::reports"/>
+        <add id="Magenest_Affiliate::reports_sales" title="Sales" module="Magenest_Affiliate" sortOrder="30" action="affiliate/reports/sales" resource="Magenest_Affiliate::reports_sales" parent="Magenest_Affiliate::reports"/>
+    </menu>
+</config>

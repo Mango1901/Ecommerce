@@ -1,0 +1,12 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<?php /** @var $block \Magento\Sales\Block\Order\Info */ ?>
+
+<span class="order-status <?= $block->escapeHtml($block->getOrder()->getStatus()) ?>">
+    <span class="label desktop-device"><?= __('Status: ') ?></span>
+    <span class="value <?= $block->escapeHtml($block->getOrder()->getStatus()) ?>"><?= $block->escapeHtml($block->getOrder()->getStatusLabel()) ?></span>
+</span>

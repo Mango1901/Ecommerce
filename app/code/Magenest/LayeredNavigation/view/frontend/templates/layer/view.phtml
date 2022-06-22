@@ -1,0 +1,150 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+use Magento\LayeredNavigation\Block\Navigation;
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php
+/**
+ * Category layered navigation
+ *
+ * @var $block Navigation
+ */
+$layer = $block->getLayer();
+$currentCategory = $layer->getCurrentCategory();
+/* @var \Magenest\LayeredNavigation\Helper\Data $layerNavigationHelper */
+$layerNavigationHelper = $this->helper(\Magenest\LayeredNavigation\Helper\Data::class);
+$maxCategoryPrice = $layerNavigationHelper->getMaxPriceByCategory($currentCategory);
+$filters = $block->getFilters();
+$allCategory = $currentCategory->getChildrenCategories();
+$currUrl = $this->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true])
+?>
+<div class="block filter mgs-filter" id="layered-filter-block">
+    <div class="block-content filter-content">
+        <?= $block->getChildHtml('state') ?>
+
+        <?php if ($block->getLayer()->getState()->getFilters()): ?>
+            <div class="block-actions filter-actions">
+                <a href="<?= /* @escapeNotVerified */
+                $block->getClearUrl() ?>" class="action clear filter-clear"><span><?= /* @escapeNotVerified */
+                        __('Clear All') ?></span></a>
+            </div>
+        <?php endif; ?>
+        <dl class="filter-options" id="narrow-by-list">
+        <?php if ($allCategory && $allCategory->getItems() != null): ?>
+            <div class="category-filter desktop-device">
+                <dt role="heading" aria-level="3"
+                    class="filter-options-title category-filter-title"><span
+                        class="h7-le-des-bk subcategories-title"><?= __('Product portfolio') ?></span></dt>
+                <div class="c-sidebar c-sidebar--categories">
+                    <ul class="o-list">
+                        <?php foreach ($allCategory as $category) :
+                            ?>
+                            <li class="level0<?= ($layerNavigationHelper->isActive($category) ? ' active' : ''); ?>">
+                                <a href="<?= $category->getUrl() ?>" title="<?= $category->getName() ?>"
+                                   class=""><?= $category->getName() ?></a>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                    <span class="show-more" style="display: none"><?= __('Show more') ?></span>
+                    <span class="show-less" style="display: none"><?= __('Show less') ?></span>
+                </div>
+            </div>
+        <?php endif; ?>
+        <div class="product-filter">
+            <h3 class="product-filter-title"><?= __('Product filter') ?></h3>
+            <p class="close-filter mobile-device"><?= __('Close') ?></p>
+        </div>
+        <?php foreach ($block->getFilters() as $filter): ?>
+            <?php if ($filter->getRequestVar() == 'cat') continue;?>
+            <?php if ($filter->getItemsCount()): ?>
+                <?php
+                if ($filter->getFilterItemsCount()) {
+                    $itemIds = $filter->getFilterItemsCount();
+                    $attributeId = $filter->getAttributeModel()->getAttributeId();
+                    $itemProductIds[$attributeId] = $itemIds[$attributeId];
+                }
+                $class = 'inactive';
+                if (method_exists($filter, "isActive") && $filter->isActive()) {
+                    $class = 'active';
+                }
+                ?>
+                <div class="filter-list <?php if ($filter->getData('attribute_model') && $filter->getData('attribute_model')['attribute_code'] != "price") {
+                    echo $filter->getData('attribute_model')['attribute_code'];
+                } ?>">
+                    <dt role="heading" aria-level="3"
+                        class="filter-options-title <?= $class ?>">
+                        <span class="h7-le-des-bk"><?= $block->escapeHtml(__($filter->getName())) ?></span></dt>
+                    <dd class="filter-options-content <?= $class ?>">
+                        <?php /* @escapeNotVerified */
+                        echo $block->getChildBlock('renderer')->setData('is_rating_option', $filter->getRequestVar() == "rating_option")->render($filter); ?>
+                    </dd>
+                </div>
+            <?php endif; ?>
+        <?php endforeach; ?>
+        </dl>
+    </div>
+</div>
+<script>
+    require([
+        "jquery",
+        'jquery/ui',
+        "mage/mage"
+    ], function ($) {
+        $(document).ready(function () {
+
+            $(".open-sub-categories").click(function () {
+                $(this).toggleClass('opened');
+            });
+
+            $('.list-sub-categories').each(function () {
+                if ($(this).children('li').hasClass('active')) {
+                    $(this).prev('.open-sub-categories').addClass('opened');
+                }
+            });
+
+            if ($('.category-filter ul li').length > 5) {
+                $('.show-more').show();
+
+                $('.show-more').on('click', function () {
+                    $(this).siblings('.o-list').addClass('show-list');
+                    $(this).hide();
+                    $('.show-less').show();
+                })
+                $('.show-less').on('click', function () {
+                    $(this).siblings('.o-list').removeClass('show-list');
+                    $(this).hide();
+                    $('.show-more').show();
+                })
+            }
+        });
+        $('.c-sidebar').on('click', '.o-list .expand, .o-list .expanded', function () {
+            var element = $(this).parent('li');
+
+            if (element.hasClass('active')) {
+                element.find('ul').slideUp();
+
+                element.removeClass('active');
+                element.find('li').removeClass('active');
+
+                element.find('i').removeClass('fa-angle-down').addClass('fa-angle-up');
+            } else {
+                element.children('ul').slideDown();
+                element.siblings('li').children('ul').slideUp();
+                element.parent('ul').find('i').removeClass('fa-angle-down').addClass('fa-angle-up');
+                element.find('> span i').removeClass('fa-angle-up').addClass('fa-angle-down');
+
+                element.addClass('active');
+                element.siblings('li').removeClass('active');
+                element.siblings('li').find('li').removeClass('active');
+                element.siblings('li').find('ul').slideUp();
+            }
+        });
+    });
+
+</script>

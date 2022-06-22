@@ -1,0 +1,11 @@
+<?php
+/** @var $block \FishPig\WordPress\Block\Post */
+$post = $block->getPost();
+$image = $post->getImage();
+$imageUrl = $image->getResizer() ? $image->getResizer()->constrainOnly(true)->keepFrame(false)->keepAspectRatio(true)->resize(1200, null) : $image->getMediumImage();
+?>
+<meta property="og:image:alt" content="<?= $block->escapeHtmlAttr($post->getPostTitle()) ?>"/>
+<meta property="og:image"
+      content="<?= $imageUrl ?>" />
+<meta property="og:image:url" content="<?= $this->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]) ?>">
+re

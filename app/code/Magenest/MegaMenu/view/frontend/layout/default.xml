@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Magenest_MegaMenu::css/font-awesome.css"/>
+        <script src="Magenest_MegaMenu::js/megamenu.js" />
+    </head>
+    <body>
+        <referenceBlock name="head.additional">
+            <block class="Magento\Framework\View\Element\Template" name="megamenu-owl-carousel-block" before="-" template="Magenest_MegaMenu::html/head_additional.phtml"/>
+        </referenceBlock>
+
+        <referenceBlock name="store.menu">
+            <block class="Magenest\MegaMenu\Block\Menu" name="catalog.topnav" before="-"
+                   template="Magenest_MegaMenu::html/topmenu.phtml"
+                   ifconfig="mega_menu/general/enable">
+                <arguments>
+                    <argument name="mega_menu_alias" xsi:type="string">main_menu</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+
+        <move element="navigation.sections" destination="header.container" />
+    </body>
+</page>

@@ -1,0 +1,85 @@
+<?php
+/**
+ * Magenest
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magenest.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.magenest.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Magenest
+ * @package     Magenest_StoreCredit
+ * @copyright   Copyright (c) Magenest (https://www.magenest.com/)
+ * @license     https://www.magenest.com/LICENSE.txt
+ */
+
+/** @var \Magenest\StoreCredit\Block\Adminhtml\Order\Creditmemo\Create\StoreCredit $block */
+$name = $block->getInputName();
+$value = $block->getRefundAmount();
+$isDisabled = $block->getRefundAmount() == $block->getMinCredit();
+?>
+
+<?php if ($block->isEnabled() && $block->isAllowRefund()): ?>
+    <div class="field choice admin__field admin__field-option field-refund-credit">
+        <input id="refund-credit"
+               class="admin__control-checkbox"
+               name="<?php /* @escapeNotVerified */
+                echo $name ?>"
+               type="checkbox"/>
+        <label for="refund-credit" class="admin__field-label">
+            <span><?php /* @escapeNotVerified */
+                echo __('Return to credit balance') ?></span>
+        </label>
+        <?php if ($value > 0): ?>
+            <input type="text" name="mpstorecredit[refund_exchange_amount]"
+                   class="input-text admin__control-text" id="refund-exchange-amount"
+                   value="<?php /* @escapeNotVerified */
+                    echo $value; ?>" <?php if ($isDisabled) {
+                echo 'disabled';
+                    } ?>>
+
+            <style type="text/css">
+                .admin__field.admin__field-option.field-refund-credit {
+                    margin-top: .1rem;
+                }
+
+                #refund-exchange-amount {
+                    margin-left: 10px;
+                }
+            </style>
+
+            <script type="text/javascript">
+                require(['jquery'], function ($) {
+                    var minCredit = <?= $block->getMinCredit() ?>, maxCredit = <?= $value ?>;
+
+                    $('#refund-exchange-amount').on('change', function () {
+                        var price = validateAmount($(this).val());
+
+                        $('#refund-exchange-amount').val(price);
+                    });
+
+                    /**
+                     * Apply change for input credit amount
+                     */
+                    function validateAmount (amount) {
+                        if (amount < minCredit) {
+                            amount = minCredit;
+                        }
+
+                        if (amount > maxCredit) {
+                            amount = maxCredit;
+                        }
+
+                        return amount;
+                    }
+                });
+            </script>
+        <?php endif; ?>
+    </div>
+<?php endif; ?>

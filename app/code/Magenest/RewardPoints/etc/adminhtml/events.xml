@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2018 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ *
+ * Magenest_RewardPoints extension
+ * NOTICE OF LICENSE
+ *
+ * @category Magenest
+ * @package Magenest_RewardPoints
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="save_referral_points">
+        <observer name="magenest_referafriend_save_referral_points" instance="Magenest\RewardPoints\Observer\Points" />
+    </event>
+
+    <event name="adminhtml_customer_save_after">
+        <observer name="magenest_rewardpoints_adminhtml_customer_save_after" instance="Magenest\RewardPoints\Observer\CustomerRegistration" />
+    </event>
+    <event name="registry_add_points_referred">
+        <observer name="magenest_referafriend_registry_add_points_referred" instance="Magenest\RewardPoints\Observer\AddPointsReferredRegistry" />
+    </event>
+
+    <event name="affiliate_account_change_status">
+        <observer name="magenest_rewardpoints_for_affiliate_account_registration_successfully" instance="Magenest\RewardPoints\Observer\AffiliateAccountApprove" />
+    </event>
+</config>

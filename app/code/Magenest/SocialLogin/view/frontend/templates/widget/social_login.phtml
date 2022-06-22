@@ -1,0 +1,97 @@
+<?php
+/**
+ * @var \Magenest\SocialLogin\Block\Widget\SocialLoginWidget $block
+ */
+$title = $block->getTitle();
+$displayType = $block->getDisplayType();
+$socialClassname = 'list-icon';
+if ($displayType == \Magenest\SocialLogin\Model\Config\Widget\DisplayType::SLIDER) {
+    $socialClassname = 'slider-icon';
+}
+$facebook = $block->getLayout()->createBlock(Magenest\SocialLogin\Block\SocialNetwork\Facebook::class);
+$google = $block->getLayout()->createBlock(Magenest\SocialLogin\Block\SocialNetwork\Google::class);
+$apple = $block->getLayout()->createBlock(Magenest\SocialLogin\Block\SocialNetwork\Apple::class);
+
+$scriptString = <<<script
+        require(['jquery','magenestSocialLogin'],
+            function($,sociallogin){
+                $(document).ready(function () {
+script;
+?>
+
+<?php if (!$block->isLoggedIn()) : ?>
+<div class="social-login-widget">
+    <div class="title">
+        <?= isset($escaper) ? $escaper->escapeHtml($title) : $block->escapeHtml($title)?>
+    </div>
+    <div class="social-login-icon <?= isset($escaper) ? $escaper->escapeHtmlAttr($socialClassname) : $block->escapeHtmlAttr($socialClassname) ?>">
+        <?php if ($facebook->isFacebookEnabled()) : ?>
+            <?php $scriptString .= <<<script
+                    $('.facebook_button_connect').bind('click',function(){
+                        var url = '{$facebook->getButtonUrl()}';
+                        if (url.length) {
+                            sociallogin.display(url, 'Facebook', 600, 600);
+                        }
+                    });
+                script;
+            ?>
+            <div class="modal-socialogin modal-facebook facebook_button_connect">
+            </div>
+        <?php endif; ?>
+        <?php if ($google->isGoogleEnabled()) : ?>
+            <?php $scriptString .= <<<script
+                    $('.google_button_connect').bind('click',function(){
+                        var url = '{$google->getButtonUrl()}';
+                        if (url.length) {
+                            sociallogin.display(url, 'Google', 600, 600);
+                        }
+                    });
+                script;
+            ?>
+            <div class=" modal-socialogin modal-google google_button_connect">
+            </div>
+        <?php endif; ?>
+        <?php if ($apple->isAppleEnabled()) : ?>
+            <?php $scriptString .= <<<script
+                    $('.apple_button_connect').bind('click',function(){
+                        var url = '{$apple->getButtonUrl()}';
+                        if (url.length) {
+                            sociallogin.display(url, 'Apple', 600, 600);
+                        }
+                    });
+                script;
+            ?>
+            <div class=" modal-socialogin modal-apple apple_button_connect">
+            </div>
+        <?php endif; ?>
+    </div>
+</div>
+<?php $scriptString .= <<<script
+        })
+            })
+script; ?>
+
+<?= isset($secureRenderer) ? $secureRenderer->renderTag('script', [], $scriptString, false) : '<script>' . $scriptString . '</script>' ?>
+
+<?php endif; ?>
+
+
+<?php $scriptString = <<<script
+    require([
+        'jquery',
+        'slick'
+    ], function ($) {
+        $(document).ready(function () {
+            $(".slider-icon").not('.slick-initialized').slick({
+                arrows: true,
+                dots: false,
+                infinite: false,
+                slidesToShow: 4,
+                speed: 300,
+                slidesToScroll: 4,
+            });
+        });
+    });
+script;
+?>
+<?= isset($secureRenderer) ? $secureRenderer->renderTag('script', [], $scriptString, false) : '<script>' . $scriptString . '</script>' ?>

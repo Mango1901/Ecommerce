@@ -1,0 +1,97 @@
+"Save and Continue Edit","Save and Continue Edit"
+"Edit City '%1'","Edit City '%1'"
+"New City","New City"
+"City Information","City Information"
+Country,Country
+Name,Name
+"Full Name","Full Name"
+FullName,FullName
+Code,Code
+"Disable on storefront","Disable on storefront"
+Yes,Yes
+No,No
+"Edit District '%1'","Edit District '%1'"
+"New District","New District"
+"District Information","District Information"
+City,City
+"Is City Disabled On Storefront","Is City Disabled On Storefront"
+"Edit Ward '%1'","Edit Ward '%1'"
+"New Ward","New Ward"
+"Ward Information","Ward Information"
+District,District
+"Is District Disabled","Is District Disabled"
+Ward,Ward
+"This city no longer exists.","This city no longer exists."
+"The city can not be deleted.","The city can not be deleted."
+"The city is deleted.","The city is deleted."
+"Create New City","Create New City"
+"Manage Cities","Manage Cities"
+"Can not delete these cities %1","Can not delete these cities %1"
+"A total of %1 record(s) have been deleted.","A total of %1 record(s) have been deleted."
+"A total of %1 record(s) have been updated.","A total of %1 record(s) have been updated."
+"The city saved successfully.","The city saved successfully."
+"This district no longer exists.","This district no longer exists."
+"The district can not be deleted.","The district can not be deleted."
+"The district is deleted.","The district is deleted."
+"Create New District","Create New District"
+"Manage Districts","Manage Districts"
+"Can not delete these districts %1","Can not delete these districts %1"
+"A total of %1 record(s) have been udpated.","A total of %1 record(s) have been udpated."
+"The district saved successfully.","The district saved successfully."
+"This ward no longer exists.","This ward no longer exists."
+"The ward is deleted.","The ward is deleted."
+"Create New Ward","Create New Ward"
+"Manage Wards","Manage Wards"
+"Can not delete these wards %1","Can not delete these wards %1"
+"The ward saved successfully.","The ward saved successfully."
+Disabled,Disabled
+Enabled,Enabled
+"""%fieldName"" is required. Enter and try again.","""%fieldName"" is required. Enter and try again."
+"Invalid value of ""%value"" provided for the %fieldName field.","Invalid value of ""%value"" provided for the %fieldName field."
+"Field '%1' is required.","Field '%1' is required."
+"Codes is exist.","Codes is exist."
+"The shipping address is missing. Check city or district or ward then set the address and try again.","The shipping address is missing. Check city or district or ward then set the address and try again."
+"Please select city","Please select city"
+"Please select district","Please select district"
+"Please select ward","Please select ward"
+"* Required Fields","* Required Fields"
+"Contact Information","Contact Information"
+Address,Address
+"It's a default billing address.","It's a default billing address."
+"Use as my default billing address","Use as my default billing address"
+"It's a default shipping address.","It's a default shipping address."
+"Use as my default shipping address","Use as my default shipping address"
+"Save Address","Save Address"
+"Go back","Go back"
+"Additional Address Entries","Additional Address Entries"
+"Additional addresses","Additional addresses"
+"First Name","First Name"
+"Last Name","Last Name"
+"Street Address","Street Address"
+State,State
+"Zip/Postal Code","Zip/Postal Code"
+Phone,Phone
+Actions,Actions
+Edit,Edit
+Delete,Delete
+"You have no other address entries in your address book.","You have no other address entries in your address book."
+"Add New Address","Add New Address"
+Back,Back
+Currency,Currency
+"Ship Here","Ship Here"
+"New Address","New Address"
+Magenest,Magenest
+Directory,Directory
+"Directory Configuration","Directory Configuration"
+"Directory Data Update","Directory Data Update"
+"Upload Directory Data (XLS, XLSX)","Upload Directory Data (XLS, XLSX)"
+"Update Directory Data","Update Directory Data"
+"All Store Views","All Store Views"
+"Store View","Store View"
+"Disable on Storefront","Disable on Storefront"
+"Delete selected city?","Delete selected city?"
+ID,ID
+View,View
+"Delete selected district?","Delete selected district?"
+"Delete selected ward?","Delete selected ward?"
+"Disabled on storefront","Disabled on storefront"

@@ -1,0 +1,191 @@
+& when (@media-common = true) {
+    .page-print {
+        .page-title {
+            font-size: 26px;
+            line-height: 32px;
+            color: #000;
+            margin-bottom: 5px;
+        }
+
+        .order-status {
+            display: block;
+            margin-bottom: 7px;
+            color: #000;
+        }
+
+        .page-title-wrapper .order-date {
+            margin-top: 0;
+            color: #000;
+
+            .label {
+                display: none;
+            }
+        }
+
+        .table {
+            .product-item-thumb {
+                bottom: 0;
+                display: block;
+                left: 0;
+                margin: auto;
+                position: absolute;
+                right: 0;
+                top: 0;
+                width: auto;
+            }
+
+            .product-item-image {
+                width: 100px;
+                display: block;
+                height: 0;
+                overflow: hidden;
+                position: relative;
+                z-index: 1;
+                padding-bottom: 100%;
+            }
+
+            .product-item-inner {
+                .lib-vendor-prefix-display(flex);
+            }
+
+            .product-item-info {
+                padding-left: 15px;
+            }
+
+            .product-item-name {
+                font-size: 14px;
+                line-height: 22px;
+                font-weight: 400;
+                color: #000;
+            }
+
+            .product-item-option {
+                .lib-vendor-prefix-display(flex);
+
+                .label {
+                    min-width: 70px;
+                    font-weight: 500;
+                    padding-right: 15px;
+                }
+
+                .value {
+                    font-weight: normal;
+                    margin: 0;
+                }
+            }
+
+            .options-label {
+                display: none !important;
+            }
+
+            .bundle-item-photo {
+                width: 100px;
+                height: 100px;
+                float: left;
+
+                img {
+                    object-fit: contain;
+                    width: 100%;
+                }
+            }
+
+            .bundle-item-detail {
+                float: left;
+                padding-left: 15px;
+                font-weight: 400;
+                width: calc(~'100% - 100px');
+            }
+
+            th, td {
+                &.name {
+                    width: 30%;
+                }
+
+                &.sku {
+                    width: 18%;
+                }
+
+                &.price {
+                    width: 15%;
+                }
+
+                &.qty {
+                    width: 10%;
+                }
+
+                &.subtotal {
+                    width: 15%;
+                }
+            }
+
+            .price {
+                font-weight: 300;
+                color: #6f7071;
+                font-size: 16px;
+            }
+
+            .items-qty {
+                .title {
+                    display: none;
+                }
+            }
+        }
+
+        .orders-totals {
+            border: 1px solid #E0E6EC;
+            background-color: #F5F5F5;
+
+            > div {
+                font-size: 13px;
+                line-height: 20px;
+                font-weight: 400;
+                color: #000;
+                .lib-vendor-prefix-display(flex);
+                justify-content: space-between;
+                -webkit-justify-content: space-between;
+                padding: 9px 21px 4px 57%;
+
+                &:not(:last-child) {
+                    border-bottom: 1px solid #E0E6EC;
+                }
+
+                .price {
+                    font-weight: 300;
+                }
+
+                &.grand_total {
+                    strong {
+                        font-weight: normal;
+                    }
+
+                    .price {
+                        font-weight: 500;
+                        font-size: 16px;
+                        line-height: 23px;
+                        color: #34373D;
+                    }
+                }
+            }
+        }
+
+        .block-content {
+            .lib-vendor-prefix-display(flex);
+
+            .box-title {
+                color: #383E4F;
+
+                strong {
+                    font-weight: inherit;
+                }
+            }
+
+            .box-content {
+                color: #000;
+            }
+        }
+
+        &.account .column.main .block table:not(.cart):not(.totals) > tbody > tr > td .bundle-item-detail {
+            color: #000;
+        }
+    }
+}

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!--
+
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="https://sandbox.megapay.vn:2810/pg_was/css/payment/layer/paymentClient.css" src_type="url"  />
+        <script src="https://sandbox.megapay.vn:2810/pg_was/js/payment/layer/paymentClient.js" src_type="url"/>
+    </head>
+</page>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <route url="/V1/magenest/rewardpoint/calculateMaxAppliedPoint" method="POST">
+        <service class="Magenest\RewardPoints\Api\ProcessPointInterface" method="calculateMaxAppliedPoint"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/magenest/rewardpoint/loadPoint" method="POST">
+        <service class="Magenest\RewardPoints\Api\ProcessPointInterface" method="loadPoint"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/magenest/rewardpoint/addPoint" method="POST">
+        <service class="Magenest\RewardPoints\Api\ProcessPointInterface" method="addPoint"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/magenest/rewardpoint/cancelPoint" method="POST">
+        <service class="Magenest\RewardPoints\Api\ProcessPointInterface" method="cancelPoint"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+</routes>

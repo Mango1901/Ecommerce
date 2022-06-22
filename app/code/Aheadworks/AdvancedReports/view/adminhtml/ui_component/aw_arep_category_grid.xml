@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+* Copyright 2016 aheadWorks. All rights reserved.
+* See LICENSE.txt for license details.
+*/
+-->
+
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Ui/etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">aw_arep_category_grid.aw_arep_category_grid_data_source</item>
+            <item name="deps" xsi:type="string">aw_arep_category_grid.aw_arep_category_grid_data_source</item>
+        </item>
+        <item name="spinner" xsi:type="string">grid_columns</item>
+    </argument>
+    <dataSource name="aw_arep_category_grid_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">Aheadworks\AdvancedReports\Ui\DataProvider\DataProvider</argument>
+            <argument name="name" xsi:type="string">aw_arep_category_grid_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
+                    <item name="update_url" xsi:type="url" path="mui/index/render"/>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="cacheRequests" xsi:type="boolean">false</item>
+                    </item>
+                </item>
+            </argument>
+        </argument>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="sticky" xsi:type="boolean">true</item>
+            </item>
+        </argument>
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls"/>
+        <exportButton name="export_button">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Aheadworks_AdvancedReports/js/ui/grid/export</item>
+                </item>
+            </argument>
+        </exportButton>
+        <filters name="listing_filters">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="stickyTmpl" xsi:type="string">Aheadworks_AdvancedReports/ui/grid/sticky/filters</item>
+                </item>
+            </argument>
+        </filters>
+        <paging name="listing_paging"/>
+    </listingToolbar>
+    <columns name="grid_columns">
+        <column name="category" class="Aheadworks\AdvancedReports\Ui\Component\Listing\Column\Category\Name">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Aheadworks_AdvancedReports/js/ui/grid/columns/url</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="align" xsi:type="string">left</item>
+                    <item name="label" xsi:type="string" translate="true">Name</item>
+                    <item name="sortOrder" xsi:type="number">10</item>
+                </item>
+            </argument>
+        </column>
+        <column name="order_items_count">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Aheadworks_AdvancedReports/js/ui/grid/columns/number</item>
+                    <item name="dataType" xsi:type="string">number</item>
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="label" xsi:type="string" translate="true">Items Ordered</item>
+                    <item name="sortOrder" xsi:type="number">30</item>
+                    <item name="color" xsi:type="string">#A58900</item>
+                </item>
+            </argument>
+        </column>
+        <column name="subtotal">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Aheadworks_AdvancedReports/js/ui/grid/columns/price</item>
+                    <item name="dataType" xsi:type="string">number</item>
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="label" xsi:type="string" translate="true">Subtotal</item>
+                    <item name="sortOrder" xsi:type="number">40</item>
+                    <item name="color" xsi:type="string">#a65628</item>
+                </item>
+            </argument>
+        </column>
+        <column name="tax">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Aheadworks_AdvancedReports/js/ui/grid/columns/price</item>
+                    <item name="dataType" xsi:type="string">number</item>
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="label" xsi:type="string" translate="true">Tax</item>
+                    <item name="sortOrder" xsi:type="number">50</item>
+                    <item name="color" xsi:type="string">#332288</item>
+                </item>
+            </argument>
+        </column>
+        <column name="discount">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Aheadworks_AdvancedReports/js/ui/grid/columns/price</item>
+                    <item name="dataType" xsi:type="string">number</item>
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="label" xsi:type="string" translate="true">Discounts</item>
+                    <item name="sortOrder" xsi:type="number">60</item>
+                    <item name="color" xsi:type="string">#984ea3</item>
+                </item>
+            </argument>
+        </column>
+        <column name="total">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Aheadworks_AdvancedReports/js/ui/grid/columns/price</item>
+                    <item name="dataType" xsi:type="string">number</item>
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="label" xsi:type="string" translate="true">Total</item>
+                    <item name="sortOrder" xsi:type="number">70</item>
+                    <item name="color" xsi:type="string">#4daf4a</item>
+                </item>
+            </argument>
+        </column>
+        <column name="invoiced">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Aheadworks_AdvancedReports/js/ui/grid/columns/price</item>
+                    <item name="dataType" xsi:type="string">number</item>
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="label" xsi:type="string" translate="true">Invoiced</item>
+                    <item name="sortOrder" xsi:type="number">80</item>
+                    <item name="color" xsi:type="string">#00A2FF</item>
+                </item>
+            </argument>
+        </column>
+        <column name="refunded">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Aheadworks_AdvancedReports/js/ui/grid/columns/price</item>
+                    <item name="dataType" xsi:type="string">number</item>
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="label" xsi:type="string" translate="true">Refunded</item>
+                    <item name="sortOrder" xsi:type="number">90</item>
+                    <item name="color" xsi:type="string">#e41a1c</item>
+                </item>
+            </argument>
+        </column>
+        <column name="avg_item_final_price">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Aheadworks_AdvancedReports/js/ui/grid/columns/price</item>
+                    <item name="dataType" xsi:type="string">number</item>
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="label" xsi:type="string" translate="true">Avg. Item Final Price</item>
+                    <item name="sortOrder" xsi:type="number">110</item>
+                </item>
+            </argument>
+        </column>
+    </columns>
+</listing>

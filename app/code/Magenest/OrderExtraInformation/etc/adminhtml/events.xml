@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="adminhtml_sales_order_create_process_data">
+        <observer name="magenest_oei" instance="Magenest\OrderExtraInformation\Observer\OrderCreateProcessData" />
+    </event>
+    <event name="sales_order_save_after">
+        <observer name="send_email_when_complete_order" instance="Magenest\OrderExtraInformation\Observer\SendEmailCompleteOrder" />
+    </event>
+</config>

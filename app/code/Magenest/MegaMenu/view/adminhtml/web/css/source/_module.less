@@ -1,0 +1,111 @@
+.admin__menu {
+  .level-0#menu-magenest-megamenu-menu {
+    a:before {
+      content: ' ';
+      background: url(../Magenest_MegaMenu/image/logo.png);
+      background-size: 100% auto;
+      width: 34px;
+      height: 24px;
+      margin-left: auto;
+      filter: alpha(opacity=60);
+      -moz-opacity: 0.6;
+      opacity: 0.6;
+      margin-right: auto;
+    }
+  }
+  .level-0._active#menu-magenest-megamenu-menu {
+    a:before {
+      filter: alpha(opacity=100);
+      -moz-opacity: 1;
+      opacity: 1;
+    }
+  }
+  .level-0._show#menu-magenest-megamenu-menu {
+    a:before {
+      filter: alpha(opacity=100);
+      -moz-opacity: 1;
+      opacity: 1;
+    }
+  }
+  .level-0:hover#menu-magenest-megamenu-menu {
+    a:before {
+      filter: alpha(opacity=100);
+      -moz-opacity: 1;
+      opacity: 1;
+    }
+  }
+}
+
+.nav-menus-frame {
+  .menu-content-column {
+    position: relative;
+    .menu-content.right {
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+      .control-group {
+        position: relative;
+        .controls {
+          position: relative;
+          .mega-option-name {
+            cursor: pointer;
+          }
+          .color-icon {
+            width: 20px;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+          }
+        }
+        .controls.px:after {
+          content: 'px';
+          position: absolute;
+          top: 8px;
+          right: 10px;
+        }
+        .controls.percentage:after {
+          content: '%';
+          position: absolute;
+          top: 8px;
+          right: 10px;
+        }
+        textarea {
+          cursor: pointer;
+        }
+      }
+    }
+    .admin__field-tooltip {
+      position: absolute;
+      right: 60px;
+      top: 35px;
+      .admin__field-tooltip-content {
+        width: 50rem;
+      }
+    }
+  }
+}
+
+.dd-list {
+  .dd-item {
+    .dd-handle {
+      cursor: pointer;
+    }
+    .dd-action {
+      cursor: pointer;
+    }
+  }
+  .dd-empty {
+    .dd-handle {
+      cursor: pointer;
+    }
+    .dd-action {
+      cursor: pointer;
+    }
+  }
+  .dd-placeholder {
+    .dd-handle {
+      cursor: pointer;
+    }
+    .dd-action {
+      cursor: pointer;
+    }
+  }
+}

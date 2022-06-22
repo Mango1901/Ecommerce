@@ -1,0 +1,258 @@
+.admin__page-section {
+    .admin__page-section-title {
+        border-bottom: none;
+    }
+}
+
+.top-social-login {
+    .admin__page-section {
+        .admin__page-section-content {
+            .top-social-login-table {
+                th, td {
+                    box-shadow: 1px 1px 3px #00000057;
+                    border-radius: 4px;
+                    margin-right: 5px;
+                    display: inline-flex;
+                    align-items: center;
+                    border: 1px solid #efefef;
+                    width: 100%;
+                }
+
+                th {
+                    padding: 0;
+                    display: inline-flex;
+                    border-bottom: none;
+
+                    .social-login-right {
+                        display: flex;
+                        width: 100%;
+                        justify-content: space-between;
+                    }
+
+                    .social-login-type, .social-login-rank:last-child {
+                        padding: 1rem 1rem;
+                        display: inline-flex;
+                        align-items: center;
+                    }
+
+                    .social-login-rank:first-child {
+                        color: #fff;
+                        padding: 13px 5px;
+                        font-size: 19px;
+                        border-top-left-radius: 4px;
+                        border-bottom-left-radius: 4px;
+                    }
+                }
+
+                tr {
+                    display: flex;
+                    margin-bottom: 10px;
+
+                    .social-login-type, .count-users-text, .purchased-items-text, .amount-text {
+                        font-size: 12px;
+                        margin-right: 5px;
+                        display: inline-flex;
+                        align-items: center;
+                    }
+
+                    .social-login-rank, .count-users-number, .purchased-items-number, .amount-number {
+                        font-size: 16px;
+                        font-weight: 600;
+                    }
+
+
+
+                    .social-login-type {
+                        .social-icon {
+                            background-position: center;
+                            background-size: cover;
+                            width: 30px;
+                            height: 30px;
+                            display: inline-block;
+                            margin-right: 5px;
+                        }
+                    }
+
+                    &.social-login-top-1 {
+                        .social-login-rank:first-child {
+                            background-color: #4fa852;
+                        }
+                    }
+
+                    &.social-login-top-2 {
+                        .social-login-rank:first-child {
+                            background-color: #253b80;
+                        }
+                    }
+
+                    &.social-login-top-3 {
+                        .social-login-rank:first-child {
+                            background-color: #3c5a99;
+                        }
+                    }
+
+                    .social-login-type {
+                        .social-icon.type-zalo {
+                            background-image: url("@{baseDir}Magenest_SocialLogin/images/zalo_share.png");
+                        }
+
+                        .social-icon.type-google {
+                            background-image: url("@{baseDir}Magenest_SocialLogin/images/google_share.png");
+                        }
+
+                        .social-icon.type-facebook {
+                            background-image: url("@{baseDir}Magenest_SocialLogin/images/facebook_share.png");
+                        }
+
+                        .social-icon.type-amazon {
+                            background-image: url("@{baseDir}Magenest_SocialLogin/images/amazon_share.png");
+                        }
+
+                        .social-icon.type-apple {
+                            background-image: url("@{baseDir}Magenest_SocialLogin/images/apple_share.png");
+                        }
+
+                        .social-icon.type-instagram {
+                            background-image: url("@{baseDir}Magenest_SocialLogin/images/instagram_share.png");
+                        }
+
+                        .social-icon.type-line {
+                            background-image: url("@{baseDir}Magenest_SocialLogin/images/line_share.png");
+                        }
+
+                        .social-icon.type-linkedin {
+                            background-image: url("@{baseDir}Magenest_SocialLogin/images/linkedin_share.png");
+                        }
+
+                        .social-icon.type-pinterest {
+                            background-image: url("@{baseDir}Magenest_SocialLogin/images/pinterest_share.png");
+                        }
+
+                        .social-icon.type-reddit {
+                            background-image: url("@{baseDir}Magenest_SocialLogin/images/reddit_share.png");
+                        }
+
+                        .social-icon.type-twitter {
+                            background-image: url("@{baseDir}Magenest_SocialLogin/images/twitter_share.png");
+                        }
+                    }
+                }
+            }
+
+            .admin__table-secondary tbody tr:nth-child(odd) th,
+            .admin__table-secondary tbody tr:nth-child(odd) td {
+                background-color: #fff;
+            }
+        }
+    }
+}
+
+.other-connection {
+    .other-connections-table {
+        td, th {
+            border-bottom: none;
+            border-top: none;
+            min-width: 426px;
+        }
+
+        td.type {
+            display: flex;
+            align-items: center;
+            padding-left: 20px;
+            min-width: 405px;
+        }
+
+        .headings {
+            background-color: #e6f6fe;
+
+            th:first-child {
+                min-width: 405px;
+            }
+        }
+
+        tr {
+            display: flex;
+
+            &:nth-child(2n) {
+                background-color: #f8f8f8;
+            }
+        }
+    }
+
+    .social-icon {
+        background-position: center;
+        background-size: cover;
+        width: 30px;
+        height: 30px;
+        display: inline-block;
+        margin-right: 5px;
+        border-radius: 50%;
+    }
+
+    .other-connection-row-type-linkedin {
+        .social-icon {
+            background-image: url("@{baseDir}Magenest_SocialLogin/images/linkedin_share.png");
+        }
+    }
+
+    .other-connection-row-type-pinterest {
+        .social-icon {
+            background-image: url("@{baseDir}Magenest_SocialLogin/images/pinterest_share.png");
+        }
+    }
+
+    .other-connection-row-type-twitter {
+        .social-icon {
+            background-image: url("@{baseDir}Magenest_SocialLogin/images/twitter_share.png");
+        }
+    }
+
+    .other-connection-row-type-reddit {
+        .social-icon {
+            background-image: url("@{baseDir}Magenest_SocialLogin/images/reddit_share.png");
+        }
+    }
+
+    .other-connection-row-type-line {
+        .social-icon {
+            background-image: url("@{baseDir}Magenest_SocialLogin/images/line_share.png");
+        }
+    }
+
+    .other-connection-row-type-apple {
+        .social-icon {
+            background-image: url("@{baseDir}Magenest_SocialLogin/images/apple_share.png");
+        }
+    }
+
+    .other-connection-row-type-amazon {
+        .social-icon {
+            background-image: url("@{baseDir}Magenest_SocialLogin/images/amazon_share.png");
+        }
+    }
+
+    .other-connection-row-type-zalo {
+        .social-icon {
+            background-image: url("@{baseDir}Magenest_SocialLogin/images/zalo_share.png");
+        }
+    }
+
+    .other-connection-row-type-facebook {
+        .social-icon {
+            background-image: url("@{baseDir}Magenest_SocialLogin/images/facebook_share.png");
+        }
+    }
+
+    .other-connection-row-type-google {
+        .social-icon {
+            background-image: url("@{baseDir}Magenest_SocialLogin/images/google_share.png");
+        }
+    }
+
+    .other-connection-row-type-instagram {
+        .social-icon {
+            background-image: url("@{baseDir}Magenest_SocialLogin/images/instagram_share.png");
+        }
+    }
+}
+

@@ -1,0 +1,22 @@
+<?php
+/** @var \Magento\Framework\View\Element\Template $block */
+/** @var \Magenest\OrderCancel\ViewModel\FrontendCancel $orderCancel */
+$orderCancel = $block->getOrderCancel();
+?>
+<?php if ($orderCancel->isCancelable()) : ?>
+    <a id="cancel-order" href="#" class="action" data-mage-init='{"Magenest_OrderCancel/js/om":{}}'>
+        <span><?= $block->escapeHtml(__('Cancel')) ?></span>
+    </a>
+    <script>
+        require(['jquery', 'mage/translate'], function ($) {
+            $('#cancel-order').click(function () {
+                $(this).om(
+                    'showConfirmCancelDialog',
+                    $.mage.__('Please confirm reason to cancel this order?'),
+                    '<?= $orderCancel->getCancelUrl() ?>',
+                    '<?= $orderCancel->getReasonOption() ?>'
+                )
+            })
+        })
+    </script>
+<?php endif; ?>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @copyright: Copyright © 2017 Firebear Studio. All rights reserved.
+ * @author   : Firebear Studio <fbeardev@gmail.com>
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Firebear_ImportExport:etc/firebear_menu.xsd">
+    <add name="manual" href="https://github.com/firebearstudio/magento2-import-export-sample-files/blob/master/Manual%20for%20Marketplace.pdf"
+         fullUrl="true" label="User manual"/>
+    <add name="sample" href="https://github.com/firebearstudio/magento2-import-export-sample-files"
+         fullUrl="true" label="Sample files"/>
+    <add name="faq" href="https://github.com/firebearstudio/magento2-import-export-sample-files/blob/master/Marketplace%20FAQ%20for%20Magento%202%20Improved%20Import%20%26%20Export%20extension.pdf"
+         fullUrl="true" label="FAQ"/>
+</config>

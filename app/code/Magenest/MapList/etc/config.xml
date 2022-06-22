@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <maplist>
+            <general>
+                <active>0</active>
+                <show_item_section>0</show_item_section>
+                <show_tab>0</show_tab>
+                <wall_color>000000</wall_color>
+            </general>
+            <map>
+                <unit>google.maps.UnitSystem.METRIC</unit>
+                <country>US</country>
+                <zoom>15</zoom>
+                <max_distance>500</max_distance>
+                <default_distance>10</default_distance>
+            </map>
+            <default_opening_time>
+                <default_opening_time_sunday>7:00 - 23:00</default_opening_time_sunday>
+                <default_opening_time_monday>7:00 - 23:00</default_opening_time_monday>
+                <default_opening_time_tuesday>7:00 - 23:00</default_opening_time_tuesday>
+                <default_opening_time_wednesday>7:00 - 23:00</default_opening_time_wednesday>
+                <default_opening_time_thursday>7:00 - 23:00</default_opening_time_thursday>
+                <default_opening_time_friday>7:00 - 23:00</default_opening_time_friday>
+                <default_opening_time_saturday>7:00 - 23:00</default_opening_time_saturday>
+            </default_opening_time>
+        </maplist>
+        <cataloginventory>
+            <source_selection_distance_based>
+                <provider>goong</provider>
+            </source_selection_distance_based>
+            <source_selection_distance_based_goong>
+                <mode>car</mode>
+                <value>distance</value>
+                <api_key></api_key>
+            </source_selection_distance_based_goong>
+        </cataloginventory>
+    </default>
+</config>

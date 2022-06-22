@@ -1,0 +1,13 @@
+<?php
+/** @var $block \Magento\Framework\View\Element\Template */
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+/** @var \Magenest\MegaMenu\Helper\Data $helper */
+$helper = $this->helper(Magenest\MegaMenu\Helper\Data::class);
+if ($previewToken = $block->getRequest()->getParam('mega_menu_preview')) {
+    $preview = $objectManager->create(\Magenest\MegaMenu\Model\Preview::class)->getCollection()
+        ->addFieldToFilter('token', ['eq' => $previewToken])
+        ->getFirstItem();
+    if ($preview->getId()) {
+        $helper->setPreviewModel($preview);
+    }
+}

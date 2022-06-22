@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <!--Validate choose shipping carrier before create shipment-->
+    <!--<event name="sales_order_shipment_save_before">-->
+        <!--<observer name="magenest_backend_shipping_method" instance="Magenest\ViettelPost\Observer\ShipmentValidate" />-->
+    <!--</event>-->
+    <event name="sales_order_shipment_save_commit_after">
+        <observer name="magenest_backend_shipping_method" instance="Magenest\ViettelPost\Observer\ShipmentCreate" />
+    </event>
+</config>

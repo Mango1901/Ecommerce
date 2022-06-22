@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="sales_order_save_after">
+        <observer name="send_notification" instance="Magenest\NotificationBox\Observer\SendNotification" />
+    </event>
+
+    <event name="magenest_store_credit_transaction_created">
+        <observer name="send_notification_store_credit" instance="Magenest\NotificationBox\Observer\SendNotificationStoreCredit"/>
+    </event>
+
+    <event name="magenest_reward_points_transaction_save_commit_after">
+        <observer name="send_notification_reward_point" instance="Magenest\NotificationBox\Observer\SendNotificationRewardPoint"/>
+    </event>
+
+    <event name="newsletter_subscriber_save_after">
+        <observer name="send_notification_newsletter_subscriber" instance="Magenest\NotificationBox\Observer\SendNotificationNewsletterSubscriber"/>
+    </event>
+</config>

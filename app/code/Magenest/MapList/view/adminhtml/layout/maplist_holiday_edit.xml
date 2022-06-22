@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block class="Magenest\MapList\Block\Adminhtml\Holiday\Edit" name="maplist_holiday_edit"/>
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="Magenest\MapList\Block\Adminhtml\Holiday\Edit\Tabs" name="maplist_holiday_tabs">
+                <block class="Magenest\MapList\Block\Adminhtml\Holiday\Edit\Tab\Setting" name="maplist_holiday_settings"/>
+
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">setting</argument>
+                    <argument name="block" xsi:type="string">maplist_holiday_settings</argument>
+                </action>
+
+                <block class="Magenest\MapList\Block\Adminhtml\Holiday\Edit\Tab\AddStore" name="maplist_holiday_add_location"/>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">add_store</argument>
+                    <argument name="block" xsi:type="string">maplist_holiday_add_location</argument>
+                </action>
+            </block>
+        </referenceContainer>
+
+        <referenceContainer name="js">
+            <block class="Magenest\MapList\Block\Adminhtml\Holiday\Edit\Js" template="holiday/js.phtml"/>
+        </referenceContainer>
+    </body>
+
+</page>

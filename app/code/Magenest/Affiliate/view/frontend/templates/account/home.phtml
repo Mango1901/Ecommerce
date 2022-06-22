@@ -1,0 +1,30 @@
+<?php
+
+?>
+<?php
+/** @var Magenest\Affiliate\Block\Account\Home $block */
+?>
+    <div class="box-account box-info box-affiliate-summary">
+        <div class="box-head">
+            <h2><?= __('Wallet information') ?></h2>
+        </div>
+        <div class="info-account-summary">
+            <div class="info-account-item active" id="balance">
+                <div class="title" id="title"><?= __('Number of KCoins available') ?></div>
+                <div class="value" id="value-bl"><?= $block->formatPrice($block->getAccountBalance()); ?></div>
+            </div>
+            <div class="info-account-item" id="holding-balance">
+                <div class="title" id="title"><?= __('Number of KCoin on hold') ?></div>
+                <div class="value" id="value-hl"><?= $block->formatPrice($block->getAccountHoldingBalance()); ?></div>
+            </div>
+            <div class="info-account-item" id="total-earned">
+                <div class="title" id="title"><?= __('Total received') ?></div>
+                <div class="value" id="value-tc"><?= $block->formatPrice($block->getAccountTotalCommission()); ?></div>
+            </div>
+            <div class="info-account-item" id="total-paid">
+                <div class="title" id="title"><?= __('Used') ?></div>
+                <div class="value" id="value-tp"><?= $block->formatPrice($block->getAccountTotalPaid()); ?></div>
+            </div>
+        </div>
+    </div>
+<?= $this->getChildHtml('credit.transaction') ?>

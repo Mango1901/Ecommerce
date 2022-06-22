@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * di
+ *
+ * @copyright Copyright © 2021 Khanh. All rights reserved.
+ * @author    khanhthanhvh@gmail.com
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <virtualType name="Magenest\Report\Model\ResourceModel\Order\Grid\Collection"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">sales_order_grid</argument>
+            <argument name="resourceModel" xsi:type="string">
+                Magenest\Report\Model\ResourceModel\Order\Collection
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!--Type-->
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="report_order_listing_data_source" xsi:type="string">
+                    Magenest\Report\Model\ResourceModel\Order\Grid\Collection
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+</config>

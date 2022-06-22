@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!--Preference-->
+<!--    <preference for="Magento\Sales\Model\ResourceModel\Order\Handler\State" type="Magenest\OrderManagement\Model\ResourceModel\Order\Handler\State" />-->
+    <!--Virtual type-->
+    <virtualType name="Magento\Sales\Model\ResourceModel\Order\Grid" type="Magento\Sales\Model\ResourceModel\Grid">
+        <arguments>
+            <argument name="columns" xsi:type="array">
+                <item name="confirmed_at" xsi:type="string">sales_order.confirmed_at</item>
+                <item name="confirm_paid_at" xsi:type="string">sales_order.confirm_paid_at</item>
+                <item name="received_goods_at" xsi:type="string">sales_order.received_goods_at</item>
+                <item name="confirmed_person_name" xsi:type="string">sales_order.confirmed_person_name</item>
+                <item name="order_creator" xsi:type="string">sales_order.order_creator</item>
+                <item name="warehouse" xsi:type="string">sales_order.warehouse</item>
+<!--                <item name="province" xsi:type="string">sales_order.province</item>-->
+            </argument>
+        </arguments>
+    </virtualType>
+    <!--Plugin-->
+    <type name="Magento\Sales\Model\Order\Address">
+        <plugin name="magenest_order_management" type="Magenest\OrderManagement\Model\Plugin\Address"/>
+    </type>
+    <type name="Magento\Sales\Model\Order">
+        <plugin name="magenest_order_management" type="Magenest\OrderManagement\Model\Plugin\Order" />
+    </type>
+
+    <type name="Magento\Sales\Model\Service\OrderService">
+        <plugin name="magenest_order_management" type="Magenest\OrderManagement\Model\Plugin\Service\OrderService" />
+    </type>
+    <type name="Magento\Quote\Model\Quote\Item\ToOrderItem">
+        <plugin name="set_is_backorders_item" type="Magenest\OrderManagement\Plugin\Magento\Quote\Model\Quote\Item\ToOrderItem" disabled="true" />
+    </type>
+    <type name="Magento\Ui\Model\Export\ConvertToCsv">
+        <plugin name="modify_csv_export" type="Magenest\OrderManagement\Plugin\ModifyCsvExport" sortOrder="1" disabled="false" />
+    </type>
+</config>

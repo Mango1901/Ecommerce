@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="magenest" translate="label" sortOrder="25">
+            <label>Magenest</label>
+        </tab>
+        <section id="fast_erp" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="70">
+            <class>separator-top</class>
+            <label>Fast ERP</label>
+            <tab>magenest</tab>
+            <resource>Magenest_FastErp::configuration</resource>
+            <group id="credentials" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="0">
+                <label>Credentials</label>
+                <field id="enabled" translate="label comment" type="select" sortOrder="1" showInDefault="1"
+                       showInWebsite="0" showInStore="0">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="base_url" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Server Endpoint</label>
+                    <validate>required-entry</validate>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="client_id" translate="label" type="text" sortOrder="20" showInDefault="1"
+                       showInWebsite="0"
+                       showInStore="0">
+                    <label>Client ID</label>
+                    <validate>required-entry</validate>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="client_secret" translate="label" type="text" sortOrder="30" showInDefault="1"
+                       showInWebsite="0" showInStore="0">
+                    <label>Client Secret</label>
+                    <validate>required-entry</validate>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+
+            <group id="products" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="0">
+                <label>Products</label>
+                <field id="sync_products" translate="button_label" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <button_label>Sync All Product From ERP</button_label>
+                    <frontend_model>Magenest\FastErp\Block\Adminhtml\System\Config\SyncProducts</frontend_model>
+                </field>
+            </group>
+
+            <group id="stocks" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
+                <label>Stocks</label>
+                <field id="sync_stocks" translate="button_label" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <button_label>Sync All Stock From ERP</button_label>
+                    <frontend_model>Magenest\FastErp\Block\Adminhtml\System\Config\SyncStocks</frontend_model>
+                </field>
+            </group>
+
+            <group id="warehouses" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
+                <label>Warehouses</label>
+                <field id="sync_warehouses" translate="button_label" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <button_label>Sync All Warehouse From ERP</button_label>
+                    <frontend_model>Magenest\FastErp\Block\Adminhtml\System\Config\SyncWarehouses</frontend_model>
+                </field>
+                <field id="erp_warehouses" translate="label" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20">
+                    <label>Erp WareHouses</label>
+                    <frontend_model>Magenest\FastErp\Block\Adminhtml\Form\Field\ErpWarehouses</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                </field>
+            </group>
+
+<!--            <group id="orders" translate="label" type="text" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="0">-->
+<!--                <label>Orders</label>-->
+<!--                <field id="sync_products" translate="button_label" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">-->
+<!--                    <button_label>Sync All Product From ERP</button_label>-->
+<!--                    <frontend_model>Magenest\FastErp\Block\Adminhtml\System\Config\SyncProducts</frontend_model>-->
+<!--                </field>-->
+<!--            </group>-->
+        </section>
+    </system>
+</config>

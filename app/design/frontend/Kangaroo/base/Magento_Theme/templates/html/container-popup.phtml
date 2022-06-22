@@ -1,0 +1,61 @@
+<?php
+/**
+ * @var $block \Magenest\CustomSource\Block\Element\AreaPopup
+ */
+?>
+
+<?php if ($block->getAreaPopupEnable()): ?>
+    <div class="header-store" id="area-select-option" >
+        <div class="header-store-action">
+            <?php if ($block->getCurrentAreaCode()): ?>
+                <span id="area-prefix"><?= $block->escapeHtml(__('Area')) ?></span>
+                <span id="area-label"><?=  ": " . $block->getCurrentAreaCodeLabel() ?></span>
+            <?php else: ?>
+                <span id="area-prefix"><?= $block->escapeHtml(__('Choose Area')) ?></span>
+                <span id="area-label"></span>
+            <?php endif; ?>
+        </div>
+
+        <div class="header-store-menu">
+            <div class="header-store-menu-content">
+                <?= $this->getLayout()
+                    ->createBlock('Magento\Cms\Block\Block')
+                    ->setBlockId('location.popup.image')
+                    ->toHtml();
+                ?>
+                <div id="area-popup-modal">
+                    <p class="title"><?= __('Welcome to') ?></p>
+                    <img class="kangaroo-logo" src="<?= $block->getViewFileUrl('images/kangaroo-logo.svg'); ?>" alt="kangaroo-logo">
+                    <p class="description"><?= __('Please select your desired delivery area so that we can better serve you') ?></p>
+                    <form action="#" class="popup-form-data-submit">
+                        <div class="location-list">
+                            <?php foreach ($block->getAreaData() as $item): ?>
+                                <div class="location-item">
+                                    <input type="radio" id="<?= $item['value'] ?>" name="area" value="<?= $item['value'] ?>">
+                                    <label for="<?= $item['value'] ?>">
+                                        <span class="custom-check radio"></span>
+                                        <?= $item['label'] ?>
+                                    </label>
+                                </div>
+                            <?php endforeach ?>
+                        </div>
+                        <button class="action primary" type="submit"><?= __('Confirm') ?></button>
+                        <div class="note" style="display: none">
+                            <strong><?= __('Warning!') ?></strong> <?= __('When you change the area, the item in the cart will be deleted') ?>
+                        </div>
+                    </form>
+                    <img class="kangaroo-image-bottom" src="<?= $block->getViewFileUrl('images/location-popup-bottom-image.png'); ?>" alt="kangaroo-image">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/x-magento-init">
+    {
+       "*": {
+           "Magento_Theme/js/area-popup": {}
+       }
+    }
+    </script>
+
+<?php endif ?>

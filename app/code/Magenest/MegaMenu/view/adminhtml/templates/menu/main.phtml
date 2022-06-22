@@ -1,0 +1,41 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+/** @var \Magenest\MegaMenu\Block\Adminhtml\Template\Main $block */
+/** @var \Magenest\MegaMenu\Helper\Data $helper */
+$helper = $this->helper(\Magenest\MegaMenu\Helper\Data::class);
+?>
+<div id="wysimyg_editor"><?= $helper->renderWysiwygElement() ?></div>
+<div id="nestedMenu" class="menu-settings-open" data-bind="scope:'nestedMenu'">
+    <script>
+        window.megaMenuConfig = <?php /* @escapeNotVerified */ echo \Zend_Json::encode(array_merge($helper->getConfig(), ['uploadUrl' => $block->getUrl('menu/menu/upload')])); ?>;
+        window.megaOptionConfig = <?= /* @escapeNotVerified */ \Zend_Json::encode($helper->getMegaOptionConfig()) ?>;
+    </script>
+    <!-- ko template: getTemplate() --><!-- /ko -->
+    <script type="text/x-magento-init">
+        {
+            "#nestedMenu": {
+                "Magento_Ui/js/core/app": {
+                    "components": {
+                        "nestedMenu": {
+                            "component": "Magenest_MegaMenu\/js\/view\/nested_menu",
+                            "params": {
+                                "baseUrl": "<?= $block->getUrl('menu/preview', ['_nosid' => true]) ?>",
+                                "previewUrl": "<?= $block->getUrl('*/preview/create'); ?>"
+                            }
+                        }
+                    }
+                },
+                "Magenest_MegaMenu/js/model/label": {
+                    "labels": <?= json_encode($block->getLabelArr()); ?>
+                }
+            },
+            "*": {
+                "Magento_Ui/js/block-loader": "<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('images/loader-1.gif'); ?>"
+            }
+        }
+    </script>
+</div>
+

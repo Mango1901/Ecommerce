@@ -1,0 +1,177 @@
+<?xml version="1.0"?>
+<!--
+ -->
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <!--=========================================== ACCOUNT AFFILIATE =================================================-->
+    <route url="/V1/mpAffiliate/accounts/:id" method="GET">
+        <service class="Magenest\AffiliateOpt\Api\AccountRepositoryInterface" method="get"/>
+        <resources>
+            <resource ref="Magenest_Affiliate::affiliate"/>
+        </resources>
+    </route>
+    <route url="/V1/mpAffiliate/accounts" method="GET">
+        <service class="Magenest\AffiliateOpt\Api\AccountRepositoryInterface" method="getList"/>
+        <resources>
+            <resource ref="Magenest_Affiliate::affiliate"/>
+        </resources>
+    </route>
+    <route url="/V1/mpAffiliate/accounts/email" method="POST">
+        <service class="Magenest\AffiliateOpt\Api\AccountRepositoryInterface" method="getAccountByEmail"/>
+        <resources>
+            <resource ref="Magenest_Affiliate::affiliate"/>
+        </resources>
+    </route>
+    <route url="/V1/mpAffiliate/accounts/count" method="GET">
+        <service class="Magenest\AffiliateOpt\Api\AccountRepositoryInterface" method="count"/>
+        <resources>
+            <resource ref="Magenest_Affiliate::affiliate"/>
+        </resources>
+    </route>
+    <route url="/V1/mpAffiliate/accounts/:id" method="DELETE">
+        <service class="Magenest\AffiliateOpt\Api\AccountRepositoryInterface" method="deleteById"/>
+        <resources>
+            <resource ref="Magenest_Affiliate::affiliate"/>
+        </resources>
+    </route>
+    <route url="/V1/mpAffiliate/accounts/:id/status/:value" method="GET">
+        <service class="Magenest\AffiliateOpt\Api\AccountRepositoryInterface" method="changeStatus"/>
+        <resources>
+            <resource ref="Magenest_Affiliate::affiliate"/>
+        </resources>
+    </route>
+    <route url="/V1/mpAffiliate/accounts/:id/child" method="GET">
+        <service class="Magenest\AffiliateOpt\Api\AccountRepositoryInterface" method="getChildAccount"/>
+        <resources>
+            <resource ref="Magenest_Affiliate::affiliate"/>
+        </resources>
+    </route>
+    <route url="/V1/mpAffiliate/accounts/child/email" method="POST">
+        <service class="Magenest\AffiliateOpt\Api\AccountRepositoryInterface" method="getChildAccountByEmail"/>
+        <resources>
+            <resource ref="Magenest_Affiliate::affiliate"/>
+        </resources>
+    </route>
+    <route url="/V1/mpAffiliate/accounts/create" method="POST">
+        <service class="Magenest\AffiliateOpt\Api\AccountRepositoryInterface" method="save"/>
+        <resources>
+            <resource ref="Magenest_Affiliate::affiliate"/>
+        </resources>
+    </route>
+    <route url="/V1/mpAffiliate/accounts/:id/campaigns" method="GET">
+        <service class="Magenest\AffiliateOpt\Api\AccountRepositoryInterface" method="getCampaignById"/>
+        <resources>
+            <resource ref="Magenest_Affiliate::affiliate"/>
+        </resources>
+    </route>
+    <route url="/V1/mpAffiliate/accounts/email/campaigns" method="POST">
+        <service class="Magenest\AffiliateOpt\Api\AccountRepositoryInterface" method="getCampaignByEmail"/>
+        <resources>
+            <resource ref="Magenest_Affiliate::affiliate"/>
+        </resources>
+    </route>
+    <!--=========================================== TRANSACTIONS ====================================================-->
+    <route url="/V1/mpAffiliate/transactions/create" method="POST">
+        <service class="Magenest\AffiliateOpt\Api\TransactionRepositoryInterface" method="save"/>
+        <resources>
+            <resource ref="Magenest_Affiliate::affiliate"/>
+        </resources>
+    </route>
+    <route url="/V1/mpAffiliate/transactions/count" method="GET">
+        <service class="Magenest\AffiliateOpt\Api\TransactionRepositoryInterface" method="count"/>
+        <resources>
+            <resource ref="Magenest_Affiliate::affiliate"/>
+        </resources>
+    </route>
+    <route url="/V1/mpAffiliate/transactions/:id/cancel" method="GET">
+        <service class="Magenest\AffiliateOpt\Api\TransactionRepositoryInterface" method="cancel"/>
+        <resources>
+            <resource ref="Magenest_Affiliate::affiliate"/>
+        </resources>
+    </route>
+    <route url="/V1/mpAffiliate/transactions/:id/complete" method="GET">
+        <service class="Magenest\AffiliateOpt\Api\TransactionRepositoryInterface" method="complete"/>
+        <resources>
+            <resource ref="Magenest_Affiliate::affiliate"/>
+        </resources>
+    </route>
+    <route url="/V1/mpAffiliate/transactions/:id/account" method="GET">
+        <service class="Magenest\AffiliateOpt\Api\TransactionRepositoryInterface" method="getTransactionByAffiliateId"/>
+        <resources>
+            <resource ref="Magenest_Affiliate::affiliate"/>
+        </resources>
+    </route>
+    <route url="/V1/mpAffiliate/transactions/:id/order" method="GET">
+        <service class="Magenest\AffiliateOpt\Api\TransactionRepositoryInterface" method="getTransactionByOrderId"/>
+        <resources>
+            <resource ref="Magenest_Affiliate::affiliate"/>
+        </resources>
+    </route>
+    <route url="/V1/mpAffiliate/transactions" method="GET">
+        <service class="Magenest\AffiliateOpt\Api\TransactionRepositoryInterface" method="getList"/>
+        <resources>
+            <resource ref="Magenest_Affiliate::affiliate"/>
+        </resources>
+    </route>
+    <!--============================================= CAMPAIGNS =====================================================-->
+    <route url="/V1/mpAffiliate/campaigns" method="GET">
+        <service class="Magenest\AffiliateOpt\Api\CampaignRepositoryInterface" method="getList"/>
+        <resources>
+            <resource ref="Magenest_Affiliate::affiliate"/>
+        </resources>
+    </route>
+    <route url="/V1/mpAffiliate/campaigns/:id" method="GET">
+        <service class="Magenest\AffiliateOpt\Api\CampaignRepositoryInterface" method="get"/>
+        <resources>
+            <resource ref="Magenest_Affiliate::affiliate"/>
+        </resources>
+    </route>
+    <route url="/V1/mpAffiliate/campaigns/:id/status/:value" method="GET">
+        <service class="Magenest\AffiliateOpt\Api\CampaignRepositoryInterface" method="changeStatus"/>
+        <resources>
+            <resource ref="Magenest_Affiliate::affiliate"/>
+        </resources>
+    </route>
+    <route url="/V1/mpAffiliate/campaigns/:id" method="DELETE">
+        <service class="Magenest\AffiliateOpt\Api\CampaignRepositoryInterface" method="deleteById"/>
+        <resources>
+            <resource ref="Magenest_Affiliate::affiliate"/>
+        </resources>
+    </route>
+    <!--============================================= WITHDRAW =====================================================-->
+    <route url="/V1/mpAffiliate/withdraws" method="GET">
+        <service class="Magenest\AffiliateOpt\Api\WithdrawRepositoryInterface" method="getList"/>
+        <resources>
+            <resource ref="Magenest_Affiliate::affiliate"/>
+        </resources>
+    </route>
+    <route url="/V1/mpAffiliate/withdraws/:id" method="GET">
+        <service class="Magenest\AffiliateOpt\Api\WithdrawRepositoryInterface" method="get"/>
+        <resources>
+            <resource ref="Magenest_Affiliate::affiliate"/>
+        </resources>
+    </route>
+    <route url="/V1/mpAffiliate/withdraws/:affiliateId/affiliate" method="GET">
+        <service class="Magenest\AffiliateOpt\Api\WithdrawRepositoryInterface" method="getByAffiliateId"/>
+        <resources>
+            <resource ref="Magenest_Affiliate::affiliate"/>
+        </resources>
+    </route>
+    <route url="/V1/mpAffiliate/withdraws/:id/approve" method="GET">
+        <service class="Magenest\AffiliateOpt\Api\WithdrawRepositoryInterface" method="approve"/>
+        <resources>
+            <resource ref="Magenest_Affiliate::affiliate"/>
+        </resources>
+    </route>
+    <route url="/V1/mpAffiliate/withdraws/:id/cancel" method="GET">
+        <service class="Magenest\AffiliateOpt\Api\WithdrawRepositoryInterface" method="cancel"/>
+        <resources>
+            <resource ref="Magenest_Affiliate::affiliate"/>
+        </resources>
+    </route>
+    <route url="/V1/mpAffiliate/withdraws/create" method="POST">
+        <service class="Magenest\AffiliateOpt\Api\WithdrawRepositoryInterface" method="save"/>
+        <resources>
+            <resource ref="Magenest_Affiliate::affiliate"/>
+        </resources>
+    </route>
+</routes>

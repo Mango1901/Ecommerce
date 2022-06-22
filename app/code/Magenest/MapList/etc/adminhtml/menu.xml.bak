@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Magenest_MapList::main" title="Magenest Map List"
+             module="Magenest_MapList" sortOrder="60"
+             dependsOnModule="Magenest_MapList" resource="Magenest_MapList::main" />
+
+        <add id="Magenest_MapList::store" title="Stores"
+             module="Magenest_MapList" sortOrder="30" parent="Magenest_MapList::main"
+             resource="Magenest_MapList::store" />
+
+        <add id="Magenest_MapList::list_location" title="All Stores"
+             module="Magenest_MapList" sortOrder="30" parent="Magenest_MapList::store"
+             action="inventory/source/index" resource="Magenest_MapList::list_location" />
+
+        <add id="Magenest_MapList::settings" title="Settings"
+             module="Magenest_MapList" sortOrder="30" parent="Magenest_MapList::main"
+             resource="Magenest_MapList::settings" />
+
+        <add id="Magenest_MapList::config" title="Configurations"
+             module="Magenest_MapList" sortOrder="70" parent="Magenest_MapList::settings"
+             action="adminhtml/system_config/edit/section/maplist" resource="Magenest_MapList::config"/>
+    </menu>
+</config>

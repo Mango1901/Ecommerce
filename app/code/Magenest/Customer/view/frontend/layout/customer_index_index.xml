@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="customer_account"/>
+    <body>
+        <attribute name="class" value="account-mobile"/>
+        <referenceContainer name="content">
+            <block name="not_cache" cacheable="false"/>
+        </referenceContainer>
+        <referenceBlock name="sidebar.main.account_nav" template="Magenest_Customer::html/collapsible.phtml" />
+        <move element="customer_info" destination="sidebar.main.account_nav" before="customer_account_navigation" />
+        <referenceBlock name="page.main.title" remove="true" />
+        <referenceBlock name="page.main.title.mobile" remove="true" />
+        <referenceContainer name="div.sidebar.additional" remove="true" />
+    </body>
+</page>

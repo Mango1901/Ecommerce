@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="jquery/colorpicker/css/colorpicker.css"/>
+        <!--<link src="Lib::jquery/colorpicker/js/colorpicker.js"/>-->
+        <css src="Magenest_Promobar::css/button.css" />
+        <link src="Magenest_Promobar::js/validation.js"/>
+        <script src="Magenest_Promobar::js/validation.js"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+			<block class="Magenest\Promobar\Block\Buttons" name="button.preview" template="Magenest_Promobar::previewButton.phtml"></block>
+        </referenceContainer>
+    </body>
+</page>

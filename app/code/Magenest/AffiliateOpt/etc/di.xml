@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<!--
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="affiliate_bestsellers_listing_data_source" xsi:type="string">Magenest\AffiliateOpt\Model\ResourceModel\Bestsellers\Grid\Collection</item>
+                <item name="affiliate_sales_listing_data_source" xsi:type="string">Magenest\AffiliateOpt\Model\ResourceModel\Sales\Grid\Collection</item>
+                <item name="affiliate_reports_accounts_listing_data_source" xsi:type="string">Magenest\AffiliateOpt\Model\ResourceModel\Accounts\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magenest\Reports\Block\Menu">
+        <arguments>
+            <argument name="girdName" xsi:type="array">
+                <item name="affiliate_transaction_index" xsi:type="string">affiliate_transaction_listing.affiliate_transaction_listing_data_source</item>
+                <item name="affiliate_reports_bestsellers" xsi:type="string">affiliate_bestsellers_listing.affiliate_bestsellers_listing_data_source</item>
+                <item name="affiliate_reports_accounts" xsi:type="string">affiliate_reports_accounts_listing.affiliate_reports_accounts_listing_data_source</item>
+                <item name="affiliate_reports_sales" xsi:type="string">affiliate_sales_listing.affiliate_sales_listing_data_source</item>
+            </argument>
+            <argument name="menuUrls" xsi:type="array">
+                <item name="affiliate/transaction/index" xsi:type="string" translate="true">Affiliate Transaction</item>
+                <item name="affiliate/reports/bestsellers" xsi:type="string" translate="true">Bestsellers Affiliate</item>
+                <item name="affiliate/reports/sales" xsi:type="string" translate="true">Sales Reports Affiliate</item>
+                <item name="affiliate/reports/accounts" xsi:type="string" translate="true">Account Reports Affiliate</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Sales\Api\OrderRepositoryInterface">
+        <plugin name="affiliate_order" type="Magenest\AffiliateOpt\Plugin\OrderGet"/>
+    </type>
+    <type name="Magento\Sales\Api\InvoiceRepositoryInterface">
+        <plugin name="affiliate_invoice" type="Magenest\AffiliateOpt\Plugin\InvoiceGet"/>
+    </type>
+
+    <type name="Magento\Sales\Api\CreditmemoRepositoryInterface">
+        <plugin name="affiliate_invoice" type="Magenest\AffiliateOpt\Plugin\CreditmemoGet"/>
+    </type>
+
+    <preference for="Magenest\AffiliateOpt\Api\OrderRepositoryInterface" type="Magenest\AffiliateOpt\Model\OrderRepository"/>
+    <preference for="Magenest\AffiliateOpt\Api\Data\AffiliateInterface" type="Magenest\AffiliateOpt\Model\Affiliate"/>
+    <preference for="Magenest\AffiliateOpt\Api\Data\AffiliateItemInterface" type="Magenest\AffiliateOpt\Model\AffiliateItem"/>
+
+    <preference for="Magenest\AffiliateOpt\Api\Data\AffiliateInvoiceInterface" type="Magenest\AffiliateOpt\Model\AffiliateInvoice"/>
+    <preference for="Magenest\AffiliateOpt\Api\Data\AffiliateInvoiceItemInterface" type="Magenest\AffiliateOpt\Model\AffiliateInvoiceItem"/>
+    <preference for="Magenest\AffiliateOpt\Api\InvoiceRepositoryInterface" type="Magenest\AffiliateOpt\Model\InvoiceRepository"/>
+
+    <preference for="Magenest\AffiliateOpt\Api\Data\AffiliateCreditmemoInterface" type="Magenest\AffiliateOpt\Model\AffiliateCreditmemo"/>
+    <preference for="Magenest\AffiliateOpt\Api\Data\AffiliateCreditmemoItemInterface" type="Magenest\AffiliateOpt\Model\AffiliateCreditmemoItem"/>
+    <preference for="Magenest\AffiliateOpt\Api\CreditmemoRepositoryInterface" type="Magenest\AffiliateOpt\Model\CreditmemoRepository"/>
+
+    <preference for="Magenest\AffiliateOpt\Api\TransactionRepositoryInterface" type="Magenest\AffiliateOpt\Model\TransactionRepository"/>
+    <preference for="Magenest\AffiliateOpt\Api\Data\TransactionInterface" type="Magenest\AffiliateOpt\Model\Transaction"/>
+    <preference for="Magenest\AffiliateOpt\Api\Data\TransactionSearchResultInterface" type="Magenest\AffiliateOpt\Model\ResourceModel\Transaction\Collection"/>
+
+    <preference for="Magenest\AffiliateOpt\Api\Data\CampaignInterface" type="Magenest\AffiliateOpt\Model\Campaign"/>
+    <preference for="Magenest\AffiliateOpt\Api\CampaignRepositoryInterface" type="Magenest\AffiliateOpt\Model\CampaignRepository"/>
+    <preference for="Magenest\AffiliateOpt\Api\Data\CampaignSearchResultInterface" type="Magenest\AffiliateOpt\Model\ResourceModel\Campaign\Collection"/>
+
+    <preference for="Magenest\AffiliateOpt\Api\Data\WithdrawInterface" type="Magenest\AffiliateOpt\Model\Withdraw"/>
+    <preference for="Magenest\AffiliateOpt\Api\Data\WithdrawSearchResultInterface" type="Magenest\AffiliateOpt\Model\ResourceModel\Withdraw\Collection"/>
+    <preference for="Magenest\AffiliateOpt\Api\WithdrawRepositoryInterface" type="Magenest\AffiliateOpt\Model\WithdrawRepository"/>
+
+    <preference for="Magenest\AffiliateOpt\Api\Data\AccountInterface" type="Magenest\AffiliateOpt\Model\Account"/>
+    <preference for="Magenest\AffiliateOpt\Api\Data\AccountSearchResultInterface" type="Magenest\AffiliateOpt\Model\ResourceModel\Accounts\Collection"/>
+    <preference for="Magenest\AffiliateOpt\Api\AccountRepositoryInterface" type="Magenest\AffiliateOpt\Model\AccountRepository"/>
+</config>

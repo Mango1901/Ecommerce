@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="customer">
+            <group id="startup">
+                <field id="login_telephone" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" canRestore="1">
+                    <label>Login Customer With Telephone</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Customer will login with email or telephone.</comment>
+                </field>
+            </group>
+            <group id="logout_options" translate="label" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Logout Options</label>
+                <field id="redirect_homepage_when_logout" translate="label comment" type="select" sortOrder="58" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Redirect To Homepage when logout</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="address">
+                <field id="fullname_show" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" canRestore="1">
+                    <label>Show Full Name instead of First Name And Last Name</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Always optional.</comment>
+                    <backend_model>Magento\Customer\Model\Config\Backend\Show\Address</backend_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

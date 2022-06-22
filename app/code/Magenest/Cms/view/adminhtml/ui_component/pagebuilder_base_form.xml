@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <fieldset name="admin_note" sortOrder="0">
+        <settings>
+            <label translate="true">Admin Note</label>
+            <collapsible>false</collapsible>
+            <opened>true</opened>
+        </settings>
+        <field name="note" sortOrder="0" formElement="textarea">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Note</label>
+                <notice translate="true">Notice for admin page builder.</notice>
+            </settings>
+        </field>
+    </fieldset>
+</form>

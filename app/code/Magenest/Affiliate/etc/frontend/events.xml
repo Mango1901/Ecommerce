@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="controller_action_predispatch">
+        <observer name="affiliateObserver" instance="Magenest\Affiliate\Observer\PredispatchObserver"/>
+    </event>
+    <event name="customer_logout">
+        <observer name="customerLogout" instance="Magenest\Affiliate\Observer\CustomerLogout"/>
+    </event>
+</config>

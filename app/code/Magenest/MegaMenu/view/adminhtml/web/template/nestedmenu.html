@@ -1,0 +1,722 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<div id="easyMegaMenu">
+    <input type="text" id="removed_items" style="display: none;" name="remove_items" data-bind="value: serializedRemovedItems">
+    <div class="nav-menus-frame">
+        <div class="menu-settings-column">
+            <div class="accordion">
+                <div class="panel" data-bind="panel: true">
+                    <div class="panel-title" data-bind="i18n: 'Pages'"></div>
+                    <div class="panel-content" style="display: block">
+                        <div id="tabs1" class="tabs-panel">
+                            <div id="tab-page" class="tab-content">
+                                <ul data-bind="foreach: pages, visible: pages().length > 0">
+                                    <li>
+                                        <label class="menu-item-title">
+                                            <input type="checkbox"
+                                                   data-bind="checkedValue: page_id,
+                                                              checked: $data.parentLevel1.chosenPages,
+                                                              click: $data.parentLevel1.checkPage"
+                                                   name="menu-item" class="menu-item-checkbox">
+                                            <span data-bind="text: title()"></span>
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="clearfix" id="btn-add-page">
+                            <button class="btn-add-menu" type="button"
+                                    data-bind="event: {click: btnAddPage}, i18n: 'Add to Menu'"></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel" data-bind="panel: true">
+                    <div class="panel-title" data-bind="i18n: 'Categories'"></div>
+                    <div class="panel-content" style="display: none;">
+                        <div  class="tabs-panel">
+                            <div id="tab-category" class="tab-content">
+                                <input class="category-search" type="text" placeholder="Search" data-bind="value: searchCategory">
+                                <ul data-bind="foreach: cats, visible: cats().length > 0">
+                                    <li data-bind="visible: visible">
+                                        <label class="menu-item-title">
+                                            <input type="checkbox"
+                                                   data-bind="checkedValue: cat_id,
+                                                              checked: $parent.chosenCats,
+                                                              click:$parent.checkCat"
+                                                   name="menu-item" class="menu-item-checkbox">
+                                            <span data-bind="text:title"></span>
+                                        </label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="clearfix">
+                            <button class="btn-add-menu" type="button" data-bind="event: {click: btnAddCat}, i18n: 'Add to Menu'"></button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Custom Link-->
+                <div class="panel" data-bind="panel: true">
+                    <div class="panel-title" data-bind="i18n: 'Custom Item'"></div>
+                    <div class="panel-content" style="display: none">
+                        <div  class="tabs-panel">
+                            <div id="tab-custom-link">
+                                <div class="field-box">
+                                    <label data-bind="i18n: 'Title'"></label>
+                                    <input type="text" class="custome-link-input" name="custom_link_title"
+                                           data-bind="value: custom_link_title">
+                                </div>
+                                <div class="field-box">
+                                    <label data-bind="i18n: 'Link'"></label>
+                                    <input type="text" class="custome-link-input" name="custom_link_link"
+                                           data-bind="value: custom_link_link">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix">
+                            <button class="btn-add-menu" type="button" data-bind="event: {click: btnCustomLink}, i18n: 'Add to Menu'"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script id="formElementNodeTemplate" type="text/html">
+            <li class="dd-item" data-bind="attr:{'data-id':id(),'data-level': level(),'data-title': title()}">
+                <div class="dd-handle" data-bind="css: isActive()?'active':''"><span data-bind="text:title()"></span></div>
+                <div class="dd-actions">
+                    <span data-bind="attr: {class: 'dd-action ' + getItemEnable()}, i18n: 'Enabled'"></span>
+                    <span class="dd-action edit" data-bind="click: myEdit, i18n: 'Edit'"></span>
+                    <span class="dd-action remove" data-bind="click: myRemove, i18n: 'Remove'"></span>
+                </div>
+                <!--ko if: children -->
+                <ol class="dd-list">
+                    <!-- ko foreach: children -->
+                    <!-- ko template: {name: 'formElementNodeTemplate', data: $data} --><!-- /ko -->
+                    <!-- /ko -->
+                </ol>
+                <!-- /ko -->
+            </li>
+        </script>
+        <div class="menu-content left" id="menu-structure">
+            <div class="admin__field-tooltip" style="display:none;">
+                <a class="admin__field-tooltip-action action-help" target="_blank" tabindex="1"></a>
+                <div class="admin__field-tooltip-content">
+                    <img data-bind="attr: {src: tooltipImage()}" alt="" />
+                </div>
+            </div>
+            <h3 class="menu-content-title"><span data-bind="i18n: 'Menu Structure'"></span><span class="action add-menu-item" data-bind="event: {click: classAddItem}, i18n: 'Add menu item'"></span></h3>
+            <!--drag and drop-->
+            <div class="dd" data-bind="mmnestable:{updateLevelCallback: updateLevel.bind($data)}" id="menu-items-list">
+                <ol class="dd-list">
+                    <!--ko if: nestedMenu() -->
+                    <!--ko foreach: nestedMenu() -->
+                    <!--ko if: origLevel() == 0 -->
+                    <li class="dd-item" data-bind="attr:{'data-id': id(), 'data-level': level(),'data-title': title()}">
+                        <div class="dd-handle" data-bind="css: isActive()?'active':''"><span data-bind="text: title"></span></div>
+                        <div class="dd-actions">
+                            <span data-bind="attr: {class: 'dd-action ' + getItemEnable()}, i18n: 'Enabled'"></span>
+                            <span class="dd-action edit" data-bind="click: myEdit, i18n: 'Edit'"></span>
+                            <span class="dd-action remove" data-bind="click: myRemove, i18n: 'Remove'"></span>
+                        </div>
+                        <!--ko if: children -->
+                        <ol class="dd-list">
+                            <!-- ko foreach: children -->
+                            <!-- ko template: {name: 'formElementNodeTemplate', data: $data} --><!-- /ko -->
+                            <!-- /ko -->
+                        </ol>
+                        <!-- /ko -->
+                    </li>
+                    <!-- /ko -->
+                    <!-- /ko -->
+                    <!-- /ko -->
+                </ol>
+            </div>
+            <!--end-->
+        </div>
+        <!--ko foreach:nestedMenu -->
+        <!--ko if: isSelected()-->
+        <div class="menu-content right">
+            <h3 data-bind="i18n: 'Item Setting'"></h3>
+            <div class="menu-content-right-block"></div>
+            <div class="menu-content-left-block"></div>
+            <div class="left-block-field-content">
+                <div class="mega-fieldset active">
+                    <label class="mega-fieldset-title" data-bind="i18n: 'Information'"></label>
+                    <div class="field-content">
+                        <div class="control-group ">
+                            <label class="control-label" data-bind="i18n: 'Name'"></label>
+                            <div class="controls">
+                                <input class="mega-option-name" type="text" data-bind="value: title">
+                                <div class="field-cm"></div>
+                            </div>
+                        </div>
+                        <div class="control-group ">
+                            <label class="control-label" data-bind="i18n: 'Link'"></label>
+                            <div class="controls">
+                                <input class="mega-option-name" type="text" data-bind="value: link, enable: canChangeLink">
+                                <div class="field-cm"></div>
+                            </div>
+                        </div>
+                        <div class="control-group ">
+                            <label class="control-label" data-bind="i18n: 'Link Target'"></label>
+                            <div class="controls">
+                                <select data-bind="value: linkTarget" class="mega-option-show-icon">
+                                    <option value="_self" data-bind="i18n: 'Load in the same frame as it was clicked'" selected="selected"></option>
+                                    <option value="_blank" data-bind="i18n: 'Load in a new window'"></option>
+                                    <option value="_top" data-bind="i18n: 'Load in the full body of the window'"></option>
+                                    <option value="_parent" data-bind="i18n: 'Load in the parent frameset'"></option>
+                                </select>
+                                <div class="field-cm"></div>
+                            </div>
+                        </div>
+                        <div class="control-group ">
+                            <label class="control-label" data-bind="i18n: 'Class'"></label>
+                            <div class="controls">
+                                <input class="mega-option-name" type="text" data-bind="value: cssClass">
+                                <div class="field-cm"></div>
+                            </div>
+                        </div>
+                        <div class="control-group ">
+                            <label class="control-label" data-bind="i18n: 'Icon'"></label>
+                            <div class="controls">
+                                <div data-bind="scope: iconUploaderDataScope, mageInit: iconUploaderMageInit"  style="margin-bottom: 10px;">
+                                    <!-- ko template: getTemplate() --><!-- /ko -->
+                                </div>
+                                <div class="field-cm"></div>
+                            </div>
+                        </div>
+                        <div class="control-group ">
+                            <label class="control-label" data-bind="i18n: 'Label'"></label>
+                            <div class="controls">
+                                <div data-bind="scope: labelSelectorDataScope, mageInit: labelSelectorMageInit" render="elementTmpl"></div>
+                                <div class="field-cm"></div>
+                            </div>
+                        </div>
+                        <div class="control-group ">
+                            <label class="control-label" data-bind="i18n: 'Enable'"></label>
+                            <div class="controls">
+                                <select data-bind="value: itemEnable" class="mega-option-show-icon">
+                                    <option value="1" data-bind="i18n: 'Yes'" selected="selected"></option>
+                                    <option value="0" data-bind="i18n: 'No'"></option>
+                                </select>
+                                <div class="field-cm"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mega-fieldset">
+                    <label class="mega-fieldset-title" data-bind="i18n: 'Style'"></label>
+                    <div class="field-content">
+                        <div class="control-group ">
+                            <label class="control-label" data-bind="i18n: 'Text Color'"></label>
+                            <div class="controls">
+                                <input class="mega-option-name" readonly type="text"
+                                       data-bind="value: textColor, valueUpdate: ['afterkeydown','input','click','change'], mmcolorpicker: {}">
+                                <img data-bind="attr: {src: $parent.colorImage(), class: 'color-icon', with: '10px'}" alt="">
+                                <div class="field-cm"></div>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" data-bind="i18n: 'Hover Text Color'"></label>
+                            <div class="controls">
+                                <input class="mega-option-name" readonly type="text"
+                                       data-bind="value: hoverTextColor, valueUpdate: ['afterkeydown','input','click','change'], mmcolorpicker: {}">
+                                <img data-bind="attr: {src: $parent.colorImage(), class: 'color-icon', with: '10px'}" alt="">
+                                <div class="field-cm"></div>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" data-bind="i18n: 'Hover Icon Color'"></label>
+                            <div class="controls">
+                                <input class="mega-option-name" readonly type="text"
+                                       data-bind="value: hoverIconColor, valueUpdate: ['afterkeydown','input','click','change'], mmcolorpicker: {}">
+                                <img data-bind="attr: {src: $parent.colorImage(), class: 'color-icon', with: '10px'}">
+                                <div class="field-cm"></div>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" data-bind="i18n: 'Hover Button Background Color'"></label>
+                            <div class="controls">
+                                <!-- hov_btn_bg_color -->
+                                <input class="mega-option-name" readonly type="text"
+                                       data-bind="value: color, valueUpdate: ['afterkeydown','input','click','change'], mmcolorpicker: {}">
+                                <img data-bind="attr: {src: $parent.colorImage(), class: 'color-icon', with: '10px'}" alt="">
+                                <div class="field-cm"></div>
+                            </div>
+                        </div>
+                        <div class="control-group ">
+                            <label class="control-label" data-bind="i18n: 'Hide Text'"></label>
+                            <div class="controls">
+                                <select data-bind="value: hideText" class="mega-option-show-icon">
+                                    <option value="1" data-bind="i18n: 'Yes'"></option>
+                                    <option value="0" data-bind="i18n: 'No'" selected="selected"></option>
+                                </select>
+                                <div class="field-cm"></div>
+                            </div>
+                        </div>
+                        <div class="control-group ">
+                            <label class="control-label" data-bind="i18n: 'Inline CSS'"></label>
+                            <div class="controls">
+                                <textarea class="mega-option-name" type="text" data-bind="value: cssInline"></textarea>
+                                <div class="field-cm" data-bind="i18n: 'Example: font-size:12px; font-style: italic;'"></div>
+                            </div>
+                        </div>
+                        <div class="mega-fieldset inactive">
+                            <label class="mega-fieldset-title" data-bind="i18n: 'Dropdown Config'"></label>
+                            <div class="field-content">
+                                <div class="control-group">
+                                    <label class="control-label" for="dropdown-animation"
+                                           data-bind="i18n: 'Animation In'"></label>
+                                    <div class="controls">
+                                        <select name="animationIn" data-bind="value: animationIn"
+                                                class="mega-option-dropdown-animation" id="dropdown-animation">
+                                            <option value="">None</option>
+                                            <optgroup label="Attention Seekers">
+                                                <option value="bounce">bounce</option>
+                                                <option value="flash">flash</option>
+                                                <option value="pulse">pulse</option>
+                                                <option value="rubberBand">rubberBand</option>
+                                                <option value="shake">shake</option>
+                                                <option value="swing">swing</option>
+                                                <option value="tada">tada</option>
+                                                <option value="wobble">wobble</option>
+                                                <option value="jello">jello</option>
+                                                <option value="heartBeat">heartBeat</option>
+                                            </optgroup>
+
+                                            <optgroup label="Bouncing Entrances">
+                                                <option value="bounceIn">bounceIn</option>
+                                                <option value="bounceInDown">bounceInDown</option>
+                                                <option value="bounceInLeft">bounceInLeft</option>
+                                                <option value="bounceInRight">bounceInRight</option>
+                                                <option value="bounceInUp">bounceInUp</option>
+                                            </optgroup>
+
+                                            <optgroup label="Bouncing Exits">
+                                                <option value="bounceOut">bounceOut</option>
+                                                <option value="bounceOutDown">bounceOutDown</option>
+                                                <option value="bounceOutLeft">bounceOutLeft</option>
+                                                <option value="bounceOutRight">bounceOutRight</option>
+                                                <option value="bounceOutUp">bounceOutUp</option>
+                                            </optgroup>
+
+                                            <optgroup label="Fading Entrances">
+                                                <option value="fadeIn">fadeIn</option>
+                                                <option value="fadeInDown">fadeInDown</option>
+                                                <option value="fadeInDownBig">fadeInDownBig</option>
+                                                <option value="fadeInLeft">fadeInLeft</option>
+                                                <option value="fadeInLeftBig">fadeInLeftBig</option>
+                                                <option value="fadeInRight">fadeInRight</option>
+                                                <option value="fadeInRightBig">fadeInRightBig</option>
+                                                <option value="fadeInUp">fadeInUp</option>
+                                                <option value="fadeInUpBig">fadeInUpBig</option>
+                                            </optgroup>
+
+                                            <optgroup label="Fading Exits">
+                                                <option value="fadeOut">fadeOut</option>
+                                                <option value="fadeOutDown">fadeOutDown</option>
+                                                <option value="fadeOutDownBig">fadeOutDownBig</option>
+                                                <option value="fadeOutLeft">fadeOutLeft</option>
+                                                <option value="fadeOutLeftBig">fadeOutLeftBig</option>
+                                                <option value="fadeOutRight">fadeOutRight</option>
+                                                <option value="fadeOutRightBig">fadeOutRightBig</option>
+                                                <option value="fadeOutUp">fadeOutUp</option>
+                                                <option value="fadeOutUpBig">fadeOutUpBig</option>
+                                            </optgroup>
+
+                                            <optgroup label="Flippers">
+                                                <option value="flip">flip</option>
+                                                <option value="flipInX">flipInX</option>
+                                                <option value="flipInY">flipInY</option>
+                                                <option value="flipOutX">flipOutX</option>
+                                                <option value="flipOutY">flipOutY</option>
+                                            </optgroup>
+
+                                            <optgroup label="Lightspeed">
+                                                <option value="lightSpeedIn">lightSpeedIn</option>
+                                                <option value="lightSpeedOut">lightSpeedOut</option>
+                                            </optgroup>
+
+                                            <optgroup label="Rotating Entrances">
+                                                <option value="rotateIn">rotateIn</option>
+                                                <option value="rotateInDownLeft">rotateInDownLeft</option>
+                                                <option value="rotateInDownRight">rotateInDownRight</option>
+                                                <option value="rotateInUpLeft">rotateInUpLeft</option>
+                                                <option value="rotateInUpRight">rotateInUpRight</option>
+                                            </optgroup>
+
+                                            <optgroup label="Rotating Exits">
+                                                <option value="rotateOut">rotateOut</option>
+                                                <option value="rotateOutDownLeft">rotateOutDownLeft</option>
+                                                <option value="rotateOutDownRight">rotateOutDownRight</option>
+                                                <option value="rotateOutUpLeft">rotateOutUpLeft</option>
+                                                <option value="rotateOutUpRight">rotateOutUpRight</option>
+                                            </optgroup>
+
+                                            <optgroup label="Sliding Entrances">
+                                                <option value="slideInUp">slideInUp</option>
+                                                <option value="slideInDown">slideInDown</option>
+                                                <option value="slideInLeft">slideInLeft</option>
+                                                <option value="slideInRight">slideInRight</option>
+
+                                            </optgroup>
+                                            <optgroup label="Sliding Exits">
+                                                <option value="slideOutUp">slideOutUp</option>
+                                                <option value="slideOutDown">slideOutDown</option>
+                                                <option value="slideOutLeft">slideOutLeft</option>
+                                                <option value="slideOutRight">slideOutRight</option>
+
+                                            </optgroup>
+
+                                            <optgroup label="Zoom Entrances">
+                                                <option value="zoomIn">zoomIn</option>
+                                                <option value="zoomInDown">zoomInDown</option>
+                                                <option value="zoomInLeft">zoomInLeft</option>
+                                                <option value="zoomInRight">zoomInRight</option>
+                                                <option value="zoomInUp">zoomInUp</option>
+                                            </optgroup>
+
+                                            <optgroup label="Zoom Exits">
+                                                <option value="zoomOut">zoomOut</option>
+                                                <option value="zoomOutDown">zoomOutDown</option>
+                                                <option value="zoomOutLeft">zoomOutLeft</option>
+                                                <option value="zoomOutRight">zoomOutRight</option>
+                                                <option value="zoomOutUp">zoomOutUp</option>
+                                            </optgroup>
+
+                                            <optgroup label="Specials">
+                                                <option value="hinge">hinge</option>
+                                                <option value="jackInTheBox">jackInTheBox</option>
+                                                <option value="rollIn">rollIn</option>
+                                                <option value="rollOut">rollOut</option>
+                                            </optgroup>
+                                        </select>
+                                        <div class="field-cm"
+                                             data-bind="i18n: 'Check animations menu at https://daneden.github.io/animate.css'"></div>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" data-bind="i18n: 'Animation Delay Time (s)'"></label>
+                                    <div class="controls">
+                                        <select name="animationDelayTime" data-bind="value: animationDelayTime" class="mega-option-dropdown-animation-delay-time" id="dropdown-animation-delay-time">
+                                            <option value="">None</option>
+                                            <option value="delay-2s">2s</option>
+                                            <option value="delay-3s">3s</option>
+                                            <option value="delay-4s">4s</option>
+                                            <option value="delay-5s">5s</option>
+                                        </select>
+                                        <div class="field-cm"></div>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" data-bind="i18n: 'Animation Speed'"></label>
+                                    <div class="controls">
+                                        <select name="animationSpeed" data-bind="value: animationSpeed" class="mega-option-dropdown-animation-speed" id="dropdown-animation-speed">
+                                            <option value="">None</option>
+                                            <option value="slow">Slow</option>
+                                            <option value="slower">Slower</option>
+                                            <option value="fast">Fast</option>
+                                            <option value="faster">Faster</option>
+                                        </select>
+                                        <div class="field-cm"></div>
+                                    </div>
+                                </div>
+                                <div class="control-group" style="margin-bottom: 10px;">
+                                    <label class="control-label" data-bind="i18n: 'Background Image'"></label>
+                                    <div class="controls">
+                                        <div data-bind="scope: backgroundUploaderDataScope, mageInit: backgroundUploaderMageInit">
+                                            <!-- ko template: getTemplate() --><!-- /ko -->
+                                        </div>
+                                        <div class="field-cm"></div>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" data-bind="i18n: 'Background Repeat'"></label>
+                                    <div class="controls">
+                                        <select name="backgroundRepeat" data-bind="value: backgroundRepeat" class="mega-option-dropdown-background-repeat" id="dropdown-background-repeat">
+                                            <option value="">None</option>
+                                            <option value="inherit">inherit</option>
+                                            <option value="initial">initial</option>
+                                            <option value="no-repeat">no-repeat</option>
+                                            <option value="repeat">repeat</option>
+                                            <option value="round">round</option>
+                                            <option value="space">space</option>
+                                            <option value="unset">unset</option>
+                                        </select>
+                                        <div class="field-cm"></div>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" data-bind="i18n: 'Background Color'"></label>
+                                    <div class="controls">
+                                        <input class="mega-option-name" readonly type="text"
+                                               data-bind="value: backgroundColor, valueUpdate:['afterkeydown','input','click','change'], mmcolorpicker: {}">
+                                        <img data-bind="attr: {src: $parent.colorImage(), class: 'color-icon', with: '10px'}" alt="">
+                                        <div class="field-cm"></div>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" data-bind="i18n: 'Background Size'"></label>
+                                    <div class="controls background-size">
+                                        <select name="backgroundSize" data-bind="value: backgroundSize" class="mega-option-dropdown-background-size" id="dropdown-background-size">
+                                            <option value="auto">Auto</option>
+                                            <option value="contain">Contain</option>
+                                            <option value="cover">Cover</option>
+                                            <option value="inherit">Inherit</option>
+                                            <option value="initial">Initial</option>
+                                            <option value="unset">Unset</option>
+                                        </select>
+                                        <div class="field-cm"></div>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" data-bind="i18n: 'Background Opacity'"></label>
+                                    <div class="controls percentage">
+                                        <input class="mega-option-name" type="number" min="0" max="1" step="0.1"
+                                               data-bind="value: backgroundOpacity, valueUpdate:['afterkeydown','input','click','change']">
+                                        <div class="field-cm"></div>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" data-bind="i18n: 'Background Position X'"></label>
+                                    <div class="controls px">
+                                        <input class="mega-option-name" type="text"
+                                               data-bind="value: backgroundPositionX, valueUpdate:['afterkeydown','input','click','change']">
+                                        <div class="field-cm"></div>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" data-bind="i18n: 'Background Position Y'"></label>
+                                    <div class="controls px">
+                                        <input class="mega-option-name" type="text"
+                                               data-bind="value: backgroundPositionY, valueUpdate:['afterkeydown','input','click','change']">
+                                        <div class="field-cm"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mega-fieldset">
+                    <label class="mega-fieldset-title" data-bind="i18n: 'Header'"></label>
+                    <div class="field-content">
+                        <div class="control-group ">
+                            <label class="control-label" data-bind="i18n: 'Enable'"></label>
+                            <div class="controls">
+                                <select data-bind="value: headerEnable , event:{change: eventSideHeaderEnable}" class="mega-option-show-icon">
+                                    <option value="1" data-bind="i18n: 'Yes'"></option>
+                                    <option value="0" data-bind="i18n: 'No'" selected="selected"></option>
+                                </select>
+                                <div class="field-cm"></div>
+                            </div>
+                        </div>
+                        <div class="control-group" data-bind="visible: showHeader">
+                            <label class="control-label" data-bind="i18n: 'Class'"></label>
+                            <div class="controls">
+                                <input data-bind = "value: headerClass"  class="mega-option-name" type="text">
+                                <div class="field-cm"></div>
+                            </div>
+                        </div>
+                        <div class="control-group " data-bind="visible: showHeader">
+                            <label class="control-label" data-bind="i18n: 'Content HTML'"></label>
+                            <div class="controls">
+                                <textarea readonly data-title="Header Content HTML" id="headerContentHtml" data-bind = "value: headerContentHtml, event:{click: showEditor}"></textarea>
+                                <div class="field-cm"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mega-fieldset">
+                    <label class="mega-fieldset-title" data-bind="i18n: 'Footer'"></label>
+                    <div class="field-content">
+                        <div class="control-group ">
+                            <label class="control-label" data-bind="i18n: 'Enable'"></label>
+                            <div class="controls">
+                                <select data-bind="value: footerEnable , event:{change: eventSideFooterEnable}" class="mega-option-show-icon">
+                                    <option value="1" data-bind="i18n: 'Yes'"></option>
+                                    <option value="0" data-bind="i18n: 'No'" selected="selected"></option>
+                                </select>
+                                <div class="field-cm"></div>
+                            </div>
+                        </div>
+                        <div class="control-group" data-bind="visible: showFooter">
+                            <label class="control-label" data-bind="i18n: 'Class'"></label>
+                            <div class="controls">
+                                <input data-bind = "value: footerClass"  class="mega-option-name" type="text">
+                                <div class="field-cm"></div>
+                            </div>
+                        </div>
+                        <div class="control-group " data-bind="visible: showFooter">
+                            <label class="control-label" data-bind="i18n: 'Content HTML'"></label>
+                            <div class="controls">
+                                <textarea readonly data-title="Footer Content HTML" id="footerContentHtml" data-bind = "value: footerContentHtml, event:{click: showEditor}"></textarea>
+                                <div class="field-cm"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mega-fieldset">
+                    <label class="mega-fieldset-title" data-bind="i18n: 'Main Content'"></label>
+                    <div class="field-content">
+                        <div class="control-group">
+                            <label class="control-label" data-bind="i18n: 'Enable'"></label>
+                            <div class="controls">
+                                <select name="mainEnable" data-bind="value: mainEnable, event:{change: eventMainEnable}" class="mega-option-content-type" >
+                                    <option value="1" selected="selected" data-bind="i18n: 'Yes'"></option>
+                                    <option value="0" data-bind="i18n: 'No'"></option>
+                                </select>
+                                <div class="field-cm"></div>
+                            </div>
+                        </div>
+                        <div class="control-group" data-bind="visible: showMain">
+                            <label class="control-label" data-bind="i18n: 'Main Content Width'" for="main-content-width"></label>
+                            <div class="controls px">
+                                <input class="mega-option-name" type="text" id="main-content-width"
+                                       data-bind="value: mainContentWidth, valueUpdate:['afterkeydown','input','click','change']">
+                                <div class="field-cm"></div>
+                            </div>
+                        </div>
+                        <div class="control-group" data-bind="visible: showMain">
+                            <label class="control-label" data-bind="i18n: 'Main Content Type'"></label>
+                            <div class="controls">
+                                <select name="mainContentType" data-bind="value: mainContentType, event:{change: eventTypeEnable}" class="mega-option-content-type">
+                                    <option value="content" data-bind="i18n: 'Content'"></option>
+                                    <option value="grid" data-bind="i18n: 'Grid'"></option>
+                                    <option value="default-list" data-bind="i18n: 'Default List'"></option>
+                                    <option value="sub-category" data-bind="i18n: 'Sub-Categories'"></option>
+                                    <!-- ko if: level() == 0 -->
+                                    <option value="tabs" data-bind="i18n: 'Tabs'"></option>
+                                    <!-- /ko -->
+                                </select>
+                                <div class="field-cm"></div>
+                            </div>
+                        </div>
+                        <div class="control-group" data-bind="visible: showSubCat">
+                            <label class="control-label" data-bind="i18n: 'Parent Category'"></label>
+                            <div class="controls">
+                                <select data-bind="value: mainParentCategory, options: getCategoryOptions(), optionsText: 'label', optionsValue: 'value'" class="mega-option-name">
+                                </select>
+                                <div class="field-cm" data-bind="i18n: 'Get sub-categories'"></div>
+                            </div>
+                        </div>
+                        <div class="control-group" data-bind="visible: showGrid">
+                            <label class="control-label" data-bind="i18n: 'Column'"></label>
+                            <div class="controls">
+                                <select data-bind="value: mainColumn" class="mega-option-name">
+                                    <option value="1" >1</option>
+                                    <option value="2" >2</option>
+                                    <option value="3" >3</option>
+                                    <option value="4" selected="selected">4</option>
+                                    <option value="6">6</option>
+                                    <option value="12">12</option>
+                                </select>
+                                <div class="field-cm"></div>
+                            </div>
+                        </div>
+                        <div class="control-group" data-bind="visible: showContent">
+                            <label class="control-label" data-bind="i18n: 'Content HTML'"></label>
+                            <div class="controls">
+                                <textarea readonly id="mainContentHtml" data-title="Main Content HTML" data-bind="value: mainContentHtml, event:{click: showEditor}"></textarea>
+                                <div class="field-cm"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mega-fieldset">
+                    <label class="mega-fieldset-title" data-bind="i18n: 'Left Block'"></label>
+                    <div class="field-content">
+                        <div class="control-group ">
+                            <label class="control-label" data-bind="i18n: 'Enable'"></label>
+                            <div class="controls">
+                                <select data-bind="value: leftEnable , event:{change: eventSideLeftEnable}" class="mega-option-show-icon">
+                                    <option value="1" data-bind="i18n: 'Yes'"></option>
+                                    <option value="0" data-bind="i18n: 'No'" selected="selected"></option>
+                                </select>
+                                <div class="field-cm"></div>
+                            </div>
+                        </div>
+                        <div class="control-group" data-bind="visible: showLeft">
+                            <label class="control-label" data-bind="i18n: 'Class'"></label>
+                            <div class="controls">
+                                <input data-bind = "value: leftClass"  class="mega-option-name" type="text">
+                                <div class="field-cm"></div>
+                            </div>
+                        </div>
+                        <div class="control-group" data-bind="visible: showLeft">
+                            <label class="control-label" data-bind="i18n: 'Width'"></label>
+                            <div class="controls">
+                                <input data-bind="value: leftWidth, numberRange: {min: 1, max: 12}" style="float: left; width: 20%"  class="mega-option-name" type="number" min="1" max="12">
+                                <div class="field-cm" style="margin: 1.5%"><span data-bind="i18n: ' /12 Columns'"></span></div>
+                            </div>
+                        </div>
+                        <div class="control-group " data-bind="visible: showLeft">
+                            <label class="control-label" data-bind="i18n: 'Content HTML'"></label>
+                            <div class="controls">
+                                <textarea readonly data-title="Left Content HTML" id="leftContentHtml" data-bind = "value: leftContentHtml, event:{click: showEditor}"></textarea>
+                                <div class="field-cm"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mega-fieldset">
+                    <label class="mega-fieldset-title" data-bind="i18n: 'Right Block'"></label>
+                    <div class="field-content">
+                        <div class="control-group ">
+                            <label class="control-label" data-bind="i18n: 'Enable'"></label>
+                            <div class="controls">
+                                <select  class="mega-option-show-icon" data-bind="value: rightEnable, event:{change: eventSideRightEnable}">
+                                    <option value="1" data-bind="i18n: 'Yes'"></option>
+                                    <option value="0" selected="selected" data-bind="i18n: 'No'"></option>
+                                </select>
+                                <div class="field-cm"></div>
+                            </div>
+                        </div>
+                        <div class="control-group " data-bind="visible: showRight">
+                            <label class="control-label" data-bind="i18n: 'Class'"></label>
+                            <div class="controls">
+                                <input  class="mega-option-name" type="text" data-bind="value: rightClass">
+                                <div class="field-cm"></div>
+                            </div>
+                        </div>
+
+                        <div class="control-group " data-bind="visible: showRight">
+                            <label class="control-label" data-bind="i18n: 'Width'"></label>
+                            <div class="controls">
+                                <input class="mega-option-name" type="number" min="1" max="12"
+                                       data-bind="value: rightWidth, numberRange: {min: 1, max: 12}"
+                                       style="float: left; width: 20%">
+                                <div class="field-cm" style="margin: 1.5%" data-bind="i18n: '/12 Columns'"><span></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="control-group " data-bind="visible: showRight">
+                            <label class="control-label" data-bind="i18n: 'Content HTML'"></label>
+                            <div class="controls">
+                                <textarea readonly id="rightContentHtml" data-title="Right Content HTML" data-bind="value: rightContentHtml, event:{click: showEditor}"> </textarea>
+                                <div class="field-cm"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/ko-->
+        <!--/ko-->
+    </div>
+</div>
+<ul style="display: none" class="list-item-menu" data-bind="foreach: nestedMenu, visible: nestedMenu().length > 0" data-role="menu-container-data">
+    <li class="item-menu" style="display: none">
+        <span data-bind="text: title()"></span>
+        <input type="input" data-bind="attr: {name: 'menu[' + id() + '][data]'}, value: data" data-role="id">
+        <input type="input" data-bind="attr: {name: 'menu[' + id() + '][leftContentHtml]'}, value:leftContentHtml">
+        <input type="input" data-bind="attr: {name: 'menu[' + id() + '][mainContentHtml]'}, value: mainContentHtml">
+        <input type="input" data-bind="attr: {name: 'menu[' + id() + '][rightContentHtml]'}, value:rightContentHtml">
+        <input type="input" data-bind="attr: {name: 'menu[' + id() + '][headerContentHtml]'}, value: headerContentHtml">
+        <input type="input" data-bind="attr: {name: 'menu[' + id() + '][footerContentHtml]'}, value: footerContentHtml">
+    </li>
+</ul>

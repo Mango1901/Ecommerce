@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="magenest" translate="label" sortOrder="200">
+            <label>Magenest</label>
+        </tab>
+        <section id="magenest_product_label" translate="label" type="button" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>product-label</class>
+            <label>Product Label</label>
+            <tab>magenest</tab>
+            <resource>Magenest_ProductLabel::config_productLabel</resource>
+            <!--General config-->
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>General</label>
+                <field id="enable_label_on_cartpage" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Display Label on Cart page</label>
+                    <frontend_model>Magenest\ProductLabel\Block\Adminhtml\System\Config\ToggleButton</frontend_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:helloworld:Magento_Widget:etc/widget.xsd">
+    <widget class="Magenest\Promobar\Block\Widget\BarContent" id="magenest_promobar_promobars">
+        <label>Promo Bar</label>
+        <description>Promo Bar</description>
+        <parameters>
+
+            <parameter name="select_promo_bar" xsi:type="select" required="true" visible="true"
+                       source_model="Magenest\Promobar\Model\Config\Source\SelectPromobar">
+                <label translate="true">Select Promo Bar</label>
+            </parameter>
+
+            <!--<parameter name="text_promo_bar" xsi:type="text" required="true" visible="true">-->
+                <!--<label translate="true">Text Promo Bar</label>-->
+            <!--</parameter>-->
+
+            <parameter name="template" xsi:type="select" required="true" visible="true">
+                <label translate="true">Template</label>
+                <options>
+                    <option name="custom" value="Magenest_Promobar::barcontent.phtml" selected="true">
+                        <label translate="true">Promo Bar Template</label>
+                    </option>
+                </options>
+            </parameter>
+
+        </parameters>
+    </widget>
+</widgets>

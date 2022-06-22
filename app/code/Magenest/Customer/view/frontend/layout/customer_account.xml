@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!--
+
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="div.sidebar.main">
+            <block class="Magenest\Customer\Block\AccountInfo" name="customer_info" template="Magento_Customer::sidebar/customer-info.phtml" before="-"/>
+        </referenceContainer>
+        <referenceBlock name="customer_account_navigation">
+            <block class="Magenest\Customer\Block\CustomerNavigation" name="magenest_account_customer">
+                <arguments>
+                    <argument name="css_class" xsi:type="string">nav child</argument>
+                    <argument name="path" xsi:type="string">customer/account</argument>
+                    <argument name="label" xsi:type="string">Profile account</argument>
+                    <argument name="sortOrder" xsi:type="number">1000</argument>
+                </arguments>
+                <block class="Magento\Customer\Block\Account\SortLinkInterface" name="customer-account-navigation-change-password">
+                    <arguments>
+                        <argument name="label" xsi:type="string" translate="true">Change Password</argument>
+                        <argument name="path" xsi:type="string">customer/account/edit</argument>
+                        <argument name="sort_order" xsi:type="string">1000</argument>
+                    </arguments>
+                </block>
+            </block>
+            <block class="Magenest\Customer\Block\OrderNavigation" name="customer-account-orders-link">
+                <arguments>
+                    <argument name="css_class" xsi:type="string">nav child</argument>
+                    <argument name="path" xsi:type="string">sales/order/history</argument>
+                    <argument name="label" xsi:type="string">Purchase Order</argument>
+                    <argument name="sortOrder" xsi:type="number">800</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+
+        <referenceBlock name="customer-account-navigation-product-reviews-link">
+            <arguments>
+                <argument name="label" xsi:type="string" translate="true">My Customer Reviews</argument>
+            </arguments>
+        </referenceBlock>
+
+        <!--Child of account customer nav-->
+        <move element="customer-account-navigation-account-link" destination="magenest_account_customer" as="customer_account_account_link"/>
+        <move element="customer-account-navigation-address-link" destination="magenest_account_customer" as="customer_account_address_link" />
+        <move element="customer-account-navigation-my-credit-cards-link" destination="magenest_account_customer" as="customer_account_my_credit_cards_link"/>
+
+        <!--Child of order customer nav-->
+        <move element="customer-account-navigation-wish-list-link" destination="customer-account-orders-link" as="customer_account_wish_list_link" after="-"/>
+        <move element="customer-account-navigation-orders-link" destination="customer-account-orders-link" as="customer_account_orders_list_link"/>
+        <move element="customer-account-navigation-product-reviews-link" destination="customer-account-orders-link" as="customer_account_reviews_list_link"/>
+
+        <referenceBlock name="customer-account-navigation-delimiter-1" remove="true"/>
+        <referenceBlock name="customer-account-navigation-delimiter-2" remove="true"/>
+        <referenceBlock name="customer-account-navigation-downloadable-products-link" remove="true"/>
+        <referenceBlock name="customer-account-navigation-newsletter-subscriptions-link" remove="true"/>
+    </body>
+</page>

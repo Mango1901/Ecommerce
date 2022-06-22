@@ -1,0 +1,147 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<li class="checkout-delivery-address">
+    <div class="step-title delivery-address-title" data-bind="i18n: 'Delivery address'"></div>
+    <div class="delivery-address-list not-delivery-address">
+        <each args="getRegion('address-list')" render=""/>
+        <p class="delivery-address-desc"
+           data-bind="html: customerAddress"></p>
+        <button class="btn-add-address" type="button" data-trigger="delivery-address-trigger"
+                data-bind="i18n: 'Add address'"></button>
+        <div data-bind="mageInit: {
+        'Magento_Ui/js/modal/modal':{
+            'type': 'popup',
+            'title': jQuery.mage.__('Delivery address'),
+            'trigger': '[data-trigger=delivery-address-trigger]',
+            'modalClass': 'modal-add-address',
+            'responsive': true,
+            'buttons': [{
+                text: jQuery.mage.__('Apply'),
+                class: 'action primary'
+            },
+            {
+                text: jQuery.mage.__('Back'),
+                class: 'action secondary',
+                click: function () {
+                    this.closeModal();
+                }
+            }
+            ]
+        }}">
+            <div id="shipping" class="checkout-shipping-address">
+                <!-- ko ifnot: isCustomerLoggedIn -->
+                <div class="authentication-wrapper login-btn-container">
+                    <button
+                        type="button"
+                        class="action action-auth-toggle"
+                        data-bind="click: toggleLoginForm">
+                        <span data-bind="i18n: 'Sign In'"></span>
+                    </button>
+                </div>
+                <!-- /ko -->
+                <div id="checkout-step-shipping"
+                     class="step-content"
+                     data-role="content" css="'address-selected': isCustomerLoggedIn">
+                    <!-- ko if: isCustomerLoggedIn -->
+                    <div class="shipping-action">
+                        <!-- Address form pop up -->
+                        <if args="!isFormInline">
+                            <div class="new-address-popup">
+                                <button type="button"
+                                        class="action action-show-popup"
+                                        click="showFormPopUp"
+                                        visible="!isNewAddressAdded()">
+                                    <span translate="'New Address'"/>
+                                </button>
+                            </div>
+                            <div id="opc-new-shipping-address"
+                                 visible="isFormPopUpVisible()"
+                                 render="shippingFormTemplate"/>
+                        </if>
+                        <button type="button"
+                                class="setup-address action"
+                                click="openAddressPage"
+                                visible="!isNewAddressAdded()">
+                            <span translate="'Set up address'"/>
+                        </button>
+                        <input type="text" placeholder="Search" id="search-address-input" class="search-address-input"/>
+                        <button type="button"
+                                class="search-address-button"
+                                click="searchAddressData">
+                            <span translate="'Search'"/>
+                        </button>
+                    </div>
+                    <!-- /ko -->
+                    <each if="!quoteIsVirtual" args="getRegion('customer-email')" render=""/>
+
+                    <each args="getRegion('address-list-additional-addresses')" render=""/>
+
+                    <each args="getRegion('before-form')" render=""/>
+
+                    <!-- Inline address form -->
+                    <render if="isFormInline" args="shippingFormTemplate"/>
+                    <each args="getRegion('after-form')" render=""/>
+                </div>
+            </div>
+        </div>
+    </div>
+</li>
+
+<li class="checkout-cart-summary">
+    <each args="getRegion('cart-items')" render=""/>
+    <div class="company-invoice-container mobile-device">
+        <div class="step-title"><!-- ko i18n: 'Issue company invoice'--><!-- /ko --></div>
+        <button class="btn-company-invoice" data-trigger="company-invoice-popup" type="button"></button>
+    </div>
+    <div class="checkout-shipping-method">
+        <div class="field">
+            <label class="label" data-bind="i18n: 'Order Note'"></label>
+            <textarea data-bind="attr: {placeholder: jQuery.mage.__('Leave a message for Kangaroo')}, value: cartCustomerMessage"></textarea>
+        </div>
+        <div class="shipping-method-block">
+            <!-- ko if: rates().length -->
+            <div class="shipping-method-title" data-bind="i18n: 'Form of transportation'"></div>
+            <!-- /ko -->
+            <div class="shipping-method-detail">
+                <!-- ko if: rates().length -->
+                <!-- ko if: isSelected -->
+                <div class="shipping-method-info">
+                    <span class="name" data-bind="html: getShippingMethod()"></span>
+                    <span class="description" data-bind="html: getShippingCarrier()">
+                    </span>
+                </div>
+                <div class="shipping-method-inner">
+                    <span class="price" data-bind="html: getShippingPrice()"></span>
+                    <button class="btn-change-shipping-method" data-bind="i18n: 'Change'"
+                            data-trigger="shipping-method"></button>
+                </div>
+                <!-- /ko -->
+                <!-- ko ifnot: isSelected -->
+                <div class="shipping-method-inner">
+                    <button class="btn-change-shipping-method" data-bind="i18n: 'Please select shipping method'" data-trigger="shipping-method"></button>
+                </div>
+                <!-- /ko -->
+                <!-- /ko -->
+                <!-- ko ifnot: rates().length -->
+                <div class="shipping-method-inner">
+                    <button class="btn-change-shipping-method" data-bind="i18n: 'Please provide shipping information'" data-trigger="delivery-address-trigger"></button>
+                </div>
+                <!-- /ko -->
+            </div>
+        </div>
+    </div>
+    <div class="checkout-cart-subtotal">
+        <div class="checkout-cart-subtotal-title">
+            <span class="title" data-bind="i18n: 'Order Total'"></span>
+            <span class="product-qty"><!-- ko text: getTotalItems().toLocaleLowerCase() --><!-- /ko --></span>
+        </div>
+        <div class="checkout-cart-subtotal-price">
+            <span class="price" data-bind="html: getSubtotal()"></span>
+            <span class="vat-note" data-bind="i18n: '(VAT included if any)'"></span>
+        </div>
+    </div>
+</li>

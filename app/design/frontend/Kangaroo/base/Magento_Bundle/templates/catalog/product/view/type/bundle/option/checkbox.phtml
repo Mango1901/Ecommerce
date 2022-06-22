@@ -1,0 +1,84 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+
+<?php /* @var $block \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Checkbox */ ?>
+<?php $_option = $block->getOption() ?>
+<?php $_selections = $_option->getSelections() ?>
+<?php $inputClass = 'checkbox product bundle option bundle-option-' . $block->escapeHtmlAttr($_option->getId()) ?>
+<?php $inputId = 'bundle-option-' . $block->escapeHtmlAttr($_option->getId()) ?>
+<?php $inputName = 'bundle_option[' . $block->escapeHtmlAttr($_option->getId()) . ']' ?>
+<?php $dataValidation = 'data-validate="{\'validate-one-required-by-name\':\'input[name^=&quot;bundle_option[' .
+    $block->escapeHtmlAttr($_option->getId()) . ']&quot;]:checked\'}"' ?>
+<?php $helperImage = $this->helper('\Magento\Catalog\Helper\Image'); ?>
+
+<div class="field option <?= ($_option->getRequired()) ? ' required': '' ?>">
+    <label class="bundle-items-head">
+        <span><?= $block->escapeHtml($_option->getTitle()) ?></span>
+    </label>
+    <div class="control bundle-items-content">
+        <div class="nested options-list bundle-items">
+            <?php if ($block->showSingle()): ?>
+                <div class="bundle-item-photo">
+                    <?php $imageShowSingle = $helperImage->init($_selections[0], 'product_base_image')
+                        ->setImageFile($_selections[0]->getImage())
+                        ->getUrl(); ?>
+                    <img src="<?= $imageShowSingle ?>"/>
+                </div>
+                <div class="bundle-item-detail price-option-wrapper">
+                    <?= /* @noEscape */ $block->getSelectionQtyTitlePrice($_selections[0]) ?>
+                    <?= /* @noEscape */ $block->getTierPriceRenderer()->renderTierPrice($_selections[0]) ?>
+                </div>
+                <input type="hidden"
+                       class="bundle-option-<?= $block->escapeHtmlAttr($_option->getId()) ?>  product bundle option"
+                       name="bundle_option[<?= $block->escapeHtml($_option->getId()) ?>]"
+                       value="<?= $block->escapeHtmlAttr($_selections[0]->getSelectionId()) ?>"/>
+            <?php else: ?>
+                <?php foreach ($_selections as $selection): ?>
+                    <?php $sectionId = $selection->getSelectionId() ?>
+                    <div class="bundle-item">
+                        <input class="<?=/* @noEscape */ $inputClass ?> change-container-classname"
+                               id="<?=/* @noEscape */ $inputId . '-' . $block->escapeHtmlAttr($sectionId)?>"
+                               type="checkbox"
+                               <?php if ($_option->getRequired()): ?>
+                                    <?= /* @noEscape */ $dataValidation ?>
+                               <?php endif;?>
+                               name="<?=/* @noEscape */ $inputName .'['. $block->escapeHtmlAttr($sectionId)?>]"
+                               data-selector="<?= /* @noEscape */ $inputName.'['.$block->escapeHtmlAttr($sectionId)?>]"
+                                <?php if ($block->isSelected($selection)): ?>
+                                    <?= ' checked="checked"' ?>
+                                <?php endif; ?>
+                                <?php if (!$selection->isSaleable()): ?>
+                                    <?= ' disabled="disabled"' ?>
+                                <?php endif; ?>
+                               value="<?= $block->escapeHtmlAttr($sectionId) ?>"
+                               data-errors-message-box="#validation-message-box"/>
+                        <label class="label bundle-item-info"
+                               for="<?= /* @noEscape */ $inputId . '-' . $block->escapeHtmlAttr($sectionId) ?>">
+
+                            <div class="bundle-item-photo">
+                                <?php
+
+                                    $imageUrl = $helperImage->init($selection, 'product_base_image')
+                                        ->setImageFile($selection->getImage())
+                                        ->getUrl();
+                                ?>
+
+                                <img src="<?php echo $imageUrl; ?>">
+                            </div>
+                            <div class="bundle-item-detail price-option-wrapper">
+                                <?= /* @noEscape */ $block->getSelectionQtyTitlePrice($selection) ?>
+                                <?= /* @noEscape */ $block->getTierPriceRenderer()->renderTierPrice($selection) ?>
+                            </div>
+                        </label>
+                    </div>
+                <?php endforeach; ?>
+                <div id="bundle-option-<?= $block->escapeHtmlAttr($_option->getId()) ?>-container"></div>
+                <div id="validation-message-box"></div>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>

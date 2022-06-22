@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="customer_account"/>
+    <head>
+        <css src="Magenest_CouponCode::css/coupon.css" rel="stylesheet" type="text/css"  />
+    </head>
+    <body>
+        <referenceBlock name="page.main.title">
+            <referenceBlock name="page_description" remove="true" />
+            <block name="coupon.more.info" template="Magenest_CouponCode::coupon-more-info.phtml" after="-" />
+        </referenceBlock>
+        <referenceContainer name="content">
+            <block class="Magenest\CouponCode\Block\MyCoupon" name="my.magenest.coupon.list"
+                   template="Magenest_CouponCode::mycoupon.phtml"
+                   ifconfig="magenest_coupon/couponlisting/enable"
+                   cacheable="false">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">Magenest\CouponCode\ViewModel\Coupon</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <container name="blog.container.left" htmlTag="div" htmlClass="blog-container-left" before="-">
+                <block class="FishPig\WordPress\Block\Sidebar\Widget\Categories" name="category.blog" template="FishPig_WordPress::category-blog.phtml"/>
+            </container>
+
+            <container name="blog.container.right" htmlTag="div" htmlClass="blog-container-right">
+                <block class="FishPig\WordPress\Block\Sidebar" name="wp.sidebar" before="-">
+                    <action method="setWidgetArea">
+                        <argument name="widgetArea" xsi:type="string">sidebar-main</argument>
+                    </action>
+                </block>
+                <container name="blog.container.inner" htmlTag="div" htmlClass="blog-container-inner">
+                    <block class="FishPig\WordPress\Block\Post\ListPostSlider" name="slider.blog" template="FishPig_WordPress::slider-blog.phtml" before="-"/>
+                </container>
+                <block class="FishPig\WordPress\Block\Homepage\View" name="wp.postlist.wrapper" template="FishPig_WordPress::post/list/wrapper.phtml">
+                    <block class="FishPig\WordPress\Block\Post\ListPost" name="wp.post.list" template="FishPig_WordPress::post/list.phtml">
+                        <block class="FishPig\WordPress\Block\Post\PostList\Pager" name="wp.post_list.pager" as="pager" />
+                    </block>
+                </block>
+            </container>
+            <container name="blog.container.list" htmlTag="div" htmlClass="blog-container-list" />
+        </referenceContainer>
+        <move element="page.main.title" destination="blog.container.inner" before="-"/>
+        <move element="breadcrumbs" destination="blog.container.left" before="-"/>
+        <referenceBlock name="wishlist_sidebar" remove="true"/>
+        <referenceBlock name="sale.reorder.sidebar" remove="true"/>
+        <move element="blog.container.left" destination="blog.container.list" before="-"/>
+        <move element="blog.container.right" destination="blog.container.list" after="blog.container.left"/>
+        <move element="blog.container.inner" destination="blog.container.right" before="-"/>
+    </body>
+</page>

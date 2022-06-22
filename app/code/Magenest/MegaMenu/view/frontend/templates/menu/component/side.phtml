@@ -1,0 +1,22 @@
+<?php
+/** @var \Magenest\MegaMenu\Block\Menu\Component\Side $block */
+if ($block->getData('enable') != '1') {
+    return "";
+}
+$helper = $block->getHelper();
+$classes = $block->getData('class') ? explode(' ', $block->getData('class')) : [];
+$position = $block->getData('position');
+$classes[] = 'block-' . $position;
+if (in_array($position, ['footer', 'header'], true)) {
+    $classes[] = 'col-md-12';
+} elseif ($block->getData('width')) {
+    $classes[] = ' col-md-' . $block->getData('width');
+}
+?>
+<div class="<?= implode(' ', $classes) ?>">
+	<div>
+        <?php if ($block->getData('contentHtml')): ?>
+            <?= $helper->renderHTMLContent($block->getData('contentHtml')); ?>
+        <?php endif; ?>
+	</div>
+</div>

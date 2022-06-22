@@ -1,0 +1,11 @@
+<!--@subject {{trans "Affiliate Account Rejection"}} @-->
+<!--@vars {
+"var customer.name":"Account Name"
+} @-->
+
+{{template config_path="design/email/header_template"}}
+
+<p class="greeting">Dear {{trans "%name," name=$customer.name}}</p>
+<p>{{trans "Thank you for your interest in our Affiliate program. However, we regret that your account is rejected."}}</p>
+
+{{template config_path="design/email/footer_template"}}

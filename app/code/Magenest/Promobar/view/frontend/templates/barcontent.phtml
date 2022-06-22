@@ -1,0 +1,43 @@
+<?php
+$id = $block->getData('select_promo_bar');
+$bar = $this->getBarById($id);
+$breakpoint = 0;
+if($bar){
+    if(array_key_exists('promobar_id',$bar->getData())){
+        $promobarId = $bar->getData('promobar_id');
+        $mobileBar = $block->getMobileBarById($promobarId);
+        $breakpoint = $mobileBar->getData('breakpoint');
+    }
+}
+?>
+
+<div class="bar_content<?= $id; ?>">
+    <div class="desktop_bar" style="display: none">
+        <?= $this->getLayout()->createBlock("Magenest\Promobar\Block\Widget\Promobars")->setPromobarId($id)->setTemplate("Magenest_Promobar::promobars.phtml")->toHtml() ?>
+    </div>
+    <div class="mobile_bar" style="display: none">
+        <?= $this->getLayout()->createBlock("Magenest\Promobar\Block\Widget\MobilePromobars")->setPromobarId($id)->setTemplate("Magenest_Promobar::mobile_promobars.phtml")->toHtml() ?>
+    </div>
+</div>
+
+<script>
+	require([
+    'jquery'
+], function ($) {
+    $(document).ready(function() {
+    	var screenWidth = $(window).width();
+    	var breakpoint = <?= $breakpoint ?>;
+        if (screenWidth > breakpoint && breakpoint != 0) {
+            $('.bar_content<?= $id; ?> .desktop_bar').css('display','block');
+            $('.bar_content<?= $id; ?> .mobile_bar').css('display','none');
+        }
+
+        if(screenWidth < breakpoint) {
+            $('.bar_content<?= $id; ?> .desktop_bar').css('display','none');
+            $('.bar_content<?= $id; ?> .mobile_bar').css('display','block');
+        }
+
+
+    });
+});
+</script>

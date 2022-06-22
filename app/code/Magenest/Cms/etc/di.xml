@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Widget\Model\Widget">
+        <plugin name="move_image_widget" type="Magenest\Cms\Plugin\Model\WidgetPlugin" sortOrder="1" disabled="false"/>
+    </type>
+    <type name="Magento\Framework\View\Layout\PageType\Config">
+        <plugin name="add_cms_pages_to_layout_chooser"
+                type="Magenest\Cms\Plugin\AddCmsPagesToLayoutChooser" sortOrder="10"/>
+    </type>
+    <type name="Magento\PageBuilder\Model\Catalog\Sorting">
+        <arguments>
+            <argument name="sortClasses" xsi:type="array">
+                <item name="best_seller" xsi:type="string">Magento\PageBuilder\Model\Catalog\Sorting\Position\BestSeller</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="Magento\PageBuilder\Model\Catalog\Sorting\Position\BestSeller" type="Magento\PageBuilder\Model\Catalog\Sorting\SimpleOption">
+        <arguments>
+            <argument name="label" xsi:type="string">Best Seller</argument>
+            <argument name="sortDirection" xsi:type="const">\Magento\Framework\DB\Select::SQL_DESC</argument>
+            <argument name="attributeField" xsi:type="string">final_sold_qty</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="DefaultWYSIWYGValidator">
+        <arguments>
+            <argument name="allowedAttributes" xsi:type="array">
+                <item name="data-note" xsi:type="string">data-note</item>
+            </argument>
+        </arguments>
+    </virtualType>
+</config>

@@ -1,0 +1,143 @@
+<?php
+/**
+ * Copyright © 2015 Magenest. All rights reserved.
+ * See COPYING.txt for license details.
+ * @category  Magenest
+ */
+/** @var  $block \Magenest\RewardPoints\Block\Customer\Friend */
+$referralCode = $block->getReferralCode();
+$customerId   = $block->getCustomer()->getId();
+/** @var \Magenest\RewardPoints\Helper\Data $referHelper */
+$referHelper = $this->helper('Magenest\RewardPoints\Helper\Data');
+$customerSession = $block->getCustomer();
+$referralEarnedPoints = $customerSession->getData('rfa_customer_earned_points');
+$isReferByLinkEnabled = $referHelper->isReferByLinkEnabled();
+if ($isReferByLinkEnabled){
+    $referLink = $block->getReferralLink();
+    if (!empty($referLink)){
+        $shareFacebook = "https://www.facebook.com/sharer/sharer.php?u=".urlencode($referLink)."&src=sdkpreparse";
+        $shareTwitter = "https://twitter.com/share?url=$referLink";
+        $shareWhatsApp = "whatsapp://send?text=$referLink";
+    }
+}
+?>
+<?php if ($block->isEnableReferralCode() && !empty($customerId)): ?>
+    <!-- Tab links -->
+    <div class="referral-tab">
+        <button class="tablinks <?= $block->actvieClass($tabs = 'general') ?>" data-name="general-referral-tabs"><?= __('Sharing'); ?></button>
+        <button class="tablinks <?= $block->actvieClass($tabs = 'referral') ?>" data-name="my-referral-tabs"><?= __('My Referral'); ?></button>
+    </div>
+
+    <div id="general-referral-tabs" class="referral-code referral-tabs-content" style="margin-bottom: 10px; <?= $block->pagingRecords($tabs = 'general') ?>">
+        <span id="rl-noti-copied" style="display: none">
+            <i>
+                <?= __('Link was copied to the clipboard.') ?>
+            </i>
+        </span><br/>
+        <div id="rl-invite-code">
+            <p><?= __('Share your personal invite code'); ?></p>
+            <span><?= $referralCode ?></span>
+        </div>
+        <?php
+        if ($isReferByLinkEnabled):
+            if (!empty($referLink)):
+                ?>
+                <div style="text-align: center;font-weight: 900;margin: 20px;"><span><?= __('Or') ?></span></div>
+                <!--Facebook-->
+                <div id="fb-root"></div>
+                <script>(function(d, s, id) {
+                        var js, fjs = d.getElementsByTagName(s)[0];
+                        if (d.getElementById(id)) return;
+                        js = d.createElement(s); js.id = id;
+                        js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2';
+                        fjs.parentNode.insertBefore(js, fjs);
+                    }(document, 'script', 'facebook-jssdk'));
+                </script>
+                <div id="rl-referreal-link">
+                    <input class="rl-referreal-input" value="<?= $referLink; ?>"/>
+                    <span id="rl-span" style="display: none"><?= $referLink; ?></span>
+                    <div class="styled-select rounded">
+                        <div class="select-box">
+                            <span><?= __('Share') ?></span>
+                            <ul class="option">
+                                <li class="social-link" id="copy-referreal-link">
+                                    <div class="social-item">
+                                        <i class="fa fa-link" aria-hidden="true"></i><?= __('Link') ?>
+                                    </div>
+                                </li>
+                                <li class="social-email" id="rl-send-email">
+                                    <div class="social-item">
+                                        <i class="fa fa-envelope-o" aria-hidden="true"></i><?= __('Email') ?>
+                                    </div>
+                                </li>
+                                <li class="social-face">
+                                    <a href="<?= $shareFacebook; ?>"
+                                       class="fb-xfbml-parse-ignore"
+                                       target="_blank">
+                                        <div class="social-item">
+                                            <i class="fa fa-facebook" aria-hidden="true"></i>
+                                            <?= __('Facebook'); ?>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="social-twitter">
+                                    <a href="<?= $shareTwitter; ?>"
+                                       data-url="<?= $referLink; ?>"
+                                       target="_blank"
+                                       data-show-count="false">
+                                        <div class="social-item">
+                                            <i class="fa fa-twitter" aria-hidden="true"></i>
+                                            <?= __('Twitter'); ?>
+                                        </div>
+
+                                    </a>
+                                </li>
+                                <li class="social-whatsapp">
+                                    <a href="<?= $shareWhatsApp ?>"
+                                       target="_blank"
+                                       data-action="share/whatsapp/share">
+                                        <div class="social-item">
+                                            <i class="fa fa-whatsapp" aria-hidden="true"></i>
+                                            <?= __('WhatsApp') ?>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="social-share-button">
+                    <?= $block->getChildHtml('referral_customer_points_list.share_via_email'); ?>
+                </div>
+
+            <?php endif; ?>
+        <?php endif; ?>
+        <?php if ($block->enableInputReferralCode()): ?>
+            <?php $referralCodeCookie = ($referHelper->isReferByLinkEnabled())? $block->getReferralCodeCookie() : ''; ?>
+            <div id="rl-referral-code">
+                <h3>
+                    <?= __('Referral code'); ?>
+                </h3>
+                <p>
+                    <?= __('Have a referral code from a friend? Enter it here.'); ?>
+                </p>
+                <div id="rl-apply-code">
+                    <div class="noti"></div>
+                    <input placeholder="<?= __('Referred by') ?>" id="apply-code" value="<?= ($referralCode == $referralCodeCookie)? '' : $referralCodeCookie; ?>">
+                    <button id="btn-apply"><?= __('Apply'); ?></button>
+                </div>
+            </div>
+        <?php endif; ?>
+    </div>
+    <div id="my-referral-tabs" class="referral-tabs-content" style="<?= $block->pagingRecords($tabs = 'referral') ?>">
+        <?= $block->getChildHtml('referral_customer_points_list.my_referral_tabs'); ?>
+        <?= $block->getChildHtml('referral_customer_points_list.js'); ?>
+    </div>
+<?php endif; ?>
+
+
+
+
+
+
+

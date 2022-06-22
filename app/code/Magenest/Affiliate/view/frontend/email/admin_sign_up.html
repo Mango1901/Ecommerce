@@ -1,0 +1,11 @@
+<!--@subject {{trans "Affiliate Sign Up"}} @-->
+<!--@vars {
+"var customer.email":"Customer Email",
+"var customer.name":"Customer Name"
+} @-->
+
+{{template config_path="design/email/header_template"}}
+
+<p>{{trans "%name  registers to become an affiliate with the %email email." name=$customer.name email=$customer.email}}</p>
+
+{{template config_path="design/email/footer_template"}}

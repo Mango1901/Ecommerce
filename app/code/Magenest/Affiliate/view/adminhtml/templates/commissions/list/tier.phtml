@@ -1,0 +1,30 @@
+<?php
+
+
+$element        = $block->getElement();
+?>
+<div class="field" id="attribute-<?= $element->getHtmlId() ?>-container" data-attribute-code="<?= $element->getHtmlId() ?>"
+     data-apply-to="<?= $block->escapeHtml(
+         $this->helper('Magento\Framework\Json\Helper\Data')->jsonEncode(
+             $element->hasEntityAttribute() ? $element->getEntityAttribute()->getApplyTo() : []
+         )
+     ) ?>">
+    <label class="commission-list-label"><span><?= $block->getElement()->getLabel() ?></span></label>
+    <div class="control">
+        <table class="admin__control-table commission_tiers_table" id="commission_tiers_table">
+            <thead>
+                <tr>
+                    <th class="col-tier-number"><?= /* @escapeNotVerified */ __('Tier') ?></th>
+                    <th class="col-1st-order-type"><?= /* @escapeNotVerified */ __('Type (1st Order)') ?></th>
+                    <th class="col-1st-value"><?= /* @escapeNotVerified */ __('Value (1st Order)') ?></th>
+                    <th class="col-next-order-type"><?= /* @escapeNotVerified */ __('Type (Next orders)') ?></th>
+                    <th class="col-next-order-value"><?= /* @escapeNotVerified */ __('Value (Next orders)') ?></th>
+                    <?= $block->addExtraTHead() ?>
+                </tr>
+            </thead>
+            <?= $block->getBodyCommission() ?>
+        </table>
+        <?= $block->addExtraHtml() ?>
+    </div>
+</div>
+

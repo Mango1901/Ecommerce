@@ -1,0 +1,1301 @@
+<div class="admin__fieldset">
+    <!-- Enable Slider -->
+    <div class="admin__field">
+        <label class="admin__field-label"><span>Enable Slider/Banner</span></label>
+        <div class="admin__field-control">
+            <div class="admin__actions-switch">
+                <input type="checkbox" class="admin__actions-switch-checkbox" id="slider_enable" data-bind="checked: status">
+                <label class="admin__actions-switch-label" for="slider_enable">
+                    <span class="admin__actions-switch-text" data-text-on="Yes" data-text-off="No"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <!-- END Enable Slider -->
+    <!-- Slider Name -->
+    <div class="admin__field">
+        <label class="admin__field-label"><span>Slider/Banner Name</span></label>
+        <div class="admin__field-control">
+            <input class="admin__control-text" type="text" data-bind="value: sliderName" maxlength="255" required>
+        </div>
+    </div>
+    <!-- END Slider Name -->
+    <!-- Type -->
+    <div class="admin__field">
+        <label class="admin__field-label"><span>Type</span></label>
+        <div class="admin__field-control">
+            <select class="admin__control-select" style="width: 100%;" data-bind="value: type, event: {change: function(data, event) { changeTypeSlide(data) }}" required>
+                <option value="0">Banner</option>
+                <option value="1">Single Slider</option>
+                <option value="2">2 Sliders - Slider Syncing</option>
+            </select>
+        </div>
+    </div>
+    <div><p style="text-align: center; color: #999; font-style: italic;">Note: How to use additional animations from <a href="https://daneden.github.io/animate.css/" target="true">Animate.css library</a></p></div>
+</div>
+<!-- END Type -->
+<div class="slider-main col-l-8 col-l-push-4" data-bind="attr: {class: fullSlider}">
+    <div class="slider-tabs-container">
+        <div class="slider-tabs" id="slider_tabs">
+            <ul class="slider-tabs-title" data-bind="visible: type() == '2'">
+                <li class="slider-tab-title" data-bind="css: (currentSlider() === slider) ? 'active' : 'no-active'"><a data-bind="click: function(data, event){ switchSlider(slider) }">SLIDER 1</a></li>
+                <li class="slider-tab-title" data-bind="css: (currentSlider() === childSlider) ? 'active' : 'no-active'"><a data-bind="click: function(data, event){ switchSlider(childSlider) }">SLIDER 2</a></li>
+            </ul>
+        </div>
+        <div class="slider-tabs-content" id="slider_tabs_content">
+            <div id="slider_tab_content_1">
+                <!-- Content Slider -->
+                <div class="slider-item-container" data-bind="with: currentSlider, as: 'slider'">
+                    <!-- Setting - Item -->
+                    <div class="header">
+                        <!-- ko if: $parent.type() === '0' -->
+                        <h4><strong>BANNER</strong></h4>
+                        <!-- /ko -->
+                        <!-- ko ifnot: $parent.type() === '0' -->
+                        <h4><strong>SLIDER</strong></h4>
+                        <!-- /ko -->
+                        <div class="setting">
+                            <ul>
+                                <li><a href="#" class="edit-icon" data-bind="click: function(data, event){ $parent.openEditor('slider') }">Edit</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- END Setting - Item -->
+                    <!-- Content Slider Content -->
+                    <!-- ko if: items().length !== 0 -->
+                        <!--ko  with: currentItem, as: 'item' -->
+
+                        <div class="slider-item-content" data-bind="
+                             style:{
+                                 'position': 'relative',
+                                 'padding-top': paddingTop() + 'px',
+                                 'padding-right': paddingRight() + 'px',
+                                 'padding-bottom': paddingBottom() + 'px',
+                                 'padding-left': paddingLeft() + 'px',
+                                 'margin-top': marginTop() + 'px',
+                                 'margin-right': marginRight() + 'px',
+                                 'margin-bottom': marginBottom() + 'px',
+                                 'margin-left': marginLeft() + 'px',
+                                 backgroundImage: bgImage() === undefined ? 'none' : 'url(\''+ $parents[1].baseUrl + bgImage() +'\')',
+                                 'min-height': height(),
+                                 backgroundPosition: bgPosition(),
+                                 backgroundRepeat: bgRepeat(),
+                                 backgroundSize: bgSize(),
+                            }
+                        ">
+                            <!-- Item -->
+                            <div class="header" style="position: absolute; top: 5px; left: 15px;">
+                                <!-- ko if: $parents[1].type() === '0' -->
+                                <h4>Banner Container</h4>
+                                <!-- /ko -->
+                                <!-- ko ifnot: $parents[1].type() === '0' -->
+                                <h4>Slider Item</h4>
+                                <!-- /ko -->
+
+                                <div class="setting">
+                                    <ul>
+                                        <li><a href="#" class="edit-icon" data-bind="click: function(data, event){ $parents[1].openEditor('item') }">Edit</a></li>
+                                        <!-- ko if: $parents[1].type() === '1' -->
+                                        <li><a href="#" class="delete-icon" data-bind="click: function(data, event) { $parent.rmCurrentItem(data, event, $parent.currentItem) }">Delete</a></li>
+                                        <!-- /ko -->
+                                        <!-- ko if: $parents[1].type() === '2' -->
+                                        <li><a href="#" class="delete-icon" data-bind="click: function(data, event) { $parent.rmCurrentItemSliderSyncing($parent.currentItem, $parents[1]) }">Delete</a></li>
+                                        <!-- /ko -->
+                                    </ul>
+                                </div>
+                            </div>
+                            <div style="height: 45px;"></div>
+                            <!-- END Item -->
+                            <!-- Edit Content -->
+                            <div class="edit-content" data-bind="style: {
+                                'position': 'relative',
+                                'max-width': maxWidthContent(),
+                                 'padding-top': contentPaddingTop() + 'px',
+                                 'padding-right': contentPaddingRight() + 'px',
+                                 'padding-bottom': contentPaddingBottom() + 'px',
+                                 'padding-left': contentPaddingLeft() + 'px',
+                                 'margin-top': contentMarginTop() + 'px',
+                                 'margin-right': marginRightContent(),
+                                 'margin-bottom': contentMarginBottom() + 'px',
+                                 'margin-left': marginLeftContent(),
+                                 width: contentWidth() +  contentWidthUnit(),
+                                 height: contentHeight() == '' ? 'auto' : contentHeight() +  contentHeightUnit(),
+                                 'background-color': contentBgColorRgb(),
+                                 float: floatContent(),
+                                 'min-height': '60px'
+                            }">
+                                <div class="header" style="position: absolute; top: 5px; left: 15px;">
+                                    <!-- ko if: $parents[1].type() === '0' -->
+                                    <h4>Banner Content</h4>
+                                    <!-- /ko -->
+                                    <!-- ko ifnot: $parents[1].type() === '0' -->
+                                    <h4>Slider Item Content</h4>
+                                    <!-- /ko -->
+                                    <div class="setting">
+                                        <ul>
+                                            <li><a href="#" class="edit-icon" data-bind="click: function(data, event){ $parents[1].openEditor('itemContent') }">Edit</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div id="blocks-list" style=" margin-top: 45px; " data-bind="foreach: { data: blocks, as: 'block' }, afterRender: function(data, event) { $parents[1].sortTable($parents[1]) }" >
+                                    <div style="width: 100%;" data-bind="attr: {id: $index,
+                                    style: ($parents[2].editorActivating() === 'block' && $parents[2].editorStatus() === true && $data === $parent.blocks()[$parent.blockSelecting()] ) ? 'border-left-style: solid; border-color: red;' : ''
+                                    }" >
+                                        <!-- ko if: block.type() === 'text' -->
+                                        <div class="content-box title" data-bind="style: {
+                                            'padding-top': paddingTop() + 'px',
+                                            'padding-right': paddingRight() + 'px',
+                                            'padding-bottom': paddingBottom() + 'px',
+                                            'padding-left': paddingLeft() + 'px',
+                                            'margin-top': marginTop() + 'px',
+                                            'margin-right': marginRightBlock(),
+                                            'margin-bottom': marginBottom() + 'px',
+                                            'margin-left': marginLeftBlock(),
+                                            width: width() + widthUnit(),
+                                            float: floatContentBlock(),
+
+                                        }">
+                                            <div class="setting">
+                                                <ul>
+                                                    <li><a href="#" class="edit-icon" data-bind="click: function(data, event) {$parent.editBlock($parent, data); $parents[2].openEditor('block');}">Edit</a></li>
+                                                    <li><a href="#" class="delete-icon" data-bind="click: $parent.removeBlock">Delete</a></li>
+                                                </ul>
+                                            </div>
+                                            <span data-bind="text: block.content()">Text</span>
+                                        </div>
+                                        <!-- /ko -->
+                                        <!-- ko if: block.type() === 'button' -->
+                                        <div class="content-box button" data-bind="style: {
+                                            'padding-top': paddingTop() + 'px',
+                                            'padding-right': paddingRight() + 'px',
+                                            'padding-bottom': paddingBottom() + 'px',
+                                            'padding-left': paddingLeft() + 'px',
+                                            'margin-top': marginTop() + 'px',
+                                            'margin-right': marginRightBlock(),
+                                            'margin-bottom': marginBottom() + 'px',
+                                            'margin-left': marginLeftBlock(),
+                                            width: width() + widthUnit(),
+                                            float: floatContentBlock(),
+                                        }">
+                                            <div class="setting">
+                                                <ul>
+                                                    <li><a href="#" class="edit-icon" data-bind="click: function(data, event) { $parent.editBlock($parent, data); $parents[2].openEditor('block');}">Edit</a></li>
+                                                    <li><a href="#" class="delete-icon" data-bind="click: $parent.removeBlock">Delete</a></li>
+                                                </ul>
+                                            </div>
+                                            <button href="#" data-bind="text: $data.content()"></button>
+                                        </div>
+                                        <!-- /ko -->
+                                        <!-- ko if: block.type() === 'html' -->
+                                        <div class="content-box html"  data-bind="style: {
+                                            'padding-top': paddingTop() + 'px',
+                                            'padding-right': paddingRight() + 'px',
+                                            'padding-bottom': paddingBottom() + 'px',
+                                            'padding-left': paddingLeft() + 'px',
+                                            'margin-top': marginTop() + 'px',
+                                            'margin-right': marginRightBlock(),
+                                            'margin-bottom': marginBottom() + 'px',
+                                            'margin-left': marginLeftBlock(),
+                                            width: width() + widthUnit(),
+                                            float: floatContentBlock(),
+                                        }">
+                                            <div class="setting">
+                                                <ul>
+                                                    <li><a href="#" class="edit-icon" data-bind="click: function(data, event) {$parent.editBlock($parent, data); $parents[2].openEditor('block'); }">Edit</a></li>
+                                                    <li><a href="#" class="delete-icon" data-bind="click: $parent.removeBlock">Delete</a></li>
+                                                </ul>
+                                            </div>
+                                            <div data-bind="html: block.content()"></div>
+                                        </div>
+                                        <!-- /ko -->
+                                        <div style="clear: both;"></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- END Edit Content -->
+                        </div>
+                        <!-- /ko -->
+                    <!-- /ko -->
+                    <!-- END Content Slider Content -->
+                </div>
+                <!-- END Content Slider -->
+
+                <!-- Slider items control -->
+                <div class="slider-items-control">
+                    <!-- ko with: currentSlider, as: 'slider' -->
+                    <div class="items-control">
+                        <!--ko ifnot: $parent.type() === '0' -->
+                        <ul class="items" data-bind="foreach: {data: items, as: 'item'}">
+                            <li data-bind="css: ($parent.currentItem() === item) ? 'active' : 'no-active'">
+                                <a href="#" data-bind="click: function(data, event) { $parent.switchItem(data, event, item) }, text: itemName"></a>
+                            </li>
+                        </ul>
+                        <!-- /ko -->
+                    </div>
+                    <!--ko if: $parent.type() === '1' -->
+                    <a href="#" class="button btn-add" data-bind="click: addItem">Add New Slider Item</a>
+                    <!-- /ko -->
+                    <!--ko if: $parent.type() === '2' -->
+                    <a href="#" class="button btn-add" data-bind="click: function(data, event) {addItemSliderSyncing($parent)}">Add New Slider Item</a>
+                    <!-- /ko -->
+                    <!-- /ko -->
+                    <a href="#" class="button btn-add" data-bind="click: toggleAddContent">Add Content box</a>
+                    <div class="contentbox-actions" data-bind="visible: detailsEnabled">
+                        <label>Content box: </label>
+                        <span class="button btn-add" data-bind="click: function(data, event) { currentSlider().currentItem().addBlock('button')}">Button</span>
+                        <span class="button btn-add" data-bind="click: function(data, event) { currentSlider().currentItem().addBlock('text')}">Text</span>
+                        <span class="button btn-add" data-bind="click: function(data, event) { currentSlider().currentItem().addBlock('html')}">HTML</span>
+                    </div>
+                </div>
+                <!-- END Slider items control -->
+
+            </div>
+            <div id="slider_tab_content_2"></div>
+        </div>
+    </div>
+</div>
+
+<div class="slider-secondary col-l-4 col-l-push-8" data-bind="attr: {class: showEditorSlider}">
+    <div class="slider-setting-container">
+        <h2>
+            <!-- ko if: type() === '0' -->
+            Banner Setting
+            <!-- /ko -->
+            <!-- ko ifnot: type() === '0' -->
+            Slider Setting
+            <!-- /ko -->
+            <a href="#" data-bind="click: closeEditor">Close</a>
+        </h2>
+        <div id="magenest-slider">
+            <div class="fieldset-wrapper admin__collapsible-block-wrapper" id="slider-settings"
+                 data-bind="visible: editorActivating() === 'slider' && type() !== '0', mageInit: {'collapsible':{ }}">
+                <div data-role="title" class="fieldset-wrapper-title">
+                    <strong class="admin__collapsible-title">Slider Configurations</strong>
+                </div>
+                <div data-role="content" class="admin__fieldset admin__fieldset-wrapper-content">
+                    <fieldset class="admin__fieldset" data-bind="with: currentSlider, as: 'slider'">
+                        <!-- Items/Slider -->
+                        <div class="admin__field">
+                            <label class="admin__field-label"><span>Items/Slider</span></label>
+                            <div class="admin__field-control">
+                                <select class="admin__control-select" data-bind="options: optionChooseNumOfItemShow,value: numOfItemsShow">
+<!--                                    <optgroup label="Single Slider Item (1 item/slider)">-->
+<!--                                        <option value="1">1</option>-->
+<!--                                    </optgroup>-->
+<!--                                    <optgroup label="Multiple Slider Items (>= 2 items/slider)">-->
+<!--                                        <option value="2">2</option>-->
+<!--                                        <option value="3">3</option>-->
+<!--                                        <option value="4">4</option>-->
+<!--                                        <option value="5">5</option>-->
+<!--                                        <option value="6">6</option>-->
+<!--                                        <option value="7">7</option>-->
+<!--                                        <option value="8">8</option>-->
+<!--                                        <option value="9">9</option>-->
+<!--                                        <option value="10">10</option>-->
+<!--                                    </optgroup>-->
+                                </select>
+                            </div>
+                        </div>
+                        <!-- END Items/Slider -->
+                        <!-- Slider Animate -->
+                        <div class="admin__field" data-bind="visible: numOfItemsShow() === '1'">
+                            <label class="admin__field-label">
+                                <span>Slider Animate</span>
+                                <span style="font-weight: 400;color: #999;font-style: italic;">(Apply for Single Slider Item)</span>
+                            </label>
+                            <div class="admin__field-control">
+                                <p style="margin: 0.5em 0; color: #999; ">Animate In</p>
+                                <select class="admin__control-select" data-bind="value: sliderAnimate">
+                                    <option value="0">None</option>
+                                    <optgroup label="Attention Seekers">
+                                        <option value="bounce">bounce</option>
+                                        <option value="flash">flash</option>
+                                        <option value="pulse">pulse</option>
+                                        <option value="rubberBand">rubberBand</option>
+                                        <option value="shake">shake</option>
+                                        <option value="swing">swing</option>
+                                        <option value="tada">tada</option>
+                                        <option value="wobble">wobble</option>
+                                        <option value="jello">jello</option>
+                                        <option value="heartBeat">heartBeat</option>
+                                    </optgroup>
+                                    <optgroup label="Bouncing Entrances">
+                                        <option value="bounceIn">bounceIn</option>
+                                        <option value="bounceInDown">bounceInDown</option>
+                                        <option value="bounceInLeft">bounceInLeft</option>
+                                        <option value="bounceInRight">bounceInRight</option>
+                                        <option value="bounceInUp">bounceInUp</option>
+                                    </optgroup>
+                                    <optgroup label="Fading Entrances">
+                                        <option value="fadeIn">fadeIn</option>
+                                        <option value="fadeInDown">fadeInDown</option>
+                                        <option value="fadeInDownBig">fadeInDownBig</option>
+                                        <option value="fadeInLeft">fadeInLeft</option>
+                                        <option value="fadeInLeftBig">fadeInLeftBig</option>
+                                        <option value="fadeInRight">fadeInRight</option>
+                                        <option value="fadeInRightBig">fadeInRightBig</option>
+                                        <option value="fadeInUp">fadeInUp</option>
+                                        <option value="fadeInUpBig">fadeInUpBig</option>
+                                    </optgroup>
+                                    <optgroup label="Flippers">
+                                        <option value="flip">flip</option>
+                                        <option value="flipInX">flipInX</option>
+                                        <option value="flipInY">flipInY</option>
+                                    </optgroup>
+                                    <optgroup label="Lightspeed">
+                                        <option value="lightSpeedIn">lightSpeedIn</option>
+                                    </optgroup>
+                                    <optgroup label="Rotating Entrances">
+                                        <option value="rotateIn">rotateIn</option>
+                                        <option value="rotateInDownLeft">rotateInDownLeft</option>
+                                        <option value="rotateInDownRight">rotateInDownRight</option>
+                                        <option value="rotateInUpLeft">rotateInUpLeft</option>
+                                        <option value="rotateInUpRight">rotateInUpRight</option>
+                                    </optgroup>
+                                    <optgroup label="Sliding Entrances">
+                                        <option value="slideInUp">slideInUp</option>
+                                        <option value="slideInDown">slideInDown</option>
+                                        <option value="slideInLeft">slideInLeft</option>
+                                        <option value="slideInRight">slideInRight</option>
+                                    </optgroup>
+                                    <optgroup label="Zoom Entrances">
+                                        <option value="zoomIn">zoomIn</option>
+                                        <option value="zoomInDown">zoomInDown</option>
+                                        <option value="zoomInLeft">zoomInLeft</option>
+                                        <option value="zoomInRight">zoomInRight</option>
+                                        <option value="zoomInUp">zoomInUp</option>
+                                    </optgroup>
+                                    <optgroup label="Specials">
+                                        <option value="jackInTheBox">jackInTheBox</option>
+                                        <option value="rollIn">rollIn</option>
+                                    </optgroup>
+                                </select>
+                                <p style="margin: 0.5em 0; color: #999; ">Animate Out</p>
+                                <select class="admin__control-select" data-bind="value: sliderAnimateOut">
+                                    <option value="0">None</option>
+                                    <optgroup label="Bouncing Exits">
+                                        <option value="bounceOut">bounceOut</option>
+                                        <option value="bounceOutDown">bounceOutDown</option>
+                                        <option value="bounceOutLeft">bounceOutLeft</option>
+                                        <option value="bounceOutRight">bounceOutRight</option>
+                                        <option value="bounceOutUp">bounceOutUp</option>
+                                    </optgroup>
+                                    <optgroup label="Fading Exits">
+                                        <option value="fadeOut">fadeOut</option>
+                                        <option value="fadeOutDown">fadeOutDown</option>
+                                        <option value="fadeOutDownBig">fadeOutDownBig</option>
+                                        <option value="fadeOutLeft">fadeOutLeft</option>
+                                        <option value="fadeOutLeftBig">fadeOutLeftBig</option>
+                                        <option value="fadeOutRight">fadeOutRight</option>
+                                        <option value="fadeOutRightBig">fadeOutRightBig</option>
+                                        <option value="fadeOutUp">fadeOutUp</option>
+                                        <option value="fadeOutUpBig">fadeOutUpBig</option>
+                                    </optgroup>
+                                    <optgroup label="Flippers">
+                                        <option value="flipOutX">flipOutX</option>
+                                        <option value="flipOutY">flipOutY</option>
+                                    </optgroup>
+                                    <optgroup label="Lightspeed">
+                                        <option value="lightSpeedOut">lightSpeedOut</option>
+                                    </optgroup>
+                                    <optgroup label="Rotating Exits">
+                                        <option value="rotateOut">rotateOut</option>
+                                        <option value="rotateOutDownLeft">rotateOutDownLeft</option>
+                                        <option value="rotateOutDownRight">rotateOutDownRight</option>
+                                        <option value="rotateOutUpLeft">rotateOutUpLeft</option>
+                                        <option value="rotateOutUpRight">rotateOutUpRight</option>
+                                    </optgroup>
+                                    <optgroup label="Sliding Exits">
+                                        <option value="slideOutUp">slideOutUp</option>
+                                        <option value="slideOutDown">slideOutDown</option>
+                                        <option value="slideOutLeft">slideOutLeft</option>
+                                        <option value="slideOutRight">slideOutRight</option>
+                                    </optgroup>
+                                    <optgroup label="Zoom Exits">
+                                        <option value="zoomOut">zoomOut</option>
+                                        <option value="zoomOutDown">zoomOutDown</option>
+                                        <option value="zoomOutLeft">zoomOutLeft</option>
+                                        <option value="zoomOutRight">zoomOutRight</option>
+                                        <option value="zoomOutUp">zoomOutUp</option>
+                                    </optgroup>
+                                    <optgroup label="Specials">
+                                        <option value="hinge">hinge</option>
+                                        <option value="rollOut">rollOut</option>
+                                    </optgroup>
+                                </select>
+                                <p style="color: #999; font-style: italic;">Note: How to use additional animations from <a href="https://daneden.github.io/animate.css/" target="true">Animate.css library</a></p>
+                            </div>
+                        </div>
+                        <!-- END Slider Animate -->
+                        <!-- Slider Margin -->
+                        <div class="admin__field" data-bind="visible: numOfItemsShow() !== '1'">
+                            <label class="admin__field-label"><span>Margin (Spacing between items)</span></label>
+                            <div class="admin__field-control">
+                                <input class="admin__control-text" type="number" data-validate='{required: true}' step="1" data-bind="value: sliderMargin" maxlength="255">
+                                <label class="mage-error" data-bind='visible: sliderMargin.hasError, text: sliderMargin.validationMessage'> </label>
+                            </div>
+                        </div>
+                        <!-- END Slider Margin -->
+                        <!-- Set Navigation -->
+                        <div class="admin__field admin__field--yesno">
+                            <label class="admin__field-label"><span>Arrows</span></label>
+                            <div class="admin__field-control">
+                                <div class="admin__actions-switch">
+                                    <input type="checkbox" class="admin__actions-switch-checkbox" id="slider_arrows" data-bind="checked: sliderArrows">
+                                    <label class="admin__actions-switch-label" for="slider_arrows">
+                                        <span class="admin__actions-switch-text" data-text-on="Yes" data-text-off="No"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END Navigation -->
+                        <!-- Set Dots -->
+                        <div class="admin__field admin__field--yesno">
+                            <label class="admin__field-label"><span>Dots</span></label>
+                            <div class="admin__field-control">
+                                <div class="admin__actions-switch">
+                                    <input type="checkbox" class="admin__actions-switch-checkbox" id="slider_dots" data-bind="checked: sliderDots">
+                                    <label class="admin__actions-switch-label" for="slider_dots">
+                                        <span class="admin__actions-switch-text" data-text-on="Yes" data-text-off="No"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END Dots -->
+                        <!-- Set Auto Height -->
+                        <div class="admin__field admin__field--yesno">
+                            <label class="admin__field-label"><span>Auto Height</span></label>
+                            <div class="admin__field-control">
+                                <div class="admin__actions-switch">
+                                    <input type="checkbox" class="admin__actions-switch-checkbox" id="slider_height" data-bind="checked: autoHeight">
+                                    <label class="admin__actions-switch-label" for="slider_height">
+                                        <span class="admin__actions-switch-text" data-text-on="Yes" data-text-off="No"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END Auto Height -->
+                        <!-- Set Loop -->
+                        <div class="admin__field admin__field--yesno" data-bind="visible: $parent.type() !== '2'">
+                            <label class="admin__field-label"><span>Loop</span></label>
+                            <div class="admin__field-control">
+                                <div class="admin__actions-switch">
+                                    <input type="checkbox" class="admin__actions-switch-checkbox" id="slider_loop" data-bind="checked: sliderLoop">
+                                    <label class="admin__actions-switch-label" for="slider_loop">
+                                        <span class="admin__actions-switch-text" data-text-on="Yes" data-text-off="No"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END Loop -->
+                        <!-- Set Auto Play -->
+                        <div class="admin__field admin__field--yesno">
+                            <label class="admin__field-label"><span>Auto Play</span></label>
+                            <div class="admin__field-control">
+                                <div class="admin__actions-switch">
+                                    <input type="checkbox" class="admin__actions-switch-checkbox" id="slider_play" data-bind="checked: autoPlay">
+                                    <label class="admin__actions-switch-label" for="slider_play">
+                                        <span class="admin__actions-switch-text" data-text-on="Yes" data-text-off="No"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END Auto Play -->
+                        <!-- Auto Play Speed -->
+                        <div class="admin__field" data-bind="visible: autoPlay">
+                            <label class="admin__field-label"><span>Auto Play Speed (ms)</span></label>
+                            <div class="admin__field-control">
+                                <input class="admin__control-text" type="number" min="0" step="1" data-bind="value: autoPlaySpeed, valueUpdate: 'afterkeydown'" maxlength="255" required>
+                                <label class="mage-error" data-bind='visible: autoPlaySpeed.hasError, text: autoPlaySpeed.validationMessage'> </label>
+                            </div>
+                        </div>
+                        <!-- END Auto Play Speed -->
+                        <!-- Mobile pauseOnHover -->
+                        <div class="admin__field admin__field--yesno" data-bind="visible: autoPlay">
+                            <label class="admin__field-label"><span>Pause On Hover</span></label>
+                            <div class="admin__field-control">
+                                <div class="admin__actions-switch">
+                                    <input type="checkbox" class="admin__actions-switch-checkbox" id="slider_pause_hover" data-bind="checked: pauseHover" value="1">
+                                    <label class="admin__actions-switch-label" for="slider_pause_hover">
+                                        <span class="admin__actions-switch-text" data-text-on="Yes" data-text-off="No"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END pauseOnHover -->
+                        <!-- Draggable -->
+                        <div class="admin__field admin__field--yesno">
+                            <label class="admin__field-label"><span>Draggable</span></label>
+                            <div class="admin__field-control">
+                                <div class="admin__actions-switch">
+                                    <input type="checkbox" class="admin__actions-switch-checkbox" id="slider_draggable" data-bind="checked: draggable" value="1">
+                                    <label class="admin__actions-switch-label" for="slider_draggable">
+                                        <span class="admin__actions-switch-text" data-text-on="Yes" data-text-off="No"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END Draggable -->
+                        <!-- Center Mode -->
+                        <div class="admin__field admin__field--yesno" data-bind="visible: $parent.type() !== '2'">
+                            <label class="admin__field-label"><span>Center Mode</span></label>
+                            <div class="admin__field-control">
+                                <div class="admin__actions-switch">
+                                    <input type="checkbox" class="admin__actions-switch-checkbox" id="slider_center" data-bind="checked: centerMode" value="1">
+                                    <label class="admin__actions-switch-label" for="slider_center">
+                                        <span class="admin__actions-switch-text" data-text-on="Yes" data-text-off="No"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END Center Mode -->
+                    </fieldset>
+                </div>
+            </div>
+            <div class="fieldset-wrapper admin__collapsible-block-wrapper" id="style-settings" data-bind="visible: editorActivating() === 'slider', mageInit: {'collapsible':{}}">
+                <div data-role="title" class="fieldset-wrapper-title">
+                    <strong class="admin__collapsible-title">Style Configurations</strong>
+                </div>
+                <div data-role="content" class="admin__fieldset admin__fieldset-wrapper-content">
+                    <fieldset class="admin__fieldset" data-bind="with: currentSlider, as: 'slider'">
+                        <!-- ko ifnot: $parent.type() === '0' -->
+                        <!-- Custom Class -->
+                        <div class="admin__field">
+                            <label class="admin__field-label"><span>Custom Class</span></label>
+                            <div class="admin__field-control">
+                                <input class="admin__control-text" type="text" data-bind="value: customClass" maxlength="255">
+                            </div>
+                        </div>
+                        <!-- END Custom Class -->
+                        <!-- /ko -->
+
+
+                        <!-- Custom Css -->
+                        <div class="admin__field">
+                            <label class="admin__field-label"><span>Custom Css</span></label>
+                            <div class="admin__field-control">
+                                <textarea title="" class="admin__control-textarea" rows="10" data-bind="value: customCss"></textarea>
+                            </div>
+                        </div>
+                        <!-- END Custom Css -->
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="fieldset-wrapper admin__collapsible-block-wrapper" id="itemContent-settings" data-bind="visible: editorActivating() === 'itemContent', mageInit: {'collapsible':{}}">
+                <div data-role="title" class="fieldset-wrapper-title">
+                    <strong class="admin__collapsible-title">Item Content Configurations</strong>
+                </div>
+                <div data-role="content" class="admin__fieldset admin__fieldset-wrapper-content"  style="padding: 4px;">
+                    <fieldset class="admin__fieldset" data-bind="with: currentSlider().currentItem(), as: 'itemContent'">
+                        <!-- Item Content Setting -->
+                        <div class="admin__field">
+                            <label class="admin__field-label"><span>Size</span></label>
+                            <div class="admin__field-control">
+                                <div>
+                                    <input class="admin__control-text" style="width: calc(100% - 95px);float: left;" type="number" step="1" placeholder="Width"
+                                           data-bind="value: contentWidth, valueUpdate: 'afterkeydown', attr: {max: contentWidthUnit() === '%' ? '100' : ''}">
+                                    <select class="admin__control-select" data-bind="value: contentWidthUnit" style="width: 85px; margin-left: 10px;">
+                                        <option>---</option>
+                                        <option value="%">%</option>
+                                        <option value="px">px</option>
+                                    </select>
+                                    <label class="mage-error" data-bind='visible: contentWidth.hasError, text: contentWidth.validationMessage'> </label>
+                                </div>
+                                <div style="margin-top: 0.5em;">
+                                    <input class="admin__control-text" style="width: calc(100% - 95px);float: left;" type="number" step="1" placeholder="Height"
+                                           data-bind="value: contentHeight, valueUpdate: 'afterkeydown'">
+                                    <select class="admin__control-select" data-bind="value: contentHeightUnit" style="width: 85px; margin-left: 10px;">
+<!--                                        <option>-&#45;&#45;</option>-->
+<!--                                        <option value="%">%</option>-->
+                                        <option value="px">px</option>
+                                    </select>
+                                    <label class="mage-error" data-bind='visible: contentHeight.hasError, text: contentHeight.validationMessage'> </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="admin__field">
+                            <label class="admin__field-label"><span>Padding (px)</span></label>
+                            <div class="admin__field-control">
+                                <fieldset>
+                                    <input class="admin__control-text" style="display: inline-block; width: calc((100% - 30px) / 4); float: left; margin: 0;" type="number" min="0" step="1" placeholder="Top" data-bind="value: contentPaddingTop, valueUpdate: 'afterkeydown'">
+                                    <input class="admin__control-text" style="display: inline-block; width: calc((100% - 30px) / 4); float: left; margin: 0 0 0 10px;" type="number" min="0" step="1" placeholder="Right" data-bind="value: contentPaddingRight, valueUpdate: 'afterkeydown'">
+                                    <input class="admin__control-text" style="display: inline-block; width: calc((100% - 30px) / 4); float: left; margin: 0 0 0 10px;" type="number" min="0" step="1" placeholder="Bottom" data-bind="value: contentPaddingBottom, valueUpdate: 'afterkeydown'">
+                                    <input class="admin__control-text" style="display: inline-block; width: calc((100% - 30px) / 4); float: left; margin: 0 0 0 10px;" type="number" min="0" step="1" placeholder="Left" data-bind="value: contentPaddingLeft, valueUpdate: 'afterkeydown'">
+                                </fieldset>
+                                <label class="mage-error" data-bind='visible: contentPaddingRight.hasError, text: contentPaddingRight.validationMessage'> </label>
+                                <label class="mage-error" data-bind='visible: contentPaddingBottom.hasError, text: contentPaddingBottom.validationMessage'> </label>
+                                <label class="mage-error" data-bind='visible: contentPaddingTop.hasError, text: contentPaddingTop.validationMessage'> </label>
+                                <label class="mage-error" data-bind='visible: contentPaddingLeft.hasError, text: contentPaddingLeft.validationMessage'> </label>
+                            </div>
+                        </div>
+
+                        <div class="admin__field">
+                            <label class="admin__field-label"><span>Margin (px)</span></label>
+                            <div class="admin__field-control">
+                                <fieldset>
+                                    <input class="admin__control-text" style="display: inline-block; width: calc((100% - 30px) / 4); float: left; margin: 0;" type="number" step="1" placeholder="Top" data-bind="value: contentMarginTop, valueUpdate: 'afterkeydown'">
+                                    <input class="admin__control-text" style="display: inline-block; width: calc((100% - 30px) / 4); float: left; margin: 0 0 0 10px;" type="number" step="1" placeholder="Right" data-bind="value: contentMarginRight, valueUpdate: 'afterkeydown'">
+                                    <input class="admin__control-text" style="display: inline-block; width: calc((100% - 30px) / 4); float: left; margin: 0 0 0 10px;" type="number" step="1" placeholder="Bottom" data-bind="value: contentMarginBottom, valueUpdate: 'afterkeydown'">
+                                    <input class="admin__control-text" style="display: inline-block; width: calc((100% - 30px) / 4); float: left; margin: 0 0 0 10px;" type="number" step="1" placeholder="Left" data-bind="value: contentMarginLeft, valueUpdate: 'afterkeydown'">
+                                </fieldset>
+                                <label class="mage-error" data-bind='visible: contentMarginBottom.hasError, text: contentMarginBottom.validationMessage'> </label>
+                                <label class="mage-error" data-bind='visible: contentMarginRight.hasError, text: contentMarginRight.validationMessage'> </label>
+                                <label class="mage-error" data-bind='visible: contentMarginTop.hasError, text: contentMarginTop.validationMessage'> </label>
+                                <label class="mage-error" data-bind='visible: contentMarginLeft.hasError, text: contentMarginLeft.validationMessage'> </label>
+                            </div>
+                        </div>
+
+                        <div class="admin__field">
+                            <label class="admin__field-label"><span>Background Color</span></label>
+                            <div class="admin__field-control">
+                                <input class="admin__control-text" style="display: inline-block; width: 80px; height: 33px; max-width: calc((100% - 10px) / 2); float: left; margin: 0; padding: 0 2px;" type="color" data-bind="value: contentBgColor">
+                                <input class="admin__control-text" style="display: inline-block; width: 80px; max-width: calc((100% - 10px) / 2); float: left; margin: 0 0 0 10px;" type="number" step="0.1" min="0" max="1" placeholder="Opacity" data-bind="value: contentOpacity">
+                            </div>
+                        </div>
+
+                        <div class="admin__field">
+                            <label class="admin__field-label"><span>Position</span></label>
+                            <div class="admin__field-control">
+                                <select class="admin__control-select" data-bind="value: contentPosition">
+                                    <option value="left">Left</option>
+                                    <option value="center">Center</option>
+                                    <option value="right">Right</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="admin__field">
+                            <label class="admin__field-label"><span>Animation</span></label>
+                            <div class="admin__field-control">
+                                <select class="admin__control-select" data-bind="value: contentAnimation">
+                                    <option value="0">None</option>
+                                    <optgroup label="Attention Seekers">
+                                        <option value="bounce">bounce</option>
+                                        <option value="flash">flash</option>
+                                        <option value="pulse">pulse</option>
+                                        <option value="rubberBand">rubberBand</option>
+                                        <option value="shake">shake</option>
+                                        <option value="swing">swing</option>
+                                        <option value="tada">tada</option>
+                                        <option value="wobble">wobble</option>
+                                        <option value="jello">jello</option>
+                                        <option value="heartBeat">heartBeat</option>
+                                    </optgroup>
+                                    <optgroup label="Bouncing Entrances">
+                                        <option value="bounceIn">bounceIn</option>
+                                        <option value="bounceInDown">bounceInDown</option>
+                                        <option value="bounceInLeft">bounceInLeft</option>
+                                        <option value="bounceInRight">bounceInRight</option>
+                                        <option value="bounceInUp">bounceInUp</option>
+                                    </optgroup>
+                                    <optgroup label="Bouncing Exits">
+                                        <option value="bounceOut">bounceOut</option>
+                                        <option value="bounceOutDown">bounceOutDown</option>
+                                        <option value="bounceOutLeft">bounceOutLeft</option>
+                                        <option value="bounceOutRight">bounceOutRight</option>
+                                        <option value="bounceOutUp">bounceOutUp</option>
+                                    </optgroup>
+                                    <optgroup label="Fading Entrances">
+                                        <option value="fadeIn">fadeIn</option>
+                                        <option value="fadeInDown">fadeInDown</option>
+                                        <option value="fadeInDownBig">fadeInDownBig</option>
+                                        <option value="fadeInLeft">fadeInLeft</option>
+                                        <option value="fadeInLeftBig">fadeInLeftBig</option>
+                                        <option value="fadeInRight">fadeInRight</option>
+                                        <option value="fadeInRightBig">fadeInRightBig</option>
+                                        <option value="fadeInUp">fadeInUp</option>
+                                        <option value="fadeInUpBig">fadeInUpBig</option>
+                                    </optgroup>
+                                    <optgroup label="Fading Exits">
+                                        <option value="fadeOut">fadeOut</option>
+                                        <option value="fadeOutDown">fadeOutDown</option>
+                                        <option value="fadeOutDownBig">fadeOutDownBig</option>
+                                        <option value="fadeOutLeft">fadeOutLeft</option>
+                                        <option value="fadeOutLeftBig">fadeOutLeftBig</option>
+                                        <option value="fadeOutRight">fadeOutRight</option>
+                                        <option value="fadeOutRightBig">fadeOutRightBig</option>
+                                        <option value="fadeOutUp">fadeOutUp</option>
+                                        <option value="fadeOutUpBig">fadeOutUpBig</option>
+                                    </optgroup>
+                                    <optgroup label="Flippers">
+                                        <option value="flip">flip</option>
+                                        <option value="flipInX">flipInX</option>
+                                        <option value="flipInY">flipInY</option>
+                                        <option value="flipOutX">flipOutX</option>
+                                        <option value="flipOutY">flipOutY</option>
+                                    </optgroup>
+                                    <optgroup label="Lightspeed">
+                                        <option value="lightSpeedIn">lightSpeedIn</option>
+                                        <option value="lightSpeedOut">lightSpeedOut</option>
+                                    </optgroup>
+                                    <optgroup label="Rotating Entrances">
+                                        <option value="rotateIn">rotateIn</option>
+                                        <option value="rotateInDownLeft">rotateInDownLeft</option>
+                                        <option value="rotateInDownRight">rotateInDownRight</option>
+                                        <option value="rotateInUpLeft">rotateInUpLeft</option>
+                                        <option value="rotateInUpRight">rotateInUpRight</option>
+                                    </optgroup>
+                                    <optgroup label="Rotating Exits">
+                                        <option value="rotateOut">rotateOut</option>
+                                        <option value="rotateOutDownLeft">rotateOutDownLeft</option>
+                                        <option value="rotateOutDownRight">rotateOutDownRight</option>
+                                        <option value="rotateOutUpLeft">rotateOutUpLeft</option>
+                                        <option value="rotateOutUpRight">rotateOutUpRight</option>
+                                    </optgroup>
+                                    <optgroup label="Sliding Entrances">
+                                        <option value="slideInUp">slideInUp</option>
+                                        <option value="slideInDown">slideInDown</option>
+                                        <option value="slideInLeft">slideInLeft</option>
+                                        <option value="slideInRight">slideInRight</option>
+
+                                    </optgroup>
+                                    <optgroup label="Sliding Exits">
+                                        <option value="slideOutUp">slideOutUp</option>
+                                        <option value="slideOutDown">slideOutDown</option>
+                                        <option value="slideOutLeft">slideOutLeft</option>
+                                        <option value="slideOutRight">slideOutRight</option>
+                                    </optgroup>
+                                    <optgroup label="Zoom Entrances">
+                                        <option value="zoomIn">zoomIn</option>
+                                        <option value="zoomInDown">zoomInDown</option>
+                                        <option value="zoomInLeft">zoomInLeft</option>
+                                        <option value="zoomInRight">zoomInRight</option>
+                                        <option value="zoomInUp">zoomInUp</option>
+                                    </optgroup>
+                                    <optgroup label="Zoom Exits">
+                                        <option value="zoomOut">zoomOut</option>
+                                        <option value="zoomOutDown">zoomOutDown</option>
+                                        <option value="zoomOutLeft">zoomOutLeft</option>
+                                        <option value="zoomOutRight">zoomOutRight</option>
+                                        <option value="zoomOutUp">zoomOutUp</option>
+                                    </optgroup>
+                                    <optgroup label="Specials">
+                                        <option value="hinge">hinge</option>
+                                        <option value="jackInTheBox">jackInTheBox</option>
+                                        <option value="rollIn">rollIn</option>
+                                        <option value="rollOut">rollOut</option>
+                                    </optgroup>
+                                </select>
+                                <p style="color: #999; font-style: italic;">Note: How to use additional animations from <a href="https://daneden.github.io/animate.css/" target="true">Animate.css library</a></p>
+                            </div>
+                        </div>
+
+                        <div class="admin__field">
+                            <label class="admin__field-label"><span>Animation Delay (s)</span></label>
+                            <div class="admin__field-control">
+                                <input class="admin__control-text" type="number" min="0" step="1" data-bind="value: contentAnimationDelay, valueUpdate: 'afterkeydown'">
+                                <label class="mage-error" data-bind='visible: contentAnimationDelay.hasError, text: contentAnimationDelay.validationMessage'> </label>
+                            </div>
+                        </div>
+                        <!-- END Item Content Setting -->
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="fieldset-wrapper admin__collapsible-block-wrapper" id="item-settings" data-bind="visible: editorActivating() === 'item', mageInit: {'collapsible':{}}">
+                <div data-role="title" class="fieldset-wrapper-title">
+                    <strong class="admin__collapsible-title">Item Configurations</strong>
+                </div>
+                <div data-role="content" class="admin__fieldset admin__fieldset-wrapper-content"  style="padding: 4px;">
+                    <fieldset class="admin__fieldset" data-bind="with: currentSlider().currentItem(), as: 'item'">
+                        <!-- Item Setting -->
+                        <div class="admin__field">
+                            <label class="admin__field-label"><span>Custom Class</span></label>
+                            <div class="admin__field-control">
+                                <input class="admin__control-text" type="text" data-bind="value: itemCustomClass" maxlength="255">
+                            </div>
+                        </div>
+
+                        <div class="admin__field">
+                            <label class="admin__field-label"><span>Padding (px)</span></label>
+                            <div class="admin__field-control">
+                                <fieldset>
+                                    <input class="admin__control-text" style="display: inline-block; width: calc((100% - 30px) / 4); float: left; margin: 0;" type="number" min="0" step="1" placeholder="Top" data-bind="value: paddingTop, valueUpdate: 'afterkeydown'">
+                                    <input class="admin__control-text" style="display: inline-block; width: calc((100% - 30px) / 4); float: left; margin: 0 0 0 10px;" type="number" min="0" step="1" placeholder="Right" data-bind="value: paddingRight, valueUpdate: 'afterkeydown'">
+                                    <input class="admin__control-text" style="display: inline-block; width: calc((100% - 30px) / 4); float: left; margin: 0 0 0 10px;" type="number" min="0" step="1" placeholder="Bottom" data-bind="value: paddingBottom, valueUpdate: 'afterkeydown'">
+                                    <input class="admin__control-text" style="display: inline-block; width: calc((100% - 30px) / 4); float: left; margin: 0 0 0 10px;" type="number" min="0" step="1" placeholder="Left" data-bind="value: paddingLeft, valueUpdate: 'afterkeydown'">
+                                </fieldset>
+                                <label class="mage-error" data-bind='visible: paddingBottom.hasError, text: paddingBottom.validationMessage'> </label>
+                                <label class="mage-error" data-bind='visible: paddingRight.hasError, text: paddingRight.validationMessage'> </label>
+                                <label class="mage-error" data-bind='visible: paddingTop.hasError, text: paddingTop.validationMessage'> </label>
+                                <label class="mage-error" data-bind='visible: paddingLeft.hasError, text: paddingLeft.validationMessage'> </label>
+                            </div>
+                        </div>
+
+                        <div class="admin__field">
+                            <label class="admin__field-label"><span>Margin (px)</span></label>
+                            <div class="admin__field-control">
+                                <fieldset>
+                                    <input class="admin__control-text" style="display: inline-block; width: calc((100% - 30px) / 4); float: left; margin: 0;" type="number" step="1" placeholder="Top" data-bind="value: marginTop, valueUpdate: 'afterkeydown'">
+                                    <input class="admin__control-text" style="display: inline-block; width: calc((100% - 30px) / 4); float: left; margin: 0 0 0 10px;" type="number" step="1" placeholder="Right" data-bind="value: marginRight, valueUpdate: 'afterkeydown'">
+                                    <input class="admin__control-text" style="display: inline-block; width: calc((100% - 30px) / 4); float: left; margin: 0 0 0 10px;" type="number" step="1" placeholder="Bottom" data-bind="value: marginBottom, valueUpdate: 'afterkeydown'">
+                                    <input class="admin__control-text" style="display: inline-block; width: calc((100% - 30px) / 4); float: left; margin: 0 0 0 10px;" type="number" step="1" placeholder="Left" data-bind="value: marginLeft, valueUpdate: 'afterkeydown'">
+                                </fieldset>
+                                <label class="mage-error" data-bind='visible: marginRight.hasError, text: marginRight.validationMessage'> </label>
+                                <label class="mage-error" data-bind='visible: marginTop.hasError, text: marginTop.validationMessage'> </label>
+                                <label class="mage-error" data-bind='visible: marginBottom.hasError, text: marginBottom.validationMessage'> </label>
+                                <label class="mage-error" data-bind='visible: marginLeft.hasError, text: marginLeft.validationMessage'> </label>
+                            </div>
+                        </div>
+
+                        <div class="admin__field">
+                            <label class="admin__field-label"><span>Choose Category</span></label>
+                            <div class="admin__field-control" data-bind="scope: chooseCategoryScope, mageInit: chooseCategoryInit">
+                                <!--ko template: getTemplate()--><!--/ko-->
+                            </div>
+                        </div>
+
+                        <div class="admin__field">
+                            <label class="admin__field-label"><span>Choose Image Background</span></label>
+                            <div class="admin__field-control">
+                                <select class="admin__control-select" data-bind="value: bgImageType">
+                                    <!--<option value="productImage">Product</option>-->
+                                    <option value="categoryImage">Category</option>
+                                    <option value="customImage">Custom Upload</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="admin__field" data-bind="visible: bgImageType() === 'categoryImage' && categoryId() !== undefined">
+                            <label class="admin__field-label"><span>Image Category</span></label>
+                            <div class="admin__field-control">
+                                <!-- ko if: imgCateUrl() !== '' && imgCateUrl() !== undefined -->
+                                    <div class="file-uploader-preview image-uploader-preview">
+                                        <img class="preview-image" alt="Category Image" data-bind="attr: {src: $parent.baseUrl + imgCateUrl() }">
+                                    </div>
+                                <!-- /ko -->
+                                <!-- ko if: imgCateUrl() === '' || imgCateUrl() === undefined -->
+                                    <div>image not found</div>
+                                <!-- /ko -->
+                            </div>
+                        </div>
+
+                        <div class="admin__field" data-bind="visible: bgImageType() === 'customImage'">
+                            <label class="admin__field-label" style="margin-bottom: 10px;"><span>Upload Custom Image (You can upload image has format .png, .jpeg, .jpg. Maximum 2MB)</span></label>
+                            <div class="admin__field-control" id="custom-upload-file" data-bind="scope: imageUploadScope, mageInit: imageUploaderMageInit">
+                                <!--ko template: getTemplate()--><!--/ko-->
+                            </div>
+                        </div>
+
+                        <div class="admin__field">
+                            <label class="admin__field-label"><span>Background Link</span></label>
+                            <div class="admin__field-control">
+                                <input class="admin__control-text" type="text" data-bind="value: bgLink">
+                            </div>
+                        </div>
+
+                        <div class="admin__field">
+                            <label class="admin__field-label"><span>Sort Order</span></label>
+                            <div class="admin__field-control">
+                                <input class="admin__control-text" data-validate='{required: true}' type="number" data-bind="value: sortOrder">
+                            </div>
+                        </div>
+
+                        <div class="admin__field">
+                            <label class="admin__field-label"><span>Background Image Attribute</span></label>
+                            <div class="admin__field-control">
+                                <span class="admin__field" style="display: inline-block; width: calc((100% / 3) - 10px); float: left; margin: 0;">
+                                    <label class="admin__field-label"><span>Position</span></label>
+                                    <div class="admin__field-control">
+                                        <select class="admin__control-select" data-bind="value: bgPosition">
+                                            <option value="top left">Top - Left</option>
+                                            <option value="top center">Top - Center</option>
+                                            <option value="top right">Top - Right</option>
+                                            <option value="center left">Center - Left</option>
+                                            <option value="center center">Center - Center</option>
+                                            <option value="center right">Center - Right</option>
+                                            <option value="bottom left">Bottom - Left</option>
+                                            <option value="bottom center">Bottom - Center</option>
+                                            <option value="bottom right">Bottom - Right</option>
+                                        </select>
+                                    </div>
+                                </span>
+                                <span class="admin__field" style="display: inline-block; width: calc((100% - 20px) / 3); float: left; margin: 0 0 0 10px;">
+                                    <label class="admin__field-label"><span>Repeat</span></label>
+                                    <div class="admin__field-control">
+                                        <select class="admin__control-select" data-bind="value: bgRepeat">
+                                            <option value="repeat">Repeat</option>
+                                            <option value="repeat-x">Repeat X</option>
+                                            <option value="repeat-y">Repeat Y</option>
+                                            <option value="no-repeat">No Repeat</option>
+                                        </select>
+                                    </div>
+                                </span>
+                                <span class="admin__field" style="display: inline-block; width: calc((100% - 20px) / 3); float: left; margin: 0 0 0 10px;">
+                                    <label class="admin__field-label"><span>Size</span></label>
+                                    <div class="admin__field-control">
+                                        <select class="admin__control-select" data-bind="value: bgSize">
+                                            <option value="cover">Cover</option>
+                                            <option value="contain">Contain</option>
+                                            <option value="auto">Auto</option>
+                                        </select>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+                        <!-- END Item Setting -->
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="fieldset-wrapper admin__collapsible-block-wrapper" id="block-settings" data-bind="visible: editorActivating() === 'block', mageInit: {'collapsible':{}}">
+                <div data-role="title" class="fieldset-wrapper-title">
+                    <strong class="admin__collapsible-title">Content Configurations</strong>
+                </div>
+                <div data-role="content" style="padding: 4px;" class="admin__fieldset admin__fieldset-wrapper-content" data-bind="with: currentSlider().currentItem()">
+                    <fieldset class="admin__fieldset" data-bind="with: blocks()[blockSelecting()]">
+
+                        <!--Content Type-->
+                        <div class="admin__field">
+                            <label class="admin__field-label"><span>Type</span></label>
+                            <div class="admin__field-control">
+                                <select class="admin__control-select" data-bind="value: type">
+                                    <option value="button">Button</option>
+                                    <option value="text">Text</option>
+                                    <option value="html">HTML</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!--End content type-->
+
+                        <!-- Custom Class -->
+                        <div class="admin__field">
+                            <label class="admin__field-label"><span>Custom Class</span></label>
+                            <div class="admin__field-control">
+                                <input class="admin__control-text" type="text" data-bind="value: customClass" maxlength="255">
+                            </div>
+                        </div>
+                        <!-- END Custom Class -->
+
+                        <!--Config Button, only show if block is button-->
+                        <div data-bind="visible: type() === 'button'" style="margin: 1.5rem 0 3rem;">
+                            <div class="admin__field">
+                                <label class="admin__field-label"><span>Button URL</span></label>
+                                <div class="admin__field-control">
+                                    <select class="admin__control-select" data-bind="value: btnUrl">
+                                        <option value="categoryLink">Category Link</option>
+                                        <option value="customLink">Custom Link</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="admin__field" data-bind="visible: btnUrl() === 'customLink'">
+                                <label class="admin__field-label"><span>Custom Link</span></label>
+                                <div class="admin__field-control">
+                                    <input class="admin__control-text" type="url" data-bind="value: customLink">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-bind="visible: type() === 'html'" style="margin: 1.5rem 0 3rem;">
+                            <div class="admin__field">
+                                <label class="admin__field-label"><span>HTML</span></label>
+                                <div class="admin__field-control">
+                                    <button class="button toggleWysiwyg"><span>Show/hide editor</span></button>
+                                    <textarea class="admin__control-textarea" data-bind="value: content, valueUpdate : 'change', attr: {id: blockId}, afterRender: $parents[1].initWysiwyg($parents[1].magentoVersion, $parents[1].wysiwygConfig, $data)"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div data-bind="visible: type() !== 'html'" style="margin: 1.5rem 0 3rem;">
+
+                            <div class="admin__field">
+                                <label class="admin__field-label"><span>Content Type</span></label>
+                                <div class="admin__field-control">
+                                    <select class="admin__control-select" data-bind="value: contentType">
+                                        <option value="title">Category Title</option>
+                                        <option value="desc">Category Description</option>
+                                        <option value="custom">Custom Text</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="admin__field" data-bind="visible: contentType() === 'custom'">
+                                <label class="admin__field-label"><span>Content</span></label>
+                                <div class="admin__field-control">
+                                    <textarea class="admin__control-textarea" data-bind="value: content, text: content"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="admin__field">
+                            <label class="admin__field-label"><span>Box Content Size</span></label>
+                            <div class="admin__field-control">
+                                <div>
+                                    <input class="admin__control-text" style="width: calc(100% - 95px);float: left;" type="number" min="0" step="1" placeholder="Width" data-bind="value: width, valueUpdate: 'afterkeydown', attr: {max: widthUnit() === '%' ? '100' : ''}">
+                                    <select class="admin__control-select" data-bind="value: widthUnit" style="width: 85px; margin-left: 10px;">
+                                        <option>---</option>
+                                        <option value="%">%</option>
+                                        <option value="px">px</option>
+                                    </select>
+                                    <label class="mage-error" data-bind='visible: width.hasError, text: width.validationMessage'> </label>
+                                </div>
+
+<!--                                <div style="margin-top: 0.5em;">-->
+<!--                                    <input class="admin__control-text" style="width: calc(100% - 95px);float: left;" type="number" step="1" min="0" max="100" placeholder="Height" data-bind="value: height, valueUpdate: 'afterkeydown'">-->
+<!--                                    <select class="admin__control-select" data-bind="value: heightUnit" style="width: 85px; margin-left: 10px;">-->
+<!--                                        <option>-&#45;&#45;</option>-->
+<!--                                        <option value="%">%</option>-->
+<!--                                        <option value="px">px</option>-->
+<!--                                    </select>-->
+<!--                                    <label class="mage-error" data-bind='visible: height.hasError, text: height.validationMessage'> </label>-->
+<!--                                </div>-->
+                            </div>
+                        </div>
+
+                        <div class="admin__field">
+                            <label class="admin__field-label"><span>Position</span></label>
+                            <div class="admin__field-control">
+                                <select class="admin__control-select" data-bind="value: position">
+                                    <option value="left">Left</option>
+                                    <option value="center">Center</option>
+                                    <option value="right">Right</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="admin__field" data-bind="visible: type() === 'text'">
+                            <label class="admin__field-label"><span>Text Align</span></label>
+                            <div class="admin__field-control">
+                                <select class="admin__control-select" data-bind="value: textAlign">
+                                    <option value="left">Left</option>
+                                    <option value="center">Center</option>
+                                    <option value="right">Right</option>
+                                    <option value="justify">Justify</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="admin__field">
+                            <label class="admin__field-label"><span>Padding (px)</span></label>
+                            <div class="admin__field-control">
+                                <fieldset>
+                                    <input class="admin__control-text" style="display: inline-block; width: calc((100% - 30px) / 4); float: left; margin: 0;" type="number" min="0" step="1" placeholder="Top" data-bind="value: paddingTop, valueUpdate: 'afterkeydown'">
+                                    <input class="admin__control-text" style="display: inline-block; width: calc((100% - 30px) / 4); float: left; margin: 0 0 0 10px;" type="number" min="0" step="1" placeholder="Right" data-bind="value: paddingRight, valueUpdate: 'afterkeydown'">
+                                    <input class="admin__control-text" style="display: inline-block; width: calc((100% - 30px) / 4); float: left; margin: 0 0 0 10px;" type="number" min="0" step="1" placeholder="Bottom" data-bind="value: paddingBottom, valueUpdate: 'afterkeydown'">
+                                    <input class="admin__control-text" style="display: inline-block; width: calc((100% - 30px) / 4); float: left; margin: 0 0 0 10px;" type="number" min="0" step="1" placeholder="Left" data-bind="value: paddingLeft, valueUpdate: 'afterkeydown'">
+                                </fieldset>
+                                <label class="mage-error" data-bind='visible: paddingBottom.hasError, text: paddingBottom.validationMessage'> </label>
+                                <label class="mage-error" data-bind='visible: paddingRight.hasError, text: paddingRight.validationMessage'> </label>
+                                <label class="mage-error" data-bind='visible: paddingTop.hasError, text: paddingTop.validationMessage'> </label>
+                                <label class="mage-error" data-bind='visible: paddingLeft.hasError, text: paddingLeft.validationMessage'> </label>
+                            </div>
+                        </div>
+
+                        <div class="admin__field">
+                            <label class="admin__field-label"><span>Margin (px)</span></label>
+                            <div class="admin__field-control">
+                                <fieldset>
+                                    <input class="admin__control-text" style="display: inline-block; width: calc((100% - 30px) / 4); float: left; margin: 0;" type="number" step="1" placeholder="Top" data-bind="value: marginTop, valueUpdate: 'afterkeydown'">
+                                    <input class="admin__control-text" style="display: inline-block; width: calc((100% - 30px) / 4); float: left; margin: 0 0 0 10px;" type="number" step="1" placeholder="Right" data-bind="value: marginRight, valueUpdate: 'afterkeydown'">
+                                    <input class="admin__control-text" style="display: inline-block; width: calc((100% - 30px) / 4); float: left; margin: 0 0 0 10px;" type="number" step="1" placeholder="Bottom" data-bind="value: marginBottom, valueUpdate: 'afterkeydown'">
+                                    <input class="admin__control-text" style="display: inline-block; width: calc((100% - 30px) / 4); float: left; margin: 0 0 0 10px;" type="number" step="1" placeholder="Left" data-bind="value: marginLeft, valueUpdate: 'afterkeydown'">
+                                </fieldset>
+                                <label class="mage-error" data-bind='visible: marginRight.hasError, text: marginRight.validationMessage'> </label>
+                                <label class="mage-error" data-bind='visible: marginBottom.hasError, text: marginBottom.validationMessage'> </label>
+                                <label class="mage-error" data-bind='visible: marginTop.hasError, text: marginTop.validationMessage'> </label>
+                                <label class="mage-error" data-bind='visible: marginLeft.hasError, text: marginLeft.validationMessage'> </label>
+                            </div>
+                        </div>
+
+                        <div data-bind="visible: type() !== 'html'" style="margin: 1.5rem 0 3rem;">
+                            <div class="admin__field">
+                                <label class="admin__field-label"><span>Font Size (px)</span></label>
+                                <div class="admin__field-control">
+                                    <input class="admin__control-text" type="number" step="1" min="0" data-bind="value: fontSize, valueUpdate: 'afterkeydown'">
+                                    <label class="mage-error" data-bind='visible: fontSize.hasError, text: fontSize.validationMessage'> </label>
+                                </div>
+                            </div>
+
+                            <div class="admin__field">
+                                <label class="admin__field-label"><span>Text Color</span></label>
+                                <div class="admin__field-control">
+                                    <input type="color" data-bind="value: textColor" class="admin__control-text" style="display: inline-block; width: 80px; height: 33px;margin: 0; padding: 0 2px;">
+                                </div>
+                            </div>
+
+                            <div class="admin__field" data-bind="visible: type() === 'button'">
+                                <label class="admin__field-label"><span>Text Color Hover</span></label>
+                                <div class="admin__field-control">
+                                    <input type="color" data-bind="value: textColorHover" class="admin__control-text" style="display: inline-block; width: 80px; height: 33px;margin: 0; padding: 0 2px;">
+                                </div>
+                            </div>
+
+                            <div class="admin__field" data-bind="visible: type() === 'button'">
+                                <label class="admin__field-label"><span>Background Color</span></label>
+                                <div class="admin__field-control">
+                                    <input type="color" data-bind="value: bgColor" class="admin__control-text" style="display: inline-block; width: 80px; height: 33px;margin: 0; padding: 0 2px;">
+                                </div>
+                            </div>
+
+                            <div class="admin__field" data-bind="visible: type() === 'button'">
+                                <label class="admin__field-label"><span>Background Color Hover</span></label>
+                                <div class="admin__field-control">
+                                    <input type="color" data-bind="value: bgColorHover" class="admin__control-text" style="display: inline-block; width: 80px; height: 33px;margin: 0; padding: 0 2px;">
+                                </div>
+                            </div>
+
+                            <div class="admin__field" data-bind="visible: type() === 'button'">
+                                <label class="admin__field-label"><span>Border Color</span></label>
+                                <div class="admin__field-control">
+                                    <input type="color" data-bind="value: borderColor" class="admin__control-text" style="display: inline-block; width: 80px; height: 33px;margin: 0; padding: 0 2px;">
+                                </div>
+                            </div>
+
+                            <div class="admin__field" data-bind="visible: type() === 'button'">
+                                <label class="admin__field-label"><span>Border Color Hover</span></label>
+                                <div class="admin__field-control">
+                                    <input type="color" data-bind="value: borderColorHover" class="admin__control-text" style="display: inline-block; width: 80px; height: 33px;margin: 0; padding: 0 2px;">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="admin__field">
+                            <label class="admin__field-label"><span>Animation</span></label>
+                            <div class="admin__field-control">
+                                <select class="admin__control-select" data-bind="value: animation">
+                                    <option value="0">None</option>
+                                    <optgroup label="Attention Seekers">
+                                        <option value="bounce">bounce</option>
+                                        <option value="flash">flash</option>
+                                        <option value="pulse">pulse</option>
+                                        <option value="rubberBand">rubberBand</option>
+                                        <option value="shake">shake</option>
+                                        <option value="swing">swing</option>
+                                        <option value="tada">tada</option>
+                                        <option value="wobble">wobble</option>
+                                        <option value="jello">jello</option>
+                                        <option value="heartBeat">heartBeat</option>
+                                    </optgroup>
+                                    <optgroup label="Bouncing Entrances">
+                                        <option value="bounceIn">bounceIn</option>
+                                        <option value="bounceInDown">bounceInDown</option>
+                                        <option value="bounceInLeft">bounceInLeft</option>
+                                        <option value="bounceInRight">bounceInRight</option>
+                                        <option value="bounceInUp">bounceInUp</option>
+                                    </optgroup>
+                                    <optgroup label="Bouncing Exits">
+                                        <option value="bounceOut">bounceOut</option>
+                                        <option value="bounceOutDown">bounceOutDown</option>
+                                        <option value="bounceOutLeft">bounceOutLeft</option>
+                                        <option value="bounceOutRight">bounceOutRight</option>
+                                        <option value="bounceOutUp">bounceOutUp</option>
+                                    </optgroup>
+                                    <optgroup label="Fading Entrances">
+                                        <option value="fadeIn">fadeIn</option>
+                                        <option value="fadeInDown">fadeInDown</option>
+                                        <option value="fadeInDownBig">fadeInDownBig</option>
+                                        <option value="fadeInLeft">fadeInLeft</option>
+                                        <option value="fadeInLeftBig">fadeInLeftBig</option>
+                                        <option value="fadeInRight">fadeInRight</option>
+                                        <option value="fadeInRightBig">fadeInRightBig</option>
+                                        <option value="fadeInUp">fadeInUp</option>
+                                        <option value="fadeInUpBig">fadeInUpBig</option>
+                                    </optgroup>
+                                    <optgroup label="Fading Exits">
+                                        <option value="fadeOut">fadeOut</option>
+                                        <option value="fadeOutDown">fadeOutDown</option>
+                                        <option value="fadeOutDownBig">fadeOutDownBig</option>
+                                        <option value="fadeOutLeft">fadeOutLeft</option>
+                                        <option value="fadeOutLeftBig">fadeOutLeftBig</option>
+                                        <option value="fadeOutRight">fadeOutRight</option>
+                                        <option value="fadeOutRightBig">fadeOutRightBig</option>
+                                        <option value="fadeOutUp">fadeOutUp</option>
+                                        <option value="fadeOutUpBig">fadeOutUpBig</option>
+                                    </optgroup>
+                                    <optgroup label="Flippers">
+                                        <option value="flip">flip</option>
+                                        <option value="flipInX">flipInX</option>
+                                        <option value="flipInY">flipInY</option>
+                                        <option value="flipOutX">flipOutX</option>
+                                        <option value="flipOutY">flipOutY</option>
+                                    </optgroup>
+                                    <optgroup label="Lightspeed">
+                                        <option value="lightSpeedIn">lightSpeedIn</option>
+                                        <option value="lightSpeedOut">lightSpeedOut</option>
+                                    </optgroup>
+                                    <optgroup label="Rotating Entrances">
+                                        <option value="rotateIn">rotateIn</option>
+                                        <option value="rotateInDownLeft">rotateInDownLeft</option>
+                                        <option value="rotateInDownRight">rotateInDownRight</option>
+                                        <option value="rotateInUpLeft">rotateInUpLeft</option>
+                                        <option value="rotateInUpRight">rotateInUpRight</option>
+                                    </optgroup>
+                                    <optgroup label="Rotating Exits">
+                                        <option value="rotateOut">rotateOut</option>
+                                        <option value="rotateOutDownLeft">rotateOutDownLeft</option>
+                                        <option value="rotateOutDownRight">rotateOutDownRight</option>
+                                        <option value="rotateOutUpLeft">rotateOutUpLeft</option>
+                                        <option value="rotateOutUpRight">rotateOutUpRight</option>
+                                    </optgroup>
+                                    <optgroup label="Sliding Entrances">
+                                        <option value="slideInUp">slideInUp</option>
+                                        <option value="slideInDown">slideInDown</option>
+                                        <option value="slideInLeft">slideInLeft</option>
+                                        <option value="slideInRight">slideInRight</option>
+
+                                    </optgroup>
+                                    <optgroup label="Sliding Exits">
+                                        <option value="slideOutUp">slideOutUp</option>
+                                        <option value="slideOutDown">slideOutDown</option>
+                                        <option value="slideOutLeft">slideOutLeft</option>
+                                        <option value="slideOutRight">slideOutRight</option>
+                                    </optgroup>
+                                    <optgroup label="Zoom Entrances">
+                                        <option value="zoomIn">zoomIn</option>
+                                        <option value="zoomInDown">zoomInDown</option>
+                                        <option value="zoomInLeft">zoomInLeft</option>
+                                        <option value="zoomInRight">zoomInRight</option>
+                                        <option value="zoomInUp">zoomInUp</option>
+                                    </optgroup>
+                                    <optgroup label="Zoom Exits">
+                                        <option value="zoomOut">zoomOut</option>
+                                        <option value="zoomOutDown">zoomOutDown</option>
+                                        <option value="zoomOutLeft">zoomOutLeft</option>
+                                        <option value="zoomOutRight">zoomOutRight</option>
+                                        <option value="zoomOutUp">zoomOutUp</option>
+                                    </optgroup>
+                                    <optgroup label="Specials">
+                                        <option value="hinge">hinge</option>
+                                        <option value="jackInTheBox">jackInTheBox</option>
+                                        <option value="rollIn">rollIn</option>
+                                        <option value="rollOut">rollOut</option>
+                                    </optgroup>
+                                </select>
+                                <p style="color: #999; font-style: italic;">Note: How to use additional animations from <a href="https://daneden.github.io/animate.css/" target="true">Animate.css library</a></p>
+                            </div>
+                        </div>
+
+                        <div class="admin__field">
+                            <label class="admin__field-label"><span>Animation Delay (unit: s)</span></label>
+                            <div class="admin__field-control">
+                                <input class="admin__control-text" type="number" min="0" step="1" data-bind="value: animationDelay, valueUpdate: 'afterkeydown'">
+                                <label class="mage-error" data-bind='visible: animationDelay.hasError, text: animationDelay.validationMessage'> </label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="admin__field" style=" display: none">
+                <input type="text" data-bind="value: sliderId" name="slider_id">
+                <input type="text" data-bind="value: ko.toJSON(sliderConfig)" name="sliderConfig">
+                <input type="text" data-bind="value: ko.toJSON(slider)" name="slider">
+                <input type="text" data-bind="value: childSliderId" name="childSliderId">
+                <input type="text" data-bind="value: ko.toJSON(childSlider)" name="childSlider">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal" style="display: none;" data-bind="with: slider">
+    <div id="select-kept-item" title="Select Item" data-bind="foreach: {data: items(), as: 'item'}">
+        <div><input type="radio" data-bind="checked: $parents[1].itemKept, value: item" /> <span data-bind="text: itemName"></span></div>
+    </div>
+
+</div>

@@ -1,0 +1,25 @@
+<!--@subject You might like this  @-->
+<!--@vars {
+} @-->
+
+{{template config_path="design/email/header_template"}}
+    <div class="email-rankup">
+        <h1 class="greeting">
+            {{trans 'Congratulations!'}}
+        </h1>
+        <div class="content">{{trans "Hi %name," name=$name}}</div>
+        <p>{{trans "We are glad to announce that your membership tier has just upgraded to <strong>%tier_name</strong>. Now you can enjoy many additional benefits from our store. For more information, please visit your" tier_name=$tier_name|raw}}
+            <a href="{{var account_dashboard}}">{{trans 'Account Dashboard.'}}</a>
+        </p>
+        <div class="tier">
+            <div class="tier-logo">
+                <img src="{{var tier_logo}}" alt="tier logo">
+            </div>
+            <h4 class="tier-name">{{var tier_name}}</h4>
+            <div>
+                <p class="point-blance">{{trans 'Your point blance'}}</p>
+                <p class="point">{{var current_point}}</p>
+            </div>
+        </div>
+    </div>
+{{template config_path="design/email/footer_template"}}

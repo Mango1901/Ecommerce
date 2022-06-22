@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="sales_order_invoice_save_commit_after">
+        <observer name="magenest_quantity_sold_process_invoice" instance="Magenest\QuantitySold\Observer\Order\IncrementSoldQty"/>
+    </event>
+    <event name="admin_system_config_changed_section_sold_quantity">
+        <observer name="magenest_update_sold_qty" instance="Magenest\QuantitySold\Observer\Config\UpdateSoldQty"/>
+    </event>
+</config>

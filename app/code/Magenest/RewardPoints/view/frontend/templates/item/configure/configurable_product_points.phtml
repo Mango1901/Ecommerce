@@ -1,0 +1,125 @@
+<?php
+/** @var \Magenest\RewardPoints\Block\PointInfo $block */
+if ($block->isShowPointInProductList()):
+$upDown = $block->getUpOrDown();
+?>
+
+<script>
+    require([
+        "jquery",
+        "jquery/ui",
+        "Magento_Ui/js/lib/view/utils/async"
+    ], function ($) {
+        'use strict';
+
+        var originPointsHTML = [];
+        var productRules = '<?= $block->getProductRules(); ?>';
+        var currencyRate = '<?= $block->getCurrencyRate(); ?>';
+
+        $.async = ('[data-price-type="finalPrice"] .price', function(elem){
+            try {
+                var parentProductId;
+                parentProductId = $(elem).closest('.price-box.price-final_price')[0].attributes['data-product-id'].value;
+
+                var pointBox;
+                pointBox = $(elem).closest('.product.details.product-item-details').find('.price-box');
+                pointBox = pointBox[pointBox.length - 1];
+
+                if (originPointsHTML[parentProductId] === undefined) {
+                    originPointsHTML[parentProductId] = pointBox.innerHTML;
+                }
+
+                var swatchOptions;
+                swatchOptions = $(elem).closest('.product.details.product-item-details').find('.swatch-attribute');
+                // if have not selected all swatches, return
+                if (!swatchOptions.length) return;
+                for (var i = 0; i < swatchOptions.length; i++ ) {
+                    if (swatchOptions[i].attributes['option-selected'] === undefined) {
+                        $(pointBox).html(originPointsHTML[parentProductId]);
+                        return;
+                    }
+                }
+
+                var simpleId;
+                var priceValue = null;
+                priceValue = $(elem).text().replace(/,/g, '').replace( /^\D+/g, '');
+
+                if (priceValue === null) return;
+
+                var dataPost = '';
+                for (var i = 0; i < swatchOptions.length; i++) {
+                    if (dataPost !== '') dataPost += '|';
+                    dataPost += swatchOptions[i].attributes['attribute-code'].value + ',' + swatchOptions[i].attributes['option-selected'].value;
+                }
+
+                var swatchAttributes = [];
+                for (var i = 0; i < swatchOptions.length; i++) {
+                    swatchAttributes[i] = {
+                        'code': swatchOptions[i].attributes['attribute-code'].value,
+                        'value': swatchOptions[i].attributes['option-selected'].value
+                    };
+                }
+
+                var currentProductRules = JSON.parse(productRules)[parentProductId];
+
+                var select = getSelectedId(currentProductRules, swatchAttributes);
+                if (select === 0) return;
+
+                simpleId = select.id;
+
+                if (simpleId > 0) {
+                    var base_currency_price = priceValue / currencyRate;
+                    var finalRewardPoint = getFinalRewardPointSimpleProduct(base_currency_price, select.points);
+                    if (finalRewardPoint)
+                        $(pointBox).html("<strong><p style='color: <?=$block->getPointColor()?>; font-size: <?= $block->getPointSize()?>px'>" + "+" + finalRewardPoint + " <?= $block->getPointUnit()?>" + "</p></strong>");
+                    else $(pointBox).html('');
+                }
+
+            } catch (e) {
+                console.log(e);
+            }
+        });
+
+        function getFinalRewardPointSimpleProduct(price, rule) {
+            var earnedPoint = 0;
+            var i;
+            var productPrice = parseFloat(price);
+            for (i = 0; i < rule.length; i++) {
+                var point = null;
+                if (rule[i].point == null)
+                    point = 0;
+                else
+                    point = parseFloat(rule[i].point);
+                if (rule[i].steps == null) {
+                    earnedPoint += point;
+                } else {
+                    var steps = parseFloat(rule[i].steps);
+                    var updown = '<?= $upDown?>';
+                    var bonusPoints = 0;
+                    if (updown === 'up') {
+                        bonusPoints = Math.ceil(productPrice / steps) * point;
+                    } else {
+                        bonusPoints = Math.floor(productPrice / steps) * point;
+                    }
+                    earnedPoint += bonusPoints;
+                }
+            }
+            return earnedPoint;
+        }
+
+        function getSelectedId(currentProductRules, swatchAttributes) {
+            for (var productId in currentProductRules) {
+                var select = 0;
+                for (var i = 0; i < swatchAttributes.length; i++) {
+                    if (currentProductRules[productId][swatchAttributes[i].code] === swatchAttributes[i].value) {
+                        select++;
+                        if (select === swatchAttributes.length) return currentProductRules[productId];
+                    }
+                }
+            }
+
+            return 0;
+        }
+    });
+</script>
+<?php endif; ?>

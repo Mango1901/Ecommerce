@@ -1,0 +1,236 @@
+<?xml version="1.0" ?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget class="Magenest\Cms\Block\Widget\ProductSlider" id="magenest-cms-product-slider">
+        <label>Magenest Custom Product Category Slider</label>
+        <description>List Slider of Product</description>
+        <parameters>
+            <parameter name="title" xsi:type="text" required="true" visible="true">
+                <label translate="true">Title</label>
+            </parameter>
+            <parameter name="description" xsi:type="text" required="false" visible="true">
+                <label translate="true">Description</label>
+            </parameter>
+            <parameter name="show_more_url" xsi:type="text" required="false" visible="true">
+                <label translate="true">Show more Link</label>
+            </parameter>
+            <parameter name="photo_title_desktop" xsi:type="block" visible="true">
+                <label translate="true">Background Title For Desktop</label>
+                <block class="Magenest\Cms\Block\Adminhtml\Widget\ImageChooser">
+                    <data>
+                        <item name="button" xsi:type="array">
+                            <item name="open" xsi:type="string">Choose Image...</item>
+                        </item>
+                    </data>
+                </block>
+            </parameter>
+            <parameter name="photo_title_mobile" xsi:type="block" visible="true">
+                <label translate="true">Background Title For Mobile</label>
+                <block class="Magenest\Cms\Block\Adminhtml\Widget\ImageChooser">
+                    <data>
+                        <item name="button" xsi:type="array">
+                            <item name="open" xsi:type="string">Choose Image...</item>
+                        </item>
+                    </data>
+                </block>
+            </parameter>
+            <parameter name="show_pager" xsi:type="select" visible="true"
+                       source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Display Page Control</label>
+            </parameter>
+            <parameter name="products_per_page" xsi:type="text" required="true" visible="true">
+                <label translate="true">Number of Products per Page</label>
+                <depends>
+                    <parameter name="show_pager" value="1" />
+                </depends>
+                <value>5</value>
+            </parameter>
+            <parameter name="products_count" xsi:type="text" required="true" visible="true">
+                <label translate="true">Number of Products to Display</label>
+                <value>10</value>
+            </parameter>
+            <parameter name="template" xsi:type="select" required="true" visible="true">
+                <label translate="true">Template</label>
+                <options>
+                    <option name="default" value="Magenest_Cms::widget/product_slider.phtml" selected="true">
+                        <label translate="true">Products Slider Grid Template</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter name="cache_lifetime" xsi:type="text" visible="true">
+                <label translate="true">Cache Lifetime (Seconds)</label>
+                <description translate="true">
+                    <![CDATA[Time in seconds between the widget updates.
+                    <br/>If not set, equals to 86400 seconds (24 hours). To update widget instantly, go to Cache Management and clear Blocks HTML Output cache.
+                    <br/>Widget will not show products that begin to match the specified conditions until cache is refreshed.]]>
+                </description>
+            </parameter>
+            <parameter name="condition" xsi:type="conditions" visible="true" required="true" sort_order="10"
+                       class="Magento\CatalogWidget\Block\Product\Widget\Conditions">
+                <label translate="true">Conditions</label>
+            </parameter>
+        </parameters>
+        <containers>
+            <container name="content">
+                <template name="grid" value="default" />
+            </container>
+            <container name="content.top">
+                <template name="grid" value="default" />
+            </container>
+            <container name="content.bottom">
+                <template name="grid" value="default" />
+            </container>
+        </containers>
+    </widget>
+
+    <!--Overide default magento widget-->
+    <widget id="products_list" class="Magento\CatalogWidget\Block\Product\ProductsList" is_email_compatible="true"
+            placeholder_image="Magento_CatalogWidget::images/products_list.png" ttl="86400">
+        <label translate="true">Catalog Products List</label>
+        <description translate="true">List of Products</description>
+        <parameters>
+            <parameter name="title" xsi:type="text" required="false" visible="true">
+                <label translate="true">Title</label>
+            </parameter>
+            <parameter name="show_more_url" xsi:type="text" required="false" visible="true">
+                <label translate="true">Show more Link</label>
+            </parameter>
+            <parameter name="show_pager" xsi:type="select" visible="true"
+                       source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Display Page Control</label>
+            </parameter>
+            <parameter name="enable_view_more" xsi:type="select" visible="true"
+                   source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Display Page Control</label>
+                <depends>
+                    <parameter name="show_pager" value="0" />
+                </depends>
+            </parameter>
+            <parameter name="display_sort_by" xsi:type="select" visible="true"
+                   source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Display Page Control</label>
+                <depends>
+                    <parameter name="show_pager" value="0" />
+                </depends>
+            </parameter>
+            <parameter name="products_per_page" xsi:type="text" required="true" visible="true">
+                <label translate="true">Number of Products per Page</label>
+                <depends>
+                    <parameter name="show_pager" value="1" />
+                </depends>
+                <value>5</value>
+            </parameter>
+            <parameter name="products_count" xsi:type="text" required="true" visible="true">
+                <label translate="true">Number of Products to Display</label>
+                <value>10</value>
+            </parameter>
+            <parameter name="template" xsi:type="select" required="true" visible="true">
+                <label translate="true">Template</label>
+                <options>
+                    <option name="default" value="Magento_CatalogWidget::product/widget/content/grid.phtml" selected="true">
+                        <label translate="true">Products Grid Template</label>
+                    </option>
+                    <option name="grid-2rows" value="Magenest_Cms::widget/grid-2rows.phtml">
+                        <label translate="true">Magenest Products Grid 2 Rows Template</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter name="cache_lifetime" xsi:type="text" visible="true">
+                <label translate="true">Cache Lifetime (Seconds)</label>
+                <description translate="true">
+                    <![CDATA[Time in seconds between the widget updates.
+                    <br/>If not set, equals to 86400 seconds (24 hours). To update widget instantly, go to Cache Management and clear Blocks HTML Output cache.
+                    <br/>Widget will not show products that begin to match the specified conditions until cache is refreshed.]]>
+                </description>
+            </parameter>
+            <parameter name="condition" xsi:type="conditions" visible="true" required="true" sort_order="10"
+                       class="Magento\CatalogWidget\Block\Product\Widget\Conditions">
+                <label translate="true">Conditions</label>
+            </parameter>
+        </parameters>
+        <containers>
+            <container name="content">
+                <template name="grid" value="default" />
+            </container>
+            <container name="content.top">
+                <template name="grid" value="default" />
+            </container>
+            <container name="content.bottom">
+                <template name="grid" value="default" />
+            </container>
+            <container name="content.productdetail.before.description">
+                <template name="grid" value="default" />
+            </container>
+        </containers>
+    </widget>
+
+
+    <widget id="magenest_cms_product_carousel" class="Magenest\Cms\Block\Widget\Products">
+        <label translate="true">Magenest CMS Additional Product Widget</label>
+        <description translate="true"></description>
+        <parameters>
+            <parameter name="title" xsi:type="text" required="true" visible="true">
+                <label translate="true">Title</label>
+            </parameter>
+            <parameter name="product_source" xsi:type="select" visible="true">
+                <label translate="true">Product Source</label>
+                <options>
+                    <option name="default" value="latest" selected="true">
+                        <label translate="true">Latest Products</label>
+                    </option>
+                    <option name="new_arrivals" value="new">
+                        <label translate="true">New products</label>
+                    </option>
+                    <option name="special" value="special">
+                        <label translate="true">Special</label>
+                    </option>
+                    <option name="most_popular" value="popular">
+                        <label translate="true">Most Popular</label>
+                    </option>
+                    <option name="best_seller" value="best_seller">
+                        <label translate="true">Best Seller</label>
+                    </option>
+                    <option name="top_rated" value="top_rated">
+                        <label translate="true">Top Rated</label>
+                    </option>
+                    <option name="pre_order" value="pre_order">
+                        <label translate="true">Pre Order</label>
+                    </option>
+                    <option name="random" value="random">
+                        <label translate="true">Random</label>
+                    </option>
+                    <option name="featured" value="featured">
+                        <label translate="true">Featured</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter name="categories" xsi:type="multiselect" visible="true" source_model="Magenest\Cms\Model\Config\Source\CategoryList">
+                <label translate="true">Categories</label>
+            </parameter>
+            <parameter name="products_count" xsi:type="text" required="true" visible="true">
+                <label translate="true">Number of Products to Display</label>
+                <value>10</value>
+            </parameter>
+            <parameter name="cache_lifetime" xsi:type="text" visible="true">
+                <label translate="true">Cache Lifetime (Seconds)</label>
+                <description translate="true">
+                    <![CDATA[Time in seconds between the widget updates.
+                    <br/>If not set, equals to 86400 seconds (24 hours). To update widget instantly, go to Cache Management and clear Blocks HTML Output cache.
+                    <br/>Widget will not show products that begin to match the specified conditions until cache is refreshed.]]>
+                </description>
+            </parameter>
+        </parameters>
+    </widget>
+
+    <widget id="cms_static_block" class="Magento\Cms\Block\Widget\Block"
+            placeholder_image="Magento_Cms::images/widget_block.png">
+        <parameters>
+            <parameter name="template" xsi:type="select" visible="true" required="true" sort_order="10">
+                <options>
+                    <option name="template1" value="Magenest_Cms::widget/static_block/popular_cate.phtml">
+                        <label translate="true">Kangaroo Popular category list</label>
+                    </option>
+                </options>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

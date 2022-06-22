@@ -1,0 +1,42 @@
+<!--@subject You might like this  @-->
+<!--@vars {
+} @-->
+
+{{template config_path="design/email/header_template"}}
+<table style="float:left; margin-right: 10px">
+    <tr>
+        <td>
+            <div class="greeting">{{trans "Dear %name," name=$name}},</div>
+            <div>
+                {{trans "I’m from %store_name." store_name=$store.getFrontendName()}},
+                {{trans "%sender_name wants to invite you to our member. Just click the button below." sender_name=$sender_name}}
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a style="color: #fff;border: 1px solid transparent; padding: 16px 32px; outline: none; text-decoration: none; cursor: pointer; text-align: center;border-radius: 4px;" href="{{var referral_url}}" target="_blank">
+                <button style="width:90%; text-align: center; margin-top: 10px;margin-bottom: 30px;border: 0; -webkit-box-shadow: none; -moz-box-shadow: none; box-shadow: none; background: #F5F5F5; padding: 10px 15px; -webkit-border-radius:5px; -moz-border-radius:5px; border-radius:5px;">
+                    {{trans "Injoin Us"}}
+                </button>
+            </a>
+        </td>
+    </tr>
+    {{depend message}}
+    <tr>
+        <td>
+            <h3>{{trans "Message from %sender_name:" sender_name=$sender_name}}</h3>
+            {{var message|raw}}
+        </td>
+    </tr>
+    {{/depend}}
+    <tr>
+        <td>
+            {{trans "Or if anything got you confused in shopping process?"}}
+            {{trans "Feel free to contact again to discuss problems you may have."}}
+            {{trans "Your satisfaction is the best product we desire to deliver."}} <br/>
+            {{trans "Looking forward to seeing you around!"}}
+        </td>
+    </tr>
+</table>
+{{template config_path="design/email/footer_template"}}

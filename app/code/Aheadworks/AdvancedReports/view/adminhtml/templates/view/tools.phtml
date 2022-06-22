@@ -1,0 +1,18 @@
+<?php
+/**
+* Copyright 2016 aheadWorks. All rights reserved.
+* See LICENSE.txt for license details.
+*/
+ /** @var \Aheadworks\AdvancedReports\Block\View\Tools $this */ ?>
+<div class="aw-arep-tools admin__action-dropdown-wrap">
+    <button class="admin__action-dropdown" title="Menu" data-toggle="dropdown" data-mage-init='{"dropdown":{}}'>
+        <span class="admin__action-dropdown-text"><?= __('Export');?></span>
+    </button>
+    <ul class="admin__action-dropdown-menu">
+        <?php foreach($this->getItems() as $key => $item):?>
+            <li class="action-dropdown-menu-action">
+                <a href="<?= $item['url'];?>" data-ui-id="awarep-<?= $key;?>" title="<?= $item['title'];?>"><?= $item['title'];?></a>
+            </li>
+        <?php endforeach;?>
+    </ul>
+</div>

@@ -1,0 +1,77 @@
+{
+    "directory_city_entity": {
+        "column": {
+            "city_id": true,
+            "country_id": true,
+            "code": true,
+            "name": true,
+            "default_name": true
+        },
+        "index": {
+            "DIRECTORY_CITY_ENTITY_CITY_ID_COUNTRY_ID": true,
+            "DIRECTORY_CITY_ENTITY_CODE_NAME_DEFAULT_NAME": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "directory_district_entity": {
+        "column": {
+            "district_id": true,
+            "city_id": true,
+            "code": true,
+            "name": true,
+            "default_name": true
+        },
+        "index": {
+            "DIRECTORY_DISTRICT_ENTITY_DISTRICT_ID_CITY_ID": true,
+            "DIRECTORY_DISTRICT_ENTITY_CODE_NAME_DEFAULT_NAME": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "directory_ward_entity": {
+        "column": {
+            "ward_id": true,
+            "district_id": true,
+            "code": true,
+            "name": true,
+            "default_name": true
+        },
+        "index": {
+            "DIRECTORY_WARD_ENTITY_WARD_ID_DISTRICT_ID": true,
+            "DIRECTORY_WARD_ENTITY_CODE_NAME_DEFAULT_NAME": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "customer_address_entity": {
+        "column": {
+            "city_id": true,
+            "district": true,
+            "district_id": true,
+            "ward": true,
+            "ward_id": true
+        }
+    },
+    "quote_address": {
+        "column": {
+            "city_id": true,
+            "district": true,
+            "district_id": true,
+            "ward": true,
+            "ward_id": true
+        }
+    },
+    "sales_order_address": {
+        "column": {
+            "city_id": true,
+            "district": true,
+            "district_id": true,
+            "ward": true,
+            "ward_id": true
+        }
+    }
+}

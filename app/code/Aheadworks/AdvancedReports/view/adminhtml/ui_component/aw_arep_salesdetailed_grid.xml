@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+* Copyright 2016 aheadWorks. All rights reserved.
+* See LICENSE.txt for license details.
+*/
+-->
+
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Ui/etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">aw_arep_salesdetailed_grid.aw_arep_salesdetailed_grid_data_source</item>
+            <item name="deps" xsi:type="string">aw_arep_salesdetailed_grid.aw_arep_salesdetailed_grid_data_source</item>
+        </item>
+        <item name="spinner" xsi:type="string">grid_columns</item>
+    </argument>
+    <dataSource name="aw_arep_salesdetailed_grid_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">Aheadworks\AdvancedReports\Ui\DataProvider\DataProvider</argument>
+            <argument name="name" xsi:type="string">aw_arep_salesdetailed_grid_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
+                    <item name="update_url" xsi:type="url" path="mui/index/render"/>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="cacheRequests" xsi:type="boolean">false</item>
+                    </item>
+                </item>
+            </argument>
+        </argument>
+    </dataSource>
+    <container name="listing_totals">
+         <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="component" xsi:type="string">Aheadworks_AdvancedReports/js/ui/grid/totals</item>
+            </item>
+        </argument>
+    </container>
+    <listingToolbar name="listing_top">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="sticky" xsi:type="boolean">true</item>
+            </item>
+        </argument>
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="maxVisible" xsi:type="number">33</item>
+                </item>
+            </argument>
+        </columnsControls>
+        <exportButton name="export_button">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Aheadworks_AdvancedReports/js/ui/grid/export</item>
+                </item>
+            </argument>
+        </exportButton>
+        <container name="report_settings">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Aheadworks_AdvancedReports/js/ui/grid/controls/report/settings/button</item>
+                    <item name="action" xsi:type="array">
+                        <item name="targetName" xsi:type="string">${ $.ns }.${ $.ns }.report_settings_container.report_settings_modal</item>
+                        <item name="actionName" xsi:type="string">toggleModal</item>
+                    </item>
+                </item>
+            </argument>
+        </container>
+        <filters name="listing_filters">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="stickyTmpl" xsi:type="string">Aheadworks_AdvancedReports/ui/grid/sticky/filters</item>
+                </item>
+            </argument>
+        </filters>
+        <paging name="listing_paging"/>
+    </listingToolbar>
+    <container name="report_settings_container">
+        <modal name="report_settings_modal">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="onCancel" xsi:type="string">actionDone</item>
+                    <item name="options" xsi:type="array">
+                        <item name="title" xsi:type="string">Report Settings</item>
+                        <item name="buttons" xsi:type="array">
+                            <item name="0" xsi:type="array">
+                                <item name="text" xsi:type="string">Save</item>
+                                <item name="class" xsi:type="string">action-primary</item>
+                                <item name="actions" xsi:type="array">
+                                    <item name="0" xsi:type="array">
+                                        <item name="targetName" xsi:type="string">${ $.ns }.${ $.ns }.report_settings_container.report_settings_modal.report_settings_fieldset.settings</item>
+                                        <item name="actionName" xsi:type="string">apply</item>
+                                    </item>
+                                    <item name="1" xsi:type="string">closeModal</item>
+                                </item>
+                            </item>
+                            <item name="1" xsi:type="array">
+                                <item name="text" xsi:type="string">Back</item>
+                                <item name="class" xsi:type="string">action-default back</item>
+                                <item name="actions" xsi:type="array">
+                                    <item name="0" xsi:type="array">
+                                        <item name="targetName" xsi:type="string">${ $.name }</item>
+                                        <item name="actionName" xsi:type="string">actionCancel</item>
+                                    </item>
+                                </item>
+                            </item>
+                        </item>
+                    </item>
+                </item>
+            </argument>
+            <fieldset name="report_settings_fieldset">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="label" xsi:type="string"/>
+                        <item name="dataScope" xsi:type="string"/>
+                    </item>
+                </argument>
+                <container name="settings">
+                    <argument name="data" xsi:type="array">
+                        <item name="config" xsi:type="array">
+                            <item name="component" xsi:type="string">Aheadworks_AdvancedReports/js/ui/grid/controls/report/settings/settings</item>
+                            <item name="dataScope" xsi:type="string">settings</item>
+                            <item name="storageConfig" xsi:type="array">
+                                <item name="provider" xsi:type="string">ns = ${ $.ns }, index = bookmarks</item>
+                                <item name="namespace" xsi:type="string">current.report_settings</item>
+                            </item>
+                        </item>
+                    </argument>
+                    <field name="include_refunded_items">
+                        <argument name="data" xsi:type="array">
+                            <item name="config" xsi:type="array">
+                                <item name="provider" xsi:type="string">${ $.parentName }</item>
+                                <item name="dataType" xsi:type="string">boolean</item>
+                                <item name="formElement" xsi:type="string">checkbox</item>
+                                <item name="prefer" xsi:type="string">toggle</item>
+                                <item name="valueMap" xsi:type="array">
+                                    <item name="true" xsi:type="number">1</item>
+                                    <item name="false" xsi:type="number">0</item>
+                                </item>
+                                <item name="default" xsi:type="number">1</item>
+                                <item name="label" xsi:type="string" translate="true">Include Refunded Items</item>
+                            </item>
+                        </argument>
+                    </field>
+                </container>
+            </fieldset>
+        </modal>
+    </container>
+    <columns name="grid_columns">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="component" xsi:type="string">Aheadworks_AdvancedReports/js/ui/grid/listing</item>
+            </item>
+        </argument>
+        <column name="order_increment_id" class="Aheadworks\AdvancedReports\Ui\Component\Listing\Column\ViewAction">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Aheadworks_AdvancedReports/js/ui/grid/columns/url</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="align" xsi:type="string">left</item>
+                    <item name="label" xsi:type="string" translate="true">Order #</item>
+                    <item name="viewUrlPath" xsi:type="string">sales/order/view</item>
+                    <item name="urlEntityParamName" xsi:type="string">order_id</item>
+                    <item name="urlEntityParamValue" xsi:type="string">order_id</item>
+                </item>
+            </argument>
+        </column>
+        <column name="order_status">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Order Status</item>
+                </item>
+            </argument>
+        </column>
+        <column name="order_date" class="Magento\Ui\Component\Listing\Columns\Date">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">date</item>
+                    <item name="filter" xsi:type="string">dateRange</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/date</item>
+                    <item name="label" xsi:type="string" translate="true">Order Date</item>
+                    <item name="dateFormat" xsi:type="string">MMM dd, YYYY, H:MM:SS A</item>
+                </item>
+            </argument>
+        </column>
+        <column name="product_name" class="Aheadworks\AdvancedReports\Ui\Component\Listing\Column\ViewAction">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Aheadworks_AdvancedReports/js/ui/grid/columns/url</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="align" xsi:type="string">left</item>
+                    <item name="label" xsi:type="string" translate="true">Product Name</item>
+                    <item name="viewUrlPath" xsi:type="string">catalog/product/edit</item>
+                    <item name="urlEntityParamValue" xsi:type="string">product_id</item>
+                </item>
+            </argument>
+        </column>
+        <column name="sku">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">SKU</item>
+                </item>
+            </argument>
+        </column>
+        <column name="manufacturer">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Manufacturer</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+        </column>
+        <column name="customer_email">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Customer Email</item>
+                </item>
+            </argument>
+        </column>
+        <column name="customer_name" class="Aheadworks\AdvancedReports\Ui\Component\Listing\Column\ViewAction">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Aheadworks_AdvancedReports/js/ui/grid/columns/url</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="align" xsi:type="string">left</item>
+                    <item name="label" xsi:type="string" translate="true">Customer Name</item>
+                    <item name="viewUrlPath" xsi:type="string">customer/index/edit</item>
+                    <item name="urlEntityParamValue" xsi:type="string">customer_id</item>
+                </item>
+            </argument>
+        </column>
+        <column name="customer_group">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Customer Group</item>
+                </item>
+            </argument>
+        </column>
+        <column name="country">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Country</item>
+                </item>
+            </argument>
+        </column>
+        <column name="region">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Region</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+        </column>
+        <column name="city">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">City</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+        </column>
+        <column name="zip_code">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Zip Code</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+        </column>
+        <column name="address">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Address</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+        </column>
+        <column name="phone">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Phone</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+        </column>
+        <column name="coupon_code">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Coupon Code</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+        </column>
+        <column name="qty_ordered">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Aheadworks_AdvancedReports/js/ui/grid/columns/number</item>
+                    <item name="dataType" xsi:type="string">number</item>
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="label" xsi:type="string" translate="true">Qty. Ordered</item>
+                    <item name="totalsVisible" xsi:type="boolean">true</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+        </column>
+        <column name="qty_invoiced">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Aheadworks_AdvancedReports/js/ui/grid/columns/number</item>
+                    <item name="dataType" xsi:type="string">number</item>
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="label" xsi:type="string" translate="true">Qty. Invoiced</item>
+                    <item name="totalsVisible" xsi:type="boolean">true</item>
+                    <item name="topTotalsVisible" xsi:type="boolean">true</item>
+                    <item name="color" xsi:type="string">#A58900</item>
+                </item>
+            </argument>
+        </column>
+        <column name="qty_shipped">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Aheadworks_AdvancedReports/js/ui/grid/columns/number</item>
+                    <item name="dataType" xsi:type="string">number</item>
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="label" xsi:type="string" translate="true">Qty. Shipped</item>
+                    <item name="totalsVisible" xsi:type="boolean">true</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+        </column>
+        <column name="qty_refunded">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Aheadworks_AdvancedReports/js/ui/grid/columns/number</item>
+                    <item name="dataType" xsi:type="string">number</item>
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="label" xsi:type="string" translate="true">Qty. Refunded</item>
+                    <item name="totalsVisible" xsi:type="boolean">true</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+        </column>
+        <column name="item_price">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Aheadworks_AdvancedReports/js/ui/grid/columns/price</item>
+                    <item name="dataType" xsi:type="string">number</item>
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="label" xsi:type="string" translate="true">Item Price</item>
+                </item>
+            </argument>
+        </column>
+        <column name="item_cost">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Aheadworks_AdvancedReports/js/ui/grid/columns/price</item>
+                    <item name="dataType" xsi:type="string">number</item>
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="label" xsi:type="string" translate="true">Item Cost</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+        </column>
+        <column name="subtotal">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Aheadworks_AdvancedReports/js/ui/grid/columns/price</item>
+                    <item name="dataType" xsi:type="string">number</item>
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="label" xsi:type="string" translate="true">Subtotal</item>
+                    <item name="totalsVisible" xsi:type="boolean">true</item>
+                    <item name="topTotalsVisible" xsi:type="boolean">true</item>
+                    <item name="color" xsi:type="string">#a65628</item>
+                </item>
+            </argument>
+        </column>
+        <column name="discount">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Aheadworks_AdvancedReports/js/ui/grid/columns/price</item>
+                    <item name="dataType" xsi:type="string">number</item>
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="label" xsi:type="string" translate="true">Discounts</item>
+                    <item name="totalsVisible" xsi:type="boolean">true</item>
+                    <item name="topTotalsVisible" xsi:type="boolean">true</item>
+                    <item name="color" xsi:type="string">#984ea3</item>
+                </item>
+            </argument>
+        </column>
+        <column name="tax">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Aheadworks_AdvancedReports/js/ui/grid/columns/price</item>
+                    <item name="dataType" xsi:type="string">number</item>
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="label" xsi:type="string" translate="true">Tax</item>
+                    <item name="totalsVisible" xsi:type="boolean">true</item>
+                    <item name="color" xsi:type="string">#332288</item>
+                </item>
+            </argument>
+        </column>
+        <column name="total">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Aheadworks_AdvancedReports/js/ui/grid/columns/price</item>
+                    <item name="dataType" xsi:type="string">number</item>
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="label" xsi:type="string" translate="true">Total</item>
+                    <item name="totalsVisible" xsi:type="boolean">true</item>
+                    <item name="topTotalsVisible" xsi:type="boolean">true</item>
+                    <item name="color" xsi:type="string">#4daf4a</item>
+                </item>
+            </argument>
+        </column>
+        <column name="total_incl_tax">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Aheadworks_AdvancedReports/js/ui/grid/columns/price</item>
+                    <item name="dataType" xsi:type="string">number</item>
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="label" xsi:type="string" translate="true">Total incl. Tax</item>
+                    <item name="totalsVisible" xsi:type="boolean">true</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+        </column>
+        <column name="invoiced">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Aheadworks_AdvancedReports/js/ui/grid/columns/price</item>
+                    <item name="dataType" xsi:type="string">number</item>
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="label" xsi:type="string" translate="true">Invoiced</item>
+                    <item name="totalsVisible" xsi:type="boolean">true</item>
+                    <item name="topTotalsVisible" xsi:type="boolean">true</item>
+                    <item name="color" xsi:type="string">#00A2FF</item>
+                </item>
+            </argument>
+        </column>
+        <column name="tax_invoiced">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Aheadworks_AdvancedReports/js/ui/grid/columns/price</item>
+                    <item name="dataType" xsi:type="string">number</item>
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="label" xsi:type="string" translate="true">Tax Invoiced</item>
+                    <item name="totalsVisible" xsi:type="boolean">true</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+        </column>
+        <column name="invoiced_incl_tax">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Aheadworks_AdvancedReports/js/ui/grid/columns/price</item>
+                    <item name="dataType" xsi:type="string">number</item>
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="label" xsi:type="string" translate="true">Invoiced incl. Tax</item>
+                    <item name="totalsVisible" xsi:type="boolean">true</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+        </column>
+        <column name="refunded">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Aheadworks_AdvancedReports/js/ui/grid/columns/price</item>
+                    <item name="dataType" xsi:type="string">number</item>
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="label" xsi:type="string" translate="true">Refunded</item>
+                    <item name="totalsVisible" xsi:type="boolean">true</item>
+                    <item name="topTotalsVisible" xsi:type="boolean">true</item>
+                    <item name="color" xsi:type="string">#e41a1c</item>
+                </item>
+            </argument>
+        </column>
+        <column name="tax_refunded">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Aheadworks_AdvancedReports/js/ui/grid/columns/price</item>
+                    <item name="dataType" xsi:type="string">number</item>
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="label" xsi:type="string" translate="true">Tax Refunded</item>
+                    <item name="totalsVisible" xsi:type="boolean">true</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+        </column>
+        <column name="refunded_incl_tax">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Aheadworks_AdvancedReports/js/ui/grid/columns/price</item>
+                    <item name="dataType" xsi:type="string">number</item>
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="label" xsi:type="string" translate="true">Refunded incl. Tax</item>
+                    <item name="totalsVisible" xsi:type="boolean">true</item>
+                    <item name="visible" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+        </column>
+    </columns>
+</listing>

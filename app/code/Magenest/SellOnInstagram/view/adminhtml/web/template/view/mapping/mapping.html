@@ -1,0 +1,74 @@
+<div class="component-wrapper">
+    <button class="primary" data-bind="click : saveMapping" id="submit_mapping"
+            style="width: 10%;float: right;margin: 50px;"><span data-bind="i18n: 'Save Mapping'"></span></button>
+    <button class="second" data-bind="click : backMapping" id="back_mapping"
+            style="width: 10%;float: right;margin: 50px;"><span data-bind="i18n: 'Back'"></span></button>
+    <div style="margin-bottom: 25rem; padding: 1.4rem 0 .5rem">
+        <table style="width: 85%; display: inline-table; float: left;">
+            <tr>
+                <th>
+                    <label class="label admin__field-label" style="margin-left: 200px;">Mapping Template Name  <span style="color: red;">*</span></label>
+                </th>
+                <td>
+                    <div class="admin__field-control control">
+                        <input class="input-text admin__control-text" data-bind="value: templateName" id="template_name"
+                               type="text" style="margin-right: 475px; width: 47%">
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <table class="admin__table-secondary">
+        <thead>
+        <tr>
+            <td><h3 data-bind="i18n: 'Magento Fields'"></h3></td>
+            <td><h3 data-bind="i18n: 'Facebook Product Fields'"></h3></td>
+            <td><h3 data-bind="i18n: 'Status'"></h3></td>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody data-bind="foreach: $root.templateMapping">
+        <tr>
+            <td>
+                <input class="attribute_id" data-bind="value: id" type="hidden"/>
+                <select class="admin__control-select magento_product_attribute"
+                        data-bind="options: $root.magentoFields,
+                            optionsText: 'label',
+                            optionsValue: 'code',
+                            value: magento_attribute,
+                            optionsAfterRender: $root.setOptionDisable">
+                </select>
+            </td>
+            <td>
+                <select class="admin__control-select fb_product_attribute"
+                        data-bind="foreach: $root.fbFields, value: fb_attribute">
+                    <optgroup data-bind="attr: {label: label}, foreach: attributes">
+                        <option data-bind="text: label, value: name"></option>
+                    </optgroup>
+                </select>
+            </td>
+            <td>
+                <select class="admin__control-select select_status" data-bind="value: status">
+                    <option value="1">Enabled</option>
+                    <option value="0">Disabled</option>
+                </select>
+            </td>
+            <td>
+                <button class="action-delete" data-bind="event:{click:$root.deleteAttribute}" title="Delete"
+                        type="button">
+                    <span data-bind="i18n: 'Delete'"></span>
+                </button>
+            </td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td>
+                <button class="add-option" data-bind="click: $root.addAttribute" type="button">
+                    <span data-bind="i18n: 'Add New Attribute'"></span>
+                </button>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+</div>

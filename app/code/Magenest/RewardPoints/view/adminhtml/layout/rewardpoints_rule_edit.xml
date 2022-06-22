@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block class="Magenest\RewardPoints\Block\Adminhtml\Rule\Edit" name="rewardpoints_rule_edit"/>
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="Magenest\RewardPoints\Block\Adminhtml\Rule\Edit\Tabs" name="rewardpoints_rule_tabs">
+                <block class="Magenest\RewardPoints\Block\Adminhtml\Rule\Edit\Tab\General" name="rewardpoints_rule_tab_general"/>
+                <block class="Magenest\RewardPoints\Block\Adminhtml\Rule\Edit\Tab\Conditions" name="rewardpoints_rule_tab_condition"/>
+                <block class="Magenest\RewardPoints\Block\Adminhtml\Rule\Edit\Tab\Actions" name="rewardpoints_rule_tab_action"/>
+                <block class="Magenest\RewardPoints\Block\Adminhtml\Rule\Edit\Tab\Notification" name="rewardpoints_rule_tab_notification"/>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">rewardpoints_rule_general</argument>
+                    <argument name="block" xsi:type="string">rewardpoints_rule_tab_general</argument>
+                </action>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">rewardpoints_rule_condition</argument>
+                    <argument name="block" xsi:type="string">rewardpoints_rule_tab_condition</argument>
+                </action>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">rewardpoints_rule_action</argument>
+                    <argument name="block" xsi:type="string">rewardpoints_rule_tab_action</argument>
+                </action>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">rewardpoints_rule_notification</argument>
+                    <argument name="block" xsi:type="string">rewardpoints_rule_tab_notification</argument>
+                </action>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,48 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<?php /** @var $block \Magento\Checkout\Block\Onepage\Success */ ?>
+<?php
+$helper = $this->helper('Magenest\CustomCheckout\Helper\ConfigHelper');
+if ($block->getOrderId()) {
+    $qrCode = $helper->getQrPaymentData($block->getOrderId())['qrCode'];
+    $amount = $helper->getQrPaymentData($block->getOrderId())['amount'];
+} else {
+    $qrCode = '';
+    $amount = '';
+}
+
+?>
+<div class="checkout-success">
+    <?php if ($block->getOrderId()) :?>
+        <?php if ($block->getCanViewOrder()) :?>
+            <p><?= $block->escapeHtml(__('Your order number is: %1.', sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>', $block->escapeUrl($block->getViewOrderUrl()), $block->getOrderId())), ['a', 'strong']) ?></p>
+        <?php  else :?>
+            <p><?= $block->escapeHtml(__('Your order # is: <span>%1</span>.', $block->getOrderId()), ['span']) ?></p>
+        <?php endif;?>
+        <p><?= $block->escapeHtml(__('Please pay the prepayments in installment terms')) ?></p>
+
+        <?php if(isset($qrCode)): ?>
+        <img src='data:image/png;base64, <?= $qrCode?>'/>
+        <?php else: ?>
+            <p><?= $block->escapeHtml(__('QR Code Not found')) ?></p>
+        <?php endif; ?>
+
+        <p><?= $amount . ' VNĐ' ?></p>
+
+
+        <p><?= $block->escapeHtml(__('or cash on delivery')) ?></p>
+    <?php endif;?>
+
+    <?= $block->getAdditionalInfoHtml() ?>
+    <?php if ($block->getOrderId()) :?>
+    <div class="actions-toolbar">
+        <div class="primary">
+            <a class="action primary continue" href="<?= $block->escapeUrl($helper->getSalesOrderDetailsRedirect($block->getOrderId())) ?>"><span><?= $block->escapeHtml(__('Order Detail')) ?></span></a>
+        </div>
+    </div>
+    <?php endif; ?>
+</div>

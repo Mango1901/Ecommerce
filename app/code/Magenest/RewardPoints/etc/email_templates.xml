@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
+    <template id="rewardpoints_email_configuration_update_point_balance_email_update_balance_template" label="Send balance update email" file="email_update_balance_points.html" type="html" module="Magenest_RewardPoints" area="frontend"/>
+    <template id="rewardpoints_email_configuration_point_expiration_notification_points_expiration_template" label="Send an email notifying you about your expiry point" file="email_update_expiry_point.html" type="html" module="Magenest_RewardPoints" area="frontend"/>
+    <template id="rewardpoints_referafriend_referral_setting_refer_via_email" label="Send Referral Link To Friend" file="send_referral_link.html" type="html" module="Magenest_RewardPoints" area="frontend"/>
+    <template id="rewardpoints_referafriend_referral_setting_send_coupon_for_refered" label="Send Coupon to Referee" file="send_coupon_refered.html" type="html" module="Magenest_RewardPoints" area="frontend"/>
+    <template id="rewardpoints_referafriend_referral_setting_send_coupon_for_referrer" label="Send Coupon To Referrer" file="send_coupon_referrer.html" type="html" module="Magenest_RewardPoints" area="frontend"/>
+    <template id="rewardpoints_point_config_send_coupon_for_affiliate" label="Send Coupon To Affiliate" file="send_coupon_affiliate.html" type="html" module="Magenest_RewardPoints" area="frontend"/>
+    <template id="rewardpoints_point_config_send_coupon_for_birthday" label="Send Coupon To Customer Birthday" file="send_coupon_birthday.html" type="html" module="Magenest_RewardPoints" area="frontend"/>
+    <template id="rewardpoints_email_rankup" label="Send Rank Up" file="email_rank_up.html" type="html" module="Magenest_RewardPoints" area="frontend"/>
+</config>

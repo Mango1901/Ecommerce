@@ -1,0 +1,37 @@
+<?php
+/** @var \Magenest\LazyLoading\Helper\Data $_helper */
+$_helper = $this->helper('Magenest\LazyLoading\Helper\Data');
+$imageLoader = $_helper->getImageLoader();
+$loader = $block->getViewFileUrl('images/loader-1.gif');
+?>
+<script>
+    require(['jquery', 'underscore', 'magenestLazyLoad'], function($,_) {
+        $(function () {
+            $("img[lazy]").lazyload({
+                effect: "fadeIn",
+                effectspeed: 500,
+                threshold: 200,
+                failure_limit: 500,
+                imageloader: "<?= $imageLoader ?>"
+            });
+            let throttled = _.throttle(function () {
+                $("iframe[lazy]").each(function (i, element) {
+                    if(typeof $(element).attr("lazy_loaded") === "undefined"){
+                        if ((window.scrollY < ($(element).offset().top + $(element).height())) && ((window.scrollY + window.outerHeight) > $(element).offset().top)) {
+                            if ($(element).attr("src")==='' || $(element).attr("src")===location.href) {
+                                $(element).attr("lazy_loaded", true);
+                                $(element).attr("src", $(element).attr("data-original"));
+                            }
+                            $(element).css("background", "");
+                        } else {
+                            $(element).attr("src","");
+                            $(element).css("background", "url('<?=$loader?>') no-repeat center");
+                        }
+                    }
+                })
+            }, 1200);
+            throttled();
+            $(window).scroll(throttled);
+        });
+    });
+</script>

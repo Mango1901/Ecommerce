@@ -1,0 +1,48 @@
+<?php
+/** @var $block Magento\Framework\View\Element\Template */
+$element = $block->getElement();
+?>
+<?php if ($element) : ?>
+    <div class="admin__field-control admin__control-grouped">
+        <div id="<?= $element->getId() ?>" class="admin__field" data-bind="scope:'<?= $element->getId() ?>'"
+             data-index="index">
+            <!-- ko foreach: elems() -->
+            <input id="<?= $element->getId() ?>"
+                   class="validate-select input-text admin__control-text"
+                   type="text" name="<?= $element->getName() ?>"
+                   data-bind="value: value" style="display: none;"/>
+            <!-- ko template: elementTmpl --><!-- /ko -->
+            <!-- /ko -->
+        </div>
+    </div>
+    <script type="text/x-magento-init">
+            {
+                "*": {
+                    "Magento_Ui/js/core/app": {
+                        "components": {
+                            "<?= $element->getId() ?>": {
+                                "component": "uiComponent",
+                                "children": {
+                                    "<?= $element->getId() ?>": {
+                                        "component": "Magento_Ui/js/form/element/single-checkbox-toggle-notice",
+                                        "config": {
+                                            "default": <?= $block->getValue()?>,
+                                            "prefer": "toggle",
+                                            "valueMap":{
+                                                "false": 0,
+                                                "true": 1
+                                            },
+                                            "config": {
+                                                "dataScope": "<?= $element->getId()?>",
+                                                "sortOrder": 10
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+    </script>
+<?php endif; ?>
